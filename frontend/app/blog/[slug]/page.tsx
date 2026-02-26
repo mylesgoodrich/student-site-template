@@ -1,17 +1,18 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
 import { formatDate, getPostBySlug, posts, student } from "../../lib/siteContent";
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
 }
 
-export default function BlogPostPage({ params }: Props) {
-  const { slug } = params;
+export default async function BlogPostPage({ params }: Props) {
+  const { slug } = await params;
   const post = getPostBySlug(slug);
 
   if (!post) notFound();
@@ -54,20 +55,8 @@ export default function BlogPostPage({ params }: Props) {
       </header>
 
       <article className="lsu-card prose prose-zinc max-w-none prose-a:text-brand-purple prose-a:decoration-brand-gold/70 prose-a:underline-offset-4">
-        <p>
-          This is a starter blog post template. Replace this content with your real post text—what
-          you learned, what you built, and what you’d do differently next time.
-        </p>
-        <h2>What this post is about</h2>
-        <ul>
-          <li>The problem or question you started with</li>
-          <li>Your approach (and any tradeoffs)</li>
-          <li>What you shipped or discovered</li>
-        </ul>
-        <h2>Key takeaway</h2>
-        <p>End with one clear takeaway a future-you (or another student) could use.</p>
+        <ReactMarkdown>{post.content}</ReactMarkdown>
       </article>
     </div>
   );
 }
-
