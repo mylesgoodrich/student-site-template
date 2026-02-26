@@ -1,200 +1,233 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
-
-type Project = {
-  title: string;
-  subtitle: string;
-  description: string;
-  tags: string[];
-  highlights: string[];
-  timeframe?: string;
-  link?: { label: string; href: string };
-};
-
-const projects: Project[] = [
-  {
-    title: "Fin Bomb Internal Controls Exhibit (COSO Framework)",
-    subtitle: "31 controls mapped to risks with photo evidence",
-    description:
-      "Built a full internal controls exhibit for an operations-focused project by documenting 31 controls, tying each to the relevant risk, and supporting conclusions with clear evidence (including photos and write-ups). The final deliverable was structured like an internal audit workpaper set—clean, repeatable, and easy to test.",
-    tags: ["Internal Audit", "COSO", "Controls Testing", "Risk Assessment"],
-    highlights: [
-      "Mapped 31 controls to specific risks and objectives",
-      "Created audit-style exhibits with documentation + photo evidence",
-      "Assigned risk levels and identified improvement opportunities",
-    ],
-    timeframe: "ACCT 3025 project",
-  },
-  {
-    title: "Amazon 10-K Accounting Analysis",
-    subtitle: "Disclosures deep dive across major accounting topics",
-    description:
-      "Completed a structured analysis of Amazon's 10-K with emphasis on high-impact accounting areas like revenue recognition, EPS, OCI, and deferred taxes. Focused on interpreting note disclosures and translating them into clear takeaways and implications.",
-    tags: ["Financial Reporting", "10-K", "GAAP", "Disclosure Analysis"],
-    highlights: [
-      "Synthesized complex footnote disclosures into concise summaries",
-      "Connected accounting policies to financial statement impacts",
-      "Organized findings into a clean, reference-ready outline",
-    ],
-    timeframe: "Intermediate Accounting II",
-  },
-  {
-    title: "Global Minimum Tax Policy Paper (Pillar Two)",
-    subtitle: "Policy analysis with U.S. tax code connections",
-    description:
-      "Researched and wrote a policy-focused analysis of the OECD global minimum tax (Pillar Two) and how it interacts with U.S. international tax rules. Emphasized real-world incentives, compliance complexity, and how rule design affects investment and reporting decisions.",
-    tags: ["Tax Policy", "OECD Pillar Two", "International Tax", "Research"],
-    highlights: [
-      "Explained Pillar Two mechanics and planning implications",
-      "Connected global minimum tax concepts to U.S. tax provisions",
-      "Presented tradeoffs: compliance burden vs. anti–profit shifting goals",
-    ],
-    timeframe: "ACCT 3221 Group B",
-  },
-  {
-    title: "Power BI Profitability Dashboard (Beverage Dataset)",
-    subtitle: "Multi-year trend + margin analysis with slicers",
-    description:
-      "Built a Power BI dashboard from a multi-year beverage dataset to evaluate revenue trends, cost behavior, and profitability by category/segment. Designed it to be decision-friendly with clean KPIs, slicers, and visuals that tell a story quickly.",
-    tags: ["Power BI", "Analytics", "KPIs", "Profitability"],
-    highlights: [
-      "Modeled data for trend and profitability reporting",
-      "Built KPI tiles + slicers for fast segment/time analysis",
-      "Focused on layout clarity and executive-style readability",
-    ],
-    timeframe: "Analytics coursework",
-  },
-  {
-    title: "AI Club Finance System Concept",
-    subtitle: "Real-time budget tracking + sponsorship pipeline",
-    description:
-      "Designed a finance-system concept for a student organization focused on transparency and scalability: real-time budget tracking, sponsor tracking, and simple control checkpoints so the board always knows where funds stand.",
-    tags: ["Budgeting", "Internal Controls", "Systems", "Dashboards"],
-    highlights: [
-      "Outlined a real-time budget tracking structure",
-      "Designed a sponsorship tracking model to support growth",
-      "Built lightweight controls for approvals + documentation",
-    ],
-    timeframe: "Student org initiative",
-  },
-  {
-    title: "Advanced Excel Systems (MOS / Analytics Builds)",
-    subtitle: "Lookup logic, structured references, and auditability",
-    description:
-      "Completed multiple advanced Excel builds using XLOOKUP/VLOOKUP, IFERROR/IFNA, structured references, and reporting-friendly formatting. Emphasized accuracy, clean structure, and models that are easy to check.",
-    tags: ["Excel", "Modeling", "Data Quality", "Functions"],
-    highlights: [
-      "Built reliable lookup workflows with robust error handling",
-      "Used structured references and consistent formatting standards",
-      "Designed models to be easy to review and grade against rubrics",
-    ],
-    timeframe: "Coursework",
-  },
-];
+import { projects, type Project } from "../lib/projectsData";
+import { siteContent } from "../lib/siteContent";
 
 function Tag({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs font-medium text-neutral-700 shadow-sm">
+    <span className="rounded border border-border bg-surface-2 px-2 py-0.5 text-xs text-muted-2">
       {children}
     </span>
   );
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function getUniqueTags(projs: Project[]) {
+  const set = new Set<string>();
+  projs.forEach((p) => p.tags.forEach((t) => set.add(t)));
+  return Array.from(set).sort();
+}
+
+function ProjectCard({
+  project,
+  expanded,
+  onToggle,
+}: {
+  project: Project;
+  expanded: boolean;
+  onToggle: () => void;
+}) {
+  const shortDescription =
+    project.description.length > 160
+      ? project.description.slice(0, 157).trim() + "..."
+      : project.description;
+  const hasSystemFrame =
+    project.problem != null &&
+    project.framework != null &&
+    project.outcome != null;
+  const hasLongDescription = project.description.length > 160;
+
   return (
-    <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:shadow-md">
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <h3 className="text-lg font-semibold text-neutral-900">
-              {project.title}
-            </h3>
-            <p className="text-sm text-neutral-600">{project.subtitle}</p>
-          </div>
+    <article className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5">
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <h3 className="text-base font-semibold tracking-tight text-foreground">
+            {project.title}
+          </h3>
           {project.timeframe ? (
-            <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700">
-              {project.timeframe}
-            </span>
+            <span className="text-xs text-muted-2">{project.timeframe}</span>
           ) : null}
         </div>
 
-        <p className="mt-2 text-sm leading-6 text-neutral-700">
-          {project.description}
-        </p>
+        {hasSystemFrame ? (
+          <dl className="grid gap-2 rounded-lg border border-border bg-surface-2 p-3 text-sm text-muted">
+            <div>
+              <dt className="font-medium text-muted-2">Problem</dt>
+              <dd>{project.problem}</dd>
+            </div>
+            <div>
+              <dt className="font-medium text-muted-2">Framework</dt>
+              <dd>{project.framework}</dd>
+            </div>
+            <div>
+              <dt className="font-medium text-muted-2">Outcome</dt>
+              <dd>{project.outcome}</dd>
+            </div>
+          </dl>
+        ) : null}
 
-        <div className="mt-3 flex flex-wrap gap-2">
+        <p className="text-sm leading-6 text-muted">
+          {expanded ? project.description : shortDescription}
+        </p>
+        {hasLongDescription && (
+          <button
+            type="button"
+            onClick={onToggle}
+            className="w-fit text-sm font-medium text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+          >
+            {expanded ? "Read less" : "Read more"}
+          </button>
+        )}
+
+        <div className="flex flex-wrap gap-2">
           {project.tags.map((t) => (
             <Tag key={t}>{t}</Tag>
           ))}
         </div>
 
-        <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-neutral-700">
-          {project.highlights.map((h) => (
-            <li key={h}>{h}</li>
-          ))}
-        </ul>
+        <div>
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-2">
+            Highlights
+          </p>
+          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-6 text-muted">
+            {project.highlights.map((h) => (
+              <li key={h}>{h}</li>
+            ))}
+          </ul>
+        </div>
 
         {project.link ? (
-          <div className="mt-5">
+          <div className="pt-2">
             <a
               href={project.link.href}
-              className="inline-flex items-center rounded-xl border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-900 shadow-sm transition hover:bg-neutral-50"
+              className="text-sm font-medium text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
             >
               {project.link.label}
-              <span className="ml-2" aria-hidden>
-                →
-              </span>
             </a>
           </div>
         ) : null}
       </div>
-    </div>
+    </article>
   );
 }
 
 export default function ProjectsPage() {
+  const [search, setSearch] = useState("");
+  const [tagFilter, setTagFilter] = useState<string | null>(null);
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+
+  const uniqueTags = useMemo(() => getUniqueTags(projects), []);
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return projects.filter((p) => {
+      const matchSearch =
+        !q ||
+        p.title.toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q) ||
+        p.tags.some((t) => t.toLowerCase().includes(q)) ||
+        (p.subtitle && p.subtitle.toLowerCase().includes(q));
+      const matchTag = tagFilter == null || p.tags.includes(tagFilter);
+      return matchSearch && matchTag;
+    });
+  }, [search, tagFilter]);
+
+  const toggleExpanded = (title: string) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(title)) next.delete(title);
+      else next.add(title);
+      return next;
+    });
+  };
+
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 py-12">
+    <main className="lsu-container py-12">
       <header className="mb-10">
-        <h1 className="text-3xl font-bold tracking-tight text-neutral-900">
-          Projects
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+          Systems I've Built
         </h1>
-        <p className="mt-3 max-w-2xl text-base leading-7 text-neutral-700">
-          A few things I've built and analyzed across internal audit, controls,
-          financial reporting, and analytics. I care about clean structure,
-          auditability, and results that are easy to explain.
+        <p className="mt-3 max-w-2xl text-base leading-7 text-muted">
+          Controls, evidence, analytics, and documentation — built to be
+          testable and repeatable.
         </p>
 
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             href="/"
-            className="inline-flex items-center rounded-xl border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-900 shadow-sm transition hover:bg-neutral-50"
+            className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-foreground transition hover:bg-surface-2"
           >
             Back to Home
           </Link>
-          <a
-            href="mailto:Myles.D.Goodrich@gmail.com"
-            className="inline-flex items-center rounded-xl bg-neutral-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-neutral-800"
-          >
-            Contact Me
+          <a href={`mailto:${siteContent.email}`} className="lsu-btn-gold">
+            Email me
           </a>
         </div>
       </header>
 
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {projects.map((p) => (
-          <ProjectCard key={p.title} project={p} />
+      <div className="mb-8 space-y-4">
+        <input
+          type="search"
+          placeholder="Search by title, description, or tag..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full max-w-md rounded-xl border border-border bg-surface px-4 py-2.5 text-sm text-foreground placeholder:text-muted-2 focus:border-brand-purple/50 focus:outline-none focus:ring-2 focus:ring-brand-purple/20"
+          aria-label="Search projects"
+        />
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => setTagFilter(null)}
+            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+              tagFilter == null
+                ? "border-brand-gold bg-brand-gold/15 text-foreground"
+                : "border-border bg-surface text-muted hover:bg-surface-2"
+            }`}
+          >
+            All
+          </button>
+          {uniqueTags.map((tag) => (
+            <button
+              key={tag}
+              type="button"
+              onClick={() => setTagFilter(tag)}
+              className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+                tagFilter === tag
+                  ? "border-brand-gold bg-brand-gold/15 text-foreground"
+                  : "border-border bg-surface text-muted hover:bg-surface-2"
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <section className="grid gap-6 sm:grid-cols-2">
+        {filtered.map((p) => (
+          <ProjectCard
+            key={p.title}
+            project={p}
+            expanded={expandedIds.has(p.title)}
+            onToggle={() => toggleExpanded(p.title)}
+          />
         ))}
       </section>
 
-      <section className="mt-12 rounded-2xl border border-neutral-200 bg-neutral-50 p-6">
-        <h2 className="text-lg font-semibold text-neutral-900">
-          What I'm aiming for
+      {filtered.length === 0 && (
+        <p className="text-sm text-muted">No projects match your search or filter.</p>
+      )}
+
+      <section className="mt-12 lsu-card">
+        <h2 className="text-base font-semibold tracking-tight text-foreground">
+          Career focus
         </h2>
-        <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-700">
+        <p className="mt-3 max-w-3xl text-sm leading-6 text-muted">
           Roles where I can combine accounting fundamentals with internal audit
-          thinking: testing controls, identifying risk, improving processes, and
-          building dashboards that make decisions easier.
+          and controls: testing controls, identifying risk, improving processes,
+          and building dashboards that support decision-making.
         </p>
       </section>
     </main>
