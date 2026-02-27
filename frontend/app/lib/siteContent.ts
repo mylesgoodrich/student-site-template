@@ -451,7 +451,7 @@ It came from building a system I could follow when motivation wasn't there.
     date: "2026-02-22",
     excerpt:
       "Drill weekends and exam weeks taught me the same lesson: execution isn't about having time — it's about using it with standards.",
-    tags: ["National Guard", "Discipline", "Systems"],
+    tags: ["Journey", "National Guard", "Discipline", "Systems"],
     cover: { eyebrow: "Pressure-tested", accent: "purple" },
     content: `
 ## The constraint is real
@@ -517,7 +517,7 @@ Execution beats intention every time.
     date: "2026-02-18",
     excerpt:
       "Writing controls forced me to stop being vague. If someone else can't test it, it's not a control — it's an opinion.",
-    tags: ["Internal Audit", "Controls", "COSO", "Projects"],
+    tags: ["Journey", "Internal Audit", "Controls", "COSO", "Projects"],
     cover: { eyebrow: "Controls mindset", accent: "gold" },
     content: `
 ## The problem with "kind of" controls
@@ -657,7 +657,7 @@ Learn how to trace the story behind the numbers.
     date: "2026-02-05",
     excerpt:
       "I dropped Finance because I wanted work built on verification, controls, and repeatable systems — not just stories and projections.",
-    tags: ["Internal Audit", "Growth", "Direction"],
+    tags: ["Journey", "Internal Audit", "Growth", "Direction"],
     cover: { eyebrow: "Decision", accent: "gold" },
     content: `
 ## The honest reason
@@ -715,7 +715,7 @@ It was choosing the lane where structure and discipline create the most value.
     date: "2026-01-30",
     excerpt:
       "Student org finances get messy fast. My goal is simple: real-time visibility, clean categories, and lightweight controls that scale.",
-    tags: ["Leadership", "Systems", "Projects"],
+    tags: ["Journey", "Leadership", "Systems", "Projects"],
     cover: { eyebrow: "Leadership", accent: "purple" },
     content: `
 ## The problem student orgs run into
@@ -840,7 +840,9 @@ export function getPostBySlug(slug: string) {
 }
 
 export function formatDate(isoDate: string) {
-  const date = new Date(isoDate);
+  const [y, m, d] = isoDate.split("-").map((part) => parseInt(part, 10));
+  // Construct as local date to avoid timezone off‑by‑one issues
+  const date = new Date(y, (m ?? 1) - 1, d ?? 1);
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",

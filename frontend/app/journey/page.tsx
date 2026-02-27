@@ -8,23 +8,37 @@ type JourneyEvent = {
   id: string;
   dateLabel: string;
   title: string;
+  short: string; // short label shown on map node
   summary: string;
   detail: string;
   tags: string[];
   relatedSlugs?: string[];
 };
 
-function classNames(...s: Array<string | false | null | undefined>) {
+type ViewMode = "map" | "timeline";
+
+function cn(...s: Array<string | false | null | undefined>) {
   return s.filter(Boolean).join(" ");
 }
 
+function pickJourneyPosts() {
+  return posts
+    .filter((p) => p.tags.includes("Journey"))
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
 export default function JourneyPage() {
+  const LSU_GOLD = "#FDD023";
+  const LSU_PURPLE = "#461D7C";
+  const LSU_PURPLE_BRIGHT = "#7C3AED"; // boosts visibility on dark bg
+
   const events: JourneyEvent[] = useMemo(
     () => [
       {
         id: "online-cc",
         dateLabel: "Early college",
         title: "Online community college didn’t work for me",
+        short: "Online CC",
         summary:
           "I didn’t learn well in an online format and underestimated how much structure I needed.",
         detail:
@@ -35,6 +49,7 @@ export default function JourneyPage() {
         id: "time-off",
         dateLabel: "Reset",
         title: "Took a semester off and rebuilt my approach",
+        short: "Reset",
         summary:
           "Instead of pretending everything was fine, I paused and rebuilt my system.",
         detail:
@@ -45,6 +60,7 @@ export default function JourneyPage() {
         id: "in-person-cc",
         dateLabel: "Community college",
         title: "Returned in-person and proved consistency",
+        short: "In-person",
         summary:
           "In-person learning changed everything. I earned a 3.7 GPA and built momentum.",
         detail:
@@ -55,6 +71,7 @@ export default function JourneyPage() {
         id: "60-hours",
         dateLabel: "One-year sprint",
         title: "Earned 60 credit hours in one year",
+        short: "60 credits",
         summary:
           "I wanted LSU badly and treated it like a mission: 15 credits fall, winter, spring, summer.",
         detail:
@@ -64,7 +81,8 @@ export default function JourneyPage() {
       {
         id: "alcatraz",
         dateLabel: "Summer before LSU",
-        title: "Shark Fest Alcatraz: first open-water swim",
+        title: "Shark Fest Alcatraz: cold water, no turning back",
+        short: "Alcatraz",
         summary:
           "My first open-water swim — cold water, current, the SF skyline ahead and Alcatraz behind me.",
         detail:
@@ -76,6 +94,7 @@ export default function JourneyPage() {
         id: "moved-to-la",
         dateLabel: "Transfer",
         title: "Moved to Baton Rouge without ever visiting Louisiana",
+        short: "Move",
         summary:
           "The first time I came to Louisiana was two weeks before the semester started — to look at housing.",
         detail:
@@ -87,6 +106,7 @@ export default function JourneyPage() {
         id: "lsu-deans-list",
         dateLabel: "LSU",
         title: "First semester at LSU: 3.7 GPA and Dean’s List",
+        short: "Dean’s",
         summary:
           "The plan worked. The structure translated. I kept improving.",
         detail:
@@ -97,6 +117,7 @@ export default function JourneyPage() {
         id: "recent-39",
         dateLabel: "Recent",
         title: "Recent semester: 3.9 GPA (3 A+ and 1 B-)",
+        short: "3.9",
         summary:
           "I kept raising the bar — stronger performance while taking on more responsibility.",
         detail:
@@ -108,6 +129,7 @@ export default function JourneyPage() {
         id: "guard",
         dateLabel: "Service",
         title: "Louisiana Army National Guard (PFC)",
+        short: "Guard",
         summary:
           "Service sharpened discipline, accountability, and execution under pressure.",
         detail:
@@ -118,33 +140,82 @@ export default function JourneyPage() {
     []
   );
 
-  const journeyPosts = useMemo(() => {
-    return posts
-      .filter((p) => p.tags.includes("Journey"))
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  }, []);
-
+  const journeyPosts = useMemo(() => pickJourneyPosts(), []);
+  const [viewMode, setViewMode] = useState<ViewMode>("map");
   const [activeId, setActiveId] = useState(events[0]?.id ?? "");
-  const [viewMode, setViewMode] = useState<"timeline" | "map">("timeline");
-  const mapRef = useRef<HTMLDivElement | null>(null);
-  const markerRef = useRef<HTMLDivElement | null>(null);
-  const itemRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const [markerTop, setMarkerTop] = useState<number | null>(null);
+  const mapViewportRef = useRef<HTMLDivElement | null>(null);
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const isDraggingRef = useRef(false);
+  const dragStartRef = useRef({ x: 0, y: 0 });
+  const panStartRef = useRef({ x: 0, y: 0 });
+
+  const clamp = (v: number, min: number, max: number) =>
+    Math.max(min, Math.min(max, v));
+
+  function resetView() {
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+  }
 
   const active = events.find((e) => e.id === activeId) ?? events[0];
 
   useEffect(() => {
-    if (viewMode !== "map") return;
-    const container = mapRef.current;
-    const activeEl = itemRefs.current[activeId];
-    if (!container || !activeEl) return;
+    const el = mapViewportRef.current;
+    if (!el) return;
 
-    const cRect = container.getBoundingClientRect();
-    const aRect = activeEl.getBoundingClientRect();
+    const onWheel = (e: WheelEvent) => {
+      // Only zoom when cursor is over the map viewport
+      e.preventDefault();
 
-    const top = aRect.top - cRect.top + aRect.height / 2 - 10;
-    setMarkerTop(top);
-  }, [viewMode, activeId]);
+      const delta = -e.deltaY; // up = zoom in
+      const step = 0.0018; // sensitivity
+      const next = clamp(zoom + delta * step, 0.8, 2.4);
+
+      setZoom(next);
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel as any);
+  }, [zoom]);
+
+  function onMouseDown(e: any) {
+    isDraggingRef.current = true;
+    dragStartRef.current = { x: e.clientX, y: e.clientY };
+    panStartRef.current = { ...pan };
+  }
+
+  function onMouseMove(e: any) {
+    if (!isDraggingRef.current) return;
+    const dx = e.clientX - dragStartRef.current.x;
+    const dy = e.clientY - dragStartRef.current.y;
+
+    // pan scaling feels better when tied to zoom
+    setPan({
+      x: panStartRef.current.x + dx / zoom,
+      y: panStartRef.current.y + dy / zoom,
+    });
+  }
+
+  function endDrag() {
+    isDraggingRef.current = false;
+  }
+
+  // Map layout positions (forward route with gentle upward progression)
+  const mapNodes = useMemo(() => {
+    const coords: Record<string, { x: number; y: number }> = {
+      "online-cc": { x: 10, y: 68 },
+      "time-off": { x: 22, y: 58 },
+      "in-person-cc": { x: 36, y: 50 },
+      "60-hours": { x: 50, y: 42 },
+      "guard": { x: 64, y: 36 },
+      "alcatraz": { x: 76, y: 30 },
+      "moved-to-la": { x: 86, y: 26 },
+      "lsu-deans-list": { x: 94, y: 22 },
+      "recent-39": { x: 98, y: 18 },
+    };
+    return events.map((e) => ({ ...e, ...coords[e.id] }));
+  }, [events]);
 
   return (
     <div className="space-y-10">
@@ -153,21 +224,50 @@ export default function JourneyPage() {
         <div className="absolute -left-24 -bottom-24 h-64 w-64 rounded-full bg-brand-gold/20 blur-3xl" />
 
         <div className="relative space-y-3">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="lsu-badge">Journey</span>
-            <p className="text-sm text-muted">
-              The story behind the work —{" "}
-              <span className="font-semibold text-foreground">{student.name}</span>
-            </p>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="lsu-badge">Journey</span>
+              <p className="text-sm text-muted">
+                Built, not given —{" "}
+                <span className="font-semibold text-foreground">{student.name}</span>
+              </p>
+            </div>
+
+            <div className="flex items-center rounded-xl border border-border bg-surface p-1">
+              <button
+                type="button"
+                onClick={() => setViewMode("map")}
+                className={cn(
+                  "rounded-lg px-3 py-1.5 text-xs font-semibold transition",
+                  viewMode === "map"
+                    ? "bg-brand-gold text-black"
+                    : "text-muted hover:text-foreground"
+                )}
+              >
+                Map
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode("timeline")}
+                className={cn(
+                  "rounded-lg px-3 py-1.5 text-xs font-semibold transition",
+                  viewMode === "timeline"
+                    ? "bg-brand-gold text-black"
+                    : "text-muted hover:text-foreground"
+                )}
+              >
+                Timeline
+              </button>
+            </div>
           </div>
 
           <h1 className="text-3xl font-semibold tracking-tight sm:text-5xl">
-            Built, not given
+            The story behind the systems
           </h1>
 
           <p className="max-w-3xl text-base leading-7 text-muted">
-            A rough start taught me to build structure. Moving across the country forced me to grow.
-            Service reinforced standards. Challenges proved I can execute when it’s uncomfortable.
+            Click through the route. Each checkpoint is a moment that shaped how I work: structure,
+            evidence, discipline, and execution under pressure.
           </p>
 
           <div className="mt-4 flex flex-wrap gap-3">
@@ -181,7 +281,7 @@ export default function JourneyPage() {
               href="/projects"
               className="inline-flex items-center rounded-xl border border-border bg-surface px-4 py-2 text-sm font-semibold text-foreground transition hover:bg-surface-2"
             >
-              View systems I’ve built
+              View projects & systems
             </Link>
           </div>
         </div>
@@ -190,194 +290,348 @@ export default function JourneyPage() {
       <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent my-2" />
 
       <section className="grid gap-6 lg:grid-cols-12">
-        {/* Timeline / Map list */}
-        <div className="lg:col-span-5">
-          <div className="lsu-card">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <h2 className="text-base font-semibold">Journey</h2>
-                <p className="mt-1 text-sm text-muted">
-                  Switch views to explore the story.
-                </p>
-              </div>
+        {/* LEFT: Map/Timeline interactive panel */}
+        <div className="lg:col-span-7">
+          {viewMode === "map" ? (
+            <div className="lsu-card relative overflow-hidden">
+              <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-purple/10 blur-3xl" />
+              <div className="absolute -left-24 -bottom-24 h-64 w-64 rounded-full bg-brand-gold/10 blur-3xl" />
 
-              <div className="flex items-center rounded-xl border border-border bg-surface p-1">
-                <button
-                  type="button"
-                  onClick={() => setViewMode("timeline")}
-                  className={
-                    "rounded-lg px-3 py-1.5 text-xs font-semibold transition " +
-                    (viewMode === "timeline"
-                      ? "bg-brand-gold text-black"
-                      : "text-muted hover:text-foreground")
-                  }
-                >
-                  Timeline
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setViewMode("map")}
-                  className={
-                    "rounded-lg px-3 py-1.5 text-xs font-semibold transition " +
-                    (viewMode === "map"
-                      ? "bg-brand-gold text-black"
-                      : "text-muted hover:text-foreground")
-                  }
-                >
-                  Map
-                </button>
-              </div>
-            </div>
-
-            <div className="mt-5">
-              {viewMode === "timeline" ? (
-                <div className="space-y-2">
-                  {events.map((e) => {
-                    const isActive = e.id === activeId;
-                    return (
-                      <button
-                        key={e.id}
-                        type="button"
-                        onClick={() => setActiveId(e.id)}
-                        className={classNames(
-                          "w-full text-left rounded-xl border px-4 py-3 transition",
-                          isActive
-                            ? "border-brand-gold bg-brand-gold/15"
-                            : "border-border bg-surface hover:bg-surface-2"
-                        )}
-                      >
-                        <div className="flex items-start justify-between gap-3">
-                          <div>
-                            <p className="text-xs font-semibold uppercase tracking-wider text-muted-2">
-                              {e.dateLabel}
-                            </p>
-                            <p className="mt-1 font-semibold text-foreground">{e.title}</p>
-                            <p className="mt-1 text-sm text-muted">{e.summary}</p>
-                          </div>
-
-                          <span
-                            className={classNames(
-                              "mt-1 h-2.5 w-2.5 shrink-0 rounded-full",
-                              isActive ? "bg-brand-gold" : "bg-border"
-                            )}
-                          />
-                        </div>
-
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {e.tags.map((t) => (
-                            <span
-                              key={t}
-                              className="rounded-full border border-brand-purple/25 bg-brand-purple/5 px-2.5 py-1 text-xs font-medium text-brand-purple"
-                            >
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div
-                  ref={mapRef}
-                  className="relative rounded-2xl border border-border bg-surface p-4 overflow-hidden"
-                >
-                  {/* Map header */}
-                  <div className="mb-4 flex items-center justify-between">
+              <div className="relative">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
                     <p className="text-sm font-semibold text-foreground">Route Map</p>
-                    <p className="text-xs text-muted-2">Click checkpoints</p>
+                    <p className="mt-1 text-sm text-muted">
+                      Click checkpoints. Hover for quick labels.
+                    </p>
                   </div>
 
-                  {/* Start / Finish badges */}
-                  <div className="absolute left-4 top-16">
-                    <span className="rounded-full border border-brand-purple/30 bg-brand-purple/10 px-3 py-1 text-[11px] font-semibold text-brand-purple">
-                      Start
+                  <div className="flex items-center gap-2 text-xs text-muted-2">
+                    <span className="inline-flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full" style={{ background: LSU_GOLD }} />
+                      Active
+                    </span>
+                    <span className="inline-flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full" style={{ background: LSU_PURPLE_BRIGHT }} />
+                      Checkpoint
                     </span>
                   </div>
-                  <div className="absolute left-4 bottom-4">
-                    <span className="rounded-full border border-brand-purple/30 bg-brand-purple/10 px-3 py-1 text-[11px] font-semibold text-brand-purple">
-                      Finish
-                    </span>
-                  </div>
+                </div>
 
-                  {/* You are here marker */}
-                  {markerTop !== null && (
-                    <div
-                      ref={markerRef}
-                      className="absolute left-2 z-10 flex items-center gap-2 transition-all duration-300"
-                      style={{ top: markerTop }}
-                    >
-                      <span className="h-2.5 w-2.5 rounded-full bg-brand-gold" />
-                      <span className="rounded-full border border-brand-gold/40 bg-brand-gold/15 px-2.5 py-1 text-[11px] font-semibold text-brand-gold">
-                        You are here
-                      </span>
+                <div className="mt-5 rounded-2xl border border-border bg-surface p-4">
+                  {/* Controls */}
+                  <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+                    <p className="text-xs text-muted-2">
+                      Drag to pan • Scroll to zoom • Double click to reset
+                    </p>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setZoom((z) => clamp(z + 0.15, 0.8, 2.4))}
+                        className="rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-semibold text-foreground transition hover:bg-surface-2"
+                        aria-label="Zoom in"
+                      >
+                        +
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setZoom((z) => clamp(z - 0.15, 0.8, 2.4))}
+                        className="rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-semibold text-foreground transition hover:bg-surface-2"
+                        aria-label="Zoom out"
+                      >
+                        −
+                      </button>
+                      <button
+                        type="button"
+                        onClick={resetView}
+                        className="rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-semibold text-foreground transition hover:bg-surface-2"
+                        aria-label="Reset view"
+                      >
+                        Reset
+                      </button>
                     </div>
-                  )}
+                  </div>
 
-                  {/* Vertical route line */}
-                  <div className="absolute left-8 top-24 bottom-10 w-px bg-gradient-to-b from-brand-purple/40 via-brand-gold/40 to-brand-purple/40" />
+                  {/* Viewport */}
+                  <div
+                    ref={mapViewportRef}
+                    className="relative h-[360px] w-full overflow-hidden rounded-xl border border-border bg-[#15131D] select-none"
+                    onMouseDown={onMouseDown}
+                    onMouseMove={onMouseMove}
+                    onMouseUp={endDrag}
+                    onMouseLeave={endDrag}
+                    onDoubleClick={resetView}
+                    style={{ cursor: isDraggingRef.current ? "grabbing" : "grab" }}
+                  >
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+                        transformOrigin: "50% 50%",
+                      }}
+                    >
+                      <svg viewBox="0 0 100 90" className="h-full w-full" role="img" aria-label="Journey route map">
+                        <defs>
+                          <filter id="routeGlow" x="-35%" y="-35%" width="170%" height="170%">
+                            <feGaussianBlur stdDeviation="0.7" result="blur" />
+                            <feMerge>
+                              <feMergeNode in="blur" />
+                              <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                          </filter>
 
-                  <div className="space-y-4">
-                    {events.map((e, idx) => {
-                      const isActive = e.id === activeId;
-                      return (
+                          <filter id="nodeShadow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feDropShadow
+                              dx="0"
+                              dy="0.9"
+                              stdDeviation="0.7"
+                              floodColor="black"
+                              floodOpacity="0.45"
+                            />
+                          </filter>
+
+                          <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stopColor={LSU_GOLD} stopOpacity="0.55" />
+                            <stop offset="55%" stopColor={LSU_GOLD} stopOpacity="1" />
+                            <stop offset="100%" stopColor={LSU_GOLD} stopOpacity="0.65" />
+                          </linearGradient>
+                        </defs>
+
+                        {/* Background guide (very subtle) */}
+                        <path
+                          d="
+                            M10 68
+                            C16 64, 20 60, 22 58
+                            C28 54, 32 52, 36 50
+                            C42 46, 46 44, 50 42
+                            C56 40, 60 38, 64 36
+                            C70 34, 74 32, 76 30
+                            C82 28, 88 26, 92 24
+                            C95 22, 97 20, 98 18
+                          "
+                          fill="none"
+                          stroke="rgba(255,255,255,0.06)"
+                          strokeWidth="4.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+
+                        {/* Route (gold core) */}
+                        <path
+                          d="
+                            M10 68
+                            C16 64, 20 60, 22 58
+                            C28 54, 32 52, 36 50
+                            C42 46, 46 44, 50 42
+                            C56 40, 60 38, 64 36
+                            C70 34, 74 32, 76 30
+                            C82 28, 88 26, 92 24
+                            C95 22, 97 20, 98 18
+                          "
+                          fill="none"
+                          stroke="url(#goldGrad)"
+                          strokeWidth="2.2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          filter="url(#routeGlow)"
+                          opacity="0.9"
+                        />
+
+                        {/* Route shimmer (very faint moving dash) */}
+                        <path
+                          d="
+                            M10 68
+                            C16 64, 20 60, 22 58
+                            C28 54, 32 52, 36 50
+                            C42 46, 46 44, 50 42
+                            C56 40, 60 38, 64 36
+                            C70 34, 74 32, 76 30
+                            C82 28, 88 26, 92 24
+                            C95 22, 97 20, 98 18
+                          "
+                          fill="none"
+                          stroke="rgba(255,255,255,0.10)"
+                          strokeWidth="1.05"
+                          strokeDasharray="2 14"
+                          strokeLinecap="round"
+                          opacity="0.8"
+                        >
+                          <animate attributeName="stroke-dashoffset" from="0" to="-120" dur="7s" repeatCount="indefinite" />
+                        </path>
+
+                        {/* Nodes */}
+                        {mapNodes.map((n) => {
+                          const isActive = n.id === activeId;
+                          return (
+                            <g
+                              key={n.id}
+                              className="group"
+                              onMouseEnter={(e) => {
+                                (e.currentTarget as SVGGElement).style.transform = "scale(1.06)";
+                              }}
+                              onMouseLeave={(e) => {
+                                (e.currentTarget as SVGGElement).style.transform = "scale(1)";
+                              }}
+                              style={{
+                                transformOrigin: `${n.x}px ${n.y}px`,
+                                transition: "transform 140ms ease",
+                              }}
+                            >
+                              {/* click target */}
+                              <circle
+                                cx={n.x}
+                                cy={n.y}
+                                r={7}
+                                fill="transparent"
+                                onClick={() => setActiveId(n.id)}
+                                style={{ cursor: "pointer" }}
+                              />
+
+                              {/* active pulse */}
+                              {isActive && (
+                                <circle cx={n.x} cy={n.y} r={6.2} fill={LSU_GOLD} opacity="0.10">
+                                  <animate attributeName="opacity" values="0.06;0.14;0.06" dur="2.2s" repeatCount="indefinite" />
+                                  <animate attributeName="r" values="5.8;6.6;5.8" dur="2.2s" repeatCount="indefinite" />
+                                </circle>
+                              )}
+
+                              {/* ring */}
+                              <circle
+                                cx={n.x}
+                                cy={n.y}
+                                r={isActive ? 3.5 : 3.0}
+                                fill="rgba(0,0,0,0.55)"
+                                stroke={isActive ? LSU_GOLD : LSU_PURPLE_BRIGHT}
+                                strokeWidth={1.5}
+                                filter="url(#nodeShadow)"
+                              >
+                                {isActive && (
+                                  <animate attributeName="stroke-opacity" values="0.85;1;0.85" dur="2.2s" repeatCount="indefinite" />
+                                )}
+                              </circle>
+
+                              {/* center */}
+                              <circle
+                                cx={n.x}
+                                cy={n.y}
+                                r={isActive ? 1.55 : 1.25}
+                                fill={isActive ? LSU_GOLD : LSU_PURPLE_BRIGHT}
+                              />
+
+                              {/* label only on hover/active */}
+                              <text
+                                x={n.x}
+                                y={n.y - 9}
+                                textAnchor="middle"
+                                fontSize="2.6"
+                                style={{
+                                  paintOrder: "stroke",
+                                  stroke: "rgba(0,0,0,0.70)",
+                                  strokeWidth: 1.1,
+                                  letterSpacing: "0.2px",
+                                }}
+                                className={
+                                  (isActive
+                                    ? "fill-white opacity-100"
+                                    : "fill-white/80 opacity-0 group-hover:opacity-100") +
+                                  " transition-opacity"
+                                }
+                              >
+                                {n.short}
+                              </text>
+
+                              <title>{n.title}</title>
+                            </g>
+                          );
+                        })}
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Start/Finish OUTSIDE the map */}
+                  <p className="mt-3 text-xs text-muted-2">
+                    <span className="font-semibold text-foreground">Start:</span> Online CC
+                    <span className="mx-2">•</span>
+                    <span className="font-semibold text-foreground">Finish:</span> 3.9 GPA
+                  </p>
+
+                  <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+                    <p className="text-xs text-muted-2">
+                      Tip: Map is for scanning. The right panel is for the full story.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {events.slice(0, 4).map((e) => (
                         <button
                           key={e.id}
-                          ref={(el) => {
-                            itemRefs.current[e.id] = el;
-                          }}
                           type="button"
                           onClick={() => setActiveId(e.id)}
-                          className={classNames(
-                            "relative w-full text-left rounded-2xl border px-4 py-3 pl-14 transition",
-                            isActive
-                              ? "border-brand-gold bg-brand-gold/15"
-                              : "border-border bg-surface hover:bg-surface-2"
-                          )}
+                          className={
+                            "rounded-full border px-3 py-1.5 text-xs font-semibold transition " +
+                            (e.id === activeId
+                              ? "border-brand-gold bg-brand-gold/15 text-foreground"
+                              : "border-border bg-surface text-muted hover:bg-surface-2")
+                          }
                         >
-                          {/* Checkpoint */}
-                          <div className="absolute left-6 top-1/2 -translate-y-1/2">
-                            <div
-                              className={classNames(
-                                "relative h-5 w-5 rounded-full border",
-                                isActive
-                                  ? "border-brand-gold bg-brand-gold"
-                                  : "border-border bg-surface"
-                              )}
-                            >
-                              {isActive && (
-                                <span className="absolute inset-0 rounded-full bg-brand-gold/40 animate-ping-slow" />
-                              )}
-                            </div>
-                          </div>
-
-                          <div className="flex items-start justify-between gap-3">
-                            <div>
-                              <p className="text-xs font-semibold uppercase tracking-wider text-muted-2">
-                                Stop {idx + 1} • {e.dateLabel}
-                              </p>
-                              <p className="mt-1 font-semibold text-foreground">{e.title}</p>
-                              <p className="mt-1 text-sm text-muted">{e.summary}</p>
-                            </div>
-
-                            <span className="text-xs text-muted-2">{e.tags[0]}</span>
-                          </div>
+                          {e.short}
                         </button>
-                      );
-                    })}
-                  </div>
-
-                  <div className="mt-5 text-xs text-muted-2">
-                    Tip: Use Map view to scan the arc quickly, then read the detail panel on the right.
+                      ))}
+                    </div>
                   </div>
                 </div>
-              )}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="lsu-card">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Timeline</p>
+                  <p className="mt-1 text-sm text-muted">
+                    A clean overview. Click a card to read the detail.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {events.map((e) => {
+                  const isActive = e.id === activeId;
+                  return (
+                    <button
+                      key={e.id}
+                      type="button"
+                      onClick={() => setActiveId(e.id)}
+                      className={cn(
+                        "text-left rounded-2xl border px-4 py-4 transition hover:shadow-lg hover:-translate-y-0.5",
+                        isActive
+                          ? "border-brand-gold bg-brand-gold/15"
+                          : "border-border bg-surface hover:bg-surface-2"
+                      )}
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-wider text-muted-2">
+                        {e.dateLabel}
+                      </p>
+                      <p className="mt-2 font-semibold text-foreground">{e.title}</p>
+                      <p className="mt-2 text-sm text-muted">{e.summary}</p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {e.tags.map((t) => (
+                          <span
+                            key={t}
+                            className="rounded-full border border-brand-purple/25 bg-brand-purple/5 px-2.5 py-1 text-xs font-medium text-brand-purple"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Active detail */}
-        <div className="lg:col-span-7">
+        {/* RIGHT: Detail panel */}
+        <div className="lg:col-span-5">
           <div className="lsu-card relative overflow-hidden">
             <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-purple/10 blur-3xl" />
             <div className="absolute -left-24 -bottom-24 h-64 w-64 rounded-full bg-brand-gold/10 blur-3xl" />
@@ -389,14 +643,23 @@ export default function JourneyPage() {
               <h2 className="mt-2 text-2xl font-semibold tracking-tight">
                 {active.title}
               </h2>
-              <p className="mt-3 text-base leading-7 text-muted">
-                {active.detail}
-              </p>
+              <p className="mt-3 text-base leading-7 text-muted">{active.detail}</p>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                {active.tags.map((t) => (
+                  <span
+                    key={t}
+                    className="rounded-full border border-brand-purple/25 bg-brand-purple/5 px-3 py-1 text-xs font-medium text-brand-purple"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
 
               {active.relatedSlugs?.length ? (
                 <div className="mt-6 space-y-3">
                   <p className="text-sm font-semibold text-foreground">Related</p>
-                  <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="grid gap-3">
                     {active.relatedSlugs.map((slug) => {
                       const p = posts.find((x) => x.slug === slug);
                       if (!p) return null;
@@ -409,9 +672,7 @@ export default function JourneyPage() {
                           <p className="text-sm font-semibold underline decoration-brand-gold/40 underline-offset-4">
                             {p.title}
                           </p>
-                          <p className="mt-1 text-xs text-muted">
-                            {p.excerpt}
-                          </p>
+                          <p className="mt-1 text-xs text-muted">{p.excerpt}</p>
                         </Link>
                       );
                     })}
@@ -426,7 +687,7 @@ export default function JourneyPage() {
             </div>
           </div>
 
-          {/* Journey posts list */}
+          {/* Journey posts preview */}
           <div className="mt-6 lsu-card">
             <div className="flex items-center justify-between gap-3">
               <h3 className="text-base font-semibold">Journey posts</h3>
@@ -434,7 +695,7 @@ export default function JourneyPage() {
                 View all →
               </Link>
             </div>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="mt-4 grid gap-3">
               {journeyPosts.slice(0, 4).map((p) => (
                 <Link
                   key={p.slug}
