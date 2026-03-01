@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import TagPill from "../components/TagPill";
 import { formatDate, getPostHref, posts, student } from "../lib/siteContent";
 
 type SortOption = "newest" | "oldest";
@@ -77,9 +78,9 @@ export default function BlogIndexPage() {
 
   return (
     <div className="space-y-10">
-      <header className="lsu-card relative overflow-hidden transition hover:shadow-lg hover:-translate-y-0.5">
-        <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-purple/15 blur-3xl" />
-        <div className="absolute -left-24 -bottom-24 h-64 w-64 rounded-full bg-brand-gold/20 blur-3xl" />
+      <header className="lsu-card relative overflow-hidden">
+        <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-purple/[0.08] blur-2xl" />
+        <div className="absolute -left-24 -bottom-24 h-64 w-64 rounded-full bg-brand-gold/[0.10] blur-2xl" />
         <div className="relative space-y-3">
           <div className="flex flex-wrap items-center gap-3">
             <span className="lsu-badge">Blog</span>
@@ -103,8 +104,8 @@ export default function BlogIndexPage() {
           onMouseEnter={() => setHeroPaused(true)}
           onMouseLeave={() => setHeroPaused(false)}
         >
-          <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-purple/15 blur-3xl" />
-          <div className="absolute -left-24 -bottom-24 h-64 w-64 rounded-full bg-brand-gold/20 blur-3xl" />
+          <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-purple/[0.08] blur-2xl" />
+          <div className="absolute -left-24 -bottom-24 h-64 w-64 rounded-full bg-brand-gold/[0.10] blur-2xl" />
 
           <div className="relative space-y-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
@@ -119,7 +120,7 @@ export default function BlogIndexPage() {
                 <button
                   type="button"
                   onClick={() => setHeroIndex((i) => (i - 1 + heroPosts.length) % heroPosts.length)}
-                  className="rounded-lg border border-border bg-surface px-3 py-1.5 text-sm text-foreground transition hover:bg-surface-2"
+                  className="rounded-xl border border-border bg-surface px-3 py-1.5 text-sm text-foreground transition hover:bg-surface-2"
                   aria-label="Previous featured post"
                 >
                   ←
@@ -127,7 +128,7 @@ export default function BlogIndexPage() {
                 <button
                   type="button"
                   onClick={() => setHeroIndex((i) => (i + 1) % heroPosts.length)}
-                  className="rounded-lg border border-border bg-surface px-3 py-1.5 text-sm text-foreground transition hover:bg-surface-2"
+                  className="rounded-xl border border-border bg-surface px-3 py-1.5 text-sm text-foreground transition hover:bg-surface-2"
                   aria-label="Next featured post"
                 >
                   →
@@ -176,12 +177,7 @@ export default function BlogIndexPage() {
 
                     <div className="mt-2 flex flex-wrap gap-2">
                       {post.tags.slice(0, 4).map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full border border-brand-purple/25 bg-brand-purple/5 px-3 py-1 text-xs font-medium text-brand-purple"
-                        >
-                          {tag}
-                        </span>
+                        <TagPill key={tag} label={tag} />
                       ))}
                     </div>
 
@@ -262,7 +258,7 @@ export default function BlogIndexPage() {
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as SortOption)}
-              className="rounded-lg border border-border bg-surface px-3 py-1.5 text-foreground focus:border-brand-purple/50 focus:outline-none focus:ring-2 focus:ring-brand-purple/20"
+              className="rounded-xl border border-border bg-surface px-3 py-1.5 text-foreground focus:border-brand-purple/50 focus:outline-none focus:ring-2 focus:ring-brand-purple/20"
             >
               <option value="newest">Newest first</option>
               <option value="oldest">Oldest first</option>
@@ -282,7 +278,7 @@ export default function BlogIndexPage() {
           return (
             <article
               key={post.slug}
-              className="lsu-card overflow-hidden transition hover:shadow-lg hover:-translate-y-0.5"
+              className="lsu-card overflow-hidden"
             >
               <div className={`-mx-6 -mt-6 h-1 rounded-t-3xl ${barClass}`} />
               <div className="pt-4">
@@ -304,12 +300,7 @@ export default function BlogIndexPage() {
                 </p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {post.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-brand-purple/25 bg-brand-purple/5 px-3 py-1 text-xs font-medium text-brand-purple"
-                    >
-                      {tag}
-                    </span>
+                    <TagPill key={tag} label={tag} />
                   ))}
                 </div>
               </div>

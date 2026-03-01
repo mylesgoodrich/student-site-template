@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import TagPill from "../../components/TagPill";
 import { formatDate, getPostHref, getPostBySlug, posts, student } from "../../lib/siteContent";
 
 type Props = {
@@ -43,8 +44,8 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-brand-gold/10 to-transparent animate-pulse-slow" />
           </div>
         )}
-        <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-purple/15 blur-3xl" />
-        <div className="absolute -left-24 -bottom-24 h-64 w-64 rounded-full bg-brand-gold/20 blur-3xl" />
+        <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-purple/[0.08] blur-2xl" />
+        <div className="absolute -left-24 -bottom-24 h-64 w-64 rounded-full bg-brand-gold/[0.10] blur-2xl" />
 
         <div className="relative space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-4">
@@ -66,12 +67,7 @@ export default async function BlogPostPage({ params }: Props) {
 
           <div className="flex flex-wrap gap-2">
             {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full border border-brand-purple/25 bg-brand-purple/5 px-3 py-1 text-xs font-medium text-brand-purple"
-              >
-                {tag}
-              </span>
+              <TagPill key={tag} label={tag} />
             ))}
           </div>
         </div>
@@ -81,9 +77,9 @@ export default async function BlogPostPage({ params }: Props) {
 
       <div className="relative">
         {/* Atmospheric blurs behind article */}
-        <div className="pointer-events-none absolute -right-20 top-1/4 h-72 w-72 rounded-full bg-brand-purple/20 blur-3xl" />
-        <div className="pointer-events-none absolute -left-20 bottom-1/4 h-64 w-64 rounded-full bg-brand-gold/15 blur-3xl" />
-        <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-1/2 h-96 w-96 rounded-full bg-brand-purple/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-20 top-1/4 h-72 w-72 rounded-full bg-brand-purple/[0.08] blur-2xl" />
+        <div className="pointer-events-none absolute -left-20 bottom-1/4 h-64 w-64 rounded-full bg-brand-gold/[0.06] blur-2xl" />
+        <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-1/2 h-96 w-96 rounded-full bg-brand-purple/[0.05] blur-2xl" />
 
         <article className="lsu-card prose prose-zinc max-w-none prose-a:text-brand-purple prose-a:decoration-brand-gold/70 prose-a:underline-offset-4 prose-blockquote:border-l-4 prose-blockquote:border-brand-gold prose-blockquote:bg-brand-gold/10 prose-blockquote:rounded-xl prose-blockquote:px-6 prose-blockquote:py-4">
           <ReactMarkdown>{post.content}</ReactMarkdown>

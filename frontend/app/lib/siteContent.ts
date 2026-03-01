@@ -100,11 +100,11 @@ export const siteContent = {
   athletics: {
     title: "Training Mindset",
     summary:
-      "Outside of class, I train like I study: structured, consistent, and measurable. I'm currently training for the Alcatraz swim, and I've also pushed long-distance running goals that taught me discipline and patience.",
+      "Outside of class, I train like I study: structured, consistent, and measurable. I completed the Shark Fest Alcatraz swim, and long-distance running taught me discipline, patience, and how to execute a plan.",
     bullets: [
-      "Alcatraz swim training: consistency, cold-water tolerance, and pacing",
+      "Completed Shark Fest Alcatraz: consistency, cold-water tolerance, and pacing",
       "Endurance mindset: systems beat motivation",
-      "Progress tracking: weekly goals, feedback, and adjustment",
+      "Progress tracking: weekly goals, feedback, adjustment",
     ],
   },
 

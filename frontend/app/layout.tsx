@@ -33,13 +33,13 @@ export default function RootLayout({
         <div className="min-h-screen">
           <header className="relative overflow-hidden bg-gradient-to-br from-brand-purple via-[#2b0f52] to-[#0b0713] text-white">
             <div className="absolute inset-x-0 bottom-0 h-[3px] bg-gradient-to-r from-transparent via-brand-gold to-transparent opacity-90" />
-            <div className="absolute -left-32 -top-40 h-80 w-80 rounded-full bg-brand-gold/15 blur-3xl" />
-            <div className="absolute -right-40 -top-24 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
+            <div className="absolute -left-32 -top-40 h-80 w-80 rounded-full bg-brand-gold/[0.08] blur-2xl" />
+            <div className="absolute -right-40 -top-24 h-80 w-80 rounded-full bg-white/[0.06] blur-2xl" />
 
             <div className="lsu-container py-10 sm:py-12">
               <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                 <Link href="/" className="group flex items-center gap-4">
-                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-gold text-lg font-black tracking-tight text-brand-purple shadow-sm">
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-brand-gold text-lg font-black tracking-tight text-brand-purple shadow-sm">
                     LSU
                   </span>
                   <div className="leading-tight">

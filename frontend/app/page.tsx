@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { siteContent } from "./lib/siteContent";
 import { featuredSystemsProjects } from "./lib/projectsData";
+import { fadeUp, fadeIn } from "./lib/motion";
+import OperatingSystemDashboard from "./components/OperatingSystemDashboard";
 
 const RISK_LENS_ITEMS = [
   "Where does discretion live?",
@@ -14,13 +17,15 @@ const RISK_LENS_ITEMS = [
 ];
 
 const PERFORMANCE_GRAPH = {
+  /** Single dataset: 5 points, evenly spaced x, y from GPA values. Line and dots use this. */
   points: [
-    { semester: 1, value: 2.5 },
-    { semester: 2, value: 2.9 },
-    { semester: 3, value: 3.2 },
-    { semester: 4, value: 3.4 },
-    { semester: 5, value: 3.6 },
+    { value: 2.5 },
+    { value: 2.9 },
+    { value: 3.2 },
+    { value: 3.4 },
+    { value: 3.9 },
   ],
+  milestones: ["Reset", "Structure", "Momentum", "LSU", "3.9 GPA"],
   tooltips: [
     "Reset. Built structure.",
     "Consistency over motivation.",
@@ -29,6 +34,42 @@ const PERFORMANCE_GRAPH = {
     "Dialed in.",
   ],
 };
+
+const PLOT = {
+  viewWidth: 360,
+  viewHeight: 120,
+  left: 36,
+  right: 324,
+  top: 28,
+  bottom: 76,
+  minGpa: 2.5,
+  maxGpa: 3.9,
+};
+function getPlotCoords(index: number, value: number) {
+  const x = PLOT.left + (index / 4) * (PLOT.right - PLOT.left);
+  const y =
+    PLOT.bottom -
+    ((value - PLOT.minGpa) / (PLOT.maxGpa - PLOT.minGpa)) * (PLOT.bottom - PLOT.top);
+  return { x, y };
+}
+function getPerformancePathD() {
+  return PERFORMANCE_GRAPH.points
+    .map((pt, i) => getPlotCoords(i, pt.value))
+    .reduce(
+      (acc, { x, y }, i) => (i === 0 ? `M ${x} ${y}` : `${acc} L ${x} ${y}`),
+      ""
+    );
+}
+function getPerformanceAreaPathD() {
+  const coords = PERFORMANCE_GRAPH.points.map((pt, i) => getPlotCoords(i, pt.value));
+  const x0 = coords[0].x;
+  const linePart = coords.reduce(
+    (acc, { x, y }, i) => (i === 0 ? `M ${x} ${y}` : `${acc} L ${x} ${y}`),
+    ""
+  );
+  const last = coords[coords.length - 1];
+  return `${linePart} L ${last.x} ${PLOT.bottom} L ${x0} ${PLOT.bottom} Z`;
+}
 
 const SYSTEM_VIEW_MAP: Record<
   string,
@@ -94,6 +135,10 @@ export default function Home() {
   const graphRef = useRef<HTMLDivElement>(null);
   const graphAnimated = useRef(false);
   const [hoveredPointIndex, setHoveredPointIndex] = useState<number | null>(null);
+  const [tooltipPosition, setTooltipPosition] = useState<{ x: number; y: number } | null>(null);
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const plotAreaRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
   const [workView, setWorkView] = useState<"project" | "system">("project");
 
   const uniqueTags = getUniqueTags(featuredSystemsProjects);
@@ -134,6 +179,41 @@ export default function Home() {
     return () => obs.disconnect();
   }, []);
 
+  const TOOLTIP_W = 160;
+  const TOOLTIP_H = 56;
+  const handleChartMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (hoveredPointIndex === null || shouldReduceMotion) return;
+      const el = plotAreaRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      let x = e.clientX - rect.left - TOOLTIP_W / 2;
+      let y = e.clientY - rect.top - TOOLTIP_H - 8;
+      x = Math.max(8, Math.min(x, rect.width - TOOLTIP_W - 8));
+      y = Math.max(8, Math.min(y, rect.height - TOOLTIP_H - 8));
+      setTooltipPosition({ x, y });
+    },
+    [hoveredPointIndex, shouldReduceMotion]
+  );
+  const handleChartMouseLeave = useCallback(() => {
+    setHoveredPointIndex(null);
+    setTooltipPosition(null);
+  }, []);
+
+  useEffect(() => {
+    if (hoveredPointIndex === null) {
+      setTooltipPosition(null);
+      return;
+    }
+    const el = plotAreaRef.current || chartContainerRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    setTooltipPosition({
+      x: Math.max(8, rect.width / 2 - TOOLTIP_W / 2),
+      y: 12,
+    });
+  }, [hoveredPointIndex]);
+
   useEffect(() => {
     if (!metricsVisible) return;
     const targets = siteContent.metrics.map((m) => m.value);
@@ -158,12 +238,17 @@ export default function Home() {
       : null;
 
   return (
-    <div className="space-y-20">
+    <div className="space-y-12">
       {/* Gradient divider */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
 
       {/* Hero: 2-col desktop */}
-      <section className="grid gap-10 lg:grid-cols-2 lg:items-start">
+      <motion.section
+        className="grid gap-10 lg:grid-cols-2 lg:items-start"
+        variants={fadeUp}
+        initial="initial"
+        animate="animate"
+      >
         <div className="space-y-5">
           <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             Internal Audit mindset. Guard discipline. Built through persistence.
@@ -190,12 +275,12 @@ export default function Home() {
         </div>
 
         {/* Identity Card */}
-        <div className="lsu-card border-brand-purple/20 transition hover:shadow-lg hover:-translate-y-0.5">
+        <div className="lsu-card border-brand-purple/20">
           <div className="flex gap-1 border-b border-border pb-3">
             <button
               type="button"
               onClick={() => setIdentityTab("guard")}
-              className={`rounded-lg border px-4 py-2 text-sm font-medium transition ${
+              className={`rounded-xl border px-4 py-2 text-sm font-medium transition ${
                 identityTab === "guard"
                   ? "bg-brand-gold text-black border-brand-gold"
                   : "bg-surface text-muted border-border hover:bg-surface-2"
@@ -206,7 +291,7 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setIdentityTab("comeback")}
-              className={`rounded-lg border px-4 py-2 text-sm font-medium transition ${
+              className={`rounded-xl border px-4 py-2 text-sm font-medium transition ${
                 identityTab === "comeback"
                   ? "bg-brand-gold text-black border-brand-gold"
                   : "bg-surface text-muted border-border hover:bg-surface-2"
@@ -250,12 +335,20 @@ export default function Home() {
             )}
           </div>
         </div>
-      </section>
+      </motion.section>
+
+      <OperatingSystemDashboard />
 
       <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent" />
 
       {/* Values in Action */}
-      <section aria-labelledby="values-heading" className="space-y-4">
+      <motion.section
+        aria-labelledby="values-heading"
+        className="space-y-4"
+        variants={fadeUp}
+        initial="initial"
+        animate="animate"
+      >
         <h2
           id="values-heading"
           className="text-xl font-semibold tracking-tight text-foreground"
@@ -265,7 +358,7 @@ export default function Home() {
         <p className="text-sm text-muted">
           Click a value to see how it shows up in my work.
         </p>
-        <div className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5">
+        <div className="lsu-card">
           <div className="flex flex-wrap gap-2">
             {siteContent.service.values.map((v, i) => (
               <button
@@ -288,12 +381,18 @@ export default function Home() {
             </p>
           )}
         </div>
-      </section>
+      </motion.section>
 
       <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
 
       {/* Academic Comeback Timeline */}
-      <section aria-labelledby="comeback-heading" className="space-y-4">
+      <motion.section
+        aria-labelledby="comeback-heading"
+        className="space-y-4"
+        variants={fadeUp}
+        initial="initial"
+        animate="animate"
+      >
         <h2
           id="comeback-heading"
           className="text-xl font-semibold tracking-tight text-foreground"
@@ -307,7 +406,7 @@ export default function Home() {
           {siteContent.comeback.milestones.map((m, i) => (
             <div
               key={m.year}
-              className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5"
+              className="lsu-card"
             >
               <button
                 type="button"
@@ -333,15 +432,18 @@ export default function Home() {
             </div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
       <div className="my-12 h-px w-full bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent" />
 
       {/* Performance Over Time */}
-      <section
+      <motion.section
         ref={graphRef}
         aria-labelledby="performance-heading"
         className="space-y-4"
+        variants={fadeUp}
+        initial="initial"
+        animate="animate"
       >
         <h2
           id="performance-heading"
@@ -352,84 +454,164 @@ export default function Home() {
         <p className="text-sm text-muted">
           Growth built through structure and persistence.
         </p>
-        <div className="lsu-card overflow-hidden transition hover:shadow-lg hover:-translate-y-0.5">
-          <div className="relative px-4 pb-4 pt-2">
-            <div className="relative inline-block w-full max-w-2xl">
-            <svg
-              viewBox="0 0 360 100"
-              className="w-full max-w-2xl"
-              aria-hidden
+        <div className="lsu-card overflow-hidden">
+          <div className="relative px-4 pb-3 pt-3">
+            <div
+              ref={chartContainerRef}
+              className="relative w-full max-w-2xl rounded-lg border border-brand-gold/15"
+              onMouseMove={handleChartMouseMove}
+              onMouseLeave={handleChartMouseLeave}
             >
-              <defs>
-                <linearGradient
-                  id="lineGrad"
-                  x1="0%"
-                  y1="0%"
-                  x2="100%"
-                  y2="0%"
-                >
-                  <stop offset="0%" stopColor="var(--brand-purple)" />
-                  <stop offset="100%" stopColor="var(--brand-purple)" />
-                </linearGradient>
-              </defs>
-              {/* Horizontal grid lines */}
-              {[0, 1, 2, 3, 4].map((i) => (
-                <line
-                  key={i}
-                  x1={40}
-                  y1={20 + i * 20}
-                  x2={320}
-                  y2={20 + i * 20}
-                  stroke="var(--border)"
-                  strokeWidth="0.5"
-                />
-              ))}
-              {/* Line path: x 40,100,160,220,280 for semesters 1-5; y from bottom 60 to top 10 (values 2.5->3.6) */}
-              <path
-                d="M 40 60 L 100 35.5 L 160 24.5 L 220 17.3 L 280 10"
-                fill="none"
-                stroke="var(--brand-purple)"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+              <div
+                ref={plotAreaRef}
+                className="relative h-[260px] overflow-hidden"
+              >
+              {/* Vignette */}
+              <div
+                className="pointer-events-none absolute inset-0 z-[1]"
                 style={{
-                  strokeDasharray: "300 300",
-                  strokeDashoffset: graphLineVisible ? 0 : 300,
-                  transition: "stroke-dashoffset 1.2s ease-out",
+                  background:
+                    "linear-gradient(to top, rgba(0,0,0,0.2) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.2) 100%)",
                 }}
               />
-              {PERFORMANCE_GRAPH.points.map((pt, i) => {
-                const x = 40 + i * 70;
-                const y = 60 - ((pt.value - 2.5) / 1.1) * 40;
-                return (
-                  <g key={i}>
-                    <circle
-                      cx={x}
-                      cy={y}
-                      r={hoveredPointIndex === i ? 6 : 5}
-                      fill="var(--brand-gold)"
-                      stroke="var(--brand-purple)"
-                      strokeWidth="1"
-                      className="cursor-pointer transition-all"
+              <svg
+                viewBox={`0 0 ${PLOT.viewWidth} ${PLOT.viewHeight}`}
+                className="absolute inset-0 h-full w-full"
+                preserveAspectRatio="xMidYMid meet"
+                aria-hidden
+              >
+                <defs>
+                  <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="var(--brand-purple)" stopOpacity="0.18" />
+                    <stop offset="70%" stopColor="var(--brand-purple)" stopOpacity="0.08" />
+                    <stop offset="100%" stopColor="var(--brand-purple)" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                {/* 3 horizontal grid lines, very faint */}
+                {[40, 52, 64].map((y) => (
+                  <line
+                    key={y}
+                    x1={PLOT.left}
+                    y1={y}
+                    x2={PLOT.right}
+                    y2={y}
+                    stroke="rgba(255,255,255,0.06)"
+                    strokeWidth="0.5"
+                  />
+                ))}
+                {/* Area fill under line (static, no animation) */}
+                <path
+                  d={getPerformanceAreaPathD()}
+                  fill="url(#areaGradient)"
+                  stroke="none"
+                />
+                {/* Line: same points as dots, ends at 5th point */}
+                <path
+                  d={getPerformancePathD()}
+                  fill="none"
+                  stroke="var(--brand-purple)"
+                  strokeWidth={3}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{
+                    strokeDasharray: "400 400",
+                    strokeDashoffset: graphLineVisible ? 0 : 400,
+                    transition: shouldReduceMotion ? "none" : "stroke-dashoffset 1.2s ease-out",
+                  }}
+                />
+                {/* Points: single dataset; default r=5, hovered r=7 + soft glow */}
+                {PERFORMANCE_GRAPH.points.map((pt, i) => {
+                  const { x, y } = getPlotCoords(i, pt.value);
+                  const isActive = hoveredPointIndex === i;
+                  return (
+                    <g
+                      key={i}
+                      style={{ cursor: "pointer" }}
                       onMouseEnter={() => setHoveredPointIndex(i)}
                       onMouseLeave={() => setHoveredPointIndex(null)}
-                    />
-                  </g>
-                );
-              })}
-            </svg>
-            {hoveredPointIndex !== null && (
+                    >
+                      {isActive && !shouldReduceMotion && (
+                        <circle
+                          cx={x}
+                          cy={y}
+                          r={14}
+                          fill="var(--brand-gold)"
+                          opacity={0.12}
+                        />
+                      )}
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r={isActive ? 7 : 5}
+                        fill="rgba(15,13,22,0.9)"
+                        stroke="var(--brand-gold)"
+                        strokeWidth={1.2}
+                        style={{ transition: "r 0.15s ease-out" }}
+                      />
+                    </g>
+                  );
+                })}
+              </svg>
+              {/* Y-axis context labels: aligned with bottom and top gridlines */}
               <div
-                className="pointer-events-none absolute z-10 rounded border border-border bg-surface px-3 py-2 text-sm text-foreground shadow-md"
-                style={{
-                  left: `${((40 + hoveredPointIndex * 70) / 360) * 100}%`,
-                  top: "0.5rem",
-                  transform: "translateX(-50%)",
-                }}
+                className="pointer-events-none absolute left-3 z-[2] -translate-y-1/2"
+                style={{ top: "50.5%" }}
+                aria-hidden
               >
-                {PERFORMANCE_GRAPH.tooltips[hoveredPointIndex]}
+                <div className="rounded-md bg-black/40 px-2 py-0.5 backdrop-blur-sm">
+                  <span className="text-[11px] font-medium tracking-wide text-white/65">
+                    Baseline
+                  </span>
+                </div>
               </div>
-            )}
+              <div
+                className="pointer-events-none absolute left-3 z-[2] -translate-y-1/2"
+                style={{ top: "30.5%" }}
+                aria-hidden
+              >
+                <div className="rounded-md bg-black/40 px-2 py-0.5 backdrop-blur-sm">
+                  <span className="text-[11px] font-medium tracking-wide text-white/65">
+                    Peak
+                  </span>
+                </div>
+              </div>
+              {/* HTML tooltip: absolute overlay, clamped */}
+              {hoveredPointIndex !== null && tooltipPosition && (
+                <div
+                  className="pointer-events-none absolute z-10 rounded-xl border border-brand-gold/25 bg-[#0f0d16]/95 px-3 py-2 shadow-md"
+                  style={{
+                    left: tooltipPosition.x,
+                    top: tooltipPosition.y,
+                    width: TOOLTIP_W,
+                  }}
+                >
+                  <p className="text-sm font-semibold text-white leading-tight">
+                    {PERFORMANCE_GRAPH.milestones[hoveredPointIndex]}
+                  </p>
+                  <p className="mt-0.5 text-xs text-white/70 leading-snug">
+                    {PERFORMANCE_GRAPH.tooltips[hoveredPointIndex]}
+                  </p>
+                </div>
+              )}
+              </div>
+            {/* Milestone labels: aligned under each point */}
+            <div className="relative mt-2 h-5 w-full max-w-2xl">
+              {PERFORMANCE_GRAPH.milestones.map((label, i) => (
+                <span
+                  key={label}
+                  className="absolute text-[10px] font-medium transition-colors cursor-default"
+                  style={{
+                    left: `${(getPlotCoords(i, PERFORMANCE_GRAPH.points[i].value).x / PLOT.viewWidth) * 100}%`,
+                    transform: "translateX(-50%)",
+                    color: hoveredPointIndex === i ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.55)",
+                  }}
+                  onMouseEnter={() => setHoveredPointIndex(i)}
+                  onMouseLeave={() => setHoveredPointIndex(null)}
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
             </div>
           </div>
           <p className="border-t border-border px-4 py-3 text-sm text-muted">
@@ -437,12 +619,18 @@ export default function Home() {
             track results, improve.
           </p>
         </div>
-      </section>
+      </motion.section>
 
       <div className="my-12 h-px w-full bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent" />
 
       {/* Proof (metrics) */}
-      <section aria-labelledby="proof-heading" className="space-y-4">
+      <motion.section
+        aria-labelledby="proof-heading"
+        className="space-y-4"
+        variants={fadeUp}
+        initial="initial"
+        animate="animate"
+      >
         <h2
           id="proof-heading"
           className="text-xl font-semibold tracking-tight text-foreground"
@@ -459,7 +647,7 @@ export default function Home() {
           {siteContent.metrics.map((m, i) => (
             <div
               key={m.label}
-              className="lsu-card text-center transition hover:shadow-lg hover:-translate-y-0.5"
+              className="lsu-card text-center"
             >
               <p className="text-3xl font-semibold tabular-nums text-brand-purple">
                 {metricValues[i]}
@@ -469,12 +657,18 @@ export default function Home() {
             </div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
       <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
 
       {/* Leadership, Training, Quick Facts */}
-      <section aria-labelledby="more-personal-heading" className="space-y-4">
+      <motion.section
+        aria-labelledby="more-personal-heading"
+        className="space-y-4"
+        variants={fadeUp}
+        initial="initial"
+        animate="animate"
+      >
         <h2
           id="more-personal-heading"
           className="sr-only"
@@ -482,7 +676,7 @@ export default function Home() {
           More about me
         </h2>
         <div className="grid gap-6 md:grid-cols-3">
-          <div className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5">
+          <div className="lsu-card">
             <h3 className="text-base font-semibold tracking-tight text-foreground">
               {siteContent.leadership.title}
             </h3>
@@ -495,7 +689,7 @@ export default function Home() {
               ))}
             </ul>
           </div>
-          <div className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5">
+          <div className="lsu-card">
             <h3 className="text-base font-semibold tracking-tight text-foreground">
               {siteContent.athletics.title}
             </h3>
@@ -508,7 +702,7 @@ export default function Home() {
               ))}
             </ul>
           </div>
-          <div className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5">
+          <div className="lsu-card">
             <h3 className="text-base font-semibold tracking-tight text-foreground">
               {siteContent.personal.title}
             </h3>
@@ -519,12 +713,18 @@ export default function Home() {
             </ul>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
 
       {/* Systems I've Built with tag filter + System Builder Toggle */}
-      <section aria-labelledby="systems-heading" className="space-y-4">
+      <motion.section
+        aria-labelledby="systems-heading"
+        className="space-y-4"
+        variants={fadeUp}
+        initial="initial"
+        animate="animate"
+      >
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h2
@@ -584,7 +784,7 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setWorkView("project")}
-              className={`rounded-lg border px-4 py-2 text-sm font-medium transition ${
+              className={`rounded-xl border px-4 py-2 text-sm font-medium transition ${
                 workView === "project"
                   ? "bg-brand-gold text-black border-brand-gold"
                   : "bg-surface text-muted border-border hover:bg-surface-2"
@@ -595,7 +795,7 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setWorkView("system")}
-              className={`rounded-lg border px-4 py-2 text-sm font-medium transition ${
+              className={`rounded-xl border px-4 py-2 text-sm font-medium transition ${
                 workView === "system"
                   ? "bg-brand-gold text-black border-brand-gold"
                   : "bg-surface text-muted border-border hover:bg-surface-2"
@@ -612,7 +812,7 @@ export default function Home() {
             return (
               <article
                 key={project.title}
-                className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5"
+                className="lsu-card"
               >
                 {workView === "project" ? (
                   <div key="project" className="lsu-card-inner">
@@ -656,12 +856,18 @@ export default function Home() {
             );
           })}
         </div>
-      </section>
+      </motion.section>
 
       <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent" />
 
       {/* Risk Lens interactive */}
-      <section aria-labelledby="risk-heading" className="space-y-4">
+      <motion.section
+        aria-labelledby="risk-heading"
+        className="space-y-4"
+        variants={fadeUp}
+        initial="initial"
+        animate="animate"
+      >
         <h2
           id="risk-heading"
           className="text-xl font-semibold tracking-tight text-foreground"
@@ -671,7 +877,7 @@ export default function Home() {
         <p className="text-sm text-muted">
           When I review a process, these are the questions I start with:
         </p>
-        <div className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5">
+        <div className="lsu-card">
           <ul className="space-y-3">
             {RISK_LENS_ITEMS.map((item, i) => (
               <li key={item} className="flex items-center gap-3">
@@ -751,18 +957,24 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setRiskChecked(RISK_LENS_ITEMS.map(() => false))}
-              className="mt-4 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-muted transition hover:bg-surface-2"
+              className="mt-4 rounded-xl border border-border bg-surface px-3 py-1.5 text-xs font-medium text-muted transition hover:bg-surface-2"
             >
               Reset
             </button>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
 
       {/* Contact */}
-      <section aria-labelledby="contact-heading" className="lsu-card">
+      <motion.section
+        aria-labelledby="contact-heading"
+        className="lsu-card"
+        variants={fadeIn}
+        initial="initial"
+        animate="animate"
+      >
         <h2
           id="contact-heading"
           className="text-lg font-semibold tracking-tight text-foreground"
@@ -776,7 +988,7 @@ export default function Home() {
             Email me
           </a>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }

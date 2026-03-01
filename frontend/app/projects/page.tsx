@@ -40,7 +40,7 @@ function ProjectCard({
   const hasLongDescription = project.description.length > 160;
 
   return (
-    <article className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5">
+    <article className="lsu-card">
       <div className="flex flex-col gap-3">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <h3 className="text-base font-semibold tracking-tight text-foreground">
@@ -52,7 +52,7 @@ function ProjectCard({
         </div>
 
         {hasSystemFrame ? (
-          <dl className="grid gap-2 rounded-lg border border-border bg-surface-2 p-3 text-sm text-muted">
+          <dl className="grid gap-2 rounded-xl border border-border bg-surface-2 p-4 text-sm text-muted">
             <div>
               <dt className="font-medium text-muted-2">Problem</dt>
               <dd>{project.problem}</dd>
