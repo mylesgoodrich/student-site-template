@@ -1,13 +1,12 @@
+import { CHIP_CLASSES } from "../lib/ui";
+
 type TagPillVariant = "default" | "compact" | "small";
 
 const variantClasses: Record<TagPillVariant, string> = {
-  default: "px-3 py-1 text-xs",
+  default: "",
   compact: "px-2.5 py-1 text-xs",
-  small: "px-2.5 py-1 text-[11px]",
+  small: "px-2.5 py-1 text-xs",
 };
-
-const baseClasses =
-  "rounded-full border border-brand-purple/40 bg-brand-purple/15 font-semibold text-brand-purple shadow-sm";
 
 type TagPillProps = {
   label: string;
@@ -17,7 +16,7 @@ type TagPillProps = {
 export default function TagPill({ label, variant = "default" }: TagPillProps) {
   return (
     <span
-      className={`${baseClasses} ${variantClasses[variant]}`}
+      className={`${CHIP_CLASSES.base} ${CHIP_CLASSES.tagBase} ${CHIP_CLASSES.tagHoverable} ${variantClasses[variant]}`}
     >
       {label}
     </span>

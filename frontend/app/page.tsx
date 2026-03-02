@@ -7,6 +7,7 @@ import { siteContent } from "./lib/siteContent";
 import { featuredSystemsProjects } from "./lib/projectsData";
 import { fadeUp, fadeIn } from "./lib/motion";
 import OperatingSystemDashboard from "./components/OperatingSystemDashboard";
+import { CHIP_CLASSES } from "./lib/ui";
 
 const RISK_LENS_ITEMS = [
   "Where does discretion live?",
@@ -311,11 +312,15 @@ export default function Home() {
                     <button
                       key={v.label}
                       type="button"
-                      onClick={() => setSelectedValueIndex(selectedValueIndex === i ? null : i)}
-                      className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
+                      onClick={() =>
+                        setSelectedValueIndex(
+                          selectedValueIndex === i ? null : i,
+                        )
+                      }
+                      className={`${CHIP_CLASSES.base} ${
                         selectedValueIndex === i
-                          ? "border-brand-gold bg-brand-gold/20 text-brand-gold"
-                          : "border-border bg-surface text-muted hover:bg-surface-2"
+                          ? CHIP_CLASSES.filterActive
+                          : CHIP_CLASSES.filterInactive
                       }`}
                     >
                       {v.label}
@@ -364,11 +369,15 @@ export default function Home() {
               <button
                 key={v.label}
                 type="button"
-                onClick={() => setSelectedValueIndex(selectedValueIndex === i ? null : i)}
-                className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
+                onClick={() =>
+                  setSelectedValueIndex(
+                    selectedValueIndex === i ? null : i,
+                  )
+                }
+                className={`${CHIP_CLASSES.base} ${
                   selectedValueIndex === i
-                    ? "border-brand-gold bg-brand-gold/20 text-brand-gold"
-                    : "border-border bg-surface text-muted hover:bg-surface-2"
+                    ? CHIP_CLASSES.filterActive
+                    : CHIP_CLASSES.filterInactive
                 }`}
               >
                 {v.label}
@@ -749,23 +758,23 @@ export default function Home() {
           <button
             type="button"
             onClick={() => setSystemTagFilter(null)}
-            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+            className={`${CHIP_CLASSES.base} ${
               systemTagFilter == null
-                ? "border-brand-gold bg-brand-gold/15 text-foreground"
-                : "border-border bg-surface text-muted hover:bg-surface-2"
+                ? CHIP_CLASSES.filterActive
+                : CHIP_CLASSES.filterInactive
             }`}
           >
             All
           </button>
-          {uniqueTags.map((tag) => (
+          {uniqueTags.map((tag, idx) => (
             <button
               key={tag}
               type="button"
               onClick={() => setSystemTagFilter(tag)}
-              className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+              className={`${CHIP_CLASSES.base} ${
                 systemTagFilter === tag
-                  ? "border-brand-gold bg-brand-gold/15 text-foreground"
-                  : "border-border bg-surface text-muted hover:bg-surface-2"
+                  ? CHIP_CLASSES.filterActive
+                  : CHIP_CLASSES.filterInactive
               }`}
             >
               {tag}

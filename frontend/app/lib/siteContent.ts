@@ -100,9 +100,9 @@ export const siteContent = {
   athletics: {
     title: "Training Mindset",
     summary:
-      "Outside of class, I train like I study: structured, consistent, and measurable. I completed the Shark Fest Alcatraz swim, and long-distance running taught me discipline, patience, and how to execute a plan.",
+      "Outside of class, I train with the same structure I study with: measured, consistent, and repeatable.",
     bullets: [
-      "Completed Shark Fest Alcatraz: consistency, cold-water tolerance, and pacing",
+      "Completed Shark Fest Alcatraz (open-water swim) — built confidence under pressure",
       "Endurance mindset: systems beat motivation",
       "Progress tracking: weekly goals, feedback, adjustment",
     ],

@@ -75,6 +75,12 @@ export default function RootLayout({
                   <a className="lsu-link" href={`mailto:${student.email}`}>
                     Email
                   </a>
+                  <Link className="lsu-link" href="/">
+                    Home
+                  </Link>
+                  <Link className="lsu-link" href="/journey">
+                    Journey
+                  </Link>
                   <Link className="lsu-link" href="/projects">
                     Projects
                   </Link>

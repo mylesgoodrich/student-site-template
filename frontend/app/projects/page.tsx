@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { projects, type Project } from "../lib/projectsData";
 import { siteContent } from "../lib/siteContent";
+import { CHIP_CLASSES } from "../lib/ui";
 
 function Tag({ children }: { children: ReactNode }) {
   return (
@@ -180,23 +181,19 @@ export default function ProjectsPage() {
           <button
             type="button"
             onClick={() => setTagFilter(null)}
-            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
-              tagFilter == null
-                ? "border-brand-gold bg-brand-gold/15 text-foreground"
-                : "border-border bg-surface text-muted hover:bg-surface-2"
+            className={`${CHIP_CLASSES.base} ${
+              tagFilter == null ? CHIP_CLASSES.filterActive : CHIP_CLASSES.filterInactive
             }`}
           >
             All
           </button>
-          {uniqueTags.map((tag) => (
+          {uniqueTags.map((tag, idx) => (
             <button
               key={tag}
               type="button"
               onClick={() => setTagFilter(tag)}
-              className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
-                tagFilter === tag
-                  ? "border-brand-gold bg-brand-gold/15 text-foreground"
-                  : "border-border bg-surface text-muted hover:bg-surface-2"
+              className={`${CHIP_CLASSES.base} ${
+                tagFilter === tag ? CHIP_CLASSES.filterActive : CHIP_CLASSES.filterInactive
               }`}
             >
               {tag}
