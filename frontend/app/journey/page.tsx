@@ -148,6 +148,10 @@ export default function JourneyPage() {
 
   return (
     <div className="space-y-10">
+      <div id="rough-start" className="scroll-mt-24" />
+      <div id="reset" className="scroll-mt-24" />
+      <div id="system" className="scroll-mt-24" />
+      <div id="standard-now" className="scroll-mt-24" />
       <header className="lsu-card relative overflow-hidden">
         <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-purple/[0.08] blur-2xl" />
         <div className="absolute -left-24 -bottom-24 h-64 w-64 rounded-full bg-brand-gold/[0.10] blur-2xl" />

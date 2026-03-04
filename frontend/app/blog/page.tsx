@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import Pill from "../components/ui/Pill";
 import TagPill from "../components/TagPill";
 import { formatDate, getPostHref, posts, student } from "../lib/siteContent";
-import { CHIP_CLASSES } from "../lib/ui";
 
 type SortOption = "newest" | "oldest";
 
@@ -33,6 +33,9 @@ export default function BlogIndexPage() {
   const [sort, setSort] = useState<SortOption>("newest");
   const [heroIndex, setHeroIndex] = useState(0);
   const [heroPaused, setHeroPaused] = useState(false);
+  const [sortMenuOpen, setSortMenuOpen] = useState(false);
+
+  const sortMenuRef = useRef<HTMLDivElement | null>(null);
 
   const uniqueTags = useMemo(() => getUniqueTags(), []);
 
@@ -56,6 +59,7 @@ export default function BlogIndexPage() {
   }, [heroPaused, heroPosts.length]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHeroIndex((i) => (heroPosts.length ? i % heroPosts.length : 0));
   }, [heroPosts.length]);
 
@@ -77,6 +81,32 @@ export default function BlogIndexPage() {
     return list;
   }, [search, tagFilter, sort]);
 
+  useEffect(() => {
+    if (!sortMenuOpen) return;
+
+    function handleClick(event: MouseEvent) {
+      if (!sortMenuRef.current) return;
+      if (!(event.target instanceof Node)) return;
+      if (!sortMenuRef.current.contains(event.target)) {
+        setSortMenuOpen(false);
+      }
+    }
+
+    function handleKey(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setSortMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKey);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [sortMenuOpen]);
+
   return (
     <div className="space-y-10">
       <header className="lsu-card relative overflow-hidden">
@@ -94,7 +124,7 @@ export default function BlogIndexPage() {
             Notes in Purple &amp; Gold
           </h1>
           <p className="max-w-2xl text-base leading-7 text-muted">
-            Short essays, project updates, and what I'm learning at LSU.
+            Short essays, project updates, and what I&rsquo;m learning at LSU.
           </p>
         </div>
       </header>
@@ -228,39 +258,75 @@ export default function BlogIndexPage() {
         />
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
+            <Pill
+              as="button"
+              active={tagFilter == null}
               onClick={() => setTagFilter(null)}
-              className={`${CHIP_CLASSES.baseFilter} ${
-                tagFilter == null ? CHIP_CLASSES.filterActive : CHIP_CLASSES.filterInactive
-              }`}
             >
               All
-            </button>
-            {uniqueTags.map((tag, idx) => (
-              <button
+            </Pill>
+            {uniqueTags.map((tag) => (
+              <Pill
                 key={tag}
-                type="button"
+                as="button"
+                active={tagFilter === tag}
                 onClick={() => setTagFilter(tag)}
-                className={`${CHIP_CLASSES.baseFilter} ${
-                  tagFilter === tag ? CHIP_CLASSES.filterActive : CHIP_CLASSES.filterInactive
-                }`}
               >
                 {tag}
-              </button>
+              </Pill>
             ))}
           </div>
-          <label className="flex items-center gap-2 text-sm text-muted">
+          <div className="flex items-center gap-2 text-sm text-muted">
             <span>Sort:</span>
-            <select
-              value={sort}
-              onChange={(e) => setSort(e.target.value as SortOption)}
-              className="rounded-xl border border-border bg-surface px-3 py-1.5 text-foreground focus:border-brand-purple/50 focus:outline-none focus:ring-2 focus:ring-brand-purple/20"
-            >
-              <option value="newest">Newest first</option>
-              <option value="oldest">Oldest first</option>
-            </select>
-          </label>
+            <div className="relative" ref={sortMenuRef}>
+              <button
+                type="button"
+                className="flex items-center gap-1 rounded-xl border border-border bg-surface px-3 py-1.5 text-xs text-foreground shadow-sm transition hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/40"
+                onClick={() => setSortMenuOpen((open) => !open)}
+                aria-haspopup="listbox"
+                aria-expanded={sortMenuOpen}
+              >
+                <span>{sort === "newest" ? "Newest first" : "Oldest first"}</span>
+                <span className="text-[10px] text-muted-2">▾</span>
+              </button>
+              {sortMenuOpen ? (
+                <div
+                  className="absolute right-0 z-30 mt-2 w-40 overflow-hidden rounded-xl border border-border bg-surface/95 text-xs text-foreground shadow-lg backdrop-blur"
+                  role="listbox"
+                  aria-label="Sort posts"
+                >
+                  <button
+                    type="button"
+                    className={`flex w-full items-center px-3 py-2 text-left transition hover:bg-surface-2 ${
+                      sort === "newest" ? "bg-brand-purple/25 text-foreground" : ""
+                    }`}
+                    onClick={() => {
+                      setSort("newest");
+                      setSortMenuOpen(false);
+                    }}
+                    role="option"
+                    aria-selected={sort === "newest"}
+                  >
+                    Newest first
+                  </button>
+                  <button
+                    type="button"
+                    className={`flex w-full items-center px-3 py-2 text-left transition hover:bg-surface-2 ${
+                      sort === "oldest" ? "bg-brand-purple/25 text-foreground" : ""
+                    }`}
+                    onClick={() => {
+                      setSort("oldest");
+                      setSortMenuOpen(false);
+                    }}
+                    role="option"
+                    aria-selected={sort === "oldest"}
+                  >
+                    Oldest first
+                  </button>
+                </div>
+              ) : null}
+            </div>
+          </div>
         </div>
       </div>
 

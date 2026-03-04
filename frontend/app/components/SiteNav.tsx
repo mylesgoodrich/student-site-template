@@ -5,7 +5,9 @@ import { usePathname } from "next/navigation";
 
 const links = [
   { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
   { href: "/journey", label: "Journey" },
+  { href: "/performance", label: "Performance" },
   { href: "/projects", label: "Projects" },
   { href: "/blog", label: "Blog" },
 ];
@@ -19,7 +21,7 @@ export default function SiteNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex items-center gap-6 text-sm font-medium">
+    <nav className="flex items-center gap-7 text-sm font-medium tracking-tight">
       {links.map((l) => {
         const active = isActive(pathname, l.href);
         return (
@@ -29,7 +31,7 @@ export default function SiteNav() {
             className={
               "transition underline-offset-4 " +
               (active
-                ? "text-brand-gold underline decoration-brand-gold/70"
+                ? "text-brand-gold underline decoration-brand-gold/70 font-semibold"
                 : "text-white/90 hover:text-white hover:underline decoration-brand-gold/40")
             }
           >

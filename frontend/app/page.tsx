@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { ShieldCheck, BarChart3, Target } from "lucide-react";
 import { siteContent } from "./lib/siteContent";
 import { featuredSystemsProjects } from "./lib/projectsData";
 import { fadeUp, fadeIn } from "./lib/motion";
 import OperatingSystemDashboard from "./components/OperatingSystemDashboard";
-import { CHIP_CLASSES } from "./lib/ui";
+import Pill from "./components/ui/Pill";
 
 const RISK_LENS_ITEMS = [
   "Where does discretion live?",
@@ -72,6 +73,24 @@ function getPerformanceAreaPathD() {
   return `${linePart} L ${last.x} ${PLOT.bottom} L ${x0} ${PLOT.bottom} Z`;
 }
 
+function truncateText(text: string, max = 60) {
+  const t = text.trim();
+  if (t.length <= max) return t;
+  const hard = t.slice(0, Math.max(0, max - 1));
+  const lastSpace = hard.lastIndexOf(" ");
+  const soft = lastSpace > 30 ? hard.slice(0, lastSpace) : hard;
+  return `${soft.trimEnd()}…`;
+}
+
+function slugifyProjectTitle(title: string) {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/['"]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
 const SYSTEM_VIEW_MAP: Record<
   string,
   { title: string; subtitle: string; bullets: [string, string, string] }
@@ -114,6 +133,15 @@ const SYSTEM_VIEW_MAP: Record<
   },
 };
 
+const EVIDENCE_CUE: Record<string, string> = {
+  "Fin Bomb Internal Controls Exhibit (COSO Framework)":
+    "Evidence: mapped risks + owner + screenshots",
+  "Amazon 10-K Accounting Analysis": "Evidence: note references + reconciliations",
+  "Power BI Profitability Dashboard (Beverage Dataset)":
+    "Evidence: model + measures + visuals",
+  "AI Club Finance System Concept": "Evidence: budget model + approval controls",
+};
+
 function getUniqueTags(projects: typeof featuredSystemsProjects) {
   const set = new Set<string>();
   projects.forEach((p) => p.tags.forEach((t) => set.add(t)));
@@ -126,12 +154,8 @@ export default function Home() {
   const [expandedMilestoneIndex, setExpandedMilestoneIndex] = useState<number | null>(null);
   const [systemTagFilter, setSystemTagFilter] = useState<string | null>(null);
   const [riskChecked, setRiskChecked] = useState<boolean[]>(() => RISK_LENS_ITEMS.map(() => false));
-  const [metricValues, setMetricValues] = useState<number[]>(() =>
-    siteContent.metrics.map(() => 0)
-  );
-  const [metricsVisible, setMetricsVisible] = useState(false);
-  const metricsRef = useRef<HTMLDivElement>(null);
-  const metricsAnimated = useRef(false);
+  const [emailCopied, setEmailCopied] = useState(false);
+  const copyEmailTimerRef = useRef<number | null>(null);
   const [graphLineVisible, setGraphLineVisible] = useState(false);
   const graphRef = useRef<HTMLDivElement>(null);
   const graphAnimated = useRef(false);
@@ -149,19 +173,40 @@ export default function Home() {
       : featuredSystemsProjects.filter((p) => p.tags.includes(systemTagFilter));
 
   useEffect(() => {
-    const el = metricsRef.current;
-    if (!el || metricsAnimated.current) return;
-    const obs = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) {
-          setMetricsVisible(true);
-          metricsAnimated.current = true;
-        }
-      },
-      { threshold: 0.2 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
+    return () => {
+      if (copyEmailTimerRef.current != null) {
+        window.clearTimeout(copyEmailTimerRef.current);
+        copyEmailTimerRef.current = null;
+      }
+    };
+  }, []);
+
+  const handleCopyEmail = useCallback(async () => {
+    const email = "Myles.D.Goodrich@gmail.com";
+    try {
+      await navigator.clipboard.writeText(email);
+    } catch {
+      // Fallback for older browsers / restricted contexts.
+      const textarea = document.createElement("textarea");
+      textarea.value = email;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      textarea.style.top = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+    }
+
+    setEmailCopied(true);
+    if (copyEmailTimerRef.current != null) {
+      window.clearTimeout(copyEmailTimerRef.current);
+    }
+    copyEmailTimerRef.current = window.setTimeout(() => {
+      setEmailCopied(false);
+      copyEmailTimerRef.current = null;
+    }, 1200);
   }, []);
 
   useEffect(() => {
@@ -203,6 +248,7 @@ export default function Home() {
 
   useEffect(() => {
     if (hoveredPointIndex === null) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTooltipPosition(null);
       return;
     }
@@ -214,24 +260,6 @@ export default function Home() {
       y: 12,
     });
   }, [hoveredPointIndex]);
-
-  useEffect(() => {
-    if (!metricsVisible) return;
-    const targets = siteContent.metrics.map((m) => m.value);
-    const duration = 1200;
-    const start = performance.now();
-    let rafId: number;
-    const tick = (now: number) => {
-      const t = Math.min((now - start) / duration, 1);
-      const ease = 1 - (1 - t) * (1 - t);
-      setMetricValues(
-        targets.map((target) => Math.round(ease * target))
-      );
-      if (t < 1) rafId = requestAnimationFrame(tick);
-    };
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  }, [metricsVisible]);
 
   const selectedValue =
     selectedValueIndex != null
@@ -252,13 +280,82 @@ export default function Home() {
       >
         <div className="space-y-5">
           <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            Internal Audit mindset. Guard discipline. Built through persistence.
+            Built on structure. Tested by pressure.
+            <span className="mt-2 block text-base font-normal text-muted-2 sm:text-lg">
+              Accounting, risk, and control systems at LSU • Louisiana National Guard
+            </span>
           </h1>
           <p className="max-w-xl text-base leading-7 text-muted">
-            I'm an Accounting student at LSU pursuing the CIA & CRM Internal
-            Audit minor. I like work that is testable, evidence-based, and built
-            to scale.
+            I design controls, analytics, and documentation so work holds up under scrutiny.
           </p>
+          {/* Signal Bar */}
+          <div className="mt-6 grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]">
+            {/* MOMENTUM */}
+            <div className="relative h-full min-w-0 rounded-xl border border-border bg-surface/70 p-3.5">
+              <div className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-brand-gold/50" />
+              <div className="flex items-start gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-surface-2 text-white/70">
+                  {/* keep your existing icon here if you have one */}
+                  ↗
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-white/70 whitespace-normal leading-tight">
+                    Momentum
+                  </p>
+                  <p className="mt-0.5 text-sm font-semibold text-foreground leading-snug sm:text-base">
+                    GPA 3.9
+                  </p>
+                  <p className="mt-0.5 text-xs leading-snug text-white/55">
+                    Dean’s List trend
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* EVIDENCE */}
+            <div className="relative h-full min-w-0 rounded-xl border border-border bg-surface/70 p-3.5">
+              <div className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-brand-purple/50" />
+              <div className="flex items-start gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-surface-2 text-white/70">
+                  {/* keep your existing icon here if you have one */}
+                  📄
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-white/70 whitespace-normal leading-tight">
+                    Evidence
+                  </p>
+                  <p className="mt-0.5 text-sm font-semibold text-foreground leading-snug sm:text-base">
+                    31 Controls
+                  </p>
+                  <p className="mt-0.5 text-xs leading-snug text-white/55">
+                    COSO-mapped exhibit
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* STANDARDS */}
+            <div className="relative h-full min-w-0 rounded-xl border border-border bg-surface/70 p-3.5">
+              <div className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-brand-gold/50" />
+              <div className="flex items-start gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-surface-2 text-white/70">
+                  {/* keep your existing icon here if you have one */}
+                  🛡️
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-white/70 whitespace-normal leading-tight">
+                    Standards
+                  </p>
+                  <p className="mt-0.5 text-sm font-semibold text-foreground leading-snug sm:text-base">
+                    PFC
+                  </p>
+                  <p className="mt-0.5 text-xs leading-snug text-white/55">
+                    Louisiana National Guard
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="flex flex-wrap gap-3 pt-2">
             <Link
               href="/projects"
@@ -273,18 +370,68 @@ export default function Home() {
               Contact
             </a>
           </div>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              href="/projects#fin-bomb-internal-controls-exhibit-coso-framework"
+              className="text-sm font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            >
+              View controls exhibit &rarr;
+            </Link>
+            <Link
+              href="/projects#amazon-10-k-accounting-analysis"
+              className="text-sm font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            >
+              See the 10-K outline &rarr;
+            </Link>
+            <Link
+              href="/performance#record"
+              className="text-sm font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            >
+              See performance record &rarr;
+            </Link>
+            <Link
+              href="/journey#reset"
+              className="text-sm font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            >
+              Read the reset &rarr;
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <Link
+              href="/journey"
+              className="rounded-2xl border border-border bg-surface/70 px-4 py-3 text-left text-sm text-muted transition hover:border-brand-gold/50 hover:bg-surface hover:shadow-md hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
+            >
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-2">
+                Read the rebuild &rarr;
+              </p>
+              <p className="mt-1 text-sm text-muted">
+                From volatility to control.
+              </p>
+            </Link>
+            <Link
+              href="/performance"
+              className="rounded-2xl border border-border bg-surface/70 px-4 py-3 text-left text-sm text-muted transition hover:border-brand-gold/50 hover:bg-surface hover:shadow-md hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
+            >
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-2">
+                See the record &rarr;
+              </p>
+              <p className="mt-1 text-sm text-muted">
+                Measured over semesters.
+              </p>
+            </Link>
+          </div>
         </div>
 
         {/* Identity Card */}
-        <div className="lsu-card border-brand-purple/20">
+        <div className="lsu-card border-brand-purple/25">
           <div className="flex gap-1 border-b border-border pb-3">
             <button
               type="button"
               onClick={() => setIdentityTab("guard")}
               className={`rounded-xl border px-4 py-2 text-sm font-medium transition ${
                 identityTab === "guard"
-                  ? "bg-brand-gold text-black border-brand-gold"
-                  : "bg-surface text-muted border-border hover:bg-surface-2"
+                  ? "bg-brand-gold text-black border-brand-gold/60 shadow-[0_0_0_1px_rgba(253,208,35,0.4)]"
+                  : "bg-surface text-foreground/85 border-border hover:bg-surface-2"
               }`}
             >
               National Guard
@@ -294,8 +441,8 @@ export default function Home() {
               onClick={() => setIdentityTab("comeback")}
               className={`rounded-xl border px-4 py-2 text-sm font-medium transition ${
                 identityTab === "comeback"
-                  ? "bg-brand-gold text-black border-brand-gold"
-                  : "bg-surface text-muted border-border hover:bg-surface-2"
+                  ? "bg-brand-gold text-black border-brand-gold/60 shadow-[0_0_0_1px_rgba(253,208,35,0.4)]"
+                  : "bg-surface text-foreground/85 border-border hover:bg-surface-2"
               }`}
             >
               Academic Comeback
@@ -309,22 +456,18 @@ export default function Home() {
                 </p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {siteContent.service.values.map((v, i) => (
-                    <button
+                    <Pill
                       key={v.label}
-                      type="button"
+                      as="button"
+                      active={selectedValueIndex === i}
                       onClick={() =>
                         setSelectedValueIndex(
                           selectedValueIndex === i ? null : i,
                         )
                       }
-                      className={`${CHIP_CLASSES.base} ${
-                        selectedValueIndex === i
-                          ? CHIP_CLASSES.filterActive
-                          : CHIP_CLASSES.filterInactive
-                      }`}
                     >
                       {v.label}
-                    </button>
+                    </Pill>
                   ))}
                 </div>
               </>
@@ -343,105 +486,6 @@ export default function Home() {
       </motion.section>
 
       <OperatingSystemDashboard />
-
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent" />
-
-      {/* Values in Action */}
-      <motion.section
-        aria-labelledby="values-heading"
-        className="space-y-4"
-        variants={fadeUp}
-        initial="initial"
-        animate="animate"
-      >
-        <h2
-          id="values-heading"
-          className="text-xl font-semibold tracking-tight text-foreground"
-        >
-          Values in Action
-        </h2>
-        <p className="text-sm text-muted">
-          Click a value to see how it shows up in my work.
-        </p>
-        <div className="lsu-card">
-          <div className="flex flex-wrap gap-2">
-            {siteContent.service.values.map((v, i) => (
-              <button
-                key={v.label}
-                type="button"
-                onClick={() =>
-                  setSelectedValueIndex(
-                    selectedValueIndex === i ? null : i,
-                  )
-                }
-                className={`${CHIP_CLASSES.base} ${
-                  selectedValueIndex === i
-                    ? CHIP_CLASSES.filterActive
-                    : CHIP_CLASSES.filterInactive
-                }`}
-              >
-                {v.label}
-              </button>
-            ))}
-          </div>
-          {selectedValue != null && (
-            <p className="mt-4 border-t border-border pt-4 text-sm leading-7 text-muted">
-              {selectedValue.description}
-            </p>
-          )}
-        </div>
-      </motion.section>
-
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
-
-      {/* Academic Comeback Timeline */}
-      <motion.section
-        aria-labelledby="comeback-heading"
-        className="space-y-4"
-        variants={fadeUp}
-        initial="initial"
-        animate="animate"
-      >
-        <h2
-          id="comeback-heading"
-          className="text-xl font-semibold tracking-tight text-foreground"
-        >
-          Academic Comeback Timeline
-        </h2>
-        <p className="text-sm text-muted">
-          A rough start taught me how to build systems and improve consistently.
-        </p>
-        <div className="space-y-3">
-          {siteContent.comeback.milestones.map((m, i) => (
-            <div
-              key={m.year}
-              className="lsu-card"
-            >
-              <button
-                type="button"
-                onClick={() =>
-                  setExpandedMilestoneIndex(expandedMilestoneIndex === i ? null : i)
-                }
-                className="flex w-full items-center justify-between gap-4 text-left"
-              >
-                <span className="text-xs font-medium text-muted-2">{m.year}</span>
-                <span className="font-medium text-foreground">{m.title}</span>
-                <span
-                  className="text-brand-purple transition-transform"
-                  aria-hidden
-                >
-                  {expandedMilestoneIndex === i ? "−" : "+"}
-                </span>
-              </button>
-              {expandedMilestoneIndex === i && (
-                <p className="mt-3 border-t border-border pt-3 text-sm leading-7 text-muted">
-                  {m.detail}
-                </p>
-              )}
-            </div>
-          ))}
-        </div>
-      </motion.section>
 
       <div className="my-12 h-px w-full bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent" />
 
@@ -632,43 +676,106 @@ export default function Home() {
 
       <div className="my-12 h-px w-full bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent" />
 
-      {/* Proof (metrics) */}
+      {/* Evidence Trail */}
       <motion.section
-        aria-labelledby="proof-heading"
+        aria-labelledby="evidence-heading"
         className="space-y-4"
         variants={fadeUp}
         initial="initial"
         animate="animate"
       >
         <h2
-          id="proof-heading"
-          className="text-xl font-semibold tracking-tight text-foreground"
+          id="evidence-heading"
+          className="text-2xl font-semibold tracking-tight text-foreground"
         >
-          Proof
+          Evidence Trail
         </h2>
         <p className="text-sm text-muted">
-          A few numbers that summarize the kind of work I like to do.
+          Receipts, not stats — what I built, how it’s validated, and where to review it.
         </p>
-        <div
-          ref={metricsRef}
-          className="grid gap-6 sm:grid-cols-3"
-        >
-          {siteContent.metrics.map((m, i) => (
-            <div
-              key={m.label}
-              className="lsu-card text-center"
-            >
-              <p className="text-3xl font-semibold tabular-nums text-brand-purple">
-                {metricValues[i]}
-                {m.suffix}
+        <div className="grid gap-6 sm:grid-cols-3">
+          <div className="lsu-card relative group">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 rounded-full bg-brand-gold/0 transition-colors group-hover:bg-brand-gold" />
+            <div className="flex items-start justify-between gap-4">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted sm:text-xs">
+                Controls
               </p>
-              <p className="mt-1 text-sm text-muted">{m.label}</p>
+              <ShieldCheck className="h-5 w-5 text-brand-gold/70" aria-hidden />
             </div>
-          ))}
+            <p className="mt-2 text-base font-semibold text-foreground">
+              31 Controls Documented
+            </p>
+            <ul className="mt-3 list-inside list-disc space-y-2 text-sm text-muted">
+              <li>31 controls mapped to specific risks + owners</li>
+              <li>Evidence trail defined (what proves execution)</li>
+              <li>Risk ratings assigned and gaps identified</li>
+            </ul>
+            <p className="mt-3 text-xs text-muted-2">
+              Structured using COSO framework principles.
+            </p>
+            <Link
+              href="/projects"
+              className="mt-3 inline-flex text-xs font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            >
+              See controls
+            </Link>
+          </div>
+
+          <div className="lsu-card relative group">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 rounded-full bg-brand-gold/0 transition-colors group-hover:bg-brand-gold" />
+            <div className="flex items-start justify-between gap-4">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted sm:text-xs">
+                Analytics
+              </p>
+              <BarChart3 className="h-5 w-5 text-brand-purple/70" aria-hidden />
+            </div>
+            <p className="mt-2 text-base font-semibold text-foreground">
+              Dashboards &amp; KPI Definitions
+            </p>
+            <ul className="mt-3 list-inside list-disc space-y-2 text-sm text-muted">
+              <li>KPI definitions tied to decision use</li>
+              <li>Metrics standardized for repeat reporting</li>
+              <li>Dashboards built for executive clarity</li>
+            </ul>
+            <p className="mt-3 text-xs text-muted-2">
+              Built in Power BI + Excel modeling.
+            </p>
+            <Link
+              href="/projects"
+              className="mt-3 inline-flex text-xs font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            >
+              See dashboards
+            </Link>
+          </div>
+
+          <div className="lsu-card relative group">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 rounded-full bg-brand-gold/0 transition-colors group-hover:bg-brand-gold" />
+            <div className="flex items-start justify-between gap-4">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted sm:text-xs">
+                Execution
+              </p>
+              <Target className="h-5 w-5 text-brand-gold/70" aria-hidden />
+            </div>
+            <p className="mt-2 text-base font-semibold text-foreground">
+              Repeatable Improvement
+            </p>
+            <ul className="mt-3 list-inside list-disc space-y-2 text-sm text-muted">
+              <li>Weekly planning system implemented</li>
+              <li>Semester-over-semester performance tracked</li>
+              <li>Variability reduced by design</li>
+            </ul>
+            <p className="mt-3 text-xs text-muted-2">
+              Measured across academic + Guard workload.
+            </p>
+            <Link
+              href="/performance"
+              className="mt-3 inline-flex text-xs font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            >
+              See record
+            </Link>
+          </div>
         </div>
       </motion.section>
-
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
 
       {/* Leadership, Training, Quick Facts */}
       <motion.section
@@ -738,47 +845,51 @@ export default function Home() {
           <div>
             <h2
               id="systems-heading"
-              className="text-xl font-semibold tracking-tight text-foreground"
+              className="text-xl font-bold tracking-tighter text-foreground"
             >
               Systems I've Built
             </h2>
-            <p className="mt-1 text-sm text-muted">
+            <p className="mt-1 text-xs text-muted-2 leading-snug">
               Projects that reflect my internal-audit mindset: structure,
               controls, evidence, and clear reporting.
             </p>
           </div>
           <Link
             href="/projects"
-            className="text-sm font-medium text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            className="text-sm font-medium text-brand-gold underline underline-offset-4 decoration-brand-gold/70 hover:decoration-brand-gold hover:[&>span]:translate-x-0.5 transition-all duration-200 inline-flex items-center gap-1"
           >
-            View all
+            View all <span aria-hidden>→</span>
           </Link>
         </div>
         <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
+          <Pill
+            as="button"
+            active={systemTagFilter == null}
             onClick={() => setSystemTagFilter(null)}
-            className={`${CHIP_CLASSES.base} ${
+            size="sm"
+            className={
               systemTagFilter == null
-                ? CHIP_CLASSES.filterActive
-                : CHIP_CLASSES.filterInactive
-            }`}
+                ? "!bg-brand-gold !text-black !border-brand-gold/60"
+                : "!border-border/60 !bg-surface-2/90 !text-foreground/80 py-1.5 px-2.5 hover:!border-brand-gold hover:shadow-[0_0_12px_rgba(253,208,35,0.12)]"
+            }
           >
             All
-          </button>
-          {uniqueTags.map((tag, idx) => (
-            <button
+          </Pill>
+          {uniqueTags.map((tag) => (
+            <Pill
               key={tag}
-              type="button"
+              as="button"
+              active={systemTagFilter === tag}
               onClick={() => setSystemTagFilter(tag)}
-              className={`${CHIP_CLASSES.base} ${
+              size="sm"
+              className={
                 systemTagFilter === tag
-                  ? CHIP_CLASSES.filterActive
-                  : CHIP_CLASSES.filterInactive
-              }`}
+                  ? "!bg-brand-gold !text-black !border-brand-gold/60"
+                  : "!border-border/60 !bg-surface-2/90 !text-foreground/80 py-1.5 px-2.5 hover:!border-brand-gold hover:shadow-[0_0_12px_rgba(253,208,35,0.12)]"
+              }
             >
               {tag}
-            </button>
+            </Pill>
           ))}
         </div>
 
@@ -787,7 +898,7 @@ export default function Home() {
             Two Ways to View My Work
           </h3>
           <p className="text-sm text-muted">
-            I don't just complete projects. I build repeatable systems.
+            I don&rsquo;t just complete projects. I build systems that can be tested and reused.
           </p>
           <div className="flex gap-1">
             <button
@@ -795,7 +906,7 @@ export default function Home() {
               onClick={() => setWorkView("project")}
               className={`rounded-xl border px-4 py-2 text-sm font-medium transition ${
                 workView === "project"
-                  ? "bg-brand-gold text-black border-brand-gold"
+                  ? "bg-brand-gold text-black border-brand-gold/60"
                   : "bg-surface text-muted border-border hover:bg-surface-2"
               }`}
             >
@@ -806,7 +917,7 @@ export default function Home() {
               onClick={() => setWorkView("system")}
               className={`rounded-xl border px-4 py-2 text-sm font-medium transition ${
                 workView === "system"
-                  ? "bg-brand-gold text-black border-brand-gold"
+                  ? "bg-brand-gold text-black border-brand-gold/60"
                   : "bg-surface text-muted border-border hover:bg-surface-2"
               }`}
             >
@@ -818,47 +929,115 @@ export default function Home() {
         <div className="grid gap-6 sm:grid-cols-2">
           {filteredSystems.map((project) => {
             const systemView = SYSTEM_VIEW_MAP[project.title];
+            const projectOutcome = truncateText(
+              project.highlights?.[0]?.trim()
+                ? project.highlights[0]
+                : project.description
+            );
+            const evidenceCue = EVIDENCE_CUE[project.title];
+            const anchorId = slugifyProjectTitle(project.title);
+            const projectHref = `/projects#${anchorId}`;
             return (
               <article
                 key={project.title}
-                className="lsu-card"
+                className="lsu-card group relative min-w-0 overflow-hidden border-border bg-surface transition-all duration-[220ms] ease-out hover:-translate-y-0.5 hover:border-brand-gold hover:bg-surface/95 hover:shadow-lg motion-reduce:hover:translate-y-0 motion-reduce:transition-none"
               >
+                <div className="absolute left-0 top-5 bottom-5 w-0.5 bg-brand-purple/35 transition-colors group-hover:bg-brand-gold/40" />
                 {workView === "project" ? (
-                  <div key="project" className="lsu-card-inner">
-                    <h3 className="text-base font-semibold tracking-tight text-foreground">
+                  <div key="project" className="lsu-card-inner min-w-0 pl-2">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="relative -top-0.5 inline-flex items-center rounded-full border border-border/70 bg-surface-2 px-2 py-0.5 text-xs font-semibold leading-none tracking-wide text-muted">
+                        PROJECT
+                      </span>
+                      <span className="sr-only">Project view</span>
+                    </div>
+                    <h3 className="mt-1 text-lg font-bold tracking-tight text-foreground">
                       {project.title}
                     </h3>
-                    <p className="mt-2 text-sm text-muted">
-                      {project.description}
+                    <p className="mt-1.5 text-sm font-medium text-foreground/90">
+                      Outcome: {projectOutcome}
                     </p>
                     {project.highlights.length > 0 && (
-                      <ul className="mt-3 list-inside list-disc space-y-1 text-sm text-muted">
-                        {project.highlights.map((h) => (
-                          <li key={h}>{h}</li>
-                        ))}
-                      </ul>
+                      <div className="mt-3 space-y-1.5">
+                        <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-2">
+                          Inputs → Process → Output
+                        </p>
+                        <ul className="list-inside list-disc space-y-1 text-xs text-muted leading-relaxed">
+                          {project.highlights.map((h) => (
+                            <li key={h}>{h}</li>
+                          ))}
+                        </ul>
+                      </div>
                     )}
+                    {evidenceCue && (
+                      <p className="mt-3 text-xs text-muted-2">{evidenceCue}</p>
+                    )}
+                    <Link
+                      href={projectHref}
+                      className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-brand-gold decoration-brand-gold/80 underline-offset-2 hover:underline [&>span]:inline-block [&>span]:transition-transform duration-200 hover:[&>span]:translate-x-0.5"
+                    >
+                      See project <span aria-hidden>→</span>
+                    </Link>
                   </div>
                 ) : systemView ? (
-                  <div key="system" className="lsu-card-inner">
-                    <h3 className="text-base font-semibold tracking-tight text-foreground">
+                  <div key="system" className="lsu-card-inner min-w-0 pl-2">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="inline-flex items-center rounded-full border border-border/70 bg-surface-2 px-2 py-0.5 text-xs font-semibold tracking-wide text-muted">
+                        SYSTEM
+                      </span>
+                      <span className="inline-flex items-center rounded-full border border-brand-gold/25 bg-brand-gold/10 px-2 py-0.5 text-xs font-semibold text-muted">
+                        Evidence-ready
+                      </span>
+                    </div>
+                    <h3 className="mt-1 text-lg font-bold tracking-tight text-foreground">
                       {systemView.title}
                     </h3>
-                    <p className="mt-1 text-sm text-muted-2">
-                      {systemView.subtitle}
+                    <p className="mt-1.5 text-sm font-medium text-foreground/90">
+                      Outcome: {systemView.subtitle}
                     </p>
-                    <ul className="mt-3 list-inside list-disc space-y-1 text-sm text-muted">
-                      {systemView.bullets.map((b) => (
-                        <li key={b}>{b}</li>
-                      ))}
-                    </ul>
+                    <div className="mt-3 space-y-1.5">
+                      <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-2">
+                        Inputs → Process → Output
+                      </p>
+                      <ul className="list-inside list-disc space-y-1 text-xs text-muted leading-relaxed">
+                        {systemView.bullets.map((b) => (
+                          <li key={b}>{b}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    {evidenceCue && (
+                      <p className="mt-3 text-xs text-muted-2">{evidenceCue}</p>
+                    )}
+                    <Link
+                      href={projectHref}
+                      className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-brand-gold decoration-brand-gold/80 underline-offset-2 hover:underline [&>span]:inline-block [&>span]:transition-transform duration-200 hover:[&>span]:translate-x-0.5"
+                    >
+                      See system <span aria-hidden>→</span>
+                    </Link>
                   </div>
                 ) : (
-                  <div key="fallback" className="lsu-card-inner text-sm text-muted">
-                    <h3 className="text-base font-semibold text-foreground">
+                  <div key="fallback" className="lsu-card-inner min-w-0 pl-2 text-sm text-muted">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="relative -top-0.5 inline-flex items-center rounded-full border border-border/70 bg-surface-2 px-2 py-0.5 text-xs font-semibold leading-none tracking-wide text-muted">
+                        PROJECT
+                      </span>
+                      <span className="sr-only">Fallback view</span>
+                    </div>
+                    <h3 className="mt-1 text-lg font-bold text-foreground">
                       {project.title}
                     </h3>
-                    <p className="mt-2">{project.description}</p>
+                    <p className="mt-1.5 font-medium text-foreground/90">
+                      Outcome: {projectOutcome}
+                    </p>
+                    {evidenceCue && (
+                      <p className="mt-3 text-xs text-muted-2">{evidenceCue}</p>
+                    )}
+                    <Link
+                      href={projectHref}
+                      className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-brand-gold decoration-brand-gold/80 underline-offset-2 hover:underline [&>span]:inline-block [&>span]:transition-transform duration-200 hover:[&>span]:translate-x-0.5"
+                    >
+                      See project <span aria-hidden>→</span>
+                    </Link>
                   </div>
                 )}
               </article>
@@ -976,27 +1155,144 @@ export default function Home() {
 
       <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
 
-      {/* Contact */}
+      {/* Operating Principles */}
       <motion.section
-        aria-labelledby="contact-heading"
+        aria-labelledby="principles-heading"
+        className="relative pl-5"
+        variants={fadeUp}
+        initial="initial"
+        animate="animate"
+      >
+        <div
+          className="absolute left-0 top-0 bottom-0 w-px bg-brand-gold/25"
+          aria-hidden
+        />
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-2">
+          PERSONAL DOCTRINE
+        </p>
+        <h2
+          id="principles-heading"
+          className="mt-2 text-xl font-semibold tracking-tight text-foreground"
+        >
+          Operating Principles
+        </h2>
+        <p className="mt-1 text-sm text-muted-2/90">
+          The rules I build and operate by — quietly consistent and traceable.
+        </p>
+        <div className="mt-8 grid grid-cols-1 gap-x-12 md:grid-cols-2">
+          <div className="flex flex-col space-y-4">
+            {[
+              "If it can’t be tested, it isn’t complete.",
+              "Clarity beats intensity.",
+              "Structure reduces emotion.",
+              "Reduce variability before chasing growth.",
+            ].map((principle) => (
+              <p
+                key={principle}
+                className="text-base font-medium leading-snug text-foreground"
+              >
+                {principle}
+              </p>
+            ))}
+          </div>
+          <div className="flex flex-col space-y-4 md:mt-0">
+            {[
+              "Build systems that hold under stress.",
+              "Measure what matters. Ignore the rest.",
+              "Consistency compounds.",
+            ].map((principle) => (
+              <p
+                key={principle}
+                className="text-base font-medium leading-snug text-foreground"
+              >
+                {principle}
+              </p>
+            ))}
+          </div>
+        </div>
+        <p className="mt-10 text-center text-sm text-muted-2">
+          Consistency compounds. Systems endure.
+        </p>
+      </motion.section>
+
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
+
+      {/* From Volatility to Control */}
+      <motion.section
+        aria-labelledby="volatility-heading"
         className="lsu-card"
-        variants={fadeIn}
+        variants={fadeUp}
         initial="initial"
         animate="animate"
       >
         <h2
-          id="contact-heading"
+          id="volatility-heading"
           className="text-lg font-semibold tracking-tight text-foreground"
+        >
+          From Volatility to Control
+        </h2>
+        <p className="mt-3 text-sm leading-7 text-muted">
+          The record began with volatility. It was redesigned through structure. The result:
+          controlled performance.
+        </p>
+      </motion.section>
+
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
+
+      {/* Contact */}
+      <motion.section
+        aria-labelledby="contact-heading"
+        className="lsu-card transition hover:-translate-y-0.5 hover:shadow-lg motion-reduce:hover:translate-y-0"
+        variants={fadeIn}
+        initial="initial"
+        animate="animate"
+      >
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-2">
+          LET&rsquo;S CONNECT
+        </p>
+        <h2
+          id="contact-heading"
+          className="mt-2 text-xl font-semibold tracking-tight text-foreground"
         >
           Contact
         </h2>
-        <p className="mt-4 text-sm text-muted">{siteContent.email}</p>
+        <p className="mt-2 text-sm text-muted">
+          If you value structure, clarity, and evidence-driven work — I’d be glad to connect.
+        </p>
+        <p className="mt-5 text-sm text-muted">{siteContent.email}</p>
         <p className="mt-1 text-sm text-muted">{siteContent.location}</p>
-        <div className="mt-6">
-          <a href={`mailto:${siteContent.email}`} className="lsu-btn-gold">
+        <div className="mt-8 flex flex-wrap gap-3">
+          <a
+            href={`mailto:${siteContent.email}`}
+            className="lsu-btn-gold px-6 py-2.5 text-sm sm:text-base"
+          >
             Email me
           </a>
+          <a
+            href="https://www.linkedin.com/in/myles-goodrich/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center justify-center rounded-full border border-border bg-surface px-5 py-2 text-sm font-semibold text-foreground transition hover:border-brand-gold hover:text-brand-gold hover:-translate-y-0.5 hover:shadow-md motion-reduce:hover:translate-y-0"
+          >
+            <span>LinkedIn</span>
+            <span
+              aria-hidden
+              className="ml-1 inline-block transition-transform group-hover:translate-x-0.5"
+            >
+              ↗
+            </span>
+          </a>
+          <button
+            type="button"
+            onClick={handleCopyEmail}
+            className="group inline-flex items-center justify-center rounded-full border border-brand-gold/50 bg-surface px-5 py-2 text-sm font-semibold text-muted transition hover:border-brand-gold hover:text-brand-gold hover:-translate-y-0.5 hover:shadow-md motion-reduce:hover:translate-y-0"
+          >
+            <span>{emailCopied ? "Copied" : "Copy email"}</span>
+          </button>
         </div>
+        <p className="mt-3 text-xs text-muted-2">
+          Open to audit, controls, analytics, and leadership opportunities.
+        </p>
       </motion.section>
     </div>
   );

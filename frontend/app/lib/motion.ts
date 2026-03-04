@@ -1,6 +1,9 @@
-import type { Variants } from "framer-motion";
+import type { Transition, Variants } from "framer-motion";
 
-const defaultTransition = { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] };
+const defaultTransition: Transition = {
+  duration: 0.4,
+  ease: "easeOut",
+};
 
 /** Simple fade in (opacity only). */
 export const fadeIn: Variants = {

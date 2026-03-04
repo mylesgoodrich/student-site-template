@@ -121,7 +121,9 @@ function PerformanceTrendChart() {
             }}
             labelStyle={{ color: CHART_COLORS.tooltipLabel, fontWeight: 600 }}
             itemStyle={{ color: "rgba(255,255,255,0.85)", fontSize: 13 }}
-            formatter={(value: number) => [value.toFixed(2), "GPA"]}
+            formatter={(value?: number) =>
+              typeof value === "number" ? [value.toFixed(2), "GPA"] : ["", "GPA"]
+            }
             labelFormatter={(label) => `${label}`}
             cursor={{ stroke: CHART_COLORS.grid, strokeWidth: 1 }}
           />
@@ -156,7 +158,7 @@ export default function OperatingSystemDashboard() {
           Operating System
         </h2>
         <p className="mt-1 text-sm text-white/80">
-          Structure. Evidence. Repeatable execution.
+          How I structure work so it holds up under review.
         </p>
       </header>
 
@@ -165,7 +167,7 @@ export default function OperatingSystemDashboard() {
         {KPI_CARDS.map((kpi, i) => (
           <motion.div
             key={kpi.label}
-            className="flex items-start gap-3 rounded-xl border border-[rgba(253,208,35,0.15)] bg-[#1a1820] p-6"
+            className="flex items-start gap-3 rounded-xl border border-[rgba(253,208,35,0.12)] bg-[#1a1820] p-6"
             variants={fadeUp}
             initial="initial"
             animate="animate"
@@ -191,7 +193,7 @@ export default function OperatingSystemDashboard() {
       {/* Row 2: Chart + Audit Mindset */}
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <motion.div
-          className="rounded-xl border border-[rgba(253,208,35,0.15)] bg-[#1a1820] p-6"
+          className="rounded-xl border border-[rgba(253,208,35,0.12)] bg-[#1a1820] p-6"
           variants={fadeUp}
           initial="initial"
           animate="animate"
@@ -208,7 +210,7 @@ export default function OperatingSystemDashboard() {
         </motion.div>
 
         <motion.div
-          className="rounded-xl border border-[rgba(253,208,35,0.15)] bg-[#1a1820] p-6"
+          className="rounded-xl border border-[rgba(253,208,35,0.12)] bg-[#1a1820] p-6"
           variants={fadeUp}
           initial="initial"
           animate="animate"
@@ -223,7 +225,7 @@ export default function OperatingSystemDashboard() {
             {AUDIT_MINDSET.map((item, i) => (
               <motion.div
                 key={item.label}
-                className="flex flex-1 min-w-[100px] items-center gap-2 rounded-xl border border-[rgba(253,208,35,0.12)] bg-[#0f0e12] px-3 py-2.5"
+                className="flex flex-1 min-w-[100px] items-center gap-2 rounded-xl border border-[rgba(253,208,35,0.1)] bg-[#0f0e12] px-3 py-2.5"
                 whileHover={{ y: -2, transition: { duration: 0.15 } }}
               >
                 <item.icon

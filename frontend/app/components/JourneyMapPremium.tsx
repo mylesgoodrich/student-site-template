@@ -221,6 +221,7 @@ export default function JourneyMapPremium() {
 
   useLayoutEffect(() => {
     if (!hoveredCheckpoint || !mapRef.current) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTooltipPlacement(null);
       return;
     }
@@ -229,8 +230,15 @@ export default function JourneyMapPremium() {
     const centerY = rect.height * hoveredCheckpoint.y;
     let left = centerX - TOOLTIP_MAX_WIDTH / 2;
     let top = centerY - TOOLTIP_EST_HEIGHT - 10;
-    left = Math.max(TOOLTIP_PADDING, Math.min(left, rect.width - TOOLTIP_MAX_WIDTH - TOOLTIP_PADDING));
-    top = Math.max(TOOLTIP_PADDING, Math.min(top, rect.height - TOOLTIP_EST_HEIGHT - TOOLTIP_PADDING));
+    left = Math.max(
+      TOOLTIP_PADDING,
+      Math.min(left, rect.width - TOOLTIP_MAX_WIDTH - TOOLTIP_PADDING)
+    );
+    top = Math.max(
+      TOOLTIP_PADDING,
+      Math.min(top, rect.height - TOOLTIP_EST_HEIGHT - TOOLTIP_PADDING)
+    );
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTooltipPlacement({ left, top });
   }, [hoveredCheckpoint]);
 
@@ -246,6 +254,7 @@ export default function JourneyMapPremium() {
   // Sync activeId when mode/checkpoints change; get path length once mounted
   useEffect(() => {
     if (!checkpoints.some((c) => c.id === activeId) && checkpoints[0]) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveId(checkpoints[0].id);
     }
   }, [mode, checkpoints, activeId]);
@@ -276,6 +285,7 @@ export default function JourneyMapPremium() {
   // Achievement unlock: when a checkpoint becomes active, unlock it once per session
   useEffect(() => {
     if (!activeId) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setUnlocked((prev) => {
       if (prev.has(activeId)) return prev;
       const next = new Set(prev);
