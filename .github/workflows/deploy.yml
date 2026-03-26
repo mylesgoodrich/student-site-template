@@ -27,22 +27,30 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
+            - name: Skip deploy (AWS not configured)
+              if: env.GITHUB_ACTIONS_ROLE_ARN == ''
+              run: echo "Deploy skipped. Add GITHUB_ACTIONS_ROLE_ARN (and other AWS secrets) in repo Settings to enable deploy." && exit 0
+
             - name: Configure AWS credentials
+              if: env.GITHUB_ACTIONS_ROLE_ARN != ''
               uses: aws-actions/configure-aws-credentials@v4
               with:
                   role-to-assume: ${{ env.GITHUB_ACTIONS_ROLE_ARN }}
                   aws-region: ${{ env.AWS_REGION }}
 
             - name: Set up Python
+              if: env.GITHUB_ACTIONS_ROLE_ARN != ''
               uses: actions/setup-python@v5
               with:
                   python-version: "3.11"
 
             - name: Install AWS CLI and CloudFormation dependencies
+              if: env.GITHUB_ACTIONS_ROLE_ARN != ''
               run: |
                   pip install boto3 awscli
 
             - name: Create or verify artifacts bucket
+              if: env.GITHUB_ACTIONS_ROLE_ARN != ''
               id: artifacts-bucket
               run: |
                   BUCKET_NAME="${PROJECT_NAME}-artifacts-$(aws sts get-caller-identity --query Account --output text)"
@@ -60,6 +68,7 @@ jobs:
                   echo "bucket_name=${BUCKET_NAME}" >> $GITHUB_OUTPUT
 
             - name: Create or verify ECR repository
+              if: env.GITHUB_ACTIONS_ROLE_ARN != ''
               id: ecr-repo
               run: |
                   REPO_NAME="${PROJECT_NAME}-backend"
@@ -79,6 +88,7 @@ jobs:
                   echo "repository_uri=${REPO_URI}" >> $GITHUB_OUTPUT
 
             - name: Upload CloudFormation templates to S3
+              if: env.GITHUB_ACTIONS_ROLE_ARN != ''
               run: |
                   aws s3 cp infrastructure/cloudformation/frontend-stack.yml \
                     "s3://${{ steps.artifacts-bucket.outputs.bucket_name }}/frontend-stack.yml"
@@ -86,6 +96,7 @@ jobs:
                     "s3://${{ steps.artifacts-bucket.outputs.bucket_name }}/backend-stack.yml"
 
             - name: Build and push Docker image
+              if: env.GITHUB_ACTIONS_ROLE_ARN != ''
               id: docker-build
               run: |
                   ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
@@ -123,6 +134,7 @@ jobs:
                     --no-fail-on-empty-changeset
 
             - name: Update ECS service with new image
+              if: env.GITHUB_ACTIONS_ROLE_ARN != ''
               run: |
                   CLUSTER_NAME="${PROJECT_NAME}-cluster"
                   SERVICE_NAME="${PROJECT_NAME}-service"
@@ -135,6 +147,7 @@ jobs:
                     --region ${AWS_REGION} || echo "Service update skipped (may not exist yet)"
 
             - name: Output deployment URLs
+              if: env.GITHUB_ACTIONS_ROLE_ARN != ''
               run: |
                   echo "## Deployment Complete 🚀" >> $GITHUB_STEP_SUMMARY
                   echo "" >> $GITHUB_STEP_SUMMARY
