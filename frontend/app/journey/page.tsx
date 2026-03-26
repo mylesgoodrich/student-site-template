@@ -6,6 +6,40 @@ import JourneyMapPremium from "../components/JourneyMapPremium";
 import TagPill from "../components/TagPill";
 import { getPostHref, posts, student } from "../lib/siteContent";
 
+const JOURNEY_HIGHLIGHT_LINKS: { phrase: string; href: string }[] = [
+  { phrase: "controls and dashboards", href: "/projects" },
+  { phrase: "rough start", href: getPostHref("from-rough-start-to-structured-comeback") },
+];
+
+function detailWithHighlightLinks(detail: string): (string | React.ReactElement)[] {
+  type Segment = string | React.ReactElement;
+  function split(
+    text: string,
+    highlights: { phrase: string; href: string }[],
+    keyPrefix: number
+  ): Segment[] {
+    if (!text) return [];
+    if (highlights.length === 0) return [text];
+    const { phrase, href } = highlights[0];
+    const idx = text.indexOf(phrase);
+    if (idx === -1) return split(text, highlights.slice(1), keyPrefix);
+    const before = text.slice(0, idx);
+    const after = text.slice(idx + phrase.length);
+    return [
+      ...split(before, highlights.slice(1), keyPrefix),
+      <Link
+        key={`${keyPrefix}-${phrase}`}
+        href={href}
+        className="lsu-highlight-link"
+      >
+        {phrase}
+      </Link>,
+      ...split(after, highlights, keyPrefix + 1),
+    ];
+  }
+  return split(detail, JOURNEY_HIGHLIGHT_LINKS, 0);
+}
+
 type JourneyEvent = {
   id: string;
   dateLabel: string;
@@ -252,7 +286,7 @@ export default function JourneyPage() {
                       type="button"
                       onClick={() => setActiveId(e.id)}
                       className={cn(
-                        "text-left rounded-3xl border px-4 py-4 transition hover:shadow-lg hover:-translate-y-0.5",
+                        "text-left rounded-3xl border px-4 py-4 transition hover:shadow-lg hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 motion-reduce:transition-none",
                         isActive
                           ? "border-brand-gold bg-brand-gold/15"
                           : "border-border bg-surface hover:bg-surface-2",
@@ -292,7 +326,7 @@ export default function JourneyPage() {
                 {active.title}
               </h2>
               <p className="mt-3 text-base leading-7 text-muted">
-                {active.detail}
+                {detailWithHighlightLinks(active.detail)}
               </p>
 
               <div className="mt-5 flex flex-wrap gap-2">

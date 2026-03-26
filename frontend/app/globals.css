@@ -5,19 +5,16 @@
   --brand-purple: #461d7c;
   --brand-gold: #fdd023;
 
-  /* Force dark UI as the only theme */
-  color-scheme: dark;
-
-  /* Base UI (dark mode) */
-  --background: #0b0713;
-  --foreground: #f5f2fb;
+  /* Base UI */
+  --background: #fbf7ff;
+  --foreground: #130e18;
 
   /* Surfaces + text */
-  --surface: rgba(255, 255, 255, 0.06);
-  --surface-2: rgba(255, 255, 255, 0.04);
-  --border: rgba(253, 208, 35, 0.22);
-  --muted: rgba(245, 242, 251, 0.88);
-  --muted-2: rgba(245, 242, 251, 0.74);
+  --surface: rgba(255, 255, 255, 0.78);
+  --surface-2: rgba(255, 255, 255, 0.6);
+  --border: rgba(70, 29, 124, 0.18);
+  --muted: rgba(19, 14, 24, 0.78);
+  --muted-2: rgba(19, 14, 24, 0.62);
 }
 
 @theme inline {
@@ -32,6 +29,19 @@
   --color-muted-2: var(--muted-2);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0b0713;
+    --foreground: #f5f2fb;
+
+    --surface: rgba(255, 255, 255, 0.06);
+    --surface-2: rgba(255, 255, 255, 0.04);
+    --border: rgba(253, 208, 35, 0.22);
+    --muted: rgba(245, 242, 251, 0.85);
+    --muted-2: rgba(245, 242, 251, 0.7);
+  }
 }
 
 body {
@@ -52,8 +62,18 @@ body {
 }
 
 @layer components {
+  /* First focusable: keyboard / SR jump to primary content */
+  .lsu-skip-link {
+    @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:inline-flex focus:min-h-[44px] focus:items-center focus:rounded-lg focus:border focus:border-brand-purple/40 focus:bg-brand-gold focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-brand-purple focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-background;
+  }
+
+  /* Footer & inline text links: ~44px touch + visible focus */
+  .lsu-footer-link {
+    @apply inline-flex min-h-[44px] items-center rounded-md px-2 py-1.5 outline-none transition focus-visible:ring-2 focus-visible:ring-brand-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
   .lsu-container {
-    @apply mx-auto w-full max-w-4xl px-6;
+    @apply mx-auto w-full max-w-4xl px-4 sm:px-6;
   }
 
   .lsu-surface {
@@ -61,7 +81,7 @@ body {
   }
 
   .lsu-card {
-    @apply border border-border bg-surface backdrop-blur rounded-3xl p-6 shadow-md transition hover:shadow-lg hover:-translate-y-0.5;
+    @apply border border-border bg-surface backdrop-blur rounded-3xl p-6 shadow-md transition motion-reduce:transition-none hover:shadow-lg hover:-translate-y-0.5 motion-reduce:hover:translate-y-0;
   }
 
   .lsu-badge {
@@ -82,6 +102,41 @@ body {
 
   .lsu-link {
     @apply font-medium text-brand-purple underline decoration-brand-gold/70 underline-offset-4 hover:decoration-brand-gold;
+  }
+
+  /* Journey inline highlight: purple text + animated gold underline (no layout shift) */
+  .lsu-highlight-link {
+    @apply font-medium text-brand-purple;
+    background-image: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--brand-gold) 50%, transparent),
+      color-mix(in srgb, var(--brand-gold) 50%, transparent)
+    );
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    padding-bottom: 3px;
+    transition: background-size 0.25s ease, background-image 0.25s ease;
+  }
+
+  .lsu-highlight-link:hover {
+    background-size: 100% 3px;
+    background-image: linear-gradient(
+      to top,
+      var(--brand-gold),
+      var(--brand-gold)
+    );
+  }
+
+  .lsu-highlight-link:focus-visible {
+    background-size: 100% 3px;
+    background-image: linear-gradient(
+      to top,
+      var(--brand-gold),
+      var(--brand-gold)
+    );
+    outline: 2px solid var(--brand-gold);
+    outline-offset: 3px;
   }
 
   .lsu-card-inner {
@@ -147,4 +202,60 @@ body {
 
 .animate-ping-slow {
   animation: pingSlow 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lsu-card-inner {
+    animation: none !important;
+  }
+
+  .animate-wave,
+  .animate-pulse-slow,
+  .animate-ping-slow {
+    animation: none !important;
+  }
+}
+
+/* Case study modal: better scaling at 90% / 75% zoom */
+.lsu-modal-panel {
+  contain: layout paint;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.lsu-modal-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+}
+
+.lsu-modal-scroll::-webkit-scrollbar {
+  width: 0.75rem;
+  min-width: 12px;
+}
+
+.lsu-modal-scroll::-webkit-scrollbar-track {
+  background: color-mix(in srgb, var(--border) 40%, transparent);
+  border-radius: 9999px;
+}
+
+.lsu-modal-scroll::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--brand-purple) 35%, transparent);
+  border-radius: 9999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+.lsu-modal-scroll::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--brand-purple) 50%, transparent);
+  background-clip: padding-box;
+}
+
+@supports (scrollbar-width: thin) {
+  .lsu-modal-scroll {
+    scrollbar-width: auto;
+    scrollbar-color: color-mix(in srgb, var(--brand-purple) 35%, transparent) color-mix(in srgb, var(--border) 40%, transparent);
+  }
 }

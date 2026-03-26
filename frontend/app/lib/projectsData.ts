@@ -60,7 +60,7 @@ export const projects: Project[] = [
       "Connected global minimum tax concepts to U.S. tax provisions",
       "Presented tradeoffs: compliance burden vs. anti–profit shifting goals",
     ],
-    timeframe: "ACCT 3221 Group B",
+    timeframe: "ACCT 3221",
     problem: "Complex global minimum tax rules create planning and compliance risk.",
     framework: "Policy analysis tying OECD Pillar Two mechanics to U.S. international tax rules.",
     outcome: "Concise view of incentives, risks, and planning implications for Pillar Two adoption.",

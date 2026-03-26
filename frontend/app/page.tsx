@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ShieldCheck, BarChart3, Target } from "lucide-react";
@@ -164,6 +165,7 @@ export default function Home() {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const plotAreaRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const sectionVariants = shouldReduceMotion ? fadeIn : fadeUp;
   const [workView, setWorkView] = useState<"project" | "system">("project");
 
   const uniqueTags = getUniqueTags(featuredSystemsProjects);
@@ -274,7 +276,7 @@ export default function Home() {
       {/* Hero: 2-col desktop */}
       <motion.section
         className="grid gap-10 lg:grid-cols-2 lg:items-start"
-        variants={fadeUp}
+        variants={sectionVariants}
         initial="initial"
         animate="animate"
       >
@@ -359,13 +361,13 @@ export default function Home() {
           <div className="flex flex-wrap gap-3 pt-2">
             <Link
               href="/projects"
-              className="lsu-btn-gold transition hover:shadow-md hover:-translate-y-0.5"
+              className="lsu-btn-gold transition hover:shadow-md hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
             >
               View Projects
             </Link>
             <a
               href="mailto:Myles.D.Goodrich@gmail.com"
-              className="lsu-btn-outline transition hover:shadow-md hover:-translate-y-0.5"
+              className="lsu-btn-outline transition hover:shadow-md hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
             >
               Contact
             </a>
@@ -423,7 +425,31 @@ export default function Home() {
         </div>
 
         {/* Identity Card */}
-        <div className="lsu-card border-brand-purple/25">
+          <div className="lsu-card border-brand-purple/25 overflow-hidden">
+            <div className="relative mx-auto mb-4 w-full max-w-[175px]">
+              <div className="relative w-full overflow-hidden rounded-2xl aspect-[3/4]">
+                <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
+                <Image
+                  src="/headshot.png"
+                  alt={`${siteContent?.name ?? "Student"} headshot`}
+                  fill
+                  sizes="(max-width: 1024px) 90vw, 175px"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              <div className="mt-4 flex items-baseline justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-2">
+                    Profile
+                  </p>
+                  <p className="truncate text-lg font-semibold text-foreground">
+                    {siteContent?.name ?? "Student"}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-3 h-px w-full bg-border/60" />
+            </div>
           <div className="flex gap-1 border-b border-border pb-3">
             <button
               type="button"
@@ -494,7 +520,7 @@ export default function Home() {
         ref={graphRef}
         aria-labelledby="performance-heading"
         className="space-y-4"
-        variants={fadeUp}
+        variants={sectionVariants}
         initial="initial"
         animate="animate"
       >
@@ -680,7 +706,7 @@ export default function Home() {
       <motion.section
         aria-labelledby="evidence-heading"
         className="space-y-4"
-        variants={fadeUp}
+        variants={sectionVariants}
         initial="initial"
         animate="animate"
       >
@@ -781,7 +807,7 @@ export default function Home() {
       <motion.section
         aria-labelledby="more-personal-heading"
         className="space-y-4"
-        variants={fadeUp}
+        variants={sectionVariants}
         initial="initial"
         animate="animate"
       >
@@ -837,7 +863,7 @@ export default function Home() {
       <motion.section
         aria-labelledby="systems-heading"
         className="space-y-4"
-        variants={fadeUp}
+        variants={sectionVariants}
         initial="initial"
         animate="animate"
       >
@@ -847,7 +873,7 @@ export default function Home() {
               id="systems-heading"
               className="text-xl font-bold tracking-tighter text-foreground"
             >
-              Systems I've Built
+              Systems I&apos;ve Built
             </h2>
             <p className="mt-1 text-xs text-muted-2 leading-snug">
               Projects that reflect my internal-audit mindset: structure,
@@ -1052,7 +1078,7 @@ export default function Home() {
       <motion.section
         aria-labelledby="risk-heading"
         className="space-y-4"
-        variants={fadeUp}
+        variants={sectionVariants}
         initial="initial"
         animate="animate"
       >
@@ -1159,7 +1185,7 @@ export default function Home() {
       <motion.section
         aria-labelledby="principles-heading"
         className="relative pl-5"
-        variants={fadeUp}
+        variants={sectionVariants}
         initial="initial"
         animate="animate"
       >
@@ -1221,7 +1247,7 @@ export default function Home() {
       <motion.section
         aria-labelledby="volatility-heading"
         className="lsu-card"
-        variants={fadeUp}
+        variants={sectionVariants}
         initial="initial"
         animate="animate"
       >
@@ -1243,7 +1269,7 @@ export default function Home() {
       <motion.section
         aria-labelledby="contact-heading"
         className="lsu-card transition hover:-translate-y-0.5 hover:shadow-lg motion-reduce:hover:translate-y-0"
-        variants={fadeIn}
+        variants={sectionVariants}
         initial="initial"
         animate="animate"
       >

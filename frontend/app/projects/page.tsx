@@ -1,8 +1,9 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 import { projects, type Project } from "../lib/projectsData";
 import { siteContent } from "../lib/siteContent";
 import Pill from "../components/ui/Pill";
@@ -20,6 +21,8 @@ function getUniqueTags(projs: Project[]) {
   projs.forEach((p) => p.tags.forEach((t) => set.add(t)));
   return Array.from(set).sort();
 }
+
+const FEATURED_EXHIBIT_TITLE = "Fin Bomb Internal Controls Exhibit (COSO Framework)";
 
 function slugify(input: string) {
   return input
@@ -84,7 +87,7 @@ function ProjectCard({
       <div className="flex flex-col gap-4">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            {project.title === "Fin Bomb Internal Controls Exhibit (COSO Framework)" && (
+            {project.title === FEATURED_EXHIBIT_TITLE && (
               <p className="text-[10px] font-semibold uppercase tracking-wider text-brand-gold/80">
                 Featured Exhibit
               </p>
@@ -105,14 +108,23 @@ function ProjectCard({
             {project.timeframe ? (
               <span className="text-xs text-muted-2">{project.timeframe}</span>
             ) : null}
-            <button
-              type="button"
-              onClick={onQuickView}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 text-xs font-semibold text-foreground transition hover:border-brand-gold/30 hover:bg-surface-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
-              View case study
-              <span className="text-muted-2 transition group-hover:text-brand-gold/90">↗</span>
-            </button>
+            {project.link ? (
+              <Link
+                href={project.link.href}
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 text-xs font-semibold text-foreground transition hover:border-brand-gold/30 hover:bg-surface-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                Open project
+                <ExternalLink className="h-3 w-3 text-muted-2 transition group-hover:text-brand-gold/90" aria-hidden />
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={onQuickView}
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 text-xs font-semibold text-foreground transition hover:border-brand-gold/30 hover:bg-surface-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                View case study
+              </button>
+            )}
           </div>
         </div>
 
@@ -120,20 +132,6 @@ function ProjectCard({
           {project.tags.map((t) => (
             <Tag key={t}>{t}</Tag>
           ))}
-        </div>
-
-        <div className="flex items-center justify-between pt-1">
-          <p className="text-xs text-muted-2">
-            Case study summary — open quick view for details.
-          </p>
-          {project.link ? (
-            <a
-              href={project.link.href}
-              className="text-xs font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
-            >
-              {project.link.label}
-            </a>
-          ) : null}
         </div>
       </div>
     </article>
@@ -148,8 +146,15 @@ export default function ProjectsPage() {
   const [sortMenuOpen, setSortMenuOpen] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [highlightId, setHighlightId] = useState<string | null>(null);
+  const quickViewTitleId = useId();
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const quickViewPanelRef = useRef<HTMLDivElement | null>(null);
+  const quickViewFocusReturnRef = useRef<HTMLElement | null>(null);
   const sortMenuRef = useRef<HTMLDivElement | null>(null);
+
+  const closeQuickView = useCallback(() => {
+    setQuickViewProject(null);
+  }, []);
 
   const uniqueTags = useMemo(() => getUniqueTags(projects), []);
 
@@ -171,14 +176,18 @@ export default function ProjectsPage() {
     // Ensure the target card is not hidden by search or tag filters.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSearch("");
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTagFilter(null);
 
-    const el = document.getElementById(hash);
-    if (!el) return;
+    const project = projects.find((p) => slugify(p.title) === hash);
+    if (project) {
+      setQuickViewProject(project);
+    }
 
-    el.scrollIntoView({ behavior: "smooth", block: "center" });
-    setHighlightId(hash);
+    const el = document.getElementById(hash);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      setHighlightId(hash);
+    }
   }, []);
 
   const filtered = useMemo(() => {
@@ -196,6 +205,10 @@ export default function ProjectsPage() {
     const sorted = [...base].sort((a, b) =>
       sort === "az" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title)
     );
+    const featured = sorted.find((p) => p.title === FEATURED_EXHIBIT_TITLE);
+    if (featured) {
+      return [featured, ...sorted.filter((p) => p.title !== FEATURED_EXHIBIT_TITLE)];
+    }
     return sorted;
   }, [search, tagFilter, sort]);
 
@@ -228,7 +241,7 @@ export default function ProjectsPage() {
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
-        setQuickViewProject(null);
+        closeQuickView();
       }
     }
     if (quickViewProject) {
@@ -237,6 +250,53 @@ export default function ProjectsPage() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
+  }, [quickViewProject, closeQuickView]);
+
+  useEffect(() => {
+    if (quickViewProject !== null) return;
+    const el = quickViewFocusReturnRef.current;
+    quickViewFocusReturnRef.current = null;
+    if (el && document.body.contains(el) && typeof el.focus === "function") {
+      el.focus({ preventScroll: true });
+    }
+  }, [quickViewProject]);
+
+  useEffect(() => {
+    if (!quickViewProject || !quickViewPanelRef.current) return;
+    const root = quickViewPanelRef.current;
+
+    function getFocusables(): HTMLElement[] {
+      const nodes = root.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+      );
+      return Array.from(nodes).filter(
+        (node) =>
+          !node.hasAttribute("disabled") &&
+          node.getAttribute("aria-hidden") !== "true" &&
+          node.tabIndex !== -1
+      );
+    }
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key !== "Tab") return;
+      const focusables = getFocusables();
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+      if (e.shiftKey) {
+        if (active === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (active === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
+    root.addEventListener("keydown", handleKeyDown);
+    return () => root.removeEventListener("keydown", handleKeyDown);
   }, [quickViewProject]);
 
   useEffect(() => {
@@ -245,11 +305,17 @@ export default function ProjectsPage() {
     }
   }, [quickViewProject]);
 
+  useEffect(() => {
+    if (quickViewProject == null && typeof window !== "undefined" && window.location.hash) {
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+  }, [quickViewProject]);
+
   return (
-    <main className="lsu-container py-12">
+    <div className="lsu-container py-12">
       <header className="mb-10">
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-          Systems I've Built
+          Systems I&apos;ve Built
         </h1>
         <p className="mt-3 max-w-2xl text-base leading-7 text-muted">
           Selected systems that reflect how I approach risk, controls, analytics, and structured
@@ -385,7 +451,10 @@ export default function ProjectsPage() {
                 project={p}
                 id={id}
                 isHighlighted={highlightId === id}
-                onQuickView={() => setQuickViewProject(p)}
+                onQuickView={() => {
+                  quickViewFocusReturnRef.current = document.activeElement as HTMLElement | null;
+                  setQuickViewProject(p);
+                }}
               />
             );
           })}
@@ -402,23 +471,29 @@ export default function ProjectsPage() {
       )}
 
       {quickViewProject && (
-        <div
-          className="fixed inset-0 z-30 flex items-center justify-center bg-black/90 p-4 backdrop-blur-[2px]"
-          onClick={() => setQuickViewProject(null)}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Project quick view"
-        >
+        <div className="fixed inset-0 z-30 flex items-center justify-center p-4">
+          <button
+            type="button"
+            className="absolute inset-0 bg-black/90 backdrop-blur-[2px]"
+            aria-label="Close project quick view"
+            onClick={closeQuickView}
+          />
           <div
-            className="max-h-[80vh] w-full max-w-2xl overflow-hidden rounded-3xl border border-brand-gold/25 bg-gradient-to-b from-surface to-surface-2 shadow-2xl p-0 animate-in fade-in zoom-in-95"
-            onClick={(e) => e.stopPropagation()}
+            ref={quickViewPanelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={quickViewTitleId}
+            className="lsu-modal-panel relative z-10 max-h-[80dvh] w-full max-w-2xl overflow-hidden rounded-3xl border border-brand-gold/25 bg-gradient-to-b from-surface to-surface-2 shadow-2xl p-0 animate-in fade-in zoom-in-95"
           >
             <div className="flex items-start justify-between gap-4 border-b border-border bg-surface p-5">
               <div className="min-w-0">
                 <p className="text-xs font-semibold uppercase tracking-wider text-muted-2">
                   Case study
                 </p>
-                <h2 className="mt-1 truncate text-lg font-semibold tracking-tight text-foreground">
+                <h2
+                  id={quickViewTitleId}
+                  className="mt-1 truncate text-lg font-semibold tracking-tight text-foreground"
+                >
                   {quickViewProject.title}
                 </h2>
                 {quickViewProject.subtitle && (
@@ -428,13 +503,13 @@ export default function ProjectsPage() {
               <button
                 ref={closeButtonRef}
                 type="button"
-                onClick={() => setQuickViewProject(null)}
+                onClick={closeQuickView}
                 className="inline-flex shrink-0 items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 text-xs font-semibold text-foreground transition hover:bg-surface-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 Close <span className="text-muted-2">ESC</span>
               </button>
             </div>
-            <div className="max-h-[70vh] overflow-y-auto p-5">
+            <div className="lsu-modal-scroll max-h-[70dvh] min-h-0 p-5">
               <div className="space-y-5 text-sm leading-7 text-foreground">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wider text-muted">
@@ -509,7 +584,7 @@ export default function ProjectsPage() {
                 )}
                 <button
                   type="button"
-                  onClick={() => setQuickViewProject(null)}
+                  onClick={closeQuickView}
                   className="rounded-full border border-border bg-surface px-4 py-2 text-xs font-semibold text-foreground transition hover:bg-surface-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   Close
@@ -544,6 +619,6 @@ export default function ProjectsPage() {
           and building dashboards that support decision-making.
         </p>
       </section>
-    </main>
+    </div>
   );
 }

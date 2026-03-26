@@ -96,7 +96,7 @@ export default async function BlogPostPage({ params }: Props) {
           {prevPost ? (
             <Link
               href={getPostHref(prevPost.slug)}
-              className="lsu-card flex items-center gap-3 transition hover:shadow-lg hover:-translate-y-0.5"
+              className="lsu-card flex items-center gap-3 transition hover:shadow-lg hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 motion-reduce:transition-none"
             >
               <span className="text-2xl text-brand-gold" aria-hidden>←</span>
               <div className="min-w-0">
@@ -110,7 +110,7 @@ export default async function BlogPostPage({ params }: Props) {
           {nextPost ? (
             <Link
               href={getPostHref(nextPost.slug)}
-              className="lsu-card flex items-center justify-end gap-3 transition hover:shadow-lg hover:-translate-y-0.5 sm:col-start-2"
+              className="lsu-card flex items-center justify-end gap-3 transition hover:shadow-lg hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 motion-reduce:transition-none sm:col-start-2"
             >
               <div className="min-w-0 text-right">
                 <p className="text-xs font-medium text-muted-2">Next</p>

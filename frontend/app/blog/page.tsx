@@ -131,7 +131,7 @@ export default function BlogIndexPage() {
 
       {heroPosts.length > 0 && (
         <section
-          className="lsu-card relative overflow-hidden transition hover:shadow-lg hover:-translate-y-0.5"
+          className="lsu-card relative overflow-hidden transition hover:shadow-lg hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 motion-reduce:transition-none"
           onMouseEnter={() => setHeroPaused(true)}
           onMouseLeave={() => setHeroPaused(false)}
         >

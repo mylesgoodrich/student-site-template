@@ -176,7 +176,7 @@ export default function AboutPage() {
                 <Link
                   href="/journey"
                   aria-label="Read more about earning 60 credits in one year"
-                  className="group flex items-start justify-between gap-3 rounded-xl border border-border bg-surface px-3 py-2 transition hover:border-brand-gold/30 hover:bg-surface-2 hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  className="group flex items-start justify-between gap-3 rounded-xl border border-border bg-surface px-3 py-2 transition hover:border-brand-gold/30 hover:bg-surface-2 hover:-translate-y-0.5 hover:shadow-md motion-reduce:hover:translate-y-0 motion-reduce:transition-none focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   <div>
                     <span className="font-semibold text-foreground">
@@ -198,7 +198,7 @@ export default function AboutPage() {
                 <Link
                   href="/performance"
                   aria-label="Read more about GPA performance redesign"
-                  className="group flex items-start justify-between gap-3 rounded-xl border border-border bg-surface px-3 py-2 transition hover:border-brand-gold/30 hover:bg-surface-2 hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  className="group flex items-start justify-between gap-3 rounded-xl border border-border bg-surface px-3 py-2 transition hover:border-brand-gold/30 hover:bg-surface-2 hover:-translate-y-0.5 hover:shadow-md motion-reduce:hover:translate-y-0 motion-reduce:transition-none focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   <div>
                     <span className="font-semibold text-foreground">3.7 then 3.9.</span>{" "}
@@ -218,7 +218,7 @@ export default function AboutPage() {
                 <Link
                   href="/projects"
                   aria-label="Read more about documenting 31 controls"
-                  className="group flex items-start justify-between gap-3 rounded-xl border border-border bg-surface px-3 py-2 transition hover:border-brand-gold/30 hover:bg-surface-2 hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  className="group flex items-start justify-between gap-3 rounded-xl border border-border bg-surface px-3 py-2 transition hover:border-brand-gold/30 hover:bg-surface-2 hover:-translate-y-0.5 hover:shadow-md motion-reduce:hover:translate-y-0 motion-reduce:transition-none focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   <div>
                     <span className="font-semibold text-foreground">
@@ -240,7 +240,7 @@ export default function AboutPage() {
                 <Link
                   href="/journey"
                   aria-label="Read more about Louisiana Army National Guard experience"
-                  className="group flex items-start justify-between gap-3 rounded-xl border border-border bg-surface px-3 py-2 transition hover:border-brand-gold/30 hover:bg-surface-2 hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  className="group flex items-start justify-between gap-3 rounded-xl border border-border bg-surface px-3 py-2 transition hover:border-brand-gold/30 hover:bg-surface-2 hover:-translate-y-0.5 hover:shadow-md motion-reduce:hover:translate-y-0 motion-reduce:transition-none focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   <div>
                     <span className="font-semibold text-foreground">

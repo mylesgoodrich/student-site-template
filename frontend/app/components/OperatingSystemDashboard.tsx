@@ -8,7 +8,7 @@ import {
   FileCheck2,
   CircleAlert,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   LineChart,
   Line,
@@ -18,7 +18,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { fadeUp } from "../lib/motion";
+import { fadeIn, fadeUp } from "../lib/motion";
 
 const KPI_CARDS = [
   {
@@ -142,10 +142,13 @@ function PerformanceTrendChart() {
 }
 
 export default function OperatingSystemDashboard() {
+  const shouldReduceMotion = useReducedMotion();
+  const sectionVariants = shouldReduceMotion ? fadeIn : fadeUp;
+
   return (
     <motion.section
       className="rounded-3xl border border-[rgba(70,29,124,0.25)] bg-[#14121b] p-6 shadow-lg"
-      variants={fadeUp}
+      variants={sectionVariants}
       initial="initial"
       animate="animate"
       aria-labelledby="operating-system-heading"
@@ -168,11 +171,13 @@ export default function OperatingSystemDashboard() {
           <motion.div
             key={kpi.label}
             className="flex items-start gap-3 rounded-xl border border-[rgba(253,208,35,0.12)] bg-[#1a1820] p-6"
-            variants={fadeUp}
+            variants={sectionVariants}
             initial="initial"
             animate="animate"
             transition={{ delay: i * 0.05 }}
-            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            whileHover={
+              shouldReduceMotion ? undefined : { y: -4, transition: { duration: 0.2 } }
+            }
           >
             <div className="rounded-xl bg-brand-gold/15 p-2 text-brand-gold">
               <kpi.icon className="h-5 w-5" aria-hidden />
@@ -194,11 +199,13 @@ export default function OperatingSystemDashboard() {
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <motion.div
           className="rounded-xl border border-[rgba(253,208,35,0.12)] bg-[#1a1820] p-6"
-          variants={fadeUp}
+          variants={sectionVariants}
           initial="initial"
           animate="animate"
           transition={{ delay: 0.15 }}
-          whileHover={{ y: -4, transition: { duration: 0.2 } }}
+          whileHover={
+            shouldReduceMotion ? undefined : { y: -4, transition: { duration: 0.2 } }
+          }
         >
           <h3 className="text-sm font-semibold text-white">GPA Trend</h3>
           <p className="mt-0.5 text-[11px] text-white/65">
@@ -211,22 +218,26 @@ export default function OperatingSystemDashboard() {
 
         <motion.div
           className="rounded-xl border border-[rgba(253,208,35,0.12)] bg-[#1a1820] p-6"
-          variants={fadeUp}
+          variants={sectionVariants}
           initial="initial"
           animate="animate"
           transition={{ delay: 0.2 }}
-          whileHover={{ y: -4, transition: { duration: 0.2 } }}
+          whileHover={
+            shouldReduceMotion ? undefined : { y: -4, transition: { duration: 0.2 } }
+          }
         >
           <h3 className="text-sm font-semibold text-white">Audit Mindset</h3>
           <p className="mt-0.5 text-[11px] text-white/65">
             Risk → Control → Evidence
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
-            {AUDIT_MINDSET.map((item, i) => (
+            {AUDIT_MINDSET.map((item) => (
               <motion.div
                 key={item.label}
                 className="flex flex-1 min-w-[100px] items-center gap-2 rounded-xl border border-[rgba(253,208,35,0.1)] bg-[#0f0e12] px-3 py-2.5"
-                whileHover={{ y: -2, transition: { duration: 0.15 } }}
+                whileHover={
+                  shouldReduceMotion ? undefined : { y: -2, transition: { duration: 0.15 } }
+                }
               >
                 <item.icon
                   className="h-4 w-4 shrink-0 text-brand-gold"
