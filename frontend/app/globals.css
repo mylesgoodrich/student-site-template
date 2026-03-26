@@ -5,16 +5,16 @@
   --brand-purple: #461d7c;
   --brand-gold: #fdd023;
 
-  /* Base UI */
-  --background: #fbf7ff;
-  --foreground: #130e18;
+  /* Base UI (always dark) */
+  --background: #0b0713;
+  --foreground: #f5f2fb;
 
   /* Surfaces + text */
-  --surface: rgba(255, 255, 255, 0.78);
-  --surface-2: rgba(255, 255, 255, 0.6);
-  --border: rgba(70, 29, 124, 0.18);
-  --muted: rgba(19, 14, 24, 0.78);
-  --muted-2: rgba(19, 14, 24, 0.62);
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface-2: rgba(255, 255, 255, 0.04);
+  --border: rgba(253, 208, 35, 0.22);
+  --muted: rgba(245, 242, 251, 0.85);
+  --muted-2: rgba(245, 242, 251, 0.7);
 }
 
 @theme inline {
@@ -31,20 +31,8 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0b0713;
-    --foreground: #f5f2fb;
-
-    --surface: rgba(255, 255, 255, 0.06);
-    --surface-2: rgba(255, 255, 255, 0.04);
-    --border: rgba(253, 208, 35, 0.22);
-    --muted: rgba(245, 242, 251, 0.85);
-    --muted-2: rgba(245, 242, 251, 0.7);
-  }
-}
-
 body {
+  color-scheme: dark;
   background:
     radial-gradient(1200px 600px at 20% -10%, rgba(70, 29, 124, 0.22), transparent 60%),
     radial-gradient(900px 500px at 85% 0%, rgba(253, 208, 35, 0.18), transparent 55%),
