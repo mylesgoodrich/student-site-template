@@ -52,7 +52,7 @@ const PERFORMANCE_TREND_DATA = [
   { name: "Sem 2", semester: 2, gpa: 2.9 },
   { name: "Sem 3", semester: 3, gpa: 3.2 },
   { name: "Sem 4", semester: 4, gpa: 3.4 },
-  { name: "Sem 5", semester: 5, gpa: 3.6 },
+  { name: "Sem 5", semester: 5, gpa: 3.9 },
 ];
 
 const AUDIT_MINDSET = [
@@ -104,7 +104,7 @@ function PerformanceTrendChart() {
           />
           <YAxis
             dataKey="gpa"
-            domain={[2.4, 3.8]}
+            domain={[2.4, 4.0]}
             axisLine={false}
             tick={{ fill: CHART_COLORS.axis, fontSize: 11 }}
             tickLine={false}
