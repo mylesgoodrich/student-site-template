@@ -140,6 +140,8 @@ jobs:
                       BackendDomain=${BACKEND_DOMAIN} \
                       BaseDomain=${BASE_DOMAIN} \
                       GitHubActionsRoleArn=${GITHUB_ACTIONS_ROLE_ARN} \
+                      ArtifactsBucketName=${{ steps.artifacts-bucket.outputs.bucket_name }} \
+                      ECRRepositoryUri=${{ steps.ecr-repo.outputs.repository_uri }} \
                       RepositoryUrl=${REPOSITORY_URL} \
                       AmplifyAccessToken=${AMPLIFY_GITHUB_TOKEN} \
                     --capabilities CAPABILITY_IAM \
