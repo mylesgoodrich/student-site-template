@@ -9,8 +9,8 @@ on:
 env:
     AWS_REGION: us-east-1
     PROJECT_NAME: ${{ secrets.PROJECT_NAME || 'student-site' }}
-    HOSTED_ZONE_ID: ${{ secrets.HOSTED_ZONE_ID }}
-    BASE_DOMAIN: ${{ secrets.BASE_DOMAIN }}
+    HOSTED_ZONE_ID: ${{ secrets.HOSTED_ZONE_ID || '' }}
+    BASE_DOMAIN: ${{ secrets.BASE_DOMAIN || '' }}
     FRONTEND_DOMAIN: ${{ secrets.FRONTEND_DOMAIN || 'www' }}
     BACKEND_DOMAIN: ${{ secrets.BACKEND_DOMAIN || 'api' }}
     GITHUB_ACTIONS_ROLE_ARN: arn:aws:iam::016467578326:role/github-actions-role
@@ -42,8 +42,6 @@ jobs:
                     fi
                   }
 
-                  require_var "HOSTED_ZONE_ID (GitHub secret)" "${HOSTED_ZONE_ID}"
-                  require_var "BASE_DOMAIN (GitHub secret)" "${BASE_DOMAIN}"
                   require_var "AMPLIFY_GITHUB_TOKEN (GitHub secret)" "${AMPLIFY_GITHUB_TOKEN}"
 
                   if [ "$missing" -ne 0 ]; then
@@ -164,5 +162,15 @@ jobs:
               run: |
                   echo "## Deployment Complete 🚀" >> $GITHUB_STEP_SUMMARY
                   echo "" >> $GITHUB_STEP_SUMMARY
-                  echo "Frontend URL: https://${FRONTEND_DOMAIN}.${BASE_DOMAIN}" >> $GITHUB_STEP_SUMMARY
-                  echo "Backend URL: https://${BACKEND_DOMAIN}.${BASE_DOMAIN}" >> $GITHUB_STEP_SUMMARY
+                  FRONTEND_URL=$(aws cloudformation describe-stacks \
+                    --stack-name "${PROJECT_NAME}-main" \
+                    --region "${AWS_REGION}" \
+                    --query "Stacks[0].Outputs[?OutputKey=='FrontendURL'].OutputValue" \
+                    --output text)
+                  BACKEND_URL=$(aws cloudformation describe-stacks \
+                    --stack-name "${PROJECT_NAME}-main" \
+                    --region "${AWS_REGION}" \
+                    --query "Stacks[0].Outputs[?OutputKey=='BackendURL'].OutputValue" \
+                    --output text)
+                  echo "Frontend URL: ${FRONTEND_URL}" >> $GITHUB_STEP_SUMMARY
+                  echo "Backend URL: ${BACKEND_URL}" >> $GITHUB_STEP_SUMMARY

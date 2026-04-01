@@ -119,8 +119,8 @@ Before deploying, you need to configure AWS:
 3. **Set Up GitHub Secrets**:
    - Go to your GitHub repository → Settings → Secrets and variables → Actions
    - Add these secrets:
-     - `HOSTED_ZONE_ID`: Your Route53 Hosted Zone ID
-     - `BASE_DOMAIN`: Your domain name (e.g., `example.com`)
+     - `HOSTED_ZONE_ID`: (Optional) Route53 hosted zone ID for custom domains
+     - `BASE_DOMAIN`: (Optional) Base domain for custom frontend/backend URLs
      - `FRONTEND_DOMAIN`: Subdomain for frontend (usually `www` or `@`)
      - `BACKEND_DOMAIN`: Subdomain for backend (usually `api`)
      - `PROJECT_NAME`: A name for your project (e.g., `my-student-site`)
@@ -159,8 +159,8 @@ Once your GitHub secrets are configured:
    - Amplify is provisioned as SSR (`WEB_COMPUTE`) by CloudFormation
 
 5. **Access your deployed application**:
-   - Frontend: `https://www.yourdomain.com` (or your configured frontend domain)
-   - Backend: `https://api.yourdomain.com` (or your configured backend domain)
+   - With custom domain configured: frontend/backend use your domain settings
+   - Without custom domain configured: frontend uses Amplify default domain and backend uses the ALB URL (both are shown in the workflow summary)
 
 ## 📁 Project Structure
 

@@ -61,8 +61,8 @@ This guide will help you get started quickly. For detailed information, see [REA
 
    - GitHub repo → Settings → Secrets and variables → Actions
    - Add these secrets:
-     - `HOSTED_ZONE_ID`: (from step 2)
-     - `BASE_DOMAIN`: Your domain (e.g., `example.com`)
+     - `HOSTED_ZONE_ID`: (Optional) from step 2, only for custom domains
+     - `BASE_DOMAIN`: (Optional) your domain (e.g., `example.com`)
      - `FRONTEND_DOMAIN`: Usually `www` or `@`
      - `BACKEND_DOMAIN`: Usually `api`
      - `PROJECT_NAME`: Your project name

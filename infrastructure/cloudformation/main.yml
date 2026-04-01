@@ -9,6 +9,7 @@ Parameters:
 
   HostedZoneId:
     Type: String
+    Default: ''
     Description: Route53 Hosted Zone ID for custom domain
 
   FrontendDomain:
@@ -23,6 +24,7 @@ Parameters:
 
   BaseDomain:
     Type: String
+    Default: ''
     Description: Base domain name (e.g., example.com)
 
   GitHubActionsRoleArn:
@@ -76,19 +78,6 @@ Resources:
             ]
           }
 
-  FrontendStack:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub 'https://${ArtifactsBucket}.s3.${AWS::Region}.amazonaws.com/frontend-stack.yml'
-      Parameters:
-        ProjectName: !Ref ProjectName
-        HostedZoneId: !Ref HostedZoneId
-        FrontendDomain: !Ref FrontendDomain
-        BackendDomain: !Ref BackendDomain
-        BaseDomain: !Ref BaseDomain
-        RepositoryUrl: !Ref RepositoryUrl
-        AmplifyAccessToken: !Ref AmplifyAccessToken
-
   BackendStack:
     Type: AWS::CloudFormation::Stack
     Properties:
@@ -100,6 +89,19 @@ Resources:
         BackendDomain: !Ref BackendDomain
         BaseDomain: !Ref BaseDomain
         ECRRepositoryUri: !GetAtt ECRRepository.RepositoryUri
+
+  FrontendStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub 'https://${ArtifactsBucket}.s3.${AWS::Region}.amazonaws.com/frontend-stack.yml'
+      Parameters:
+        ProjectName: !Ref ProjectName
+        HostedZoneId: !Ref HostedZoneId
+        FrontendDomain: !Ref FrontendDomain
+        BaseDomain: !Ref BaseDomain
+        BackendApiUrl: !GetAtt BackendStack.Outputs.BackendURL
+        RepositoryUrl: !Ref RepositoryUrl
+        AmplifyAccessToken: !Ref AmplifyAccessToken
 
 Outputs:
   ArtifactsBucketName:
