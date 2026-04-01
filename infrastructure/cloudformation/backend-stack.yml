@@ -14,6 +14,10 @@ Parameters:
     Type: String
     Description: Subdomain for backend API
 
+  FrontendDomain:
+    Type: String
+    Description: Subdomain for frontend app (used for CORS)
+
   BaseDomain:
     Type: String
     Description: Base domain name

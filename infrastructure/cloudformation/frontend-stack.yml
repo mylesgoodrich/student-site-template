@@ -22,34 +22,45 @@ Parameters:
     Type: String
     Description: Base domain name
 
+  RepositoryUrl:
+    Type: String
+    Description: GitHub repository URL (for example, https://github.com/org/repo)
+
+  AmplifyAccessToken:
+    Type: String
+    NoEcho: true
+    Description: GitHub personal access token used by Amplify to connect the repository
+
+Conditions:
+  IsApexDomain: !Equals [!Ref FrontendDomain, '@']
+
 Resources:
   AmplifyApp:
     Type: AWS::Amplify::App
     Properties:
       Name: !Sub '${ProjectName}-frontend'
-      # Note: Repository and OAuth token should be configured manually in AWS Amplify Console
-      # or via AWS CLI after initial deployment
+      Platform: WEB_COMPUTE
+      Repository: !Ref RepositoryUrl
+      AccessToken: !Ref AmplifyAccessToken
       BuildSpec: |
         version: 1
-        frontend:
-          phases:
-            preBuild:
-              commands:
-                - npm ci
-            build:
-              commands:
-                - npm run build
-          artifacts:
-            baseDirectory: .next
-            files:
-              - '**/*'
-          cache:
-            paths:
-              - node_modules/**/*
-      CustomRules:
-        - Source: '/<*>'
-          Target: '/index.html'
-          Status: '200'
+        applications:
+          - appRoot: frontend
+            frontend:
+              phases:
+                preBuild:
+                  commands:
+                    - npm ci
+                build:
+                  commands:
+                    - npm run build
+              artifacts:
+                baseDirectory: .next
+                files:
+                  - '**/*'
+              cache:
+                paths:
+                  - node_modules/**/*
       EnvironmentVariables:
         - Name: NEXT_PUBLIC_API_URL
           Value: !Sub 'https://${BackendDomain}.${BaseDomain}'
@@ -65,20 +76,10 @@ Resources:
     Type: AWS::Amplify::Domain
     Properties:
       AppId: !GetAtt AmplifyApp.AppId
-      DomainName: !Sub '${FrontendDomain}.${BaseDomain}'
+      DomainName: !Ref BaseDomain
       SubDomainSettings:
         - Branch: !Ref AmplifyBranch
-          Prefix: !Sub '${FrontendDomain}'
-
-  Route53Record:
-    Type: AWS::Route53::RecordSet
-    Properties:
-      HostedZoneId: !Ref HostedZoneId
-      Name: !Sub '${FrontendDomain}.${BaseDomain}'
-      Type: CNAME
-      TTL: 300
-      ResourceRecords:
-        - !GetAtt AmplifyDomain.DomainName
+          Prefix: !If [IsApexDomain, '', !Ref FrontendDomain]
 
 Outputs:
   FrontendURL:

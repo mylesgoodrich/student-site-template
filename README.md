@@ -17,6 +17,7 @@ This template includes:
 Your application will be deployed on AWS with:
 
 - **Frontend**: Hosted on AWS Amplify (automatically scales and serves your Next.js app)
+- **Frontend**: Hosted on AWS Amplify using SSR (`WEB_COMPUTE`) for Next.js server rendering
 - **Backend**: Running on AWS ECS Fargate (containerized Python API behind a load balancer)
 - **Infrastructure**: Managed by AWS CloudFormation (infrastructure as code)
 
@@ -118,12 +119,12 @@ Before deploying, you need to configure AWS:
 3. **Set Up GitHub Secrets**:
    - Go to your GitHub repository → Settings → Secrets and variables → Actions
    - Add these secrets:
-     - `GITHUB_ACTIONS_ROLE_ARN`: Your IAM role ARN from step 1
      - `HOSTED_ZONE_ID`: Your Route53 Hosted Zone ID
      - `BASE_DOMAIN`: Your domain name (e.g., `example.com`)
      - `FRONTEND_DOMAIN`: Subdomain for frontend (usually `www` or `@`)
      - `BACKEND_DOMAIN`: Subdomain for backend (usually `api`)
      - `PROJECT_NAME`: A name for your project (e.g., `my-student-site`)
+     - `AMPLIFY_GITHUB_TOKEN`: A GitHub personal access token (classic) with repo access, used by AWS Amplify to connect your repository
 
 ### Step 5: Deploy to AWS
 
@@ -150,13 +151,12 @@ Once your GitHub secrets are configured:
 
 3. **Wait for completion** (usually 10-15 minutes for first deployment)
 
-4. **Connect Amplify to GitHub** (Required for frontend):
+4. **Verify Amplify app creation**:
 
    - Go to AWS Console → Amplify
-   - Find your app (named `your-project-name-frontend`)
-   - Click "Connect branch" or "Connect repository"
-   - Connect your GitHub repository and select the `main` branch
-   - This enables automatic frontend deployments on code pushes
+   - Confirm app `your-project-name-frontend` exists
+   - Confirm branch `main` is connected and build status is green
+   - Amplify is provisioned as SSR (`WEB_COMPUTE`) by CloudFormation
 
 5. **Access your deployed application**:
    - Frontend: `https://www.yourdomain.com` (or your configured frontend domain)

@@ -61,17 +61,17 @@ This guide will help you get started quickly. For detailed information, see [REA
 
    - GitHub repo → Settings → Secrets and variables → Actions
    - Add these secrets:
-     - `GITHUB_ACTIONS_ROLE_ARN`: (from step 1)
      - `HOSTED_ZONE_ID`: (from step 2)
      - `BASE_DOMAIN`: Your domain (e.g., `example.com`)
      - `FRONTEND_DOMAIN`: Usually `www` or `@`
      - `BACKEND_DOMAIN`: Usually `api`
      - `PROJECT_NAME`: Your project name
+     - `AMPLIFY_GITHUB_TOKEN`: GitHub personal access token (classic) with `repo` scope
 
-4. **Connect Amplify to GitHub** (after first deployment):
+4. **Verify Amplify SSR app** (after first deployment):
    - AWS Console → Amplify → Your app
-   - Connect repository manually (CloudFormation creates the app, but you need to connect the repo)
-   - This enables automatic frontend deployments
+   - Confirm branch `main` is connected
+   - Confirm build succeeds with platform `WEB_COMPUTE` (SSR)
 
 ## Daily Development
 

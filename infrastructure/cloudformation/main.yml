@@ -29,6 +29,15 @@ Parameters:
     Type: String
     Description: ARN of the GitHub Actions IAM role
 
+  RepositoryUrl:
+    Type: String
+    Description: GitHub repository URL used by Amplify
+
+  AmplifyAccessToken:
+    Type: String
+    NoEcho: true
+    Description: GitHub token used by Amplify to connect the repository
+
 Resources:
   ArtifactsBucket:
     Type: AWS::S3::Bucket
@@ -77,6 +86,8 @@ Resources:
         FrontendDomain: !Ref FrontendDomain
         BackendDomain: !Ref BackendDomain
         BaseDomain: !Ref BaseDomain
+        RepositoryUrl: !Ref RepositoryUrl
+        AmplifyAccessToken: !Ref AmplifyAccessToken
 
   BackendStack:
     Type: AWS::CloudFormation::Stack
@@ -85,6 +96,7 @@ Resources:
       Parameters:
         ProjectName: !Ref ProjectName
         HostedZoneId: !Ref HostedZoneId
+        FrontendDomain: !Ref FrontendDomain
         BackendDomain: !Ref BackendDomain
         BaseDomain: !Ref BaseDomain
         ECRRepositoryUri: !GetAtt ECRRepository.RepositoryUri
