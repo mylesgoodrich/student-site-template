@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       OUTPUT_EXPORT: "true"
-      NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+      NEXT_PUBLIC_BASE_PATH: ${{ vars.PAGES_BASE_PATH || '' }}
 
     steps:
       - name: Checkout
