@@ -1,9 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ShieldCheck, BarChart3, Target } from "lucide-react";
 import { siteContent } from "./lib/siteContent";
 import { featuredSystemsProjects } from "./lib/projectsData";
+import { fadeUp, fadeIn } from "./lib/motion";
+import OperatingSystemDashboard from "./components/OperatingSystemDashboard";
+import Pill from "./components/ui/Pill";
 
 const RISK_LENS_ITEMS = [
   "Where does discretion live?",
@@ -14,13 +20,15 @@ const RISK_LENS_ITEMS = [
 ];
 
 const PERFORMANCE_GRAPH = {
+  /** Single dataset: 5 points, evenly spaced x, y from GPA values. Line and dots use this. */
   points: [
-    { semester: 1, value: 2.5 },
-    { semester: 2, value: 2.9 },
-    { semester: 3, value: 3.2 },
-    { semester: 4, value: 3.4 },
-    { semester: 5, value: 3.6 },
+    { value: 2.5 },
+    { value: 2.9 },
+    { value: 3.2 },
+    { value: 3.4 },
+    { value: 3.9 },
   ],
+  milestones: ["Reset", "Structure", "Momentum", "LSU", "3.9 GPA"],
   tooltips: [
     "Reset. Built structure.",
     "Consistency over motivation.",
@@ -29,6 +37,60 @@ const PERFORMANCE_GRAPH = {
     "Dialed in.",
   ],
 };
+
+const PLOT = {
+  viewWidth: 360,
+  viewHeight: 120,
+  left: 36,
+  right: 324,
+  top: 28,
+  bottom: 76,
+  minGpa: 2.5,
+  maxGpa: 3.9,
+};
+function getPlotCoords(index: number, value: number) {
+  const x = PLOT.left + (index / 4) * (PLOT.right - PLOT.left);
+  const y =
+    PLOT.bottom -
+    ((value - PLOT.minGpa) / (PLOT.maxGpa - PLOT.minGpa)) * (PLOT.bottom - PLOT.top);
+  return { x, y };
+}
+function getPerformancePathD() {
+  return PERFORMANCE_GRAPH.points
+    .map((pt, i) => getPlotCoords(i, pt.value))
+    .reduce(
+      (acc, { x, y }, i) => (i === 0 ? `M ${x} ${y}` : `${acc} L ${x} ${y}`),
+      ""
+    );
+}
+function getPerformanceAreaPathD() {
+  const coords = PERFORMANCE_GRAPH.points.map((pt, i) => getPlotCoords(i, pt.value));
+  const x0 = coords[0].x;
+  const linePart = coords.reduce(
+    (acc, { x, y }, i) => (i === 0 ? `M ${x} ${y}` : `${acc} L ${x} ${y}`),
+    ""
+  );
+  const last = coords[coords.length - 1];
+  return `${linePart} L ${last.x} ${PLOT.bottom} L ${x0} ${PLOT.bottom} Z`;
+}
+
+function truncateText(text: string, max = 60) {
+  const t = text.trim();
+  if (t.length <= max) return t;
+  const hard = t.slice(0, Math.max(0, max - 1));
+  const lastSpace = hard.lastIndexOf(" ");
+  const soft = lastSpace > 30 ? hard.slice(0, lastSpace) : hard;
+  return `${soft.trimEnd()}…`;
+}
+
+function slugifyProjectTitle(title: string) {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/['"]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
 
 const SYSTEM_VIEW_MAP: Record<
   string,
@@ -72,6 +134,15 @@ const SYSTEM_VIEW_MAP: Record<
   },
 };
 
+const EVIDENCE_CUE: Record<string, string> = {
+  "Fin Bomb Internal Controls Exhibit (COSO Framework)":
+    "Evidence: mapped risks + owner + screenshots",
+  "Amazon 10-K Accounting Analysis": "Evidence: note references + reconciliations",
+  "Power BI Profitability Dashboard (Beverage Dataset)":
+    "Evidence: model + measures + visuals",
+  "AI Club Finance System Concept": "Evidence: budget model + approval controls",
+};
+
 function getUniqueTags(projects: typeof featuredSystemsProjects) {
   const set = new Set<string>();
   projects.forEach((p) => p.tags.forEach((t) => set.add(t)));
@@ -84,16 +155,17 @@ export default function Home() {
   const [expandedMilestoneIndex, setExpandedMilestoneIndex] = useState<number | null>(null);
   const [systemTagFilter, setSystemTagFilter] = useState<string | null>(null);
   const [riskChecked, setRiskChecked] = useState<boolean[]>(() => RISK_LENS_ITEMS.map(() => false));
-  const [metricValues, setMetricValues] = useState<number[]>(() =>
-    siteContent.metrics.map(() => 0)
-  );
-  const [metricsVisible, setMetricsVisible] = useState(false);
-  const metricsRef = useRef<HTMLDivElement>(null);
-  const metricsAnimated = useRef(false);
+  const [emailCopied, setEmailCopied] = useState(false);
+  const copyEmailTimerRef = useRef<number | null>(null);
   const [graphLineVisible, setGraphLineVisible] = useState(false);
   const graphRef = useRef<HTMLDivElement>(null);
   const graphAnimated = useRef(false);
   const [hoveredPointIndex, setHoveredPointIndex] = useState<number | null>(null);
+  const [tooltipPosition, setTooltipPosition] = useState<{ x: number; y: number } | null>(null);
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const plotAreaRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+  const sectionVariants = shouldReduceMotion ? fadeIn : fadeUp;
   const [workView, setWorkView] = useState<"project" | "system">("project");
 
   const uniqueTags = getUniqueTags(featuredSystemsProjects);
@@ -103,19 +175,40 @@ export default function Home() {
       : featuredSystemsProjects.filter((p) => p.tags.includes(systemTagFilter));
 
   useEffect(() => {
-    const el = metricsRef.current;
-    if (!el || metricsAnimated.current) return;
-    const obs = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) {
-          setMetricsVisible(true);
-          metricsAnimated.current = true;
-        }
-      },
-      { threshold: 0.2 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
+    return () => {
+      if (copyEmailTimerRef.current != null) {
+        window.clearTimeout(copyEmailTimerRef.current);
+        copyEmailTimerRef.current = null;
+      }
+    };
+  }, []);
+
+  const handleCopyEmail = useCallback(async () => {
+    const email = "Myles.D.Goodrich@gmail.com";
+    try {
+      await navigator.clipboard.writeText(email);
+    } catch {
+      // Fallback for older browsers / restricted contexts.
+      const textarea = document.createElement("textarea");
+      textarea.value = email;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      textarea.style.top = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+    }
+
+    setEmailCopied(true);
+    if (copyEmailTimerRef.current != null) {
+      window.clearTimeout(copyEmailTimerRef.current);
+    }
+    copyEmailTimerRef.current = window.setTimeout(() => {
+      setEmailCopied(false);
+      copyEmailTimerRef.current = null;
+    }, 1200);
   }, []);
 
   useEffect(() => {
@@ -134,23 +227,41 @@ export default function Home() {
     return () => obs.disconnect();
   }, []);
 
+  const TOOLTIP_W = 160;
+  const TOOLTIP_H = 56;
+  const handleChartMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (hoveredPointIndex === null || shouldReduceMotion) return;
+      const el = plotAreaRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      let x = e.clientX - rect.left - TOOLTIP_W / 2;
+      let y = e.clientY - rect.top - TOOLTIP_H - 8;
+      x = Math.max(8, Math.min(x, rect.width - TOOLTIP_W - 8));
+      y = Math.max(8, Math.min(y, rect.height - TOOLTIP_H - 8));
+      setTooltipPosition({ x, y });
+    },
+    [hoveredPointIndex, shouldReduceMotion]
+  );
+  const handleChartMouseLeave = useCallback(() => {
+    setHoveredPointIndex(null);
+    setTooltipPosition(null);
+  }, []);
+
   useEffect(() => {
-    if (!metricsVisible) return;
-    const targets = siteContent.metrics.map((m) => m.value);
-    const duration = 1200;
-    const start = performance.now();
-    let rafId: number;
-    const tick = (now: number) => {
-      const t = Math.min((now - start) / duration, 1);
-      const ease = 1 - (1 - t) * (1 - t);
-      setMetricValues(
-        targets.map((target) => Math.round(ease * target))
-      );
-      if (t < 1) rafId = requestAnimationFrame(tick);
-    };
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  }, [metricsVisible]);
+    if (hoveredPointIndex === null) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setTooltipPosition(null);
+      return;
+    }
+    const el = plotAreaRef.current || chartContainerRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    setTooltipPosition({
+      x: Math.max(8, rect.width / 2 - TOOLTIP_W / 2),
+      y: 12,
+    });
+  }, [hoveredPointIndex]);
 
   const selectedValue =
     selectedValueIndex != null
@@ -158,47 +269,195 @@ export default function Home() {
       : null;
 
   return (
-    <div className="space-y-20">
+    <div className="space-y-12">
       {/* Gradient divider */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
 
       {/* Hero: 2-col desktop */}
-      <section className="grid gap-10 lg:grid-cols-2 lg:items-start">
+      <motion.section
+        className="grid gap-10 lg:grid-cols-2 lg:items-start"
+        variants={sectionVariants}
+        initial="initial"
+        animate="animate"
+      >
         <div className="space-y-5">
           <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            Internal Audit mindset. Guard discipline. Built through persistence.
+            Built on structure. Tested by pressure.
+            <span className="mt-2 block text-base font-normal text-muted-2 sm:text-lg">
+              Accounting, risk, and control systems at LSU • Louisiana National Guard
+            </span>
           </h1>
           <p className="max-w-xl text-base leading-7 text-muted">
-            I'm an Accounting student at LSU pursuing the CIA & CRM Internal
-            Audit minor. I like work that is testable, evidence-based, and built
-            to scale.
+            I design controls, analytics, and documentation so work holds up under scrutiny.
           </p>
+          {/* Signal Bar */}
+          <div className="mt-6 grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]">
+            {/* MOMENTUM */}
+            <div className="relative h-full min-w-0 rounded-xl border border-border bg-surface/70 p-3.5">
+              <div className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-brand-gold/50" />
+              <div className="flex items-start gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-surface-2 text-white/70">
+                  {/* keep your existing icon here if you have one */}
+                  ↗
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-white/70 whitespace-normal leading-tight">
+                    Momentum
+                  </p>
+                  <p className="mt-0.5 text-sm font-semibold text-foreground leading-snug sm:text-base">
+                    GPA 3.9
+                  </p>
+                  <p className="mt-0.5 text-xs leading-snug text-white/55">
+                    Dean’s List trend
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* EVIDENCE */}
+            <div className="relative h-full min-w-0 rounded-xl border border-border bg-surface/70 p-3.5">
+              <div className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-brand-purple/50" />
+              <div className="flex items-start gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-surface-2 text-white/70">
+                  {/* keep your existing icon here if you have one */}
+                  📄
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-white/70 whitespace-normal leading-tight">
+                    Evidence
+                  </p>
+                  <p className="mt-0.5 text-sm font-semibold text-foreground leading-snug sm:text-base">
+                    31 Controls
+                  </p>
+                  <p className="mt-0.5 text-xs leading-snug text-white/55">
+                    COSO-mapped exhibit
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* STANDARDS */}
+            <div className="relative h-full min-w-0 rounded-xl border border-border bg-surface/70 p-3.5">
+              <div className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-brand-gold/50" />
+              <div className="flex items-start gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-surface-2 text-white/70">
+                  {/* keep your existing icon here if you have one */}
+                  🛡️
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-white/70 whitespace-normal leading-tight">
+                    Standards
+                  </p>
+                  <p className="mt-0.5 text-sm font-semibold text-foreground leading-snug sm:text-base">
+                    PFC
+                  </p>
+                  <p className="mt-0.5 text-xs leading-snug text-white/55">
+                    Louisiana National Guard
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="flex flex-wrap gap-3 pt-2">
             <Link
               href="/projects"
-              className="lsu-btn-gold transition hover:shadow-md hover:-translate-y-0.5"
+              className="lsu-btn-gold transition hover:shadow-md hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
             >
               View Projects
             </Link>
             <a
               href="mailto:Myles.D.Goodrich@gmail.com"
-              className="lsu-btn-outline transition hover:shadow-md hover:-translate-y-0.5"
+              className="lsu-btn-outline transition hover:shadow-md hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
             >
               Contact
             </a>
           </div>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              href="/projects#fin-bomb-internal-controls-exhibit-coso-framework"
+              className="text-sm font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            >
+              View controls exhibit &rarr;
+            </Link>
+            <Link
+              href="/projects#amazon-10-k-accounting-analysis"
+              className="text-sm font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            >
+              See the 10-K outline &rarr;
+            </Link>
+            <Link
+              href="/performance#record"
+              className="text-sm font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            >
+              See performance record &rarr;
+            </Link>
+            <Link
+              href="/journey#reset"
+              className="text-sm font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            >
+              Read the reset &rarr;
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <Link
+              href="/journey"
+              className="rounded-2xl border border-border bg-surface/70 px-4 py-3 text-left text-sm text-muted transition hover:border-brand-gold/50 hover:bg-surface hover:shadow-md hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
+            >
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-2">
+                Read the rebuild &rarr;
+              </p>
+              <p className="mt-1 text-sm text-muted">
+                From volatility to control.
+              </p>
+            </Link>
+            <Link
+              href="/performance"
+              className="rounded-2xl border border-border bg-surface/70 px-4 py-3 text-left text-sm text-muted transition hover:border-brand-gold/50 hover:bg-surface hover:shadow-md hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
+            >
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-2">
+                See the record &rarr;
+              </p>
+              <p className="mt-1 text-sm text-muted">
+                Measured over semesters.
+              </p>
+            </Link>
+          </div>
         </div>
 
         {/* Identity Card */}
-        <div className="lsu-card border-brand-purple/20 transition hover:shadow-lg hover:-translate-y-0.5">
+          <div className="lsu-card border-brand-purple/25 overflow-hidden">
+            <div className="relative mx-auto mb-4 w-full max-w-[175px]">
+              <div className="relative w-full overflow-hidden rounded-2xl aspect-[3/4]">
+                <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
+                <Image
+                  src="/headshot.png"
+                  alt={`${siteContent?.name ?? "Student"} headshot`}
+                  fill
+                  sizes="(max-width: 1024px) 90vw, 175px"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              <div className="mt-4 flex items-baseline justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-2">
+                    Profile
+                  </p>
+                  <p className="truncate text-lg font-semibold text-foreground">
+                    {siteContent?.name ?? "Student"}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-3 h-px w-full bg-border/60" />
+            </div>
           <div className="flex gap-1 border-b border-border pb-3">
             <button
               type="button"
               onClick={() => setIdentityTab("guard")}
-              className={`rounded-lg border px-4 py-2 text-sm font-medium transition ${
+              className={`rounded-xl border px-4 py-2 text-sm font-medium transition ${
                 identityTab === "guard"
-                  ? "bg-brand-gold text-black border-brand-gold"
-                  : "bg-surface text-muted border-border hover:bg-surface-2"
+                  ? "bg-brand-gold text-black border-brand-gold/60 shadow-[0_0_0_1px_rgba(253,208,35,0.4)]"
+                  : "bg-surface text-foreground/85 border-border hover:bg-surface-2"
               }`}
             >
               National Guard
@@ -206,10 +465,10 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setIdentityTab("comeback")}
-              className={`rounded-lg border px-4 py-2 text-sm font-medium transition ${
+              className={`rounded-xl border px-4 py-2 text-sm font-medium transition ${
                 identityTab === "comeback"
-                  ? "bg-brand-gold text-black border-brand-gold"
-                  : "bg-surface text-muted border-border hover:bg-surface-2"
+                  ? "bg-brand-gold text-black border-brand-gold/60 shadow-[0_0_0_1px_rgba(253,208,35,0.4)]"
+                  : "bg-surface text-foreground/85 border-border hover:bg-surface-2"
               }`}
             >
               Academic Comeback
@@ -223,18 +482,18 @@ export default function Home() {
                 </p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {siteContent.service.values.map((v, i) => (
-                    <button
+                    <Pill
                       key={v.label}
-                      type="button"
-                      onClick={() => setSelectedValueIndex(selectedValueIndex === i ? null : i)}
-                      className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
-                        selectedValueIndex === i
-                          ? "border-brand-gold bg-brand-gold/20 text-brand-gold"
-                          : "border-border bg-surface text-muted hover:bg-surface-2"
-                      }`}
+                      as="button"
+                      active={selectedValueIndex === i}
+                      onClick={() =>
+                        setSelectedValueIndex(
+                          selectedValueIndex === i ? null : i,
+                        )
+                      }
                     >
                       {v.label}
-                    </button>
+                    </Pill>
                   ))}
                 </div>
               </>
@@ -250,98 +509,20 @@ export default function Home() {
             )}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent" />
-
-      {/* Values in Action */}
-      <section aria-labelledby="values-heading" className="space-y-4">
-        <h2
-          id="values-heading"
-          className="text-xl font-semibold tracking-tight text-foreground"
-        >
-          Values in Action
-        </h2>
-        <p className="text-sm text-muted">
-          Click a value to see how it shows up in my work.
-        </p>
-        <div className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5">
-          <div className="flex flex-wrap gap-2">
-            {siteContent.service.values.map((v, i) => (
-              <button
-                key={v.label}
-                type="button"
-                onClick={() => setSelectedValueIndex(selectedValueIndex === i ? null : i)}
-                className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
-                  selectedValueIndex === i
-                    ? "border-brand-gold bg-brand-gold/20 text-brand-gold"
-                    : "border-border bg-surface text-muted hover:bg-surface-2"
-                }`}
-              >
-                {v.label}
-              </button>
-            ))}
-          </div>
-          {selectedValue != null && (
-            <p className="mt-4 border-t border-border pt-4 text-sm leading-7 text-muted">
-              {selectedValue.description}
-            </p>
-          )}
-        </div>
-      </section>
-
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
-
-      {/* Academic Comeback Timeline */}
-      <section aria-labelledby="comeback-heading" className="space-y-4">
-        <h2
-          id="comeback-heading"
-          className="text-xl font-semibold tracking-tight text-foreground"
-        >
-          Academic Comeback Timeline
-        </h2>
-        <p className="text-sm text-muted">
-          A rough start taught me how to build systems and improve consistently.
-        </p>
-        <div className="space-y-3">
-          {siteContent.comeback.milestones.map((m, i) => (
-            <div
-              key={m.year}
-              className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5"
-            >
-              <button
-                type="button"
-                onClick={() =>
-                  setExpandedMilestoneIndex(expandedMilestoneIndex === i ? null : i)
-                }
-                className="flex w-full items-center justify-between gap-4 text-left"
-              >
-                <span className="text-xs font-medium text-muted-2">{m.year}</span>
-                <span className="font-medium text-foreground">{m.title}</span>
-                <span
-                  className="text-brand-purple transition-transform"
-                  aria-hidden
-                >
-                  {expandedMilestoneIndex === i ? "−" : "+"}
-                </span>
-              </button>
-              {expandedMilestoneIndex === i && (
-                <p className="mt-3 border-t border-border pt-3 text-sm leading-7 text-muted">
-                  {m.detail}
-                </p>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
+      <OperatingSystemDashboard />
 
       <div className="my-12 h-px w-full bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent" />
 
       {/* Performance Over Time */}
-      <section
+      <motion.section
         ref={graphRef}
         aria-labelledby="performance-heading"
         className="space-y-4"
+        variants={sectionVariants}
+        initial="initial"
+        animate="animate"
       >
         <h2
           id="performance-heading"
@@ -352,84 +533,164 @@ export default function Home() {
         <p className="text-sm text-muted">
           Growth built through structure and persistence.
         </p>
-        <div className="lsu-card overflow-hidden transition hover:shadow-lg hover:-translate-y-0.5">
-          <div className="relative px-4 pb-4 pt-2">
-            <div className="relative inline-block w-full max-w-2xl">
-            <svg
-              viewBox="0 0 360 100"
-              className="w-full max-w-2xl"
-              aria-hidden
+        <div className="lsu-card overflow-hidden">
+          <div className="relative px-4 pb-3 pt-3">
+            <div
+              ref={chartContainerRef}
+              className="relative w-full max-w-2xl rounded-lg border border-brand-gold/15"
+              onMouseMove={handleChartMouseMove}
+              onMouseLeave={handleChartMouseLeave}
             >
-              <defs>
-                <linearGradient
-                  id="lineGrad"
-                  x1="0%"
-                  y1="0%"
-                  x2="100%"
-                  y2="0%"
-                >
-                  <stop offset="0%" stopColor="var(--brand-purple)" />
-                  <stop offset="100%" stopColor="var(--brand-purple)" />
-                </linearGradient>
-              </defs>
-              {/* Horizontal grid lines */}
-              {[0, 1, 2, 3, 4].map((i) => (
-                <line
-                  key={i}
-                  x1={40}
-                  y1={20 + i * 20}
-                  x2={320}
-                  y2={20 + i * 20}
-                  stroke="var(--border)"
-                  strokeWidth="0.5"
-                />
-              ))}
-              {/* Line path: x 40,100,160,220,280 for semesters 1-5; y from bottom 60 to top 10 (values 2.5->3.6) */}
-              <path
-                d="M 40 60 L 100 35.5 L 160 24.5 L 220 17.3 L 280 10"
-                fill="none"
-                stroke="var(--brand-purple)"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+              <div
+                ref={plotAreaRef}
+                className="relative h-[260px] overflow-hidden"
+              >
+              {/* Vignette */}
+              <div
+                className="pointer-events-none absolute inset-0 z-[1]"
                 style={{
-                  strokeDasharray: "300 300",
-                  strokeDashoffset: graphLineVisible ? 0 : 300,
-                  transition: "stroke-dashoffset 1.2s ease-out",
+                  background:
+                    "linear-gradient(to top, rgba(0,0,0,0.2) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.2) 100%)",
                 }}
               />
-              {PERFORMANCE_GRAPH.points.map((pt, i) => {
-                const x = 40 + i * 70;
-                const y = 60 - ((pt.value - 2.5) / 1.1) * 40;
-                return (
-                  <g key={i}>
-                    <circle
-                      cx={x}
-                      cy={y}
-                      r={hoveredPointIndex === i ? 6 : 5}
-                      fill="var(--brand-gold)"
-                      stroke="var(--brand-purple)"
-                      strokeWidth="1"
-                      className="cursor-pointer transition-all"
+              <svg
+                viewBox={`0 0 ${PLOT.viewWidth} ${PLOT.viewHeight}`}
+                className="absolute inset-0 h-full w-full"
+                preserveAspectRatio="xMidYMid meet"
+                aria-hidden
+              >
+                <defs>
+                  <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="var(--brand-purple)" stopOpacity="0.18" />
+                    <stop offset="70%" stopColor="var(--brand-purple)" stopOpacity="0.08" />
+                    <stop offset="100%" stopColor="var(--brand-purple)" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                {/* 3 horizontal grid lines, very faint */}
+                {[40, 52, 64].map((y) => (
+                  <line
+                    key={y}
+                    x1={PLOT.left}
+                    y1={y}
+                    x2={PLOT.right}
+                    y2={y}
+                    stroke="rgba(255,255,255,0.06)"
+                    strokeWidth="0.5"
+                  />
+                ))}
+                {/* Area fill under line (static, no animation) */}
+                <path
+                  d={getPerformanceAreaPathD()}
+                  fill="url(#areaGradient)"
+                  stroke="none"
+                />
+                {/* Line: same points as dots, ends at 5th point */}
+                <path
+                  d={getPerformancePathD()}
+                  fill="none"
+                  stroke="var(--brand-purple)"
+                  strokeWidth={3}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{
+                    strokeDasharray: "400 400",
+                    strokeDashoffset: graphLineVisible ? 0 : 400,
+                    transition: shouldReduceMotion ? "none" : "stroke-dashoffset 1.2s ease-out",
+                  }}
+                />
+                {/* Points: single dataset; default r=5, hovered r=7 + soft glow */}
+                {PERFORMANCE_GRAPH.points.map((pt, i) => {
+                  const { x, y } = getPlotCoords(i, pt.value);
+                  const isActive = hoveredPointIndex === i;
+                  return (
+                    <g
+                      key={i}
+                      style={{ cursor: "pointer" }}
                       onMouseEnter={() => setHoveredPointIndex(i)}
                       onMouseLeave={() => setHoveredPointIndex(null)}
-                    />
-                  </g>
-                );
-              })}
-            </svg>
-            {hoveredPointIndex !== null && (
+                    >
+                      {isActive && !shouldReduceMotion && (
+                        <circle
+                          cx={x}
+                          cy={y}
+                          r={14}
+                          fill="var(--brand-gold)"
+                          opacity={0.12}
+                        />
+                      )}
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r={isActive ? 7 : 5}
+                        fill="rgba(15,13,22,0.9)"
+                        stroke="var(--brand-gold)"
+                        strokeWidth={1.2}
+                        style={{ transition: "r 0.15s ease-out" }}
+                      />
+                    </g>
+                  );
+                })}
+              </svg>
+              {/* Y-axis context labels: aligned with bottom and top gridlines */}
               <div
-                className="pointer-events-none absolute z-10 rounded border border-border bg-surface px-3 py-2 text-sm text-foreground shadow-md"
-                style={{
-                  left: `${((40 + hoveredPointIndex * 70) / 360) * 100}%`,
-                  top: "0.5rem",
-                  transform: "translateX(-50%)",
-                }}
+                className="pointer-events-none absolute left-3 z-[2] -translate-y-1/2"
+                style={{ top: "50.5%" }}
+                aria-hidden
               >
-                {PERFORMANCE_GRAPH.tooltips[hoveredPointIndex]}
+                <div className="rounded-md bg-black/40 px-2 py-0.5 backdrop-blur-sm">
+                  <span className="text-[11px] font-medium tracking-wide text-white/65">
+                    Baseline
+                  </span>
+                </div>
               </div>
-            )}
+              <div
+                className="pointer-events-none absolute left-3 z-[2] -translate-y-1/2"
+                style={{ top: "30.5%" }}
+                aria-hidden
+              >
+                <div className="rounded-md bg-black/40 px-2 py-0.5 backdrop-blur-sm">
+                  <span className="text-[11px] font-medium tracking-wide text-white/65">
+                    Peak
+                  </span>
+                </div>
+              </div>
+              {/* HTML tooltip: absolute overlay, clamped */}
+              {hoveredPointIndex !== null && tooltipPosition && (
+                <div
+                  className="pointer-events-none absolute z-10 rounded-xl border border-brand-gold/25 bg-[#0f0d16]/95 px-3 py-2 shadow-md"
+                  style={{
+                    left: tooltipPosition.x,
+                    top: tooltipPosition.y,
+                    width: TOOLTIP_W,
+                  }}
+                >
+                  <p className="text-sm font-semibold text-white leading-tight">
+                    {PERFORMANCE_GRAPH.milestones[hoveredPointIndex]}
+                  </p>
+                  <p className="mt-0.5 text-xs text-white/70 leading-snug">
+                    {PERFORMANCE_GRAPH.tooltips[hoveredPointIndex]}
+                  </p>
+                </div>
+              )}
+              </div>
+            {/* Milestone labels: aligned under each point */}
+            <div className="relative mt-2 h-5 w-full max-w-2xl">
+              {PERFORMANCE_GRAPH.milestones.map((label, i) => (
+                <span
+                  key={label}
+                  className="absolute text-[10px] font-medium transition-colors cursor-default"
+                  style={{
+                    left: `${(getPlotCoords(i, PERFORMANCE_GRAPH.points[i].value).x / PLOT.viewWidth) * 100}%`,
+                    transform: "translateX(-50%)",
+                    color: hoveredPointIndex === i ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.55)",
+                  }}
+                  onMouseEnter={() => setHoveredPointIndex(i)}
+                  onMouseLeave={() => setHoveredPointIndex(null)}
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
             </div>
           </div>
           <p className="border-t border-border px-4 py-3 text-sm text-muted">
@@ -437,44 +698,119 @@ export default function Home() {
             track results, improve.
           </p>
         </div>
-      </section>
+      </motion.section>
 
       <div className="my-12 h-px w-full bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent" />
 
-      {/* Proof (metrics) */}
-      <section aria-labelledby="proof-heading" className="space-y-4">
+      {/* Evidence Trail */}
+      <motion.section
+        aria-labelledby="evidence-heading"
+        className="space-y-4"
+        variants={sectionVariants}
+        initial="initial"
+        animate="animate"
+      >
         <h2
-          id="proof-heading"
-          className="text-xl font-semibold tracking-tight text-foreground"
+          id="evidence-heading"
+          className="text-2xl font-semibold tracking-tight text-foreground"
         >
-          Proof
+          Evidence Trail
         </h2>
         <p className="text-sm text-muted">
-          A few numbers that summarize the kind of work I like to do.
+          Receipts, not stats — what I built, how it’s validated, and where to review it.
         </p>
-        <div
-          ref={metricsRef}
-          className="grid gap-6 sm:grid-cols-3"
-        >
-          {siteContent.metrics.map((m, i) => (
-            <div
-              key={m.label}
-              className="lsu-card text-center transition hover:shadow-lg hover:-translate-y-0.5"
-            >
-              <p className="text-3xl font-semibold tabular-nums text-brand-purple">
-                {metricValues[i]}
-                {m.suffix}
+        <div className="grid gap-6 sm:grid-cols-3">
+          <div className="lsu-card relative group">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 rounded-full bg-brand-gold/0 transition-colors group-hover:bg-brand-gold" />
+            <div className="flex items-start justify-between gap-4">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted sm:text-xs">
+                Controls
               </p>
-              <p className="mt-1 text-sm text-muted">{m.label}</p>
+              <ShieldCheck className="h-5 w-5 text-brand-gold/70" aria-hidden />
             </div>
-          ))}
-        </div>
-      </section>
+            <p className="mt-2 text-base font-semibold text-foreground">
+              31 Controls Documented
+            </p>
+            <ul className="mt-3 list-inside list-disc space-y-2 text-sm text-muted">
+              <li>31 controls mapped to specific risks + owners</li>
+              <li>Evidence trail defined (what proves execution)</li>
+              <li>Risk ratings assigned and gaps identified</li>
+            </ul>
+            <p className="mt-3 text-xs text-muted-2">
+              Structured using COSO framework principles.
+            </p>
+            <Link
+              href="/projects"
+              className="mt-3 inline-flex text-xs font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            >
+              See controls
+            </Link>
+          </div>
 
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
+          <div className="lsu-card relative group">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 rounded-full bg-brand-gold/0 transition-colors group-hover:bg-brand-gold" />
+            <div className="flex items-start justify-between gap-4">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted sm:text-xs">
+                Analytics
+              </p>
+              <BarChart3 className="h-5 w-5 text-brand-purple/70" aria-hidden />
+            </div>
+            <p className="mt-2 text-base font-semibold text-foreground">
+              Dashboards &amp; KPI Definitions
+            </p>
+            <ul className="mt-3 list-inside list-disc space-y-2 text-sm text-muted">
+              <li>KPI definitions tied to decision use</li>
+              <li>Metrics standardized for repeat reporting</li>
+              <li>Dashboards built for executive clarity</li>
+            </ul>
+            <p className="mt-3 text-xs text-muted-2">
+              Built in Power BI + Excel modeling.
+            </p>
+            <Link
+              href="/projects"
+              className="mt-3 inline-flex text-xs font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            >
+              See dashboards
+            </Link>
+          </div>
+
+          <div className="lsu-card relative group">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 rounded-full bg-brand-gold/0 transition-colors group-hover:bg-brand-gold" />
+            <div className="flex items-start justify-between gap-4">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted sm:text-xs">
+                Execution
+              </p>
+              <Target className="h-5 w-5 text-brand-gold/70" aria-hidden />
+            </div>
+            <p className="mt-2 text-base font-semibold text-foreground">
+              Repeatable Improvement
+            </p>
+            <ul className="mt-3 list-inside list-disc space-y-2 text-sm text-muted">
+              <li>Weekly planning system implemented</li>
+              <li>Semester-over-semester performance tracked</li>
+              <li>Variability reduced by design</li>
+            </ul>
+            <p className="mt-3 text-xs text-muted-2">
+              Measured across academic + Guard workload.
+            </p>
+            <Link
+              href="/performance"
+              className="mt-3 inline-flex text-xs font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            >
+              See record
+            </Link>
+          </div>
+        </div>
+      </motion.section>
 
       {/* Leadership, Training, Quick Facts */}
-      <section aria-labelledby="more-personal-heading" className="space-y-4">
+      <motion.section
+        aria-labelledby="more-personal-heading"
+        className="space-y-4"
+        variants={sectionVariants}
+        initial="initial"
+        animate="animate"
+      >
         <h2
           id="more-personal-heading"
           className="sr-only"
@@ -482,7 +818,7 @@ export default function Home() {
           More about me
         </h2>
         <div className="grid gap-6 md:grid-cols-3">
-          <div className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5">
+          <div className="lsu-card">
             <h3 className="text-base font-semibold tracking-tight text-foreground">
               {siteContent.leadership.title}
             </h3>
@@ -495,7 +831,7 @@ export default function Home() {
               ))}
             </ul>
           </div>
-          <div className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5">
+          <div className="lsu-card">
             <h3 className="text-base font-semibold tracking-tight text-foreground">
               {siteContent.athletics.title}
             </h3>
@@ -508,7 +844,7 @@ export default function Home() {
               ))}
             </ul>
           </div>
-          <div className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5">
+          <div className="lsu-card">
             <h3 className="text-base font-semibold tracking-tight text-foreground">
               {siteContent.personal.title}
             </h3>
@@ -519,57 +855,67 @@ export default function Home() {
             </ul>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
 
       {/* Systems I've Built with tag filter + System Builder Toggle */}
-      <section aria-labelledby="systems-heading" className="space-y-4">
+      <motion.section
+        aria-labelledby="systems-heading"
+        className="space-y-4"
+        variants={sectionVariants}
+        initial="initial"
+        animate="animate"
+      >
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h2
               id="systems-heading"
-              className="text-xl font-semibold tracking-tight text-foreground"
+              className="text-xl font-bold tracking-tighter text-foreground"
             >
-              Systems I've Built
+              Systems I&apos;ve Built
             </h2>
-            <p className="mt-1 text-sm text-muted">
+            <p className="mt-1 text-xs text-muted-2 leading-snug">
               Projects that reflect my internal-audit mindset: structure,
               controls, evidence, and clear reporting.
             </p>
           </div>
           <Link
             href="/projects"
-            className="text-sm font-medium text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+            className="text-sm font-medium text-brand-gold underline underline-offset-4 decoration-brand-gold/70 hover:decoration-brand-gold hover:[&>span]:translate-x-0.5 transition-all duration-200 inline-flex items-center gap-1"
           >
-            View all
+            View all <span aria-hidden>→</span>
           </Link>
         </div>
         <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
+          <Pill
+            as="button"
+            active={systemTagFilter == null}
             onClick={() => setSystemTagFilter(null)}
-            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+            size="sm"
+            className={
               systemTagFilter == null
-                ? "border-brand-gold bg-brand-gold/15 text-foreground"
-                : "border-border bg-surface text-muted hover:bg-surface-2"
-            }`}
+                ? "!bg-brand-gold !text-black !border-brand-gold/60"
+                : "!border-border/60 !bg-surface-2/90 !text-foreground/80 py-1.5 px-2.5 hover:!border-brand-gold hover:shadow-[0_0_12px_rgba(253,208,35,0.12)]"
+            }
           >
             All
-          </button>
+          </Pill>
           {uniqueTags.map((tag) => (
-            <button
+            <Pill
               key={tag}
-              type="button"
+              as="button"
+              active={systemTagFilter === tag}
               onClick={() => setSystemTagFilter(tag)}
-              className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+              size="sm"
+              className={
                 systemTagFilter === tag
-                  ? "border-brand-gold bg-brand-gold/15 text-foreground"
-                  : "border-border bg-surface text-muted hover:bg-surface-2"
-              }`}
+                  ? "!bg-brand-gold !text-black !border-brand-gold/60"
+                  : "!border-border/60 !bg-surface-2/90 !text-foreground/80 py-1.5 px-2.5 hover:!border-brand-gold hover:shadow-[0_0_12px_rgba(253,208,35,0.12)]"
+              }
             >
               {tag}
-            </button>
+            </Pill>
           ))}
         </div>
 
@@ -578,15 +924,15 @@ export default function Home() {
             Two Ways to View My Work
           </h3>
           <p className="text-sm text-muted">
-            I don't just complete projects. I build repeatable systems.
+            I don&rsquo;t just complete projects. I build systems that can be tested and reused.
           </p>
           <div className="flex gap-1">
             <button
               type="button"
               onClick={() => setWorkView("project")}
-              className={`rounded-lg border px-4 py-2 text-sm font-medium transition ${
+              className={`rounded-xl border px-4 py-2 text-sm font-medium transition ${
                 workView === "project"
-                  ? "bg-brand-gold text-black border-brand-gold"
+                  ? "bg-brand-gold text-black border-brand-gold/60"
                   : "bg-surface text-muted border-border hover:bg-surface-2"
               }`}
             >
@@ -595,9 +941,9 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setWorkView("system")}
-              className={`rounded-lg border px-4 py-2 text-sm font-medium transition ${
+              className={`rounded-xl border px-4 py-2 text-sm font-medium transition ${
                 workView === "system"
-                  ? "bg-brand-gold text-black border-brand-gold"
+                  ? "bg-brand-gold text-black border-brand-gold/60"
                   : "bg-surface text-muted border-border hover:bg-surface-2"
               }`}
             >
@@ -609,59 +955,133 @@ export default function Home() {
         <div className="grid gap-6 sm:grid-cols-2">
           {filteredSystems.map((project) => {
             const systemView = SYSTEM_VIEW_MAP[project.title];
+            const projectOutcome = truncateText(
+              project.highlights?.[0]?.trim()
+                ? project.highlights[0]
+                : project.description
+            );
+            const evidenceCue = EVIDENCE_CUE[project.title];
+            const anchorId = slugifyProjectTitle(project.title);
+            const projectHref = `/projects#${anchorId}`;
             return (
               <article
                 key={project.title}
-                className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5"
+                className="lsu-card group relative min-w-0 overflow-hidden border-border bg-surface transition-all duration-[220ms] ease-out hover:-translate-y-0.5 hover:border-brand-gold hover:bg-surface/95 hover:shadow-lg motion-reduce:hover:translate-y-0 motion-reduce:transition-none"
               >
+                <div className="absolute left-0 top-5 bottom-5 w-0.5 bg-brand-purple/35 transition-colors group-hover:bg-brand-gold/40" />
                 {workView === "project" ? (
-                  <div key="project" className="lsu-card-inner">
-                    <h3 className="text-base font-semibold tracking-tight text-foreground">
+                  <div key="project" className="lsu-card-inner min-w-0 pl-2">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="relative -top-0.5 inline-flex items-center rounded-full border border-border/70 bg-surface-2 px-2 py-0.5 text-xs font-semibold leading-none tracking-wide text-muted">
+                        PROJECT
+                      </span>
+                      <span className="sr-only">Project view</span>
+                    </div>
+                    <h3 className="mt-1 text-lg font-bold tracking-tight text-foreground">
                       {project.title}
                     </h3>
-                    <p className="mt-2 text-sm text-muted">
-                      {project.description}
+                    <p className="mt-1.5 text-sm font-medium text-foreground/90">
+                      Outcome: {projectOutcome}
                     </p>
                     {project.highlights.length > 0 && (
-                      <ul className="mt-3 list-inside list-disc space-y-1 text-sm text-muted">
-                        {project.highlights.map((h) => (
-                          <li key={h}>{h}</li>
-                        ))}
-                      </ul>
+                      <div className="mt-3 space-y-1.5">
+                        <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-2">
+                          Inputs → Process → Output
+                        </p>
+                        <ul className="list-inside list-disc space-y-1 text-xs text-muted leading-relaxed">
+                          {project.highlights.map((h) => (
+                            <li key={h}>{h}</li>
+                          ))}
+                        </ul>
+                      </div>
                     )}
+                    {evidenceCue && (
+                      <p className="mt-3 text-xs text-muted-2">{evidenceCue}</p>
+                    )}
+                    <Link
+                      href={projectHref}
+                      className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-brand-gold decoration-brand-gold/80 underline-offset-2 hover:underline [&>span]:inline-block [&>span]:transition-transform duration-200 hover:[&>span]:translate-x-0.5"
+                    >
+                      See project <span aria-hidden>→</span>
+                    </Link>
                   </div>
                 ) : systemView ? (
-                  <div key="system" className="lsu-card-inner">
-                    <h3 className="text-base font-semibold tracking-tight text-foreground">
+                  <div key="system" className="lsu-card-inner min-w-0 pl-2">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="inline-flex items-center rounded-full border border-border/70 bg-surface-2 px-2 py-0.5 text-xs font-semibold tracking-wide text-muted">
+                        SYSTEM
+                      </span>
+                      <span className="inline-flex items-center rounded-full border border-brand-gold/25 bg-brand-gold/10 px-2 py-0.5 text-xs font-semibold text-muted">
+                        Evidence-ready
+                      </span>
+                    </div>
+                    <h3 className="mt-1 text-lg font-bold tracking-tight text-foreground">
                       {systemView.title}
                     </h3>
-                    <p className="mt-1 text-sm text-muted-2">
-                      {systemView.subtitle}
+                    <p className="mt-1.5 text-sm font-medium text-foreground/90">
+                      Outcome: {systemView.subtitle}
                     </p>
-                    <ul className="mt-3 list-inside list-disc space-y-1 text-sm text-muted">
-                      {systemView.bullets.map((b) => (
-                        <li key={b}>{b}</li>
-                      ))}
-                    </ul>
+                    <div className="mt-3 space-y-1.5">
+                      <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-2">
+                        Inputs → Process → Output
+                      </p>
+                      <ul className="list-inside list-disc space-y-1 text-xs text-muted leading-relaxed">
+                        {systemView.bullets.map((b) => (
+                          <li key={b}>{b}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    {evidenceCue && (
+                      <p className="mt-3 text-xs text-muted-2">{evidenceCue}</p>
+                    )}
+                    <Link
+                      href={projectHref}
+                      className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-brand-gold decoration-brand-gold/80 underline-offset-2 hover:underline [&>span]:inline-block [&>span]:transition-transform duration-200 hover:[&>span]:translate-x-0.5"
+                    >
+                      See system <span aria-hidden>→</span>
+                    </Link>
                   </div>
                 ) : (
-                  <div key="fallback" className="lsu-card-inner text-sm text-muted">
-                    <h3 className="text-base font-semibold text-foreground">
+                  <div key="fallback" className="lsu-card-inner min-w-0 pl-2 text-sm text-muted">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="relative -top-0.5 inline-flex items-center rounded-full border border-border/70 bg-surface-2 px-2 py-0.5 text-xs font-semibold leading-none tracking-wide text-muted">
+                        PROJECT
+                      </span>
+                      <span className="sr-only">Fallback view</span>
+                    </div>
+                    <h3 className="mt-1 text-lg font-bold text-foreground">
                       {project.title}
                     </h3>
-                    <p className="mt-2">{project.description}</p>
+                    <p className="mt-1.5 font-medium text-foreground/90">
+                      Outcome: {projectOutcome}
+                    </p>
+                    {evidenceCue && (
+                      <p className="mt-3 text-xs text-muted-2">{evidenceCue}</p>
+                    )}
+                    <Link
+                      href={projectHref}
+                      className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-brand-gold decoration-brand-gold/80 underline-offset-2 hover:underline [&>span]:inline-block [&>span]:transition-transform duration-200 hover:[&>span]:translate-x-0.5"
+                    >
+                      See project <span aria-hidden>→</span>
+                    </Link>
                   </div>
                 )}
               </article>
             );
           })}
         </div>
-      </section>
+      </motion.section>
 
       <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent" />
 
       {/* Risk Lens interactive */}
-      <section aria-labelledby="risk-heading" className="space-y-4">
+      <motion.section
+        aria-labelledby="risk-heading"
+        className="space-y-4"
+        variants={sectionVariants}
+        initial="initial"
+        animate="animate"
+      >
         <h2
           id="risk-heading"
           className="text-xl font-semibold tracking-tight text-foreground"
@@ -671,7 +1091,7 @@ export default function Home() {
         <p className="text-sm text-muted">
           When I review a process, these are the questions I start with:
         </p>
-        <div className="lsu-card transition hover:shadow-lg hover:-translate-y-0.5">
+        <div className="lsu-card">
           <ul className="space-y-3">
             {RISK_LENS_ITEMS.map((item, i) => (
               <li key={item} className="flex items-center gap-3">
@@ -751,32 +1171,155 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setRiskChecked(RISK_LENS_ITEMS.map(() => false))}
-              className="mt-4 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-muted transition hover:bg-surface-2"
+              className="mt-4 rounded-xl border border-border bg-surface px-3 py-1.5 text-xs font-medium text-muted transition hover:bg-surface-2"
             >
               Reset
             </button>
           </div>
         </div>
-      </section>
+      </motion.section>
+
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
+
+      {/* Operating Principles */}
+      <motion.section
+        aria-labelledby="principles-heading"
+        className="relative pl-5"
+        variants={sectionVariants}
+        initial="initial"
+        animate="animate"
+      >
+        <div
+          className="absolute left-0 top-0 bottom-0 w-px bg-brand-gold/25"
+          aria-hidden
+        />
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-2">
+          PERSONAL DOCTRINE
+        </p>
+        <h2
+          id="principles-heading"
+          className="mt-2 text-xl font-semibold tracking-tight text-foreground"
+        >
+          Operating Principles
+        </h2>
+        <p className="mt-1 text-sm text-muted-2/90">
+          The rules I build and operate by — quietly consistent and traceable.
+        </p>
+        <div className="mt-8 grid grid-cols-1 gap-x-12 md:grid-cols-2">
+          <div className="flex flex-col space-y-4">
+            {[
+              "If it can’t be tested, it isn’t complete.",
+              "Clarity beats intensity.",
+              "Structure reduces emotion.",
+              "Reduce variability before chasing growth.",
+            ].map((principle) => (
+              <p
+                key={principle}
+                className="text-base font-medium leading-snug text-foreground"
+              >
+                {principle}
+              </p>
+            ))}
+          </div>
+          <div className="flex flex-col space-y-4 md:mt-0">
+            {[
+              "Build systems that hold under stress.",
+              "Measure what matters. Ignore the rest.",
+              "Consistency compounds.",
+            ].map((principle) => (
+              <p
+                key={principle}
+                className="text-base font-medium leading-snug text-foreground"
+              >
+                {principle}
+              </p>
+            ))}
+          </div>
+        </div>
+        <p className="mt-10 text-center text-sm text-muted-2">
+          Consistency compounds. Systems endure.
+        </p>
+      </motion.section>
+
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
+
+      {/* From Volatility to Control */}
+      <motion.section
+        aria-labelledby="volatility-heading"
+        className="lsu-card"
+        variants={sectionVariants}
+        initial="initial"
+        animate="animate"
+      >
+        <h2
+          id="volatility-heading"
+          className="text-lg font-semibold tracking-tight text-foreground"
+        >
+          From Volatility to Control
+        </h2>
+        <p className="mt-3 text-sm leading-7 text-muted">
+          The record began with volatility. It was redesigned through structure. The result:
+          controlled performance.
+        </p>
+      </motion.section>
 
       <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
 
       {/* Contact */}
-      <section aria-labelledby="contact-heading" className="lsu-card">
+      <motion.section
+        aria-labelledby="contact-heading"
+        className="lsu-card transition hover:-translate-y-0.5 hover:shadow-lg motion-reduce:hover:translate-y-0"
+        variants={sectionVariants}
+        initial="initial"
+        animate="animate"
+      >
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-2">
+          LET&rsquo;S CONNECT
+        </p>
         <h2
           id="contact-heading"
-          className="text-lg font-semibold tracking-tight text-foreground"
+          className="mt-2 text-xl font-semibold tracking-tight text-foreground"
         >
           Contact
         </h2>
-        <p className="mt-4 text-sm text-muted">{siteContent.email}</p>
+        <p className="mt-2 text-sm text-muted">
+          If you value structure, clarity, and evidence-driven work — I’d be glad to connect.
+        </p>
+        <p className="mt-5 text-sm text-muted">{siteContent.email}</p>
         <p className="mt-1 text-sm text-muted">{siteContent.location}</p>
-        <div className="mt-6">
-          <a href={`mailto:${siteContent.email}`} className="lsu-btn-gold">
+        <div className="mt-8 flex flex-wrap gap-3">
+          <a
+            href={`mailto:${siteContent.email}`}
+            className="lsu-btn-gold px-6 py-2.5 text-sm sm:text-base"
+          >
             Email me
           </a>
+          <a
+            href="https://www.linkedin.com/in/myles-goodrich/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center justify-center rounded-full border border-border bg-surface px-5 py-2 text-sm font-semibold text-foreground transition hover:border-brand-gold hover:text-brand-gold hover:-translate-y-0.5 hover:shadow-md motion-reduce:hover:translate-y-0"
+          >
+            <span>LinkedIn</span>
+            <span
+              aria-hidden
+              className="ml-1 inline-block transition-transform group-hover:translate-x-0.5"
+            >
+              ↗
+            </span>
+          </a>
+          <button
+            type="button"
+            onClick={handleCopyEmail}
+            className="group inline-flex items-center justify-center rounded-full border border-brand-gold/50 bg-surface px-5 py-2 text-sm font-semibold text-muted transition hover:border-brand-gold hover:text-brand-gold hover:-translate-y-0.5 hover:shadow-md motion-reduce:hover:translate-y-0"
+          >
+            <span>{emailCopied ? "Copied" : "Copy email"}</span>
+          </button>
         </div>
-      </section>
+        <p className="mt-3 text-xs text-muted-2">
+          Open to audit, controls, analytics, and leadership opportunities.
+        </p>
+      </motion.section>
     </div>
   );
 }

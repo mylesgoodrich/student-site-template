@@ -8,19 +8,30 @@ Parameters:
 
   HostedZoneId:
     Type: String
+    Default: ''
     Description: Route53 Hosted Zone ID
 
   BackendDomain:
     Type: String
     Description: Subdomain for backend API
 
+  FrontendDomain:
+    Type: String
+    Description: Subdomain for frontend app (used for CORS)
+
   BaseDomain:
     Type: String
+    Default: ''
     Description: Base domain name
 
   ECRRepositoryUri:
     Type: String
     Description: URI of the ECR repository
+
+Conditions:
+  HasCustomDomain: !And
+    - !Not [!Equals [!Ref HostedZoneId, '']]
+    - !Not [!Equals [!Ref BaseDomain, '']]
 
 Resources:
   VPC:
@@ -239,7 +250,10 @@ Resources:
               Protocol: tcp
           Environment:
             - Name: ALLOWED_ORIGINS
-              Value: !Sub 'https://${FrontendDomain}.${BaseDomain}'
+              Value: !If
+                - HasCustomDomain
+                - !Sub 'https://${FrontendDomain}.${BaseDomain}'
+                - '*'
             - Name: AWS_REGION
               Value: !Ref AWS::Region
           LogConfiguration:
@@ -274,6 +288,7 @@ Resources:
 
   Certificate:
     Type: AWS::CertificateManager::Certificate
+    Condition: HasCustomDomain
     Properties:
       DomainName: !Sub '${BackendDomain}.${BaseDomain}'
       ValidationMethod: DNS
@@ -283,6 +298,7 @@ Resources:
 
   HTTPSListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
+    Condition: HasCustomDomain
     Properties:
       DefaultActions:
         - Type: forward
@@ -295,6 +311,7 @@ Resources:
 
   Route53Record:
     Type: AWS::Route53::RecordSet
+    Condition: HasCustomDomain
     Properties:
       HostedZoneId: !Ref HostedZoneId
       Name: !Sub '${BackendDomain}.${BaseDomain}'
@@ -306,7 +323,13 @@ Resources:
 Outputs:
   BackendURL:
     Description: Backend API URL
-    Value: !Sub 'https://${BackendDomain}.${BaseDomain}'
+    Value: !If
+      - HasCustomDomain
+      - !Sub 'https://${BackendDomain}.${BaseDomain}'
+      - !Join
+        - ''
+        - - 'http://'
+          - !GetAtt ApplicationLoadBalancer.DNSName
     Export:
       Name: !Sub '${ProjectName}-BackendURL'
 

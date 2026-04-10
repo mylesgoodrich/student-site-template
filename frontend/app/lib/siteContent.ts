@@ -1,12 +1,12 @@
 // Single source of truth for site content
 export const siteContent = {
   name: "Myles Goodrich",
-  tagline: "Structured thinking. Measurable outcomes. Repeatable systems.",
+  tagline: "Structured thinking. Measurable outcomes. Audit-ready work.",
   email: "Myles.D.Goodrich@gmail.com",
   location: "Baton Rouge, LA",
 
   about:
-    "I'm Myles Goodrich, an Accounting student at LSU pursuing the CIA & CRM Internal Audit minor. I'm interested in internal audit because I like work that is testable, evidence-based, and built to scale. My projects focus on translating messy processes into clear controls, clean documentation, and dashboards that make decisions easier. I also serve as a PFC in the Louisiana Army National Guard, where standards, accountability, and execution are non-negotiable.",
+    "I’m Myles Goodrich, an Accounting student at LSU focused on risk, controls, and structured financial systems. I’m completing the CIA & CRM Internal Audit minor to deepen my understanding of control design, testing, and documentation. I like work that is testable, grounded in evidence, and designed to scale. My projects focus on turning messy processes into clear controls, clean documentation, and dashboards that support decisions. I also serve as a PFC in the Louisiana Army National Guard, where standards, accountability, and execution under pressure are non-negotiable.",
 
   interests: [
     "Controls & Evidence",
@@ -57,19 +57,19 @@ export const siteContent = {
   comeback: {
     headline: "Academic Comeback",
     summary:
-      "I didn't start college perfectly. My strength is persistence: I rebuilt my habits and improved semester after semester. I turned a rough start into consistent performance by building structure, tracking results, and raising my standards.",
+      "I didn't start college perfectly. I rebuilt my habits and improved semester after semester by adding structure, tracking results, and raising my standards.",
     milestones: [
       {
         year: "Early college",
         title: "Rough start, honest reset",
         detail:
-          "I realized effort alone wasn't enough. I stopped winging it, got serious about time management, and built a weekly plan I could actually follow.",
+          "I realized effort alone wasn't enough. I stopped winging it, tightened my time management, and built a weekly plan I could follow.",
       },
       {
         year: "Building consistency",
-        title: "Systems over motivation",
+        title: "Structure over motivation",
         detail:
-          "I started using structured routines: weekly planning, tighter study blocks, and checklists. Consistency became the difference-maker.",
+          "I leaned on structured routines: weekly planning, focused study blocks, and checklists that made progress visible.",
       },
       {
         year: "Now",
@@ -89,7 +89,7 @@ export const siteContent = {
   leadership: {
     title: "VP of Accounting & Finance — AI Club",
     summary:
-      "As VP of Accounting & Finance for the AI Club, I focus on building financial systems that scale — real-time budget visibility, clear categories, and lightweight controls so leadership always knows where funds stand.",
+      "As VP of Accounting & Finance for the AI Club, I focus on building financial systems that scale: real-time budget visibility, clear categories, and lightweight controls so leadership always knows where funds stand.",
     bullets: [
       "Built a structured budget tracking approach for transparency",
       "Created a simple sponsorship tracking pipeline concept",
@@ -100,27 +100,27 @@ export const siteContent = {
   athletics: {
     title: "Training Mindset",
     summary:
-      "Outside of class, I train like I study: structured, consistent, and measurable. I'm currently training for the Alcatraz swim, and I've also pushed long-distance running goals that taught me discipline and patience.",
+      "Outside of class, I train with the same structure I study with: measured, consistent, and disciplined.",
     bullets: [
-      "Alcatraz swim training: consistency, cold-water tolerance, and pacing",
-      "Endurance mindset: systems beat motivation",
-      "Progress tracking: weekly goals, feedback, and adjustment",
+      "Completed Shark Fest Alcatraz (open-water swim) — built confidence under pressure",
+      "Endurance mindset: planning and discipline beat motivation",
+      "Progress tracking: weekly goals, feedback, adjustment",
     ],
   },
 
   personal: {
-    title: "A few things that describe me",
+    title: "Professional Standards",
     bullets: [
-      "I like work that's testable: if it can't be verified, it isn't finished",
-      "I'm big on checklists, clean documentation, and reducing ambiguity",
-      "I'm at my best when the standard is high and deadlines are real",
+      "Testable work over assumptions",
+      "Clean documentation over verbal explanation",
+      "Standards held under deadline pressure",
     ],
   },
 
   blog: {
     enabled: true,
     intro:
-      "This blog documents what I'm learning in internal audit, accounting systems, risk analysis, and practical applications of financial controls.",
+      "This blog documents what I'm learning in internal audit, accounting systems, risk analysis, and practical uses of financial controls.",
   },
 };
 
@@ -656,7 +656,7 @@ Learn how to trace the story behind the numbers.
     title: "Why I chose internal audit over finance",
     date: "2026-02-05",
     excerpt:
-      "I dropped Finance because I wanted work built on verification, controls, and repeatable systems — not just stories and projections.",
+      "I dropped Finance because I wanted work built on verification, controls, and traceable documentation — not just stories and projections.",
     tags: ["Journey", "Internal Audit", "Growth", "Direction"],
     cover: { eyebrow: "Decision", accent: "gold" },
     content: `
@@ -665,7 +665,7 @@ Learn how to trace the story behind the numbers.
 I dropped Finance because I realized I'm most energized by work that is:
 
 - Structured
-- Evidence-based
+- Grounded in evidence
 - Built to scale
 - Focused on improving how things actually operate
 

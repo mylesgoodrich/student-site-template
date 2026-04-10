@@ -17,23 +17,27 @@ export const projects: Project[] = [
     title: "Fin Bomb Internal Controls Exhibit (COSO Framework)",
     subtitle: "31 controls mapped to risks with photo evidence",
     description:
-      "Built a full internal controls exhibit for an operations-focused project by documenting 31 controls, tying each to the relevant risk, and supporting conclusions with clear evidence (including photos and write-ups). The final deliverable was structured like an internal audit workpaper set—clean, repeatable, and easy to test.",
+      "Outcome: 31 internal controls documented and mapped to specific risks with supporting evidence. Built a full internal controls exhibit for an operations-focused process, with workpapers structured like an internal audit file.",
     tags: ["Internal Audit", "COSO", "Controls Testing", "Risk Assessment"],
     highlights: [
       "Mapped 31 controls to specific risks and objectives",
       "Created audit-style exhibits with documentation + photo evidence",
       "Assigned risk levels and identified improvement opportunities",
     ],
-    timeframe: "ACCT 3025 project",
-    problem: "Process had gaps and inconsistent documentation.",
-    framework: "COSO-style risk → control → evidence → rating.",
-    outcome: "Audit-ready exhibit set with 31 controls and photo evidence.",
+    timeframe: "ACCT 3233 project",
+    link: {
+      label: "View project page",
+      href: "/projects/fin-bomb-internal-controls-exhibit-coso-framework",
+    },
+    problem: "Unclear control ownership increased risk of inconsistent execution.",
+    framework: "COSO-based mapping of risks to controls, evidence, and ratings.",
+    outcome: "31 controls mapped to risks with documented evidence and ratings.",
   },
   {
     title: "Amazon 10-K Accounting Analysis",
     subtitle: "Disclosures deep dive across major accounting topics",
     description:
-      "Completed a structured analysis of Amazon's 10-K with emphasis on high-impact accounting areas like revenue recognition, EPS, OCI, and deferred taxes. Focused on interpreting note disclosures and translating them into clear takeaways and implications.",
+      "Outcome: reference-ready outline connecting key 10-K disclosures to financial statement impacts. Completed a structured analysis of Amazon's 10-K focused on revenue recognition, EPS, OCI, and deferred taxes.",
     tags: ["Financial Reporting", "10-K", "GAAP", "Disclosure Analysis"],
     highlights: [
       "Synthesized complex footnote disclosures into concise summaries",
@@ -41,31 +45,31 @@ export const projects: Project[] = [
       "Organized findings into a clean, reference-ready outline",
     ],
     timeframe: "Intermediate Accounting II",
-    problem: "10-K disclosures are dense and easy to lose the thread.",
-    framework: "Start with what moves the numbers; trace policies and estimates.",
-    outcome: "Reference-ready outline connecting notes to statement impact.",
+    problem: "High-impact accounting risks in 10-K disclosures can be missed or misinterpreted.",
+    framework: "Top-down review linking key disclosures to financial statement line items.",
+    outcome: "Structured outline that connects critical notes to statement impacts for faster, focused review.",
   },
   {
     title: "Global Minimum Tax Policy Paper (Pillar Two)",
     subtitle: "Policy analysis with U.S. tax code connections",
     description:
-      "Researched and wrote a policy-focused analysis of the OECD global minimum tax (Pillar Two) and how it interacts with U.S. international tax rules. Emphasized real-world incentives, compliance complexity, and how rule design affects investment and reporting decisions.",
+      "Outcome: concise view of incentives, risks, and planning implications for Pillar Two adoption. Researched and wrote a policy analysis linking OECD global minimum tax rules to U.S. international tax.",
     tags: ["Tax Policy", "OECD Pillar Two", "International Tax", "Research"],
     highlights: [
       "Explained Pillar Two mechanics and planning implications",
       "Connected global minimum tax concepts to U.S. tax provisions",
       "Presented tradeoffs: compliance burden vs. anti–profit shifting goals",
     ],
-    timeframe: "ACCT 3221 Group B",
-    problem: "Global minimum tax rules are complex and affect planning.",
-    framework: "Policy analysis linking OECD Pillar Two to U.S. tax code.",
-    outcome: "Clear tradeoffs: compliance burden vs. anti–profit shifting.",
+    timeframe: "ACCT 3221",
+    problem: "Complex global minimum tax rules create planning and compliance risk.",
+    framework: "Policy analysis tying OECD Pillar Two mechanics to U.S. international tax rules.",
+    outcome: "Concise view of incentives, risks, and planning implications for Pillar Two adoption.",
   },
   {
     title: "Power BI Profitability Dashboard (Beverage Dataset)",
     subtitle: "Multi-year trend + margin analysis with slicers",
     description:
-      "Built a Power BI dashboard from a multi-year beverage dataset to evaluate revenue trends, cost behavior, and profitability by category/segment. Designed it to be decision-friendly with clean KPIs, slicers, and visuals that tell a story quickly.",
+      "Outcome: decision-ready dashboard surfacing profitability and trend insights by segment and period. Built a Power BI model from multi-year beverage data to evaluate revenue, cost behavior, and margins.",
     tags: ["Power BI", "Analytics", "KPIs", "Profitability"],
     highlights: [
       "Modeled data for trend and profitability reporting",
@@ -73,15 +77,15 @@ export const projects: Project[] = [
       "Focused on layout clarity and executive-style readability",
     ],
     timeframe: "Analytics coursework",
-    problem: "Multi-year data without clear view of trends or profitability.",
-    framework: "Model data; build KPIs and slicers for segment and time.",
-    outcome: "Dashboard that supports fast, decision-ready analysis.",
+    problem: "Fragmented multi-year data obscured trends and margin drivers for decision-making.",
+    framework: "Modeled multi-year data with KPIs and slicers to expose revenue and margin patterns.",
+    outcome: "Decision-ready dashboard that surfaces key profitability and trend insights quickly.",
   },
   {
     title: "AI Club Finance System Concept",
     subtitle: "Real-time budget tracking + sponsorship pipeline",
     description:
-      "Designed a finance-system concept for a student organization focused on transparency and scalability: real-time budget tracking, sponsor tracking, and simple control checkpoints so the board always knows where funds stand.",
+      "Outcome: finance system concept giving officers a clear, current view of funds and control points. Designed a real-time budget and sponsorship tracking approach with simple control checkpoints.",
     tags: ["Budgeting", "Internal Controls", "Systems", "Dashboards"],
     highlights: [
       "Outlined a real-time budget tracking structure",
@@ -89,15 +93,15 @@ export const projects: Project[] = [
       "Built lightweight controls for approvals + documentation",
     ],
     timeframe: "Student org initiative",
-    problem: "Org funds and sponsorships were opaque and hard to track.",
-    framework: "Real-time tracking, approval checkpoints, clear categories.",
-    outcome: "Transparent budget and sponsorship model with simple controls.",
+    problem: "Limited visibility into funds and sponsorships increased budgeting and control risk.",
+    framework: "Real-time tracking with defined categories, approvals, and sponsorship pipeline.",
+    outcome: "Finance system concept that gives officers a clear, current view of funds and control points.",
   },
   {
     title: "Advanced Excel Systems (MOS / Analytics Builds)",
     subtitle: "Lookup logic, structured references, and auditability",
     description:
-      "Completed multiple advanced Excel builds using XLOOKUP/VLOOKUP, IFERROR/IFNA, structured references, and reporting-friendly formatting. Emphasized accuracy, clean structure, and models that are easy to check.",
+      "Outcome: Excel models where key flows are easy to trace and errors are easier to detect. Completed advanced builds using XLOOKUP/VLOOKUP, IFERROR/IFNA, structured references, and review-friendly formatting.",
     tags: ["Excel", "Modeling", "Data Quality", "Functions"],
     highlights: [
       "Built reliable lookup workflows with robust error handling",
@@ -105,9 +109,9 @@ export const projects: Project[] = [
       "Designed models to be easy to review and grade against rubrics",
     ],
     timeframe: "Coursework",
-    problem: "Data and lookups needed to be correct and auditable.",
-    framework: "XLOOKUP/IFERROR, structured references, consistent formatting.",
-    outcome: "Models that are easy to review and grade against rubrics.",
+    problem: "Opaque lookup logic could introduce undetected errors into reports.",
+    framework: "XLOOKUP/IFERROR with structured references and consistent formatting for traceability.",
+    outcome: "Excel models where key flows are easy to trace and errors are easier to detect.",
   },
 ];
 
