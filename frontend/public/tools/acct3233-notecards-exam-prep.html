@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exam Notecards – ACCT 3233/7233</title>
+<style>
+  /* ── SCREEN PREVIEW ── */
+  body {
+    background: #d1d5db;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 16px;
+  }
+  .page-title {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e1b4b;
+    margin-bottom: 12px;
+    font-family: Arial, sans-serif;
+  }
+  .print-btn {
+    display: block;
+    margin: 0 auto 20px;
+    background: #4a1d96;
+    color: white;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  /* ── CARD BASE (6in wide, auto height) ── */
+  .card {
+    width: 6in;
+    min-height: 4in;
+    height: auto;
+    background: #ffffff;
+    border: 1.5px solid #4a1d96;
+    border-radius: 6px;
+    box-sizing: border-box;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0,0,0,.18);
+    page-break-inside: avoid;
+  }
+  .card-header {
+    background: #3b0764;
+    color: #fde68a;
+    font-size: 8.5pt;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    padding: 4px 8px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card-num {
+    color: #a78bfa;
+    font-size: 7pt;
+    font-weight: 700;
+  }
+  .card-body {
+    padding: 5px 8px 4px;
+    flex: 1;
+    overflow: visible;
+    font-size: 7.2pt;
+    line-height: 1.28;
+    color: #111;
+  }
+
+  /* typography inside cards */
+  .card-body h2 {
+    font-size: 8pt;
+    color: #4a1d96;
+    margin: 4px 0 2px;
+    border-bottom: 1px solid #ddd6fe;
+    padding-bottom: 1px;
+    font-weight: 900;
+  }
+  .card-body .cols { display: flex; gap: 6px; }
+  .card-body .col  { flex: 1; }
+  .card-body .highlight { 
+    background: #fef9c3; border-left: 3px solid #f59e0b;
+    padding: 2px 5px; margin: 3px 0; border-radius: 2px;
+    font-size: 7pt;
+  }
+  .card-body .badge {
+    display: inline-block; background: #4a1d96; color: #fde68a;
+    font-size: 6.2pt; font-weight: 800; padding: 1px 4px;
+    border-radius: 3px; text-transform: uppercase; margin-right: 2px;
+  }
+  .card-body .badge.g { background: #059669; color: white; }
+  .card-body .badge.r { background: #dc2626; color: white; }
+  .card-body .badge.o { background: #d97706; color: white; }
+  .card-body table {
+    width: 100%; border-collapse: collapse;
+    font-size: 6.8pt; margin: 2px 0;
+  }
+  .card-body th {
+    background: #4a1d96; color: white;
+    padding: 2px 4px; text-align: left; font-size: 6.5pt;
+  }
+  .card-body td {
+    padding: 1.5px 4px; border-bottom: 1px solid #e5e7eb;
+    vertical-align: top;
+  }
+  .card-body tr:nth-child(even) td { background: #f5f3ff; }
+  .card-body ul { margin: 1px 0 2px 13px; padding: 0; }
+  .card-body li { margin: 1px 0; }
+  .card-body p  { margin: 2px 0; }
+  .card-body .row { display: flex; gap: 6px; margin: 2px 0; }
+  .card-body .row .box {
+    flex: 1; border: 1px solid #c4b5fd; border-radius: 3px;
+    padding: 2px 4px; background: #faf5ff;
+  }
+  .card-body .row .box strong { display: block; color: #4a1d96; font-size: 6.8pt; }
+  .card-body .divider {
+    border: none; border-top: 1px dashed #c4b5fd; margin: 3px 0;
+  }
+  .card-body .gold-box {
+    background: #fffbeb; border: 1px solid #f59e0b;
+    border-radius: 3px; padding: 2px 5px; margin: 2px 0;
+  }
+
+  /* ── PRINT STYLES ── */
+  @media print {
+    @page {
+      size: 6in 4in;
+      margin: 0;
+    }
+    body {
+      background: white;
+      padding: 0;
+      margin: 0;
+    }
+    .page-title, .print-btn { display: none; }
+    .cards-grid {
+      display: block;
+      gap: 0;
+    }
+    .card {
+      width: 6in;
+      min-height: 4in;
+      height: auto;
+      border-radius: 0;
+      box-shadow: none;
+      border: none;
+      page-break-after: always;
+      page-break-inside: auto;
+      break-after: page;
+    }
+    .card:last-child { page-break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<p class="page-title">📇 ACCT 3233/7233 Exam Notecards — Print on 4×6 index cards (landscape)</p>
+<button class="print-btn" onclick="window.print()">🖨️ Print Notecards</button>
+
+<div class="cards-grid">
+
+<!-- ═══════════════════════════════════════════════════ CARD 1 ═══ -->
+<div class="card">
+  <div class="card-header">IIA 2024 Standards — Architecture &amp; Domain I &amp; II Overview <span class="card-num">1 / 14</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <div class="gold-box" style="text-align:center">
+          <strong style="font-size:9pt;color:#4a1d96">5 Domains · 15 Principles · 52 Standards</strong><br>
+          <span style="font-size:6.5pt">Old "Attribute" + "Performance" categories → <strong>ELIMINATED</strong></span>
+        </div>
+        <table style="margin-top:3px">
+          <tr><th>Domain</th><th>Focus</th></tr>
+          <tr><td><span class="badge">I</span> Purpose</td><td>Why we exist</td></tr>
+          <tr><td><span class="badge">II</span> Ethics</td><td>How we behave</td></tr>
+          <tr><td><span class="badge">III</span> Governing</td><td>Board &amp; CAE relationship</td></tr>
+          <tr><td><span class="badge">IV</span> Managing</td><td>Strategy &amp; resources</td></tr>
+          <tr><td><span class="badge">V</span> Performing</td><td>The actual work</td></tr>
+        </table>
+        <div class="highlight" style="margin-top:4px">
+          <strong>Domain I Purpose — 4 Services:</strong><br>
+          <strong>Assurance</strong> – independent evaluation of controls/risk/governance<br>
+          <strong>Advice</strong> – recommendations to improve operations<br>
+          <strong>Insight</strong> – deeper understanding of processes &amp; risks<br>
+          <strong>Foresight</strong> – anticipating emerging risks ⭐ <em>NEW 2024</em>
+        </div>
+        <p style="font-size:6.5pt;margin-top:2px">Goal: create, <strong>protect</strong>, and sustain value</p>
+      </div>
+      <div class="col">
+        <h2>Domain II — 5 Ethics Principles</h2>
+        <table>
+          <tr><th>P#</th><th>Principle</th><th>Philosopher</th></tr>
+          <tr><td><strong>P1</strong></td><td>Integrity</td><td>Kant — categorical imperative</td></tr>
+          <tr><td><strong>P2</strong></td><td>Objectivity</td><td>Husserl — epoché (bracket assumptions)</td></tr>
+          <tr><td><strong>P3</strong></td><td>Competency</td><td>Aristotle — phronesis (practical wisdom)</td></tr>
+          <tr><td><strong>P4</strong></td><td>Due Prof. Care</td><td>Hume — can't test everything</td></tr>
+          <tr><td><strong>P5</strong></td><td>Confidentiality</td><td>Breach once → never candid again</td></tr>
+        </table>
+        <div class="highlight" style="margin-top:4px">
+          <strong>P1 Integrity Key:</strong> Std 1.1 — truthful, accurate, no omissions; CAE must support auditors expressing unfavorable findings. Pressure to "reframe" = integrity test.<br>
+          <strong>P2 Objectivity Key:</strong> Most dangerous bias = <em>confirmation bias</em> — actively seek disconfirming evidence.<br>
+          <strong>P3 Competency Key:</strong> Know what you don't know. Use specialists. Dangerous auditor = "took a webinar."
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CARD 2 ═══ -->
+<div class="card">
+  <div class="card-header">IIA Standards — Domains III, IV &amp; V <span class="card-num">2 / 14</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <h2>Domain III — Governing (MOST CHANGED)</h2>
+        <ul>
+          <li><strong>P6</strong> Authorized by Board — charter = source of authority</li>
+          <li><strong>P7</strong> Positioned Independently — CAE reports functionally to board; structural (not just attitudinal)</li>
+          <li><strong>P8</strong> Overseen by Board — board approves plan, budget, resources; they are accountable too</li>
+        </ul>
+        <p>Defines <em>"Essential Conditions"</em> boards must provide.</p>
+        <hr class="divider">
+        <h2>Domain IV — Managing</h2>
+        <ul>
+          <li><strong>P9</strong> Plan Strategically — risk-based, dynamic (no more "audit every 3 years" cyclical)</li>
+          <li><strong>P10</strong> Manage Resources — document when insufficient</li>
+          <li><strong>P11</strong> Communicate Effectively — bidirectional; listen as much as inform</li>
+          <li><strong>P12</strong> Enhance Quality — QAIP required; EQA every <strong>5 years</strong>, at least 1 active CIA (Std 12.4)</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h2>Domain V — Performing Services</h2>
+        <ul>
+          <li><strong>P13</strong> Plan Engagements — understand activity, risk assessment, define scope</li>
+          <li><strong>P14</strong> Conduct Work — gather evidence, Four C's, recommendations, <em>conclusions</em></li>
+          <li><strong>P15</strong> Communicate &amp; Monitor — no surprises; confirm implementation; follow-up</li>
+        </ul>
+        <p style="font-size:6.5pt">⚠️ New term: <strong>"conclusion"</strong> replaces "opinion"</p>
+        <hr class="divider">
+        <div class="gold-box">
+          <strong>⭐ Four C's of Findings:</strong><br>
+          <strong>Condition</strong> — what IS (actual situation found)<br>
+          <strong>Criteria</strong> — what SHOULD BE (the standard/policy)<br>
+          <strong>Cause</strong> — WHY the gap exists (root cause)<br>
+          <strong>Consequence</strong> — WHY it matters (risk/impact)
+        </div>
+        <hr class="divider">
+        <strong>Engagement Effort Split:</strong>
+        <div class="row">
+          <div class="box"><strong>Planning</strong>20–30%</div>
+          <div class="box"><strong>Fieldwork</strong>40–50%</div>
+          <div class="box"><strong>Reporting</strong>15–20%</div>
+          <div class="box"><strong>F/U</strong>Ongoing</div>
+        </div>
+        <p style="font-size:6.2pt;margin-top:2px">Most failures = <em>planning failures</em>. No surprises in final report = you've talked to mgmt first.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CARD 3 ═══ -->
+<div class="card">
+  <div class="card-header">Three Lines Model · Assurance vs Advisory · Topical Requirements <span class="card-num">3 / 14</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <h2>Three Lines Model</h2>
+        <table>
+          <tr><th>Line</th><th>Who</th><th>Role</th></tr>
+          <tr><td><span class="badge">1st</span></td><td>Management</td><td>Owns risk &amp; controls day-to-day</td></tr>
+          <tr><td><span class="badge">2nd</span></td><td>Risk &amp; Compliance</td><td>Supports, monitors, provides expertise</td></tr>
+          <tr><td><span class="badge">3rd</span></td><td>Internal Audit</td><td>Independent assurance → board</td></tr>
+          <tr><td><span class="badge o">Gov</span></td><td>Board</td><td>Accountability to stakeholders</td></tr>
+        </table>
+        <p style="font-size:6.3pt;margin-top:2px">IA can rely on 2nd line but must <strong>independently verify</strong> before reporting conclusions.</p>
+        <hr class="divider">
+        <h2>Assurance vs Advisory</h2>
+        <table>
+          <tr><th></th><th><span class="badge g">Assurance</span></th><th><span class="badge">Advisory</span></th></tr>
+          <tr><td>Parties</td><td>3 (auditor, auditee, stakeholders)</td><td>2 (auditor + client)</td></tr>
+          <tr><td>Scope</td><td>Auditor sets</td><td>Client sets</td></tr>
+          <tr><td>Output</td><td>Formal conclusion</td><td>Recommendations</td></tr>
+          <tr><td>Posture</td><td>Skepticism</td><td>Collaboration</td></tr>
+        </table>
+        <p style="font-size:6.3pt;color:#dc2626">⚠️ Advisory on a process may impair objectivity for future assurance (Std 7.2)</p>
+      </div>
+      <div class="col">
+        <h2>Topical Requirements (New 2024 IPPF)</h2>
+        <p style="font-size:6.5pt">Mandatory when in scope. Effective <strong>12 months after issuance</strong>. Must document which apply + rationale for exclusions.</p>
+        <table>
+          <tr><th>Topic</th><th>Key Focus</th></tr>
+          <tr><td><strong>Cybersecurity</strong></td><td>Governance, risk, controls, incident response</td></tr>
+          <tr><td>IT Governance</td><td>Tech strategy, performance, risk</td></tr>
+          <tr><td>Privacy Risk Mgmt</td><td>GDPR, CCPA, privacy by design</td></tr>
+          <tr><td>Third-Party Mgmt</td><td>Vendor risk, due diligence, monitoring</td></tr>
+          <tr><td>Sustainability/ESG</td><td>Climate, supply chain, DEI metrics</td></tr>
+        </table>
+        <div class="highlight" style="margin-top:4px">
+          <strong>Heidegger's Aletheia (ἀλήθεια)</strong> = un-concealment / truth. An audit finding is an act of unconcealment — bringing hidden things into the open. The auditor's job: make the invisible visible.
+        </div>
+        <p style="font-size:6.3pt;margin-top:2px"><em>"The unexamined organization is not worth working for."</em> — with apologies to Socrates</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CARD 4 ═══ -->
+<div class="card">
+  <div class="card-header">CIA Triad · Why Cyber Risk Is Different · Attack Surface <span class="card-num">4 / 14</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <h2>CIA Triad</h2>
+        <table>
+          <tr><th>Objective</th><th>Protects against</th><th>Threats</th></tr>
+          <tr><td><strong>Confidentiality</strong></td><td>Unauthorized disclosure</td><td>Breaches, eavesdropping, unauthorized access</td></tr>
+          <tr><td><strong>Integrity</strong></td><td>Unauthorized modification</td><td>Tampering, malware, MITM attacks</td></tr>
+          <tr><td><strong>Availability</strong></td><td>Disruption</td><td>DDoS, ransomware, system failures</td></tr>
+        </table>
+        <p style="font-size:6.3pt;margin-top:2px">Every control should map to ≥1 CIA objective. If it doesn't — question why it exists.</p>
+        <hr class="divider">
+        <h2>Why Cyber Risk Is Different</h2>
+        <div class="row">
+          <div class="box"><strong>Adversarial</strong>Intelligent actor actively probes &amp; adapts</div>
+          <div class="box"><strong>Asymmetric</strong>Attacker needs 1 weakness; defender must protect ALL</div>
+        </div>
+        <div class="row">
+          <div class="box"><strong>Evolving</strong>Threat changes daily, not annually</div>
+          <div class="box"><strong>Invisible</strong>Breaches often undetected for months</div>
+        </div>
+        <div class="row">
+          <div class="box" style="flex:2"><strong>Interconnected</strong>Your security = your <em>vendors'</em> security (supply chain)</div>
+        </div>
+        <p style="font-size:6.3pt;margin-top:2px">Market volatility doesn't try to defeat your hedging strategy. Cyber attackers do.</p>
+      </div>
+      <div class="col">
+        <h2>Modern Enterprise Attack Surfaces</h2>
+        <ul>
+          <li><strong>On-Premises</strong> — data centers, legacy systems, poorly documented</li>
+          <li><strong>Cloud</strong> — IaaS/PaaS/SaaS; shared responsibility; shadow IT</li>
+          <li><strong>Endpoints</strong> — laptops, mobile, IoT, printers, cameras; each = entry point</li>
+          <li><strong>Third-Party</strong> — vendors, APIs; your security = weakest vendor</li>
+          <li><strong>Identity &amp; Access</strong> — AD, SSO, MFA, privileged accounts; "keys to kingdom"</li>
+          <li><strong>Invisible Layer</strong> — shadow IT, forgotten test systems; what you don't know CAN hurt you</li>
+        </ul>
+        <div class="gold-box" style="margin-top:4px">
+          <strong>Clausewitz:</strong> Defense is stronger — but only if you know where to defend. In cyber, the perimeter is everywhere.<br>
+          <strong>Rumsfeld:</strong> Shadow IT = known unknown. Zero-days = unknown unknowns.
+        </div>
+        <p style="font-size:6.3pt;margin-top:2px">Risk-based prioritization: What is most critical? Most exposed? Would hurt most if compromised?</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CARD 5 ═══ -->
+<div class="card">
+  <div class="card-header">Defense in Depth · 4 Organizational Pathologies <span class="card-num">5 / 14</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <h2>Defense in Depth — Control Types</h2>
+        <table>
+          <tr><th>Type</th><th>Examples</th></tr>
+          <tr><td><span class="badge g">Preventive</span></td><td>Firewalls, access controls, encryption, patching, security training</td></tr>
+          <tr><td><span class="badge o">Detective</span></td><td>SIEM, IDS/IPS, log monitoring, anomaly detection, threat hunting</td></tr>
+          <tr><td><span class="badge r">Corrective</span></td><td>Incident response, backup/restore, disaster recovery, forensics</td></tr>
+        </table>
+        <p style="font-size:6.2pt;margin-top:2px"><strong>Layers:</strong> Network → Endpoint → Application → Data → Human → Governance</p>
+        <p style="font-size:6.2pt"><strong>Human layer</strong> = often weakest AND strongest. Vigilant employees catch what tools miss.</p>
+        <hr class="divider">
+        <div class="highlight">
+          <strong>IIA Cybersecurity Topical Req — 3 Domains:</strong><br>
+          <strong>Governance</strong> — does leadership own cybersecurity?<br>
+          <strong>Risk Management</strong> — do they know what they're protecting?<br>
+          <strong>Controls</strong> — are the controls actually working?<br>
+          Released: Feb 5, 2025 · Effective: Feb 5, 2026 · Maps to NIST &amp; COBIT
+        </div>
+      </div>
+      <div class="col">
+        <h2>4 Organizational Pathologies</h2>
+        <table>
+          <tr><th>#</th><th>Pathology</th><th>Key Example / Audit Q</th></tr>
+          <tr><td><span class="badge r">1</span></td><td><strong>Ownership Gap</strong> — unowned systems don't get patched</td><td>Target 2013: HVAC vendor. "Show me who owns this system and prove they know it."</td></tr>
+          <tr><td><span class="badge r">2</span></td><td><strong>Security vs. Business</strong> — speed vs. control; CISO reporting line matters</td><td>"Show me a project where security delayed launch. What happened?"</td></tr>
+          <tr><td><span class="badge r">3</span></td><td><strong>Compliance Trap</strong> — compliance ≠ security</td><td>Equifax, Target, Capital One all PCI compliant when breached. Attackers don't check compliance status.</td></tr>
+          <tr><td><span class="badge r">4</span></td><td><strong>Learned Helplessness</strong> — "if they want in they'll get in" fatalism</td><td>Verizon DBIR: stolen credentials + phishing + unpatched systems cause MOST breaches. Fundamentals > exotic attacks.</td></tr>
+        </table>
+        <div class="gold-box" style="margin-top:3px;font-size:6.2pt">
+          <strong>Stoic wisdom:</strong> Focus on what you can control. Can't stop nation-states — but can stop 95% of attacks through fundamentals: patching, MFA, phishing awareness, asset mgmt.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CARD 6 ═══ -->
+<div class="card">
+  <div class="card-header">ITGC Testing — Positive/Negative · Test of Design · Design vs OE Failures <span class="card-num">6 / 14</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <h2>Positive vs. Negative Testing</h2>
+        <div class="row">
+          <div class="box">
+            <strong style="color:#059669">✅ Positive Testing</strong>
+            <p>"Did the control work when it should?"</p>
+            <p><em>Testing the happy path</em></p>
+            <p>Verify approvals, timelines, documentation</p>
+          </div>
+          <div class="box">
+            <strong style="color:#dc2626">🚫 Negative Testing</strong>
+            <p>"Did the control BLOCK what it should?"</p>
+            <p><em>Testing the guardrails</em></p>
+            <p>Can terminated users log in? Self-approve? SoD blocked?</p>
+          </div>
+        </div>
+        <div class="highlight" style="margin-top:3px">
+          ⚠️ Positive testing ALONE creates false confidence. A control that approves everything correctly is useless if it blocks nothing.
+        </div>
+        <hr class="divider">
+        <h2>Test of Design (TOD) — "The Blueprint Test"</h2>
+        <p><em>"If everyone followed this perfectly, would it prevent/detect the risk?"</em></p>
+        <div class="row">
+          <div class="box"><strong>Precision</strong>Specific enough? "Manager approval" vs. "Direct mgr via ServiceNow within 24h with justification"</div>
+          <div class="box"><strong>Completeness</strong>All scenarios? Contractors? Emergency? Transfers?</div>
+          <div class="box"><strong>Authority</strong>Right people? Clerk approving exec access?</div>
+        </div>
+      </div>
+      <div class="col">
+        <h2>Design Failure vs. OE Failure</h2>
+        <table>
+          <tr><th></th><th><span class="badge r">Design Failure</span></th><th><span class="badge o">OE Failure</span></th></tr>
+          <tr><td>What</td><td>Control CAN'T work</td><td>Control DIDN'T work</td></tr>
+          <tr><td>Why</td><td>Flawed blueprint: policy gap, wrong approvers, no SLA</td><td>Good design, bad execution: approval skipped, SLA breached</td></tr>
+          <tr><td>Remedy</td><td>Process/policy redesign</td><td>Training, monitoring, automation</td></tr>
+        </table>
+        <div class="highlight" style="margin-top:3px">
+          ⚠️ <strong>CRITICAL:</strong> Don't prescribe training for a design problem. Classification drives the right recommendation.
+        </div>
+        <hr class="divider">
+        <h2>Tick Marks (must define in legend)</h2>
+        <div class="row">
+          <div class="box"><strong>✓</strong> Tested, no exception</div>
+          <div class="box"><strong>✗</strong> Exception identified</div>
+          <div class="box"><strong>T</strong> Traced/Tied to source</div>
+        </div>
+        <div class="row">
+          <div class="box"><strong>R</strong> Recalculated</div>
+          <div class="box"><strong>I</strong> Inquiry (confirmed verbally)</div>
+          <div class="box"><strong>⊙</strong> Inspected original doc</div>
+        </div>
+        <p style="font-size:6.2pt;margin-top:2px"><strong>Golden Rule:</strong> If you can't point to a specific exhibit/row/doc for every fact → not documented properly.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CARD 7 ═══ -->
+<div class="card">
+  <div class="card-header">ITGC Sampling — Methods · Sample Size Table (AICPA/PCAOB) <span class="card-num">7 / 14</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <h2>Sampling Methods</h2>
+        <table>
+          <tr><th>Method</th><th>Use When</th><th>Limitation</th></tr>
+          <tr><td><strong>Random</strong></td><td>Large, homogeneous populations</td><td>May miss high-risk by chance</td></tr>
+          <tr><td><strong>Stratified</strong></td><td>Heterogeneous pop. with risk strata</td><td>Must understand risk factors</td></tr>
+          <tr><td><strong>Haphazard</strong></td><td>Small populations; preliminary testing</td><td>NOT statistically valid; unconscious bias</td></tr>
+          <tr><td><strong>Census (100%)</strong></td><td>Critical controls; small populations; high-risk</td><td>Time-consuming</td></tr>
+        </table>
+        <div class="gold-box" style="margin-top:4px">
+          <strong>⭐ Best Practice:</strong> Combine methods — Stratified/Random for general pop. + <strong>Census (100%)</strong> for:
+          <ul style="margin-top:2px">
+            <li>Privileged users</li>
+            <li>SoD conflicts</li>
+            <li>Emergency access (break-glass)</li>
+          </ul>
+        </div>
+        <hr class="divider">
+        <h2>Required Sampling Documentation</h2>
+        <ol style="margin-left:13px;padding:0;font-size:6.5pt">
+          <li>Population source (where data came from)</li>
+          <li>Population completeness verification</li>
+          <li>Selection criteria applied</li>
+          <li>Sample size rationale (why this number)</li>
+          <li>Selection method (random seed, every Nth, etc.)</li>
+          <li>Sample listing with unique identifiers</li>
+        </ol>
+        <p style="font-size:6.2pt"><em>Reviewer's Test: Could another auditor recreate your exact sample?</em></p>
+      </div>
+      <div class="col">
+        <h2>⭐ Sample Size Table (AICPA/PCAOB)</h2>
+        <table>
+          <tr><th>Frequency</th><th><span class="badge g">Low</span></th><th><span class="badge o">Mod</span></th><th><span class="badge r">High</span></th></tr>
+          <tr><td>Annual (1)</td><td>1</td><td>1</td><td>1</td></tr>
+          <tr><td>Quarterly (4)</td><td>2</td><td>2–3</td><td>4</td></tr>
+          <tr><td>Monthly (12)</td><td>2–3</td><td>4–6</td><td>8–12</td></tr>
+          <tr><td>Weekly (52)</td><td>5–9</td><td>10–15</td><td>20–25</td></tr>
+          <tr><td>Daily (250+)</td><td>10–15</td><td>20–30</td><td>40–60</td></tr>
+          <tr><td>Per occurrence</td><td>25</td><td>40</td><td>60</td></tr>
+        </table>
+        <div class="highlight" style="margin-top:4px">
+          <strong>Factors that INCREASE sample size:</strong><br>
+          ↑ Risk level · ↑ Expected deviations · ↑ Desired confidence · ↑ Prior year exceptions
+        </div>
+        <hr class="divider">
+        <h2>Stratification Example (Meridian Case)</h2>
+        <table>
+          <tr><th>Population</th><th>Risk</th><th>Method</th><th>Sample</th></tr>
+          <tr><td>Privileged users</td><td>Critical</td><td>Census</td><td>100%</td></tr>
+          <tr><td>SoD conflicts</td><td>Critical</td><td>Census</td><td>100%</td></tr>
+          <tr><td>New provisioning</td><td>High</td><td>Stratified</td><td>60</td></tr>
+          <tr><td>Terminations</td><td>High</td><td>Stratified</td><td>52</td></tr>
+          <tr><td>Modifications</td><td>Medium</td><td>Random</td><td>45</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CARD 8 ═══ -->
+<div class="card">
+  <div class="card-header">ITGC Risk Ratings · Finding Structure <span class="card-num">8 / 14</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <h2>Risk Ratings — External (SOX/PCAOB)</h2>
+        <table>
+          <tr><th>Rating</th><th>Definition</th><th>Consequence</th></tr>
+          <tr><td><span class="badge r">Material Weakness</span></td><td>Reasonable possibility material misstatement NOT prevented/detected</td><td>Adverse ICFR opinion</td></tr>
+          <tr><td><span class="badge o">Sig. Deficiency</span></td><td>Less than MW but merits oversight attention</td><td>Report to Audit Committee</td></tr>
+          <tr><td><span class="badge">Ctrl Deficiency</span></td><td>Design/operation gap; may not reach SD/MW threshold</td><td>Management letter</td></tr>
+        </table>
+        <div class="highlight" style="margin-top:4px">
+          <strong>Internal (IIA) Remediation Timelines:</strong><br>
+          🔴 Critical / High → 30 days &nbsp;|&nbsp; 🟡 Medium → 60–90 days &nbsp;|&nbsp; 🟢 Low → 6 months
+        </div>
+      </div>
+      <div class="col">
+        <h2>Finding Structure Comparison</h2>
+        <table>
+          <tr><th></th><th>External (Mgmt Letter)</th><th>Internal (IA Finding)</th></tr>
+          <tr><td><strong>Structure</strong></td><td>Condition → Criteria → Cause → Effect → Rec.</td><td>Title → Background → Observation → Risk → Rec. + Owner + Due Date + Mgmt Response</td></tr>
+          <tr><td><strong>Tone</strong></td><td>Formal, regulatory</td><td>Collaborative, advisory</td></tr>
+          <tr><td><strong>Specificity</strong></td><td>"Certain users" (vague)</td><td>Named individuals, specific data points</td></tr>
+          <tr><td><strong>Audience</strong></td><td>Audit Committee / regulators</td><td>Management + CAE + Board</td></tr>
+        </table>
+        <div class="gold-box" style="margin-top:4px;font-size:6.5pt">
+          <strong>Key Distinction:</strong> External findings protect the auditor legally — vague by design. Internal findings are actionable by design — specific names, dates, and owners required.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CARD 9 ═══ -->
+<div class="card">
+  <div class="card-header">8 Rules for Audit Reporting Excellence <span class="card-num">9 / 14</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <table style="font-size:7pt">
+          <tr><th style="width:32%">Rule</th><th>What It Means</th></tr>
+          <tr><td><strong>1. Lead with headline</strong></td><td>Exception rate goes first — "2 of 60 (3.3%) had exceptions"</td></tr>
+          <tr><td><strong>2. Quantify everything</strong></td><td>Never "several" or "many" → always "3 of 127 (2.4%)"</td></tr>
+          <tr><td><strong>3. Fact vs. judgment</strong></td><td>"16 hrs elapsed" = fact · "deficiency" = judgment · label each clearly</td></tr>
+          <tr><td><strong>4. Define your population</strong></td><td>State the universe: "Of 412 new provisioning events during the test period…"</td></tr>
+        </table>
+      </div>
+      <div class="col">
+        <table style="font-size:7pt">
+          <tr><th style="width:32%">Rule</th><th>What It Means</th></tr>
+          <tr><td><strong>5. Show your math</strong></td><td>"16.75 hrs (Fri 5pm → Sat 9:45am) vs. 4-hr SLA" — never assert without the calculation</td></tr>
+          <tr><td><strong>6. Compensating controls</strong></td><td>Acknowledge them: "No unauthorized access confirmed via sign-in logs" = credibility</td></tr>
+          <tr><td><strong>7. Actionable recs</strong></td><td>Not "improve controls" → "implement real-time Workday-to-Entra sync by Q2"</td></tr>
+          <tr><td><strong>8. Write for the skeptic</strong></td><td>Pre-answer every "how do you know?" — assume the reviewer challenges every assertion</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="gold-box" style="margin-top:5px;font-size:6.5pt">
+      <strong>✗ WEAK:</strong> "Several users had access issues during the period. Management should improve controls."<br>
+      <strong>✓ STRONG:</strong> "1 of 5 (20%) terminations exceeded the 4-hr SLA. jdavis55 was disabled 16.75 hrs after HR termination (Fri 5:00pm → Sat 9:45am). <em>Compensating control: no post-termination logins confirmed via Entra sign-in logs.</em> Root cause: batch sync runs Monday only. Rec: implement real-time Workday-to-Entra sync by Q2."
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CARD 9 ═══ -->
+<div class="card">
+  <div class="card-header">Solzhenitsyn — "Live Not By Lies" (1974) <span class="card-num">10 / 14</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <div class="gold-box">
+          <strong>Context:</strong> Written Moscow, Feb 12, 1974 — the day before his arrest. Circulated as <em>samizdat</em> (underground self-published literature). Written to Soviet citizens under totalitarian rule.
+        </div>
+        <h2>The Central Argument</h2>
+        <p>Totalitarian power sustains itself not through constant overt violence, but through the <strong>daily participation of ordinary people in lies.</strong></p>
+        <p style="margin-top:3px"><strong>Violence needs lies</strong> to maintain respectability. <strong>Lies need violence</strong> to be enforced. They are symbiotic.</p>
+        <p style="margin-top:3px">But violence cannot act on every shoulder every day. All it demands: <strong>obedience to lies and daily participation in lies.</strong></p>
+        <hr class="divider">
+        <h2>The Minimum Path</h2>
+        <p>The "simplest and most accessible key to liberation": <strong>personal non-participation in lies.</strong></p>
+        <p style="margin-top:3px">Not revolution. Not marching into squares. Not hunger strikes. Simply: <strong>refuse to say what you do not think.</strong></p>
+        <p style="font-size:6.2pt;margin-top:3px">"The most moderate of all paths of resistance" — easier than Gandhi's civil disobedience. The flames will not touch your body.</p>
+        <div class="highlight" style="margin-top:3px">
+          <strong>Virus Metaphor:</strong> Lies are like a virus — they can survive only in a living organism. When people stop participating, the lies are rendered helpless and subside. <em>Withdrawal of participation is the cure.</em>
+        </div>
+      </div>
+      <div class="col">
+        <h2>Key Concepts</h2>
+        <table>
+          <tr><th>Concept</th><th>Key Point</th></tr>
+          <tr><td>Fear hierarchy</td><td>People don't fear nuclear war. They fear <em>acts of civil courage</em> — losing white bread, heating gas, Moscow registration.</td></tr>
+          <tr><td>Spiritual independence vs. servitude</td><td>Every day: either truth (spiritual independence) or lies (spiritual servitude). No neutral ground.</td></tr>
+          <tr><td>The code of conduct</td><td>Won't sign/write phrases distorting truth; won't cite out of context to please; will walk out of meetings where lies are told; won't buy publications that distort facts.</td></tr>
+          <tr><td>Czechoslovakia</td><td>Unarmed people with worthy hearts can stand up to tanks. If we are thousands, they cannot stop us all.</td></tr>
+          <tr><td>Pushkin closing</td><td>"What use to the herds the gifts of freedom? The scourge and a yoke with tinkling bells." Those who choose comfort over truth deserve their suffocation.</td></tr>
+        </table>
+        <div class="gold-box" style="margin-top:3px;font-size:6.2pt">
+          <strong>→ IIA Connection:</strong> P1 Integrity / Std 1.1. The auditor pressured to "reframe" a finding is doing exactly what Solzhenitsyn warns against — small daily participation in lies. Kant's categorical imperative: if all auditors did this, the profession collapses.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CARD 10 ═══ -->
+<div class="card">
+  <div class="card-header">Didion — "On Self-Respect" (1961) <span class="card-num">11 / 14</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <div class="gold-box">
+          <strong>Context:</strong> Originally published in <em>Vogue</em>; collected in <em>Slouching Towards Bethlehem</em>. Uses "negative definition" — defines self-respect largely through what it is <em>NOT</em>.
+        </div>
+        <h2>The Central Argument</h2>
+        <p>Self-respect is an <strong>internal standard</strong> — entirely independent of others' approval or reputation. Its source is <strong>character: the willingness to accept responsibility for one's own life.</strong></p>
+        <p style="margin-top:3px"><strong>Self-deception is the most difficult deception.</strong> No winning smiles or lists of good intentions work in the well-lit back alley where one keeps assignations with oneself.</p>
+        <hr class="divider">
+        <h2>Key Concepts</h2>
+        <table>
+          <tr><th>Concept</th><th>What It Means</th></tr>
+          <tr><td>Self-respect ≠ approval</td><td>Has nothing to do with others' approval — who are, after all, deceived easily enough. Rhett Butler: reputation is what people with courage can do without.</td></tr>
+          <tr><td>Character</td><td>"The willingness to accept responsibility for one's own life" — the source of self-respect; sometimes loses ground to more negotiable virtues.</td></tr>
+          <tr><td>Interminable documentary</td><td>Without self-respect: unwilling audience to endless replay of one's failings, broken promises, gifts wasted through sloth/cowardice.</td></tr>
+        </table>
+      </div>
+      <div class="col">
+        <h2>More Key Concepts</h2>
+        <table>
+          <tr><th>Concept</th><th>What It Means</th></tr>
+          <tr><td>Jordan Baker vs. Julian English</td><td>Baker (dishonest, <em>Great Gatsby</em>) HAD self-respect — made her own peace. English (suicidal, <em>Appointment in Samarra</em>) did NOT. Self-respect ≠ conventional virtue.</td></tr>
+          <tr><td>Discipline as habit</td><td>Self-respect is "a discipline, a habit of mind that can be developed, trained, coaxed forth." Small disciplines represent larger ones — reminders of who we are.</td></tr>
+          <tr><td>Alienation from self</td><td>Advanced stage: can't say <em>no</em> without drowning in self-reproach. Eventually runs away to find oneself and finds no one home.</td></tr>
+          <tr><td>Intrinsic worth</td><td>To have it = potentially have everything: ability to discriminate, love, remain indifferent. To lack it = locked within oneself, paradoxically incapable of either love or indifference.</td></tr>
+        </table>
+        <div class="gold-box" style="margin-top:3px;font-size:6.2pt">
+          <strong>→ IIA Connections:</strong><br>
+          Self-deception → Confirmation bias (P2 Objectivity)<br>
+          Character/responsibility → P1 Integrity (Std 1.1)<br>
+          Discipline as habit → P4 Due Professional Care &amp; Husserl's trained attention<br>
+          Courage of one's mistakes → owning errors in prior work
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CARD 11 ═══ -->
+<div class="card">
+  <div class="card-header">Milgram — "The Perils of Obedience" (1973) <span class="card-num">12 / 14</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <div class="gold-box">
+          <strong>Context:</strong> Stanley Milgram, Yale social psychologist. Published in <em>Harper's Magazine</em>, 1973. Adapted from his book <em>Obedience to Authority</em>. Conducted in response to Hannah Arendt's coverage of the Eichmann trial.
+        </div>
+        <h2>The Experiment — Setup</h2>
+        <table>
+          <tr><th>Role</th><th>Who They Are</th><th>What Happens</th></tr>
+          <tr><td><strong>Teacher</strong></td><td>Naïve real subject</td><td>Administers shocks; the true focus of the study</td></tr>
+          <tr><td><strong>Learner</strong></td><td>Actor / confederate</td><td>Receives no real shock; pretends to suffer</td></tr>
+          <tr><td><strong>Experimenter</strong></td><td>Authority figure</td><td>Gives prods: "The experiment requires you continue"</td></tr>
+        </table>
+        <p style="font-size:6.2pt;margin-top:2px">Shock generator: 15–450 volts, labeled Slight → Danger: Severe Shock → XXX. Each subject first receives a real 45-volt sample to confirm authenticity.</p>
+        <hr class="divider">
+        <h2>Key Findings</h2>
+        <p><strong>Predicted:</strong> Psychiatrists forecast only a pathological fringe (~1 in 1,000) would reach 450 volts.</p>
+        <p style="margin-top:3px"><strong>Actual:</strong> <strong>25 of 40 subjects (62.5%)</strong> obeyed to the maximum 450-volt shock. Results replicated across Yale students, New Haven community members, and internationally (Munich: 85% obedient).</p>
+        <div class="highlight" style="margin-top:3px;font-size:6.2pt">
+          <strong>Agentic State:</strong> The essence of obedience — person comes to view himself as the <em>instrument</em> of another's will and no longer regards himself as responsible for his actions. Once this shift occurs, all features of obedience follow.
+        </div>
+      </div>
+      <div class="col">
+        <h2>What Reduces Obedience</h2>
+        <table>
+          <tr><th>Variation</th><th>Effect</th></tr>
+          <tr><td>Orders given by telephone (not in person)</td><td>Obedience drops to ~⅓ of normal</td></tr>
+          <tr><td>Two experimenters give conflicting orders</td><td>No shocks delivered past disagreement point</td></tr>
+          <tr><td>Two peers disobey first</td><td>36 of 40 subjects joined and refused</td></tr>
+          <tr><td>Subject not ordered directly (subsidiary task)</td><td>37 of 40 continued to highest level — "I only administered the test"</td></tr>
+        </table>
+        <h2 style="margin-top:4px">Key Concepts for Exam</h2>
+        <table>
+          <tr><th>Concept</th><th>Definition / Key Point</th></tr>
+          <tr><td>Banality of Evil</td><td>Arendt: Eichmann not a sadistic monster — an uninspired bureaucrat. Milgram confirms: ordinary people, not sadists, deliver 450 volts out of duty.</td></tr>
+          <tr><td>Diffusion of responsibility</td><td>Subject who only "administers the test" credits responsibility to the person who "actually pulled the switch." Classic in complex organizations.</td></tr>
+          <tr><td>Physical presence of authority</td><td>Experimenter in room → high obedience. Phone orders → obedience drops sharply.</td></tr>
+          <tr><td>Subjects' motivation</td><td>NOT sadism — they derive satisfaction from pleasing authority ("proud of doing a good job"), not from inflicting pain.</td></tr>
+        </table>
+        <div class="gold-box" style="margin-top:3px;font-size:6.2pt">
+          <strong>→ IIA Connections:</strong><br>
+          Agentic state → auditor who "just follows the manager's direction" on a finding = P1 Integrity failure<br>
+          Diffusion of responsibility → "The partner signed off" ≠ absolution for the staff auditor<br>
+          Peer disobedience variation → speak-up culture / IIA Standard on reporting impairments<br>
+          Milgram + Solzhenitsyn: both show ordinary people enable evil through compliance, not malice
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CARD 12 ═══ -->
+<div class="card">
+  <div class="card-header">Cross-Essay Synthesis · Readings → IIA Ethics Connections <span class="card-num">13 / 14</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <h2>What All Three Readings Share</h2>
+        <ul>
+          <li>All locate moral failure in <strong>ordinary people yielding to structure/authority/approval</strong> — not in monsters</li>
+          <li>Solzhenitsyn &amp; Didion: integrity lives in an <strong>internal standard</strong>, not external validation</li>
+          <li>Milgram &amp; Solzhenitsyn: <strong>ordinary compliance</strong> enables large-scale harm — no malice required</li>
+          <li>All three argue the individual retains a <strong>choice</strong> that determines moral identity</li>
+        </ul>
+        <hr class="divider">
+        <h2>Parallel Mapping</h2>
+        <table>
+          <tr><th>Solzhenitsyn</th><th>Didion</th><th>Milgram</th><th>IIA Principle</th></tr>
+          <tr><td>Non-participation in lies</td><td>Character: accept responsibility</td><td>Defying the agentic state</td><td>P1 Integrity / Std 1.1</td></tr>
+          <tr><td>Fear of civil courage</td><td>Seeking others' approval</td><td>Obedience to authority</td><td>P2 Objectivity — independence</td></tr>
+          <tr><td>Spiritual independence</td><td>Intrinsic worth</td><td>Personal moral agency</td><td>P1 + P2 together</td></tr>
+          <tr><td>"Refuse to say what you don't think"</td><td>"Discipline, habit of mind"</td><td>Peer who disobeys first</td><td>P4 Due Professional Care</td></tr>
+          <tr><td>Virus needs living host</td><td>Interminable documentary</td><td>Diffusion of responsibility</td><td>Fraud depends on auditor silence</td></tr>
+        </table>
+        <div class="highlight" style="margin-top:3px;font-size:6.2pt">
+          <strong>Heidegger link:</strong> Aletheia (unconcealment) = Solzhenitsyn's insistence that truth appear naked before the world. The auditor as agent of unconcealment.
+        </div>
+      </div>
+      <div class="col">
+        <h2>Applied to Audit Practice</h2>
+        <div class="row">
+          <div class="box">
+            <strong>Solzhenitsyn → Auditor</strong>
+            <p>Softening a finding = daily participation in lies</p>
+            <p>Audit manager who removes a finding = the living host the lie needs</p>
+          </div>
+          <div class="box">
+            <strong>Didion → Auditor</strong>
+            <p>Seeking management approval for findings = opposite of self-respect</p>
+            <p>Confirmation bias = self-deception (most difficult deception)</p>
+          </div>
+        </div>
+        <div class="row" style="margin-top:4px">
+          <div class="box">
+            <strong>Milgram → Auditor</strong>
+            <p>"I just followed the partner's direction" = agentic state; no absolution</p>
+            <p>Speak-up culture = Milgram's peer disobedience variation — one voice changes the room</p>
+          </div>
+        </div>
+        <div class="gold-box" style="margin-top:4px;font-size:6.5pt">
+          <strong>⭐ The Big Picture (likely exam Q):</strong><br>
+          All three essays describe what an <em>integrated person</em> looks like — refusing lies (Solzhenitsyn), deriving standards from within not others' approval (Didion), and defying the agentic state to remain a moral agent (Milgram). The IIA's five ethics principles describe this same integrated person applied to audit.
+        </div>
+        <p style="font-size:6.2pt;margin-top:3px;font-style:italic">"The unexamined organization is not worth working for." — with apologies to Socrates</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CARD 13 ═══ -->
+<div class="card">
+  <div class="card-header">Master Quick Reference — Everything on One Card <span class="card-num">14 / 14</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <div class="gold-box" style="font-size:6.5pt;margin-bottom:3px">
+          <strong>2024 Standards: 5 Domains · 15 Principles · 52 Standards</strong><br>
+          I Purpose · II Ethics · III Governing (most changed) · IV Managing · V Performing
+        </div>
+        <table style="font-size:6.2pt">
+          <tr><th colspan="2">IIA Ethics Principles &amp; Philosophers</th></tr>
+          <tr><td>P1 Integrity</td><td>Kant's categorical imperative — universal law</td></tr>
+          <tr><td>P2 Objectivity</td><td>Husserl's epoché — bracket assumptions; beware confirmation bias</td></tr>
+          <tr><td>P3 Competency</td><td>Aristotle's phronesis — practical wisdom; use specialists</td></tr>
+          <tr><td>P4 Due Prof. Care</td><td>Hume — can't test everything; sample intelligently</td></tr>
+          <tr><td>P5 Confidentiality</td><td>Breach once = never candid again</td></tr>
+        </table>
+        <table style="font-size:6.2pt;margin-top:2px">
+          <tr><th colspan="2">Four C's · Engagement · Key Terms</th></tr>
+          <tr><td>Four C's</td><td>Condition · Criteria · Cause · Consequence</td></tr>
+          <tr><td>Effort split</td><td>Planning 20-30% · Fieldwork 40-50% · Reporting 15-20%</td></tr>
+          <tr><td>EQA</td><td>Every 5 years · ≥1 active CIA required (Std 12.4)</td></tr>
+          <tr><td>Conclusion</td><td>New 2024 term — replaces "opinion"</td></tr>
+          <tr><td>Topical Reqs</td><td>Mandatory · Effective 12 months after issuance</td></tr>
+        </table>
+      </div>
+      <div class="col">
+        <table style="font-size:6.2pt">
+          <tr><th colspan="2">CIA Triad</th></tr>
+          <tr><td>Confidentiality</td><td>Unauthorized disclosure → breaches, eavesdropping</td></tr>
+          <tr><td>Integrity</td><td>Unauthorized modification → tampering, MITM, malware</td></tr>
+          <tr><td>Availability</td><td>Disruption → DDoS, ransomware, system failures</td></tr>
+        </table>
+        <table style="font-size:6.2pt;margin-top:2px">
+          <tr><th colspan="2">ITGC Key Facts</th></tr>
+          <tr><td>Positive test</td><td>Happy path — did it work when it should?</td></tr>
+          <tr><td>Negative test</td><td>Guardrails — did it block what it should?</td></tr>
+          <tr><td>TOD</td><td>Blueprint — can the control work? (Precision/Completeness/Authority)</td></tr>
+          <tr><td>Design fail</td><td>Can't work → redesign (don't prescribe training!)</td></tr>
+          <tr><td>OE fail</td><td>Didn't work → training, monitoring, automation</td></tr>
+          <tr><td>MW</td><td>Reasonable possibility material misstatement → adverse ICFR opinion</td></tr>
+          <tr><td>Sig. Deficiency</td><td>Less than MW → report to Audit Committee</td></tr>
+          <tr><td>Census</td><td>100% — always for privileged users, SoD conflicts</td></tr>
+          <tr><td>Daily/High</td><td>40–60 samples (AICPA/PCAOB)</td></tr>
+        </table>
+        <div class="highlight" style="font-size:6.2pt;margin-top:2px">
+          <strong>Solzhenitsyn:</strong> Non-participation in lies = P1 Integrity. Virus metaphor: lies survive only in living host.<br>
+          <strong>Didion:</strong> Self-respect = character (internal). Self-deception = most difficult deception = Confirmation Bias (P2).<br>
+          <strong>Milgram:</strong> 62.5% obeyed to 450V. Agentic state = "I'm just an instrument." Diffusion of responsibility. Peer disobedience drops compliance to ~10%. Banality of evil.<br>
+          <strong>All Three:</strong> Ordinary people enable harm through compliance/lies/approval-seeking — not malice. Integrated person = refuses all three.
+        </div>
+        <p style="font-size:6pt;text-align:center;margin-top:3px;color:#4a1d96"><strong>Good luck on the exam!</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end cards-grid -->
+</body>
+</html>

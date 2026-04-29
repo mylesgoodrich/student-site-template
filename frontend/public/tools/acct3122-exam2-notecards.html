@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACCT 3122 — Exam 2 Notecards</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --purple: #461D7C;
+  --purple-dark: #2E1254;
+  --purple-light: #6B3FA0;
+  --gold: #FDD023;
+  --gold-dim: #E5BC1F;
+  --gold-pale: #FFF3C4;
+  --bg: #F5F3F0;
+  --card-bg: #FFFFFF;
+  --text: #1A1A2E;
+  --text-dim: #555568;
+  --border: #E0DDD8;
+  --green: #2D8A4E;
+  --red: #C0392B;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ===== SCREEN STYLES ===== */
+@media screen {
+  .print-only { display: none !important; }
+
+  .app-header {
+    background: var(--purple-dark);
+    color: white;
+    padding: 24px 32px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .app-header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .app-header h1 span { color: var(--gold); }
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .header-controls button, .header-controls select {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.08);
+    color: white;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .header-controls button:hover, .header-controls select:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: var(--gold);
+  }
+  .header-controls select { appearance: none; padding-right: 28px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; }
+  .header-controls select option { color: #333; background: white; }
+  .btn-print {
+    background: var(--gold) !important;
+    color: var(--purple-dark) !important;
+    border-color: var(--gold) !important;
+  }
+  .btn-print:hover { background: var(--gold-dim) !important; }
+
+  .progress-bar {
+    margin-top: 12px;
+    height: 4px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+  .progress-text {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px 16px 120px;
+  }
+
+  .section-divider {
+    margin: 32px 0 16px;
+    padding: 10px 16px;
+    background: var(--purple);
+    color: white;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .notecard {
+    background: var(--card-bg);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    border: 1.5px solid var(--border);
+    overflow: hidden;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    cursor: pointer;
+    user-select: none;
+  }
+  .notecard:hover {
+    box-shadow: 0 4px 16px rgba(70,29,124,0.12);
+    border-color: var(--purple-light);
+  }
+  .notecard.flipped {
+    border-color: var(--gold-dim);
+  }
+  .notecard.mastered {
+    opacity: 0.45;
+    border-color: var(--green);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    background: var(--purple);
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.3px;
+  }
+  .card-num { color: var(--gold); }
+  .card-master-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: transparent;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .card-master-btn:hover { background: rgba(255,255,255,0.15); color: white; }
+  .notecard.mastered .card-master-btn { background: var(--green); color: white; border-color: var(--green); }
+
+  .card-front {
+    padding: 14px 16px;
+    background: var(--gold-pale);
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--purple-dark);
+    line-height: 1.45;
+  }
+  .card-front::before {
+    content: "Q ";
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    color: var(--purple);
+    font-size: 13px;
+  }
+
+  .card-back {
+    padding: 14px 16px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--text);
+    display: none;
+    white-space: pre-line;
+  }
+  .card-back .line { display: block; margin-bottom: 2px; }
+  .card-back .line-bold { font-weight: 700; color: var(--purple-dark); }
+  .card-back .line-warn { font-weight: 700; color: var(--red); }
+  .notecard.flipped .card-back { display: block; }
+
+  .tap-hint {
+    padding: 6px 16px 10px;
+    font-size: 11px;
+    color: var(--text-dim);
+    font-style: italic;
+    text-align: center;
+  }
+  .notecard.flipped .tap-hint { display: none; }
+}
+
+/* ===== PRINT STYLES — 4x6 NOTECARDS ===== */
+@media print {
+  .screen-only, .app-header, .tap-hint, .card-master-btn, .section-divider { display: none !important; }
+
+  @page {
+    size: letter;
+    margin: 0.4in;
+  }
+
+  body {
+    font-family: 'IBM Plex Sans', Arial, sans-serif;
+    background: white;
+    font-size: 10pt;
+    line-height: 1.35;
+  }
+
+  .container {
+    max-width: 100%;
+    padding: 0;
+    columns: 2;
+    column-gap: 0.3in;
+  }
+
+  .notecard {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1.5pt solid #461D7C;
+    border-radius: 6pt;
+    margin-bottom: 0.2in;
+    overflow: hidden;
+    background: white;
+  }
+
+  .card-header {
+    background: #461D7C !important;
+    color: white !important;
+    padding: 3pt 8pt;
+    font-size: 7.5pt;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .card-num { color: #FDD023 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  .card-front {
+    padding: 6pt 8pt;
+    background: #FFF3C4 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    border-bottom: 1pt solid #DDD;
+    font-weight: 700;
+    font-size: 9.5pt;
+    color: #2E1254;
+    line-height: 1.3;
+  }
+  .card-front::before {
+    content: "Q ";
+    font-weight: 800;
+    color: #461D7C;
+    font-size: 9pt;
+  }
+
+  .card-back {
+    display: block !important;
+    padding: 6pt 8pt 8pt;
+    font-size: 8pt;
+    line-height: 1.3;
+    color: #1A1A2E;
+    white-space: pre-line;
+  }
+  .card-back .line-bold { font-weight: 700; }
+  .card-back .line-warn { font-weight: 700; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-header screen-only">
+  <div class="header-row">
+    <h1>ACCT 3122 <span>Exam 2</span> — Notecards</h1>
+    <div class="header-controls">
+      <select id="filterSection" onchange="filterCards()">
+        <option value="all">All Sections</option>
+      </select>
+      <button onclick="toggleAll()">Flip All</button>
+      <button onclick="resetMastered()">Reset Mastered</button>
+      <button class="btn-print" onclick="window.print()">🖨 Print Notecards</button>
+    </div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-text" id="progressText">0 / 0 mastered</div>
+</div>
+
+<div class="container" id="container"></div>
+
+<script>
+const cards = [
+// ===== OVERVIEW OF THE ACCOUNTING SYSTEM =====
+{s:"Overview of the Accounting System",q:"What is the purpose of the accounting system?",a:"The accounting system is used to:\n• Measure, record, categorize, and summarize daily operating activities in monetary terms\n• Provide accountability of all levels of management for their delegated responsibilities\n• Protect business assets from unauthorized use or consumption\n\nIt is a subset of the management reporting system, primarily concerned with compiling financial statements required by SEC and FASB.\n\n**NOT the purpose:** \"To transform resources into goods and services\" — that is operations, not the accounting system."},
+{s:"Overview of the Accounting System",q:"What are the five cycles in the Value Chain?",a:"1. Financing Cycle — borrowing/repaying cash from lenders or stockholders\n2. Purchases & Cash Disbursements Cycle — acquiring goods/services\n3. Conversion Cycle — transforming raw materials into finished goods\n4. Payroll Cycle — acquiring and paying for labor\n5. Sales & Cash Receipts Cycle — selling goods/services and collecting cash\n\n⚠️ \"Supply chain and distribution\" is NOT a cycle in the value chain."},
+{s:"Overview of the Accounting System",q:"What are the two characteristics of every Value Chain cycle?",a:"1. DUALITY — For each event the company gives something, there is a related event where it receives something.\n\n2. STOCKFLOW — Each event has at least one inflow and one outflow of a resource.\n\nSales & Cash Receipts:\n• Inflow: Cash (from customers)\n• Outflow: Inventory/services\n\nPurchases & Cash Disbursements:\n• Inflow: Inventory/goods/services\n• Outflow: Cash\n\n⚠️ The INFLOW to the Sales cycle is Inventory/Services (what gets sold), NOT cash."},
+{s:"Overview of the Accounting System",q:"What is the correct order of recording transactions?",a:"1. Prepare DOCUMENTS (invoices, POs, timecards)\n2. Record in JOURNALS (sales, purchases, cash receipts, cash disbursements, payroll, general)\n3. Post to the GENERAL LEDGER\n4. Prepare a TRIAL BALANCE\n5. Prepare FINANCIAL STATEMENTS\n\nAt month-end: bookkeeper foots and crossfoots journals, then posts totals to the GL.\n• Specialized journals → post TOTALS\n• General journal → post INDIVIDUAL transactions"},
+{s:"Overview of the Accounting System",q:"What is the Chart of Accounts and what is blocking?",a:"Chart of Accounts = the structured set of GL accounts for an organization. It forms the foundation for storing, accessing, and reporting ALL financial information.\n\nBLOCKING = assigning numbers to similar accounts so they group together.\n\nDigits assigned in decreasing significance left → right:\nEx: 15-36-05-1\n• 15 = Major Account (Fixed Assets)\n• 36 = Asset Class (Computer)\n• 05 = Depreciation Life (5 years)\n• 1 = Method (Straight Line)\n\nBenefits: Easier recall + facilitates reporting & selection of accounts."},
+{s:"Overview of the Accounting System",q:"What is a subsidiary ledger? Which accounts have one?",a:"A subsidiary ledger maintains detailed info for GL accounts with too much activity.\n\nThe TOTAL of the subsidiary ledger must EQUAL the related GL control account.\n\nAccounts WITH subledgers:\n• Accounts Receivable (customer detail)\n• Accounts Payable (vendor detail)\n• Fixed Assets (individual asset detail)\n• Employee Earnings (payroll detail)\n\nAccounts WITHOUT subledgers:\n• Interest Expense\n• Utilities Expense\n• Simple revenue/expense accounts"},
+{s:"Overview of the Accounting System",q:"Internally vs. externally prepared documents? When are documents prepared?",a:"Internally prepared = by YOUR company (sales invoices, BOLs, receiving reports)\nExternally prepared = by outside parties (customer POs, vendor invoices)\n\nDocuments can be prepared:\n• BEFORE the transaction (e.g., Purchase Order)\n• AT THE SAME TIME as the transaction\n• AFTER the transaction (e.g., Sales Invoice after shipment)\n\nDocuments can be paper-based or electronic."},
+
+// ===== FLOWCHARTING =====
+{s:"Flowcharting",q:"Why document the accounting process? What are the purposes?",a:"Purposes of documenting the financial system:\n1. Minimizes likelihood of incomplete/ineffective system\n2. Provides record for training new employees & reminding existing personnel\n3. Identifies ways to improve the system\n4. Provides info for communicating with auditors & other personnel\n\n⚠️ NOT a purpose: \"Provides reasonable assurance that financial statements are reliable\" — that's an internal control objective.\n\nAlternative to flowcharts: NARRATIVES (written descriptions)."},
+{s:"Flowcharting",q:"Key Flowchart Symbols — Part 1 (Documents, Process, Terminal, Storage)",a:"📄 DOCUMENT — Rectangle with wavy bottom. Paper documents & reports. Multiple copies shown stacked.\n\n⬜ MANUAL PROCESS — Rectangle. Action by human/computer that changes value, form, or location of info.\n\n⬮ TERMINAL — Oval. Beginning, ending, or interruption of flowchart. Ex: \"Receive customer PO.\"\n\n▽ OFF-LINE STORAGE — Triangle. Filing of documents.\nLabels: N=Numerical, A=Alphabetical, D=Date, T=Temporary"},
+{s:"Flowcharting",q:"Key Flowchart Symbols — Part 2 (Journal, Decision, Annotation, Connectors, Lines)",a:"📒 JOURNAL/LEDGER — Book shape. Recording in journals/ledgers.\n\n◇ DECISION — Diamond. Yes/No question (\"Credit OK?\")\n\n📝 ANNOTATION — Open bracket + dashed line. Adds descriptive comments; often signals an internal control.\n\n⭕ ON-PAGE CONNECTOR — Small circle. Same page. Keyed with numbers.\n\n⏏ OFF-PAGE CONNECTOR — Pentagon/house shape. Different page. Keyed with page # and letters.\n\nSOLID LINE = normal document flow\nDOTTED LINE = informational flow only (not document)"},
+{s:"Flowcharting",q:"What 5 items should a flowchart include? What are sources for documents?",a:"Every flowchart includes:\n1. ORIGIN of every document/record\n2. All PROCESSING that takes place\n3. DISPOSITION of every document (filing, sending, destroying)\n4. DEPARTMENT or PERSONNEL performing duties\n5. Existing INTERNAL CONTROLS\n\nSources for documents:\n• Prepared by a department within the company\n• Received from outside the company\n• Brought forward from a previous process\n\n⚠️ NOT a source: \"Prepared by the creator of the flowchart.\""},
+
+// ===== SALES & CASH RECEIPTS =====
+{s:"Sales & Cash Receipts Cycle",q:"Objectives and transactions of the Sales & Cash Receipts Cycle?",a:"Objectives:\n1. Obtain customer commitments to purchase\n2. Ship goods or perform services\n3. Receive payments from customers\n4. Handle returns from customers\n5. Write off uncollectible accounts\n\nTransactions:\n• Credit Sale → Sales Journal + AR Subledger\n• Cash Sale → Cash Receipts Journal\n• Cash Receipt → Cash Receipts Journal + AR Subledger\n• Sales Return → Sales Journal + AR Subledger\n• Write-off → General Journal + AR Subledger"},
+{s:"Sales & Cash Receipts Cycle",q:"What is the credit approval process?",a:"Credit approval required before processing non-cash orders.\n\nNEW CUSTOMER: Credit check to establish terms of sale\n\nEXISTING CUSTOMER:\n• Verify in good standing (no late/missed payments)\n• Verify order + unpaid orders ≤ credit limit\n\nIf declined → notify customer order suspended until proper payment received.\n\nIn E-SUA: Ray Kramer approves credit and initials customer purchase order.\n\nGeneral authorization: Sales within credit limit\nSpecific authorization: Sales exceeding credit limit need manager approval"},
+{s:"Sales & Cash Receipts Cycle",q:"Key documents in the Sale Transaction flow?",a:"Flow: Inquiry → Contract → Order Entry → Shipping → Billing\n\nDocuments:\n• Customer Purchase Order — customer's request to buy\n• Blanket Order — repeated shipments over time period\n• Sales Order — internal doc (product, qty, price, customer info)\n• Picking Slip — authorizes warehouse to \"pick\" goods\n• Packing Slip — accompanies goods to customer\n• Bill of Lading — transfers custody to common carrier\n• Sales Invoice — informs customer of amount owed\n\nBilling does NOT occur until goods are shipped."},
+{s:"Sales & Cash Receipts Cycle",q:"Open-Invoice vs. Balance-Forward invoicing?",a:"OPEN-INVOICE:\n• Each sale = its own invoice\n• Customer pays per individual invoice\n• Used for: small # of HIGH-DOLLAR transactions\n• Each invoice managed separately\n\nBALANCE-FORWARD:\n• Monthly statement lists ALL transactions + current balance\n• ONE invoice for all sales that month\n• Used for: HIGH-VOLUME, LOW-DOLLAR transactions\n• Suited for individual consumers"},
+{s:"Sales & Cash Receipts Cycle",q:"Describe the Cash Receipts Process.",a:"Three Tasks: Receive Cash → Deposit Cash → Update Records\n\n1. RECEIVE: Customer sends payment with remittance advice (amount, name, invoice #)\n\n2. DEPOSIT: Person receiving cash:\n   a) Prepares CASH RECEIPTS PRELIST\n   b) Prepares DEPOSIT SLIP\n   c) Takes cash to bank, returns with receipt\n\n⚠️ PERSON WHO RECEIVES CASH SHOULD NEVER ENTER THE TRANSACTION IN THE CRJ!\n\n3. UPDATE: Bookkeeper uses prelist to update CRJ and AR Subledger. Bank receipt compared to prelist and CRJ — if match → initials in Dep Ctrl Init column."},
+{s:"Sales & Cash Receipts Cycle",q:"AR Subsidiary Ledger and Aged Trial Balance?",a:"AR SUBSIDIARY LEDGER:\n• Records each customer's sales, cash receipts, returns, allowances\n• Total of ALL customer balances = AR on balance sheet\n• Updated for credit sales, cash receipts, returns, write-offs\n\nAGED TRIAL BALANCE (AR Aging Report):\n• Reconciles subsidiary AR accounts to GL account\n• Lists each customer balance by age (current, 30, 60, 90+ days)\n• Identifies potentially uncollectible accounts\n• Prepared at end of month"},
+{s:"Sales & Cash Receipts Cycle",q:"Sales Return process and journal entries?",a:"Process:\n1. Process Return Request — customer submits; manager authorizes; sales return request doc prepared\n2. Receive Goods — goods arrive; receiving dept fills out receiving report\n3. Credit Customer — accounting matches receiving report to return request; issues CREDIT MEMO\n4. Update Records — recorded in sales journal; credit to AR subledger (or refund check)\n\nJournal Entry:\n  Dr. Sales Returns & Allowances\n    Cr. Accounts Receivable"},
+{s:"Sales & Cash Receipts Cycle",q:"Write-offs of uncollectible accounts?",a:"When uncollectible (bankruptcy, no forwarding address, collection agency):\n\nDirect Charge-Off Method:\n  Dr. Bad Debt Expense\n    Cr. Accounts Receivable\n\nAllowance Method:\n  Dr. Allowance for Doubtful Accounts\n    Cr. Accounts Receivable\n\nRecorded in GENERAL JOURNAL and customer's AR subsidiary ledger.\n\nIn E-SUA: Ray Kramer initials the write-off (authorization control)."},
+{s:"Sales & Cash Receipts Cycle",q:"Cash Sale vs. Credit Sale — differences?",a:"CASH SALE differences:\n• No credit check required\n• First recorded on CASH RECEIPTS PRELIST\n• No sales discount for prompt payment\n• Recorded in CASH RECEIPTS JOURNAL (not sales journal)\n• NO entry in AR subsidiary ledger\n\nACH Transactions:\n• Electronic payments auto-deposited\n• Company receives email notification\n• No physical check handling"},
+
+// ===== PURCHASES & CASH DISBURSEMENTS =====
+{s:"Purchases & Cash Disbursements Cycle",q:"Objectives and transactions?",a:"Objectives:\n1. Obtain supplier commitments for goods/services\n2. Receive goods/services\n3. Render payment to suppliers\n4. Return unacceptable goods\n\n⚠️ NOT an objective: \"Handle returns from customers\" — that's Sales cycle.\n\nTransactions:\n• Purchase Inventory → Purchases Journal, AP Subledger\n• Purchase Supplies/Fixed Assets → Purchases J, AP Sub, FA Sub\n• Cash Disbursement → CD Journal, AP Subledger\n• Service Payment → CD Journal\n• Purchase Return → General Journal, AP Subledger"},
+{s:"Purchases & Cash Disbursements Cycle",q:"Purchase Transaction flow and key documents?",a:"Flow: Requirements Determination → Select Supplier → Issue PO → Receive Goods → Record Purchase\n\n1. PURCHASE REQUISITION — internal doc by employee requesting goods (any employee can submit)\n2. Selection of supplier by purchasing department\n3. PURCHASE ORDER — sent to supplier; copies to receiving dept + accounting\n4. RECEIVING REPORT — prepared when goods arrive (description, condition, qty, date)\n5. VENDOR INVOICE — from supplier (description, qty, price, freight, terms)\n\n⚠️ Document to REQUEST purchasing dept = PURCHASE REQUISITION (not PO or receiving report)"},
+{s:"Purchases & Cash Disbursements Cycle",q:"What is the three-way match? What goes in Purchases account?",a:"THREE-WAY MATCH = comparing:\n1. Purchase Order (what was ordered)\n2. Receiving Report (what was received)\n3. Vendor Invoice (what supplier bills)\n\nNEVER pay for items not received.\n\nIf all match → approve and update:\n• Purchases Journal\n• AP Subsidiary Ledger\n• Fixed Asset Subsidiary Ledger (if applicable)\n\n⚠️ PURCHASES account = INVENTORY only\nFixed assets go to their own account, NOT Purchases."},
+{s:"Purchases & Cash Disbursements Cycle",q:"Cash Disbursements process — what's written on a paid invoice?",a:"Process: Issue Check/ACH → Update Records\n\nBefore check issued, approver writes on invoice:\n1. \"PAID\"\n2. Check number\n3. Date of payment\n4. Name/initials of person authorizing\n\n⚠️ NOT written: The purchase order number.\n\nWhy checks/ACH over cash:\n• Additional record for later verification\n• Pre-numbered = easier to control\n\n⚠️ Checks do NOT eliminate the need for authorization — they still require it!"},
+{s:"Purchases & Cash Disbursements Cycle",q:"Services/Other Expenses — how different from tangible purchases?",a:"Key difference: NO receipt of goods → no receiving report.\n\nSince no receiving report:\n• Verify vendor and service BEFORE disbursing cash\n• Invoice must be approved by department head\n• Department head verifies service was provided and invoice matches contract\n\nSome services use PO (groundskeeping, repair); others don't (rent, taxes, utilities).\n\nRecorded in: CASH DISBURSEMENTS JOURNAL (Dr. expense / Cr. cash)\n\nFor services: only an INVOICE needed (no three-way match)."},
+{s:"Purchases & Cash Disbursements Cycle",q:"Fixed asset purchase recording? End-of-month procedures?",a:"Fixed Asset Purchase — recorded in THREE places:\n1. Purchases Journal (debit to fixed asset account)\n2. AP Subsidiary Ledger\n3. Fixed Asset Subsidiary Ledger\n\nEnd-of-Month:\n1. FOOT totals in all journals\n2. CROSSFOOT to ensure proper recording\n3. Post totals from purchases journal, CDJ to GL\n4. Post individual GJ entries to GL\n5. Reconcile AP subledger total to AP GL — if match → initial both"},
+
+// ===== PAYROLL =====
+{s:"Payroll Cycle",q:"Why is Payroll separate? Key payroll laws?",a:"Separate because:\n• Employees retained long-term\n• Special handling for tax withholdings & fringe benefits\n• Often separate bank account & payroll journal\n• Expenses and disbursements recorded simultaneously\n\nKey Laws:\n• 16th Amendment (1913) — federal income tax\n• Current Tax Payment Act (1943) — employers WITHHOLD income taxes\n• Social Security Act (1935) — created FICA and FUTA\n• Medicare/Medicaid Act (1965) — Medicare taxes"},
+{s:"Payroll Cycle",q:"How to calculate NET PAY?",a:"NET PAY = Gross Pay − All Withholdings\n\nEmployee Withholdings:\n• Federal Income Tax (given)\n• State Income Tax (given)\n• Social Security (FICA): 6.2% up to $184,500\n• Medicare: 1.45% of ALL wages (+0.9% over $200K)\n• Voluntary deductions (insurance, 401k)\n\nEmployer MATCHING (recorded in General Journal):\n• SS: 6.2% | Medicare: 1.45%\n• FUTA: 0.6% on first $7,000/employee\n• SUTA: 3.55% on first $7,000/employee (E-SUA)\n\n⚠️ By Nov/Dec: FUTA/SUTA only for employees hired later in the year."},
+{s:"Payroll Cycle",q:"Social Security characteristics and population inversion?",a:"SS (FICA) = REGRESSIVE TAX:\n• Flat rate 6.2% up to cap ($184,500 for 2026)\n• Max employee SS tax = $11,439\n• Both employee AND employer pay (total 12.4%)\n\nMedicare: 1.45% on ALL wages (no cap)\n• Both pay (total 2.9%)\n\nPOPULATION INVERSION:\n• More retirees, fewer workers\n• Strains Social Security system\n\nTimecards used by HOURLY employees (not salaried).\nSupervisors review and approve before payroll processed."},
+{s:"Payroll Cycle",q:"Labor acquisition sequence? Where are payroll transactions recorded?",a:"Correct Sequence:\n1. Identify labor needs\n2. Recruit and screen candidates\n3. Negotiate salary and benefits\n4. Approve employment agreement\n\nRecording:\n• Employee pay → PAYROLL JOURNAL + Employee Earnings Subsidiary Ledger + CDJ\n• Employer payroll taxes → GENERAL JOURNAL\n• Disbursements to government (next month) → CDJ\n\nNew hire forms: W-4 (federal), L-4 (state), 401(k), benefits — all in personnel file."},
+
+// ===== BANK RECONCILIATION =====
+{s:"Bank Reconciliation",q:"What documents are needed? What is NOT needed?",a:"REQUIRED:\n1. Bank statement (with clearing list or cancelled checks)\n2. Cash Receipts Journal\n3. Cash Disbursements Journal\n4. Cash General Ledger account\n5. PRIOR month's bank reconciliation\n\n⚠️ NOT required: Prior month's bank STATEMENT.\n\nIn E-SUA: Ray Kramer prepares bank rec (independent check — he doesn't handle cash or do bookkeeping)."},
+{s:"Bank Reconciliation",q:"Bank Rec format — what adjusts bank side vs. book side?",a:"BANK SIDE:\n+ Deposits in Transit\n− Outstanding Checks\n± Bank Errors\n= Adjusted Bank Balance\n\nBOOK SIDE:\n+ Collections by bank, interest earned\n− NSF checks, service charges, book errors\n± Recording errors\n= Adjusted Book Balance\n\n⚠️ Adjusted bank MUST EQUAL adjusted book.\n\nDeposits in transit & outstanding checks = TIMING DIFFERENCES → NO journal entry.\nOnly BOOK SIDE adjustments require journal entries (in GENERAL JOURNAL)."},
+{s:"Bank Reconciliation",q:"Bank Rec Practice — Hanson Company",a:"Cash: $8,000 | Bank: $10,595\n\nBANK SIDE:\n  $10,595\n+ DIT:      +975\n− O/S Checks: −385 −735 −1,900 = −3,020\n= $8,550\n\nBOOK SIDE:\n  $8,000\n+ Error ($888 recorded instead of $188): +700\n− Service charges: −25\n− NSF check: −125\n= $8,550 ✓\n\nJournal entries for: error correction, service charges, NSF (book-side only)."},
+{s:"Bank Reconciliation",q:"Bank rec item types — which need journal entries?",a:"NO journal entry (timing differences):\n• Deposits in transit → + bank side\n• Outstanding checks → − bank side\n\nJOURNAL ENTRY REQUIRED (in General Journal):\n• NSF checks → − book balance (Dr. AR / Cr. Cash)\n• Service charges → − book (Dr. Misc Exp / Cr. Cash)\n• Collections by bank → + book (Dr. Cash / Cr. Notes Rec)\n• Interest earned → + book (Dr. Cash / Cr. Interest Rev)\n\nRecording errors → can impact EITHER side depending on who made the error."},
+
+// ===== YEAR-END PROCESS =====
+{s:"Year-End Process",q:"What are adjusting entries? What are the rules?",a:"Adjusting entries update accounts for items not yet recorded.\n\nRULES:\n1. Recorded in GENERAL JOURNAL first\n2. Posted to GL and year-end adjustments column\n3. Every AJE = at least one BALANCE SHEET + one INCOME STATEMENT account\n4. AJEs NEVER involve CASH!\n\nTypes (E-SUA):\n• Depreciation (Dr. Depr Exp / Cr. Accum Depr)\n• Interest Expense (Dr. Int Exp / Cr. Int Payable)\n• Bad Debt — % of sales (Dr. Bad Debt Exp / Cr. Allowance)\n• Inventory — periodic method (close purchases, adjust inventory, plug COGS)\n• Income Tax (Dr. Inc Tax Exp / Cr. Inc Tax Payable)"},
+{s:"Year-End Process",q:"What are closing entries? What is the process?",a:"Closing entries transfer temporary accounts to Retained Earnings.\n\nStep 1: CLOSE REVENUES to Income Summary\n  Dr. Sales Revenue, Other Revenue\n    Cr. Income Summary\n\nStep 2: CLOSE EXPENSES to Income Summary\n  Dr. Income Summary\n    Cr. COGS, all expenses\n\nStep 3: CLOSE INCOME SUMMARY to Retained Earnings\n  Profit: Dr. Income Summary / Cr. RE\n  Loss: Dr. RE / Cr. Income Summary\n\nAfter: all revenue, expense, IS accounts = $0.\nOnly balance sheet accounts remain → Post-Closing Trial Balance."},
+{s:"Year-End Process",q:"How does periodic inventory adjustment work?",a:"Under PERIODIC system, purchases go to Purchases account (not Inventory).\n\nYear-End (3 steps):\n\nStep 1: CLOSE purchase accounts:\n  Dr. Purchase Returns & Allowances\n  Dr. Purchase Discounts\n    Cr. Purchases\n    Cr. Freight-In\n\nStep 2: Adjust Inventory to physical count:\n  Increased → Debit Inventory\n  Decreased → Credit Inventory\n\nStep 3: PLUG Cost of Goods Sold (whatever balances the entry)\n  Dr. Cost of Goods Sold\n\nAfter: only Inventory and COGS should have balances."},
+{s:"Year-End Process",q:"Depreciation calculation and half-year convention?",a:"Straight-line: (Cost − Salvage) / Useful Life\n\nHALF-YEAR CONVENTION:\n• Assets acquired DURING the year → HALF year's depreciation in year 1\n• Full depreciation in subsequent years\n\nProcess:\n1. Calculate depreciation per asset in FA Subsidiary Ledger\n2. Update depreciation and net book value\n3. SUM all depreciation from subsidiary ledger\n4. Dr. Depreciation Expense / Cr. Accumulated Depreciation\n5. Post to GL and year-end adjustments\n6. Reconcile FA subsidiary to GL (cost AND accumulated depreciation)"},
+
+// ===== INTERNAL CONTROLS =====
+{s:"Internal Controls",q:"What are the six types of internal controls?",a:"1. AUTHORIZATION OF TRANSACTIONS — management approval before transaction\n2. SEGREGATION OF DUTIES — separate authorization, custody, accounting\n3. ACCESS CONTROLS — physical/logical restrictions on assets & records\n4. HUMAN RESOURCE CONTROLS — hiring, vacations, background checks\n5. ADEQUATE DOCUMENTS & RECORDS — prenumbered docs, filing, signatures, audit trails\n6. INDEPENDENT CHECKS OF PERFORMANCE — reconciliations, comparisons, verifications after the fact"},
+{s:"Internal Controls",q:"What is the limitation of internal control?",a:"Controls provide REASONABLE assurance, NOT absolute assurance.\n\nLimitations:\n• May not prevent or detect ALL misstatements\n• Controls can become inadequate as conditions change\n• Compliance may deteriorate over time\n• Cost-benefit constraint\n• Human error\n• Management override\n• COLLUSION — employees acting together to undermine controls\n\nFrom IBM SOX 404 report: \"Because of its inherent limitations, internal control over financial reporting may not prevent or detect misstatements.\""},
+{s:"Internal Controls",q:"What are overlapping controls?",a:"Overlapping controls = multiple controls addressing the SAME risk/objective.\n\nPurpose: If one fails, another can still catch the error/fraud. Creates REDUNDANCY.\n\nExample — cash receipts at Waren:\n• Two people open mail (segregation)\n• Prelist created (documentation)\n• Deposit receipt compared to prelist & CRJ (independent check)\n• Monthly bank reconciliation (independent check)\n\nAll overlap to protect cash receipts from different angles."},
+{s:"Internal Controls",q:"Preventative vs. Detective Controls?",a:"PREVENTATIVE — Stop errors/fraud BEFORE they occur:\n• Authorization (approval before processing)\n• Segregation of duties\n• Access controls\n• Prenumbered documents\n• Background checks\n\nDETECTIVE — Discover errors/fraud AFTER they occur:\n• Bank reconciliations\n• Independent checks of performance\n• Comparing subledger to GL\n• Three-way match\n• Surprise cash counts\n• Monthly customer statements\n• Mandatory vacations (irregularities surface)"},
+{s:"Internal Controls",q:"Authorization — General vs. Specific?",a:"GENERAL AUTHORIZATION:\n• Authority to perform activities within ESTABLISHED LIMITS\n• For ROUTINE transactions\n• Ex: Sales staff can sell if within credit limit\n\nSPECIFIC AUTHORIZATION:\n• Case-by-case approval for NONROUTINE or transactions EXCEEDING limits\n• Ex: Sale exceeding credit limit needs manager approval\n\nE-SUA (Ray Kramer):\n• Signs POs before sending to supplier\n• Approves credit, initials customer PO\n• Approves hours, initials timecards\n• Initials write-offs"},
+{s:"Internal Controls",q:"Segregation of Duties — what three functions must be separated?",a:"Three Functions:\n1. AUTHORIZATION — approving transactions\n2. CUSTODY OF ASSETS — physical handling\n3. RECORDKEEPING — recording in books\n\nWaren Sports Supply:\n• Ray Kramer = AUTHORIZATION\n• Jim Adams = CUSTODY\n• Nancy Ford = ACCOUNTING\n\nPurpose: Independent oversight + reduces fraud by requiring COLLUSION.\n\nCollusion = \"insurmountable psychological barrier\" — unlikely to approach unknown employee.\n\nBest example: \"Employee who writes checks is NOT the same one who reconciles the bank account.\""},
+{s:"Internal Controls",q:"Access Controls — types and E-SUA examples?",a:"Restrict unauthorized access to assets and records.\n\nPHYSICAL: Locked warehouses, keycards, safes, cameras\nLOGICAL: Passwords, firewalls, encryption, user permissions\n\nE-SUA Examples:\n• Jim Adams restrictively endorses checks (prevents unauthorized cashing)\n• ACH payments vs paper checks (reduces lost/stolen risk; electronic audit trail)\n• Nancy Ford handles inventory but has NO access to inventory records"},
+{s:"Internal Controls",q:"Human Resource Controls?",a:"Key Types:\n• BACKGROUND CHECKS — verify education, police records, credit history\n• MANDATORY VACATIONS — irregularities surface when someone else does the job\n• BONDING EMPLOYEES — insurance against theft\n• Job rotation and cross-training\n\nE-SUA:\n• Background check before hiring Nancy Ford\n• Jim Adams required to take 1 consecutive week vacation/year\n\nLittle Caesars: Shawn stole cash on late shift. Took vacation → manager saw sales increase → fraud discovered."},
+{s:"Internal Controls",q:"Adequate Documents and Records — key principles?",a:"Documents provide evidence that transactions occurred & controls followed.\n\n1. PRENUMBERED CONSECUTIVELY — prevents double recording or omission; helps locate docs\n2. SIGNATURES/INITIALS — identifies who authorized, recorded, reviewed\n3. DATES — determines when transactions occurred\n4. CHART OF ACCOUNTS — standardizes recording\n\nE-SUA Prenumbered: BOLs, sales invoices, receiving reports, checks\n\nSignature Examples:\n• Kramer on customer PO = authorization\n• Adams on invoice = accuracy verification\n• Kramer writes \"paid\" + check # + date + initials = prevents duplicate payment\n• Posting checkmarks = evidence of posting"},
+{s:"Internal Controls",q:"Independent Checks of Performance?",a:"Reviews by employees NOT involved in the original task.\n\nMust be done by someone OTHER than original recorder/custodian.\nEvidence: reviewer's initials/signature.\n\nE-SUA Examples:\n• Adams initials invoice (accuracy)\n• Ford compares deposit receipt to prelist & CRJ\n• Kramer prepares bank rec\n• Adams sends monthly statements to customers\n• Ford foots AR subledger vs GL\n• Ford foots AP subledger vs GL\n• Adams does three-way match\n\nMadoff: Auditor was small, economically dependent, failed to perform independent checks."},
+{s:"Internal Controls",q:"What is skimming?",a:"SKIMMING = theft of funds BEFORE recorded in the accounting system.\n\nNo journal entry ever made → cash disappears before hitting the books.\n\nCommon in cash-intensive businesses: bars, restaurants, retail.\n\nPrevention: Restaurants offer FREE MEAL if customer doesn't get receipt.\n• Encourages customers to check for receipts\n• Ensures transactions are recorded\n• Makes it harder for cashiers to pocket cash\n\nControl Type: Adequate Documents and Records."},
+
+// ===== WAREN SPORTS SUPPLY CONTROLS =====
+{s:"Waren Sports Supply Controls",q:"Controls 1–5: Kramer initials PO; Prenumbered BOL; Prenumbered invoices; Adams initials invoice; Kramer initials write-off",a:"1. Kramer initials customer PO → Ensures creditworthy customers → AUTHORIZATION\n\n2. Prenumbered bills of lading → Tracks all shipments → ADEQUATE DOCS & RECORDS\n\n3. Prenumbered sales invoices → All sales billed/recorded → ADEQUATE DOCS & RECORDS\n\n4. Adams initials invoice before sending → Verifies accuracy → INDEPENDENT CHECKS\n\n5. Kramer initials write-off in GL & subledger → Authorized write-offs → AUTHORIZATION"},
+{s:"Waren Sports Supply Controls",q:"Controls 6–10: Dual mail opening; Restrictive endorsement; ACH; Prelist; Ford compares deposit",a:"6. Adams & Ford open mail together, record on prelist → Prevents cash theft → SEGREGATION OF DUTIES\n\n7. Adams restrictively endorses checks → Prevents unauthorized cashing → ACCESS CONTROLS\n\n8. ACH vs paper checks → Reduces lost/stolen risk → ACCESS CONTROLS\n\n9. Prelist recorded then given to bookkeeper → Independent record of cash → ADEQUATE DOCS & RECORDS\n\n10. Ford compares deposit receipt to prelist & CRJ → All cash deposited/recorded → INDEPENDENT CHECKS"},
+{s:"Waren Sports Supply Controls",q:"Controls 11–15: Bank rec; Monthly statements; Ford foots AR; Checkmarks; Kramer signs PO",a:"11. Kramer prepares bank rec → Detects errors/irregularities → INDEPENDENT CHECKS\n\n12. Adams sends monthly statements → Customers identify errors → INDEPENDENT CHECKS\n\n13. Ford foots subledger vs GL → Subledger agrees with GL → INDEPENDENT CHECKS\n\n14. Adams places posting checkmarks → Evidence of posting → ADEQUATE DOCS & RECORDS\n\n15. Kramer signs PO before sending → Authorized purchases → AUTHORIZATION"},
+{s:"Waren Sports Supply Controls",q:"Controls 16–21: Prenumbered RRs; Ford no record access; Three-way match; Paid on invoice; Separate auth/acctg; Prenumbered checks",a:"16. Prenumbered receiving reports → All receipts documented → ADEQUATE DOCS & RECORDS\n\n17. Ford (handles inventory) no access to inventory records → Prevents concealment → SEGREGATION OF DUTIES\n\n18. Adams does three-way match → Only pays for goods ordered & received → INDEPENDENT CHECKS\n\n19. Kramer writes \"paid\" + check# + date + initials → Prevents duplicate payment → ADEQUATE DOCS & RECORDS\n\n20. Auth of payments separate from accounting → Prevents unauthorized disbursements → SEGREGATION OF DUTIES\n\n21. Prenumbered checks → All disbursements tracked → ADEQUATE DOCS & RECORDS"},
+{s:"Waren Sports Supply Controls",q:"Controls 22–27: Ford foots AP; Time clock; Kramer initials time; Employee signs; Background check; Vacation",a:"22. Ford foots AP subledger vs AP GL → AP in balance → INDEPENDENT CHECKS\n\n23. Time clock for Adams & Ford → Objective hours record → ADEQUATE DOCS & RECORDS\n\n24. Kramer initials time records → Approved hours → AUTHORIZATION\n\n25. Employee signs time record → Confirms accuracy → ADEQUATE DOCS & RECORDS\n\n26. Background check before hiring Ford → Reduces dishonest hire risk → HUMAN RESOURCE CONTROLS\n\n27. Adams takes 1 week consecutive vacation → Irregularities surface → HUMAN RESOURCE CONTROLS"},
+
+// ===== AUDIT TESTING =====
+{s:"Audit Testing Procedures",q:"How to test controls? (Procedures 1–7)",a:"1. Credit check → Examine POs for Kramer's initials; review credit files\n2. All orders shipped billed → Compare prenumbered BOL sequence to invoices\n3. All invoices recorded → Account for invoice number sequence in sales journal; check gaps\n4. Invoice accuracy → Sample invoices; recalculate prices, qty, extensions; compare to POs & BOLs\n5. Write-offs authorized → Examine GJ for write-offs; verify Kramer's initials\n6. Segregation (cash/bookkeeping) → Observe mail opening; confirm 2 people; verify prelist\n7. All cash deposited → Compare prelist totals to deposit slips & bank statements"},
+{s:"Audit Testing Procedures",q:"How to test controls? (Procedures 8–14)",a:"8. GL cash correct → Review Kramer's bank rec; verify ties to GL\n9. AP GL correct → Foot AP subledger; compare to AP GL (Ford's rec)\n10. CDJ posted to GL → Trace totals & individual entries; check posting checkmarks\n11. Not purchasing unnecessary items → Examine POs for Kramer's signature; review requisitions\n12. Only paying for items received → Examine three-way match\n13. No stolen checks → Account for prenumbered check sequence; investigate gaps\n14. Checks for items received/services → Examine invoices for \"paid\", check #, date, Kramer's initials"},
+
+// ===== QUICK REFERENCE =====
+{s:"Quick Reference",q:"Waren Sports Supply — Who does what?",a:"RAY KRAMER (Owner) = AUTHORIZATION\n• Approves credit/initials PO • Signs POs • Initials write-offs\n• Initials timecards • Writes \"paid\" on invoices • Prepares bank rec\n\nJIM ADAMS = CUSTODY + independent checks\n• Opens mail w/ Nancy • Endorses checks • Initials invoices\n• Three-way match • Sends statements • Posting checkmarks\n• Takes mandatory vacation\n\nNANCY FORD = ACCOUNTING\n• Opens mail w/ Jim • Compares deposit to prelist/CRJ\n• Foots AR & AP subledgers vs GL\n• Handles inventory (NO access to inventory RECORDS)"},
+
+// ===== EXAM TRAPS =====
+{s:"Exam Traps",q:"Common traps from Quizzes 1, 2, and 4?",a:"Quiz 1:\n• Dashed line + process = preparing a document, NOT recording\n• \"Reasonable assurance\" = IC objective, NOT documentation purpose\n• Annotation = open bracket w/ dashed line\n\nQuiz 2:\n• \"Supply chain & distribution\" NOT a value chain cycle\n• INFLOW to Sales cycle = Inventory/Services (NOT cash)\n• Assigning digit significance = basis for storing/accessing/reporting\n\nQuiz 4:\n• Purchases account = INVENTORY (not fixed assets)\n• Request to purchasing dept = PURCHASE REQUISITION\n• Checks do NOT eliminate authorization"},
+{s:"Exam Traps",q:"Quiz 8 — IC matching and role distinctions?",a:"Matching:\n• Surprise cash counts = Independent Checks\n• Can't order & approve payments = Segregation\n• Keycard warehouse = Access Controls\n• Pre-numbered POs for audit = Documentation\n• Background checks + vacations = HR Controls\n• Supervisor approves overtime = Authorization\n\n⚠️ ROLES (exam trap!):\n• Accounting = Nancy FORD\n• Authorization = Ray KRAMER\n• Custody = Jim ADAMS\n\nBest segregation: \"Person who writes checks ≠ person who reconciles bank.\""},
+
+// ===== IC MOVIE =====
+{s:"Internal Control Movie",q:"Key concepts from the IC movie (2 exam questions)?",a:"Common themes:\n• IC is EVERYONE'S responsibility\n• Even small businesses need controls\n• Tone at the top sets company culture\n• Controls proportional to risk\n• Fraud triangle: Pressure, Opportunity, Rationalization\n• Most fraud by TRUSTED employees (not outsiders)\n• Collusion makes fraud harder to detect\n• Red flags: never takes vacation, lives beyond means, resists oversight\n• Reasonable assurance, not absolute\n• Cost-benefit: controls shouldn't cost more than they protect\n\n⚠️ Rewatch the movie if possible!"},
+
+// ===== CALCULATIONS =====
+{s:"Calculations",q:"Net Pay — full calculation example?",a:"Gross Pay: $2,000\nFIT: $200 | SIT: $80\n\nWithholdings:\n• FIT:         $200.00\n• SIT:          $80.00\n• SS (6.2%):   $124.00\n• Medicare (1.45%): $29.00\n  Total:       $433.00\n\nNET PAY = $2,000 − $433 = $1,567.00\n\nEmployer Taxes (General Journal):\n• SS: $124 | Medicare: $29\n• FUTA (0.6%): $12 | SUTA (3.55%): $71\n  Total: $236.00"},
+{s:"Calculations",q:"Interest Expense accrual calculation?",a:"Formula: Principal × Rate × (Days / 365)\n\nExample: $20,000 at 7%, borrowed Jul 31\nAdjusting entry Dec 31:\nDays Jul 31 → Dec 31 = 153 days\n\n= $20,000 × 0.07 × (153/365)\n= $20,000 × 0.07 × 0.4192\n= $586.85\n\n  Dr. Interest Expense   $586.85\n    Cr. Interest Payable  $586.85\n\n⚠️ Adjusting entries NEVER involve cash!"},
+{s:"Calculations",q:"Bad Debt Expense — % of sales (E-SUA)?",a:"E-SUA uses PERCENTAGE OF SALES method.\n\nBad Debt Expense = Total Credit Sales × Bad Debt %\n(Both given on exam)\n\n  Dr. Bad Debt Expense              $XXX\n    Cr. Allowance for Doubtful Accts  $XXX\n\nReal world: often uses AGING method (different % for current, 30, 60, 90+ days).\nBut E-SUA = % of sales.\n\nRecorded in General Journal, posted to GL and year-end adjustments column."},
+];
+
+// ============================================================
+// RENDER
+// ============================================================
+const container = document.getElementById("container");
+const filterSelect = document.getElementById("filterSection");
+let mastered = new Set();
+let allFlipped = false;
+
+// Populate filter
+const sections = [...new Set(cards.map(c => c.s))];
+sections.forEach(s => {
+  const o = document.createElement("option");
+  o.value = s; o.textContent = s;
+  filterSelect.appendChild(o);
+});
+
+function renderCards(filter) {
+  container.innerHTML = "";
+  let currentSection = "";
+  cards.forEach((card, i) => {
+    if (filter !== "all" && card.s !== filter) return;
+    if (card.s !== currentSection) {
+      currentSection = card.s;
+      const div = document.createElement("div");
+      div.className = "section-divider screen-only";
+      div.textContent = currentSection;
+      container.appendChild(div);
+    }
+    const el = document.createElement("div");
+    el.className = "notecard" + (mastered.has(i) ? " mastered" : "") + (allFlipped ? " flipped" : "");
+    el.dataset.index = i;
+
+    // Format answer with bold markers
+    const formattedAnswer = card.a.split("\n").map(line => {
+      let cls = "line";
+      if (line.startsWith("⚠️") || line.startsWith("NOT ") || line.startsWith("IMPORTANT") || line.startsWith("NEVER")) cls = "line line-warn";
+      else if (line.startsWith("**") || /^[A-Z]{2,}[: ]/.test(line) || /^\d+\./.test(line)) cls = "line line-bold";
+      // strip markdown bold
+      line = line.replace(/\*\*/g, "");
+      return `<span class="${cls}">${line}</span>`;
+    }).join("\n");
+
+    el.innerHTML = `
+      <div class="card-header">
+        <span><span class="card-num">#${i+1}</span> / ${cards.length}</span>
+        <span>${card.s}</span>
+        <button class="card-master-btn" onclick="event.stopPropagation();toggleMaster(${i})">${mastered.has(i) ? "✓ Mastered" : "Mark Mastered"}</button>
+      </div>
+      <div class="card-front">${card.q}</div>
+      <div class="card-back">${formattedAnswer}</div>
+      <div class="tap-hint">tap to reveal answer</div>
+    `;
+    el.addEventListener("click", (e) => {
+      if (e.target.classList.contains("card-master-btn")) return;
+      el.classList.toggle("flipped");
+    });
+    container.appendChild(el);
+  });
+  updateProgress();
+}
+
+function toggleMaster(i) {
+  if (mastered.has(i)) mastered.delete(i); else mastered.add(i);
+  const el = document.querySelector(`.notecard[data-index="${i}"]`);
+  if (el) {
+    el.classList.toggle("mastered");
+    el.querySelector(".card-master-btn").textContent = mastered.has(i) ? "✓ Mastered" : "Mark Mastered";
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = cards.length;
+  const done = mastered.size;
+  document.getElementById("progressFill").style.width = (done/total*100)+"%";
+  document.getElementById("progressText").textContent = `${done} / ${total} mastered`;
+}
+
+function filterCards() {
+  allFlipped = false;
+  renderCards(filterSelect.value);
+}
+
+function toggleAll() {
+  allFlipped = !allFlipped;
+  document.querySelectorAll(".notecard").forEach(el => {
+    if (allFlipped) el.classList.add("flipped"); else el.classList.remove("flipped");
+  });
+}
+
+function resetMastered() {
+  mastered.clear();
+  document.querySelectorAll(".notecard").forEach(el => {
+    el.classList.remove("mastered");
+    el.querySelector(".card-master-btn").textContent = "Mark Mastered";
+  });
+  updateProgress();
+}
+
+renderCards("all");
+</script>
+</body>
+</html>

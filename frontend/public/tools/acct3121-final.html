@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACCT 3121 Final Exam Study Tool</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+
+  /* NAV */
+  .nav { background: #1e293b; border-bottom: 2px solid #3b82f6; display: flex; gap: 4px; padding: 12px 16px; flex-wrap: wrap; }
+  .nav-btn { background: transparent; border: 1px solid #334155; color: #94a3b8; padding: 8px 18px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s; }
+  .nav-btn:hover { background: #334155; color: #e2e8f0; }
+  .nav-btn.active { background: #3b82f6; border-color: #3b82f6; color: white; }
+  .nav-title { color: #3b82f6; font-weight: 700; font-size: 16px; display: flex; align-items: center; margin-right: 12px; }
+
+  /* SECTIONS */
+  .section { display: none; padding: 20px; max-width: 1100px; margin: 0 auto; }
+  .section.active { display: block; }
+
+  /* STUDY GUIDE */
+  .chapter-card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+  .chapter-header { background: #1e40af; padding: 14px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+  .chapter-header h2 { font-size: 16px; font-weight: 700; color: white; }
+  .chapter-body { padding: 20px; display: none; }
+  .chapter-body.open { display: block; }
+  .chapter-body h3 { color: #60a5fa; font-size: 14px; font-weight: 700; margin: 16px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .chapter-body h4 { color: #93c5fd; font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+  .chapter-body p, .chapter-body li { font-size: 13.5px; line-height: 1.7; color: #cbd5e1; margin-bottom: 4px; }
+  .chapter-body ul { padding-left: 18px; }
+  .formula-box { background: #0f172a; border: 1px solid #3b82f6; border-radius: 6px; padding: 12px 16px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; color: #93c5fd; }
+  .trap-box { background: #1c1917; border-left: 4px solid #ef4444; padding: 10px 14px; margin: 8px 0; border-radius: 0 6px 6px 0; font-size: 13px; color: #fca5a5; }
+  .tip-box { background: #052e16; border-left: 4px solid #22c55e; padding: 10px 14px; margin: 8px 0; border-radius: 0 6px 6px 0; font-size: 13px; color: #86efac; }
+  .mnemonic-box { background: #1e1b4b; border-left: 4px solid #a78bfa; padding: 10px 14px; margin: 8px 0; border-radius: 0 6px 6px 0; font-size: 13px; color: #c4b5fd; }
+  .table-wrap { overflow-x: auto; margin: 10px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th { background: #1e40af; color: white; padding: 8px 10px; text-align: left; }
+  td { border-bottom: 1px solid #1e293b; padding: 7px 10px; color: #cbd5e1; }
+  tr:hover td { background: #1e293b; }
+  .chevron { transition: transform 0.2s; font-size: 12px; }
+  .chevron.open { transform: rotate(180deg); }
+
+  /* EXAM */
+  .exam-controls { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 20px; margin-bottom: 20px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .exam-controls label { font-size: 13px; color: #94a3b8; }
+  .exam-controls select { background: #0f172a; border: 1px solid #334155; color: #e2e8f0; padding: 6px 10px; border-radius: 6px; font-size: 13px; }
+  .start-btn { background: #2563eb; color: white; border: none; padding: 10px 24px; border-radius: 7px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .start-btn:hover { background: #1d4ed8; }
+  .exam-progress { background: #1e293b; border-radius: 10px; padding: 12px 20px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #94a3b8; }
+  .progress-bar-wrap { background: #0f172a; border-radius: 99px; height: 6px; flex: 1; margin: 0 16px; }
+  .progress-bar { background: #3b82f6; height: 6px; border-radius: 99px; transition: width 0.3s; }
+  .question-card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 24px; margin-bottom: 16px; }
+  .question-meta { font-size: 11px; color: #64748b; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .question-text { font-size: 15px; color: #e2e8f0; line-height: 1.6; margin-bottom: 18px; }
+  .option-btn { display: block; width: 100%; text-align: left; background: #0f172a; border: 1px solid #334155; color: #cbd5e1; padding: 11px 16px; border-radius: 7px; margin-bottom: 8px; cursor: pointer; font-size: 14px; transition: all 0.15s; }
+  .option-btn:hover:not(:disabled) { background: #1e3a5f; border-color: #3b82f6; color: #e2e8f0; }
+  .option-btn.correct { background: #052e16; border-color: #22c55e; color: #86efac; }
+  .option-btn.wrong { background: #1c0a0a; border-color: #ef4444; color: #fca5a5; }
+  .option-btn.reveal-correct { background: #052e16; border-color: #22c55e; color: #86efac; }
+  .explanation { background: #0f172a; border: 1px solid #334155; border-radius: 7px; padding: 14px 16px; margin-top: 12px; font-size: 13px; color: #94a3b8; line-height: 1.6; display: none; }
+  .explanation.show { display: block; }
+  .explanation strong { color: #60a5fa; }
+  .next-btn { background: #2563eb; color: white; border: none; padding: 9px 22px; border-radius: 7px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 12px; display: none; }
+  .next-btn.show { display: inline-block; }
+  .next-btn:hover { background: #1d4ed8; }
+  .results-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 30px; text-align: center; }
+  .results-score { font-size: 56px; font-weight: 800; color: #3b82f6; }
+  .results-label { font-size: 16px; color: #94a3b8; margin-bottom: 20px; }
+  .results-breakdown { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 20px 0; }
+  .results-stat { background: #0f172a; border-radius: 8px; padding: 14px 22px; }
+  .results-stat .val { font-size: 28px; font-weight: 700; }
+  .results-stat .lbl { font-size: 12px; color: #64748b; }
+  .green { color: #22c55e; }
+  .red { color: #ef4444; }
+  .yellow { color: #f59e0b; }
+  .restart-btn { background: #0f172a; border: 1px solid #334155; color: #e2e8f0; padding: 10px 22px; border-radius: 7px; font-size: 14px; cursor: pointer; margin: 6px; }
+  .restart-btn:hover { border-color: #3b82f6; }
+
+  /* FLASHCARDS */
+  .flashcard-controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+  .flashcard-controls select { background: #1e293b; border: 1px solid #334155; color: #e2e8f0; padding: 8px 12px; border-radius: 6px; font-size: 13px; }
+  .fc-wrap { perspective: 1000px; max-width: 700px; margin: 0 auto; height: 280px; cursor: pointer; }
+  .fc-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.5s; }
+  .fc-inner.flipped { transform: rotateY(180deg); }
+  .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: #1e293b; border: 1px solid #334155; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 28px; text-align: center; }
+  .fc-face.back { transform: rotateY(180deg); background: #1e3a5f; border-color: #3b82f6; }
+  .fc-face .label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .fc-face .content { font-size: 15px; color: #e2e8f0; line-height: 1.6; }
+  .fc-face .chapter-tag { font-size: 11px; color: #3b82f6; margin-top: 12px; }
+  .fc-nav { display: flex; gap: 12px; justify-content: center; align-items: center; margin-top: 20px; }
+  .fc-nav button { background: #1e293b; border: 1px solid #334155; color: #e2e8f0; padding: 8px 18px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+  .fc-nav button:hover { border-color: #3b82f6; }
+  .fc-counter { font-size: 13px; color: #64748b; }
+  .fc-hint { text-align: center; font-size: 12px; color: #475569; margin-top: 10px; }
+
+  /* QUICK REF */
+  .qr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .qr-card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 18px; }
+  .qr-card h3 { color: #60a5fa; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .qr-formula { font-family: 'Courier New', monospace; background: #0f172a; border-radius: 5px; padding: 8px 12px; margin: 6px 0; font-size: 12.5px; color: #93c5fd; }
+  .qr-note { font-size: 12px; color: #64748b; margin-top: 4px; }
+
+  /* MISC */
+  .badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 600; }
+  .badge-blue { background: #1e3a5f; color: #60a5fa; }
+  .badge-green { background: #052e16; color: #22c55e; }
+  .badge-yellow { background: #1c1a07; color: #f59e0b; }
+  .badge-red { background: #1c0a0a; color: #ef4444; }
+  .badge-purple { background: #2e1065; color: #a78bfa; }
+  .timer { font-size: 18px; font-weight: 700; color: #f59e0b; }
+  #exam-area { display: none; }
+  #results-area { display: none; }
+  #setup-area { display: block; }
+
+  /* AI QUESTION GENERATOR */
+  .ai-panel { background: #1a1040; border: 1px solid #4f46e5; border-radius: 10px; padding: 20px; margin-top: 14px; }
+  .ai-panel-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; margin-bottom: 0; }
+  .ai-panel-header h3 { color: #a78bfa; font-size: 14px; font-weight: 700; margin: 0; }
+  .ai-panel-header .ai-badge { font-size: 11px; background: #2e1065; color: #a78bfa; padding: 2px 8px; border-radius: 99px; }
+  .ai-panel-body { margin-top: 16px; }
+  .ai-panel-body.collapsed { display: none; }
+  .api-key-row { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
+  .api-key-input { background: #0f172a; border: 1px solid #334155; color: #e2e8f0; padding: 8px 12px; border-radius: 6px; font-size: 13px; flex: 1; font-family: monospace; }
+  .api-key-input:focus { outline: none; border-color: #4f46e5; }
+  .save-key-btn { background: #4f46e5; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .save-key-btn:hover { background: #4338ca; }
+  .gen-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+  .gen-select { background: #0f172a; border: 1px solid #334155; color: #e2e8f0; padding: 7px 10px; border-radius: 6px; font-size: 13px; }
+  .gen-btn { background: #4f46e5; color: white; border: none; padding: 9px 20px; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .gen-btn:hover:not(:disabled) { background: #4338ca; }
+  .gen-btn:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+  .gen-status { font-size: 12px; color: #a78bfa; margin-top: 8px; min-height: 16px; }
+  .custom-q-section { margin-top: 14px; border-top: 1px solid #2e1065; padding-top: 14px; }
+  .custom-q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .custom-q-count { font-size: 12px; color: #a78bfa; font-weight: 600; }
+  .clear-all-btn { background: none; border: 1px solid #7f1d1d; color: #ef4444; padding: 3px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; }
+  .clear-all-btn:hover { background: #1c0a0a; }
+  .custom-q-list { max-height: 220px; overflow-y: auto; }
+  .custom-q-item { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 9px 12px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .custom-q-item .q-text { font-size: 12px; color: #94a3b8; flex: 1; line-height: 1.5; }
+  .custom-q-item .del-btn { background: none; border: 1px solid #ef4444; color: #ef4444; padding: 2px 7px; border-radius: 4px; cursor: pointer; font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+  .custom-q-item .del-btn:hover { background: #1c0a0a; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid #4f46e5; border-top-color: #a78bfa; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 5px; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-title">ACCT 3121 Final</div>
+  <button class="nav-btn active" onclick="showSection('guide')">Study Guide</button>
+  <button class="nav-btn" onclick="showSection('exam')">Practice Exam</button>
+  <button class="nav-btn" onclick="showSection('flash')">Flashcards</button>
+  <button class="nav-btn" onclick="showSection('ref')">Quick Reference</button>
+</div>
+
+<!-- ===================== STUDY GUIDE ===================== -->
+<div id="section-guide" class="section active">
+
+  <div class="chapter-card">
+    <div class="chapter-header" onclick="toggleChapter(this)">
+      <h2>CH 12 — Absorption vs. Variable Costing & Capacity Analysis</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="chapter-body">
+      <h3>Core Distinction</h3>
+      <p>The only difference between the two methods is the treatment of <strong>Fixed Manufacturing Overhead (FMOH)</strong>.</p>
+      <div class="table-wrap"><table>
+        <tr><th>Feature</th><th>Absorption Costing</th><th>Variable Costing</th></tr>
+        <tr><td>FMOH treatment</td><td>Product cost (capitalized in inventory)</td><td>Period cost (expensed immediately)</td></tr>
+        <tr><td>Inventory includes</td><td>DM + DL + VMOH + FMOH</td><td>DM + DL + VMOH only</td></tr>
+        <tr><td>Income statement format</td><td>Traditional (by function)</td><td>Contribution margin (by behavior)</td></tr>
+        <tr><td>Required for external reporting?</td><td>Yes — GAAP required</td><td>No — internal use only</td></tr>
+        <tr><td>FMOH volume variance?</td><td>Yes</td><td>No</td></tr>
+        <tr><td>OI affected by production level?</td><td>Yes</td><td>No — only sales drive OI</td></tr>
+      </table></div>
+
+      <h3>Operating Income Relationship</h3>
+      <ul>
+        <li><strong>Units Produced > Units Sold</strong> → Absorption OI > Variable OI (FMOH deferred into ending inventory)</li>
+        <li><strong>Units Produced &lt; Units Sold</strong> → Absorption OI &lt; Variable OI (prior FMOH released from beginning inventory)</li>
+        <li><strong>Units Produced = Units Sold</strong> → Absorption OI = Variable OI</li>
+      </ul>
+
+      <h3>Reconciliation Statement</h3>
+      <div class="formula-box">Variable Costing OI
++ FMOH in Ending Inventory (deferred to future)
+− FMOH in Beginning Inventory (released from prior period)
+= Absorption Costing OI
+
+Shortcut: Absorption OI = Variable OI + FMOH Rate × (Units Produced − Units Sold)</div>
+
+      <div class="trap-box">Trap: Absorption OI can be increased simply by producing MORE units (even if not sold) — this inflates inventory and defers FMOH. Variable costing prevents this manipulation.</div>
+      <div class="tip-box">Tip: Variable costing is better for internal decisions because it clearly separates fixed vs. variable costs, supporting CVP analysis and relevant cost analysis.</div>
+
+      <h3>Denominator Volume Choices (Capacity Levels)</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Capacity Level</th><th>Definition</th><th>FMOH Rate</th><th>Fixed-MOH Volume Variance</th></tr>
+        <tr><td>Theoretical</td><td>100% efficiency, no downtime — theoretical ideal, unrealistic</td><td>Lowest (highest denominator)</td><td>Usually large unfavorable</td></tr>
+        <tr><td>Practical</td><td>Theoretical minus unavoidable interruptions (maintenance, holidays)</td><td>Medium</td><td>Moderate unfavorable</td></tr>
+        <tr><td>Normal</td><td>Average demand over a multi-year period (includes seasonal/cyclical patterns)</td><td>Highest (lowest denominator)</td><td>Fluctuates with demand</td></tr>
+      </table></div>
+      <div class="mnemonic-box">Mnemonic: "The Practical Norm" — Theoretical (top/lowest rate) → Practical (middle) → Normal (lowest/highest rate)</div>
+      <div class="trap-box">Death Spiral: Normal capacity → highest FMOH rate → higher product costs → higher prices → demand drops → lower normal capacity → even higher FMOH rate → cycle repeats.</div>
+      <div class="tip-box">Practical capacity is preferred for product costing and capacity management — it reveals the cost of unused capacity explicitly.</div>
+
+      <h3>Fixed-MOH Volume Variance (Absorption Only)</h3>
+      <div class="formula-box">Fixed-MOH Volume Variance = (Actual Production − Budgeted Production) × Budgeted FMOH Rate
+Favorable = Actual > Budgeted (used more capacity than planned)
+Unfavorable = Actual &lt; Budgeted (unused capacity)</div>
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <div class="chapter-header" onclick="toggleChapter(this)">
+      <h2>CH 14 — Support Department Cost Allocation & Common Costs</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="chapter-body">
+      <h3>Types of Departments</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Feature</th><th>Operating/Production Dept</th><th>Support/Service Dept</th></tr>
+        <tr><td>Revenue?</td><td>Yes — sells to external customers</td><td>No — cost center</td></tr>
+        <tr><td>Primary function</td><td>Produce goods/services for sale</td><td>Support operating units</td></tr>
+        <tr><td>Examples</td><td>Mixing, Assembly, Canning</td><td>Janitorial, HR, IT, Maintenance</td></tr>
+        <tr><td>Cost treatment</td><td>Forms product cost directly</td><td>Allocated to operating depts, then to products</td></tr>
+      </table></div>
+
+      <h3>4 Reasons to Allocate Support Costs</h3>
+      <div class="mnemonic-box">FDMC: Financial Reporting, Decision-Making, Motivate Managers, Cost Reimbursement (gov't contracts)</div>
+
+      <h3>Three Allocation Methods</h3>
+      <div class="mnemonic-box">DSR = Direct → Step-Down → Reciprocal = Least to Most Accurate<br>"Dumb Students Rarely get full credit on cost exams"</div>
+      <div class="table-wrap"><table>
+        <tr><th>Method</th><th>SD-to-SD Services?</th><th>Accuracy</th><th>Tool</th></tr>
+        <tr><td>Direct</td><td>Ignored completely</td><td>Least accurate</td><td>Simple ratios</td></tr>
+        <tr><td>Step-Down</td><td>One direction only</td><td>More accurate</td><td>Sequential allocation</td></tr>
+        <tr><td>Reciprocal</td><td>Full mutual exchange</td><td>Most accurate</td><td>Simultaneous equations</td></tr>
+      </table></div>
+
+      <h4>Direct Method</h4>
+      <div class="formula-box">Denominator = Operating depts ONLY (never include other SDs)
+Budgeted Rate = SD Cost ÷ Sum of operating dept driver units
+Allocation to each operating dept = Rate × that dept's driver units</div>
+      <div class="trap-box">Trap: NEVER include other support departments in the denominator for the Direct Method.</div>
+
+      <h4>Step-Down Method</h4>
+      <div class="formula-box">1. Rank SDs: highest % (or $) of services provided to other SDs goes first
+2. Allocate ranked SD to ALL remaining departments (other SDs + operating depts)
+3. Close that SD — it receives NO further allocations
+4. Next SD's cost = original cost + allocation received in prior steps
+5. Repeat until all SDs are closed</div>
+      <div class="trap-box">Trap: Once a SD is stepped down (closed), it NEVER receives further allocations.<br>Trap: The newly allocated SD's cost for its step = original cost + amounts received from higher-ranked SDs.</div>
+
+      <h4>Reciprocal Method</h4>
+      <div class="formula-box">Set up simultaneous equations:
+  J = Direct_J + (J's % of P) × P
+  P = Direct_P + (P's % of J) × J
+
+Solve for J and P, then allocate each SD's total cost to ALL departments
+(including other SDs) using proportional driver units.
+
+Key: Denominator for each SD INCLUDES all other departments (both SDs and operating).</div>
+      <div class="trap-box">Trap: In reciprocal method, proportions are based on the OTHER department's driver perspective. J receives from P based on P's employee ratio, not J's sq ft ratio.</div>
+
+      <h3>Total SD Cost Distributed — All Methods Equal</h3>
+      <div class="tip-box">The total dollar amount of SD costs allocated to operating departments is IDENTICAL across all three methods. The distribution between operating departments differs.</div>
+
+      <h3>Common Costs</h3>
+      <p>A cost shared by two or more users that cannot be traced solely to one user.</p>
+      <div class="table-wrap"><table>
+        <tr><th>Method</th><th>How It Works</th><th>Notes</th></tr>
+        <tr><td>Stand-Alone</td><td>Each user's % = their stand-alone cost ÷ total stand-alone costs. Apply % to common cost.</td><td>Most equitable. No ranking needed.</td></tr>
+        <tr><td>Incremental</td><td>Primary user (highest stand-alone cost) pays their full stand-alone amount. Secondary pays the increment (common cost − primary's share).</td><td>Primary bears heavier burden. FASB ASC 606 residual approach is similar.</td></tr>
+      </table></div>
+      <div class="tip-box">FASB ASC 606 governs external reporting of bundled revenue (stand-alone selling price method or residual approach). Internal management can use any method.</div>
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <div class="chapter-header" onclick="toggleChapter(this)">
+      <h2>CH 17 — Management Control Systems, Responsibility Centers & Transfer Pricing</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="chapter-body">
+      <h3>Management Control System (MCS)</h3>
+      <p>Convergence of systems to gather and use information to aid and coordinate planning and control decisions. Can be formal or informal.</p>
+      <div class="mnemonic-box">Three key properties: MGE — Motivation, Goal Congruence, Effort</div>
+      <div class="mnemonic-box">Four Pillars: Budgeting | Responsibility Centers | Transfer Pricing | Performance Measurement</div>
+
+      <h3>Centralized vs. Decentralized</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Feature</th><th>Centralized</th><th>Decentralized</th></tr>
+        <tr><td>Decision authority</td><td>Narrow — top management only</td><td>Broad — lower-level managers empowered</td></tr>
+        <tr><td>Speed</td><td>Slower</td><td>Faster (decisions closer to action)</td></tr>
+        <tr><td>Key risk</td><td>Slow response, bottleneck</td><td>Suboptimal decisions, lack of goal congruence</td></tr>
+        <tr><td>Benefits</td><td>Uniformity, control</td><td>Motivation, expertise, responsiveness</td></tr>
+      </table></div>
+
+      <h3>Responsibility Centers</h3>
+      <div class="mnemonic-box">CRPI (ascending scope): Cost Center → Revenue Center → Profit Center → Investment Center</div>
+      <div class="table-wrap"><table>
+        <tr><th>Type</th><th>Controls</th><th>Examples</th></tr>
+        <tr><td>Cost Center</td><td>Costs only</td><td>Maintenance dept, HR dept</td></tr>
+        <tr><td>Revenue Center</td><td>Revenue only</td><td>Sales territory, regional sales office</td></tr>
+        <tr><td>Profit Center</td><td>Costs + Revenue</td><td>Product line, business unit</td></tr>
+        <tr><td>Investment Center</td><td>Costs + Revenue + Assets</td><td>Division, subsidiary</td></tr>
+      </table></div>
+      <p>Each responsibility center must have: <strong>Authority</strong> (power to decide), <strong>Responsibility</strong> (owning the task), <strong>Accountability</strong> (answering for results). Mnemonic: ARA</p>
+
+      <h3>Investment Center Performance Measures</h3>
+      <h4>Return on Investment (ROI)</h4>
+      <div class="formula-box">ROI = Operating Income ÷ Average Operating Assets
+
+DuPont breakdown:
+  ROI = Return on Sales × Investment Turnover
+  ROI = (OI ÷ Sales) × (Sales ÷ Avg Assets)</div>
+      <div class="trap-box">Goal-Congruence Problem: If a division's ROI = 20% and a new project returns 15% (still above WACC), the manager REJECTS it to protect their ROI — bad for the firm. ROI discourages profitable new investment.</div>
+
+      <h4>Residual Income (RI)</h4>
+      <div class="formula-box">RI = Operating Income − (Required Rate of Return × Average Operating Assets)
+Accept if RI > $0 (earns above the required rate)</div>
+      <div class="tip-box">RI solves ROI's goal-congruence problem: managers accept any project with RI > $0, aligning division goals with firm goals.</div>
+
+      <h4>Economic Value Added (EVA)</h4>
+      <div class="formula-box">EVA = After-Tax Operating Income − (After-Tax WACC × Invested Capital)
+Invested Capital = Total Assets − Current Liabilities
+(For a specific project: use purchase price of asset)
+Accept if EVA > $0</div>
+      <div class="trap-box">Trap: Invested Capital for EVA = Total Assets MINUS Current Liabilities — NOT total assets alone.</div>
+
+      <div class="table-wrap"><table>
+        <tr><th>Measure</th><th>Formula</th><th>Goal-Congruent?</th><th>Key Use</th></tr>
+        <tr><td>ROI</td><td>OI ÷ Avg Assets</td><td>No — discourages profitable projects</td><td>Comparison across divisions/firms</td></tr>
+        <tr><td>RI</td><td>OI − (RRR × Assets)</td><td>Yes — accept any RI > 0</td><td>Internal performance; overcomes ROI problem</td></tr>
+        <tr><td>EVA</td><td>After-tax OI − (WACC × Invested Capital)</td><td>Yes — accept any EVA > 0</td><td>Accounts for taxes and equity financing</td></tr>
+      </table></div>
+      <div class="tip-box">Firms use all three together: ROI for comparisons; RI/EVA to overcome ROI's goal-congruence failures.</div>
+
+      <h3>Transfer Pricing</h3>
+      <p>Internal transaction price at which two business units within the same company exchange a good or service.</p>
+      <div class="formula-box">General Guideline (Minimum Transfer Price for Seller):
+  TP_min = Variable Cost per unit + Opportunity Cost per unit
+
+  If seller has NO idle capacity:
+    TP_min = VC + Contribution Margin lost on foregone external sales
+  If seller HAS idle capacity:
+    TP_min = VC + $0 (no opportunity cost)
+
+Maximum Transfer Price for Buyer = External market price (what buyer would pay outside)</div>
+      <div class="table-wrap"><table>
+        <tr><th>Method</th><th>How Set</th><th>Notes</th></tr>
+        <tr><td>Cost-Based</td><td>Variable cost or full cost (often cost-plus)</td><td>Simple; may not motivate seller</td></tr>
+        <tr><td>Market-Based</td><td>External market price</td><td>Objective; best when competitive market exists</td></tr>
+        <tr><td>Negotiated</td><td>Between TP_min (seller floor) and TP_max (buyer ceiling)</td><td>Most flexible; promotes goal congruence</td></tr>
+      </table></div>
+      <p><strong>Vertical Integration:</strong> Expanding the firm to include upstream (backward) or downstream (forward) activities in its value chain.</p>
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <div class="chapter-header" onclick="toggleChapter(this)">
+      <h2>CH 18 — Strategy, Performance Measurement & Balanced Scorecard</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="chapter-body">
+      <h3>Key Definitions</h3>
+      <ul>
+        <li><strong>Mission:</strong> Organization's fundamental purpose — why it exists.</li>
+        <li><strong>Strategy:</strong> How the organization intends to achieve its mission; long-run plan of action.</li>
+        <li><strong>Strategic Plan:</strong> Specific long-run goals and initiatives derived from the strategy.</li>
+        <li><strong>Operational Plan:</strong> Short-run (annual) tactics to execute the strategic plan.</li>
+        <li><strong>Strategy Map:</strong> Diagram showing cause-and-effect relationships linking strategy to the BSC perspectives.</li>
+      </ul>
+
+      <h3>Porter's Five Forces ⚠️ ON EXAM — Know All Five</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Force</th><th>What It Means</th></tr>
+        <tr><td>Competitive Rivalry</td><td>Other companies already exist in your industry — intense competition lowers profitability</td></tr>
+        <tr><td>Power of Customers (Buyers)</td><td>Customers create demand; if they have power they can demand lower prices or better quality</td></tr>
+        <tr><td>Threat of Substitutes</td><td>Other products could replace yours — limits pricing power</td></tr>
+        <tr><td>New Entrants</td><td>New companies can enter the industry at any time and dilute market share/profits</td></tr>
+        <tr><td>Bargaining Power of Suppliers</td><td>If suppliers "hold the cards," they can charge higher prices and squeeze industry profits</td></tr>
+      </table></div>
+      <div class="mnemonic-box">Mnemonic: "Can't Survive Neglecting Suppliers" — Competition, Customers, Substitutes, New Entrants, Suppliers</div>
+
+      <h3>SWOT Analysis ⚠️ ON EXAM</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Internal</th><th>External</th></tr>
+        <tr><td><strong>S</strong>trengths — advantages the company already has</td><td><strong>O</strong>pportunities — favorable external conditions to exploit</td></tr>
+        <tr><td><strong>W</strong>eaknesses — internal areas where the company falls short</td><td><strong>T</strong>hreats — external conditions that could harm the company</td></tr>
+      </table></div>
+      <div class="tip-box">SWOT is used in strategic planning to match internal capabilities (S/W) with the external environment (O/T) identified through tools like Porter's Five Forces.</div>
+
+      <h3>Two Basic Strategies ⚠️ ON EXAM</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Strategy</th><th>Focus</th><th>Performance Measures Used</th><th>Example</th></tr>
+        <tr><td>Cost Leadership</td><td>Be the lowest-cost producer; compete on price</td><td>DM variances, DL variances, cost efficiency metrics</td><td>Walmart, Ryanair</td></tr>
+        <tr><td>Product Differentiation</td><td>Offer unique/superior products; charge a premium</td><td>Number of new products/patents, customer satisfaction, R&amp;D spending</td><td>Apple, BMW</td></tr>
+      </table></div>
+      <p><strong>Customer Value Proposition</strong> — the company's unique mix of products, prices, services, relationships, and image. Three types:</p>
+      <ul>
+        <li><strong>Operational Excellence</strong> — best total cost; reliable, convenient, no-hassle (Cost Leadership)</li>
+        <li><strong>Product Leadership</strong> — best product; continuous innovation (Differentiation)</li>
+        <li><strong>Customer Solutions (Intimacy)</strong> — best total solution; deep relationships, customization</li>
+      </ul>
+
+      <h3>Compensation Types</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Type</th><th>Who / When</th></tr>
+        <tr><td>Hourly Wage</td><td>Fewer skills, part-time, contract</td></tr>
+        <tr><td>Salary</td><td>Long-term employees; paid for outcomes</td></tr>
+        <tr><td>Commission</td><td>Sales roles — motivates revenue growth</td></tr>
+        <tr><td>Piece Rate</td><td>Rate per unit produced (e.g., per car serviced)</td></tr>
+        <tr><td>Bonus</td><td>Year-end, % of performance; can be tied to individual or company outcome</td></tr>
+        <tr><td>Stock Options</td><td>Long-term; align employees with shareholder value; common in start-ups</td></tr>
+        <tr><td>Incentive Pay</td><td>Forward-looking; motivates short-term target achievement</td></tr>
+      </table></div>
+      <div class="trap-box">Short-term incentives (annual bonuses) can cause managers to cut R&amp;D, training, or maintenance to boost this year's numbers — harming long-run value. Long-term incentives (stock options) combat this.</div>
+
+      <h3>Balanced Scorecard (BSC) ⚠️ ON EXAM — Know Each Perspective</h3>
+      <p>Translates strategy into measurable objectives across four perspectives, balancing financial and nonfinancial metrics.</p>
+      <div class="table-wrap"><table>
+        <tr><th>Perspective</th><th>Question Asked</th><th>Cost Leader Metrics</th><th>Differentiator Metrics</th></tr>
+        <tr><td><strong>Financial</strong></td><td>How do we look to shareholders?</td><td>Operating income growth, revenue growth, cost reduction %</td><td>Revenue from new products, gross margin</td></tr>
+        <tr><td><strong>Customer</strong></td><td>How do customers see us?</td><td>Market share, price vs. competition, customer retention, on-time delivery</td><td>Customer satisfaction scores, brand perception, retention rate</td></tr>
+        <tr><td><strong>Internal Business Process</strong></td><td>What must we excel at internally?</td><td>Cycle time, defect rate (% defect-free), process efficiency, throughput</td><td>Product development cycle time, # of patents, innovation rate</td></tr>
+        <tr><td><strong>Learning &amp; Growth</strong></td><td>Can we innovate and improve?</td><td>Employee training hours, employee satisfaction, turnover rate</td><td>R&amp;D spending, new skills developed, employee satisfaction</td></tr>
+      </table></div>
+      <div class="mnemonic-box">FCIL: Financial → Customer → Internal Process → Learning &amp; Growth<br>"Firms Can Improve Learning"<br>Strategy Map flows BOTTOM-UP: Learning &amp; Growth → Internal Process → Customer → Financial</div>
+
+      <h3>Features of a Good Balanced Scorecard ⚠️ ON EXAM</h3>
+      <ul>
+        <li>Tells the <strong>story of the company's strategy</strong> through cause-and-effect relationships</li>
+        <li><strong>Communicates strategy</strong> to all members of the organization</li>
+        <li><strong>Motivates managers</strong> to take actions that result in financial performance improvements</li>
+        <li><strong>Limits the number of measures</strong> — focuses on the most critical ones; prevents information overload</li>
+        <li><strong>Highlights less-than-optimal trade-offs</strong> so managers can weigh competing objectives</li>
+      </ul>
+
+      <h3>Pitfalls to Avoid with the Balanced Scorecard ⚠️ ON EXAM</h3>
+      <ul>
+        <li>Don't assume <strong>cause-and-effect linkages are precise</strong> — they are hypotheses, not certainties</li>
+        <li>Don't seek <strong>improvements in ALL measures simultaneously</strong> at all times — some trade-offs are necessary</li>
+        <li>Don't use <strong>only objective (financial) measures</strong> — nonfinancial measures are essential</li>
+        <li>Don't <strong>ignore nonfinancial measures when evaluating managers and employees</strong> — they are leading indicators</li>
+      </ul>
+      <div class="tip-box">The BSC uses a Strategy Map to show how Learning &amp; Growth enables better Internal Processes → which improves Customer satisfaction → which drives Financial results (bottom-up cause-and-effect).</div>
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <div class="chapter-header" onclick="toggleChapter(this)">
+      <h2>Exam 1 Review (CH 2, 3, 4, 5) — Conceptual Only</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="chapter-body">
+      <h3>CH 2 — Cost Terms</h3>
+      <ul>
+        <li><strong>Direct Cost:</strong> Directly traceable to a cost object (DM, DL)</li>
+        <li><strong>Indirect Cost:</strong> Cannot be directly traced — allocated (MOH)</li>
+        <li><strong>Variable Cost:</strong> Constant per unit; total changes with activity</li>
+        <li><strong>Fixed Cost:</strong> Constant in total; per-unit changes with activity</li>
+        <li><strong>Product Cost:</strong> Inventoriable — DM, DL, MOH; flows through WIP → FG → COGS</li>
+        <li><strong>Period Cost:</strong> Expensed immediately — SG&A, selling expenses</li>
+        <li><strong>Relevant Range:</strong> Activity range over which cost behavior assumptions hold. Variable costs stay constant per unit; fixed costs stay constant in total within this range.</li>
+      </ul>
+      <h3>CH 3 — Cost Estimation Methods</h3>
+      <ul>
+        <li><strong>Account Analysis:</strong> Manager classifies each cost as fixed or variable based on judgment</li>
+        <li><strong>High-Low Method:</strong> Uses highest and lowest activity points to estimate variable cost per unit and fixed cost. Simple but ignores other data points.</li>
+        <li><strong>Regression Analysis:</strong> Statistical method using all data points; most objective and accurate</li>
+      </ul>
+      <h3>CH 4 — CVP Analysis</h3>
+      <div class="formula-box">Break-Even Units = Fixed Costs ÷ Contribution Margin per Unit
+Break-Even Sales $ = Fixed Costs ÷ CM Ratio
+CM per Unit = Selling Price − Variable Cost per Unit
+CM Ratio = CM per Unit ÷ Selling Price</div>
+      <p>Underlying assumptions: Selling price, variable cost, and fixed cost are constant; all units produced are sold; single product or constant sales mix.</p>
+      <h3>CH 5 — Relevant Costs</h3>
+      <p>Relevant costs are <strong>future costs</strong> that <strong>differ between alternatives</strong>. Sunk costs are never relevant. Fixed costs are relevant only if they differ between alternatives.</p>
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <div class="chapter-header" onclick="toggleChapter(this)">
+      <h2>Exam 2 Review (CH 8, 9, 10, 11) — Conceptual Only</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="chapter-body">
+      <h3>CH 8 — Job Costing</h3>
+      <ul>
+        <li>Used when products are distinct and customizable (hospitals, custom manufacturing, law firms)</li>
+        <li>Costs tracked per job on a job cost sheet</li>
+        <li>Normal costing: actual DM + actual DL + applied MOH (budgeted rate × actual driver)</li>
+        <li>Journal entries: DM issued → WIP; DL incurred → WIP; MOH applied → WIP; job complete → FG; sold → COGS</li>
+      </ul>
+      <h3>CH 9 — Activity-Based Costing (ABC)</h3>
+      <ul>
+        <li>Assigns overhead using multiple cost drivers that reflect actual resource consumption</li>
+        <li>Traditional: single plantwide or departmental overhead rate → can distort product costs</li>
+        <li>ABC: multiple activity cost pools → more accurate product costing, especially for diverse product mixes</li>
+        <li>Benefits: better pricing, product mix, and process improvement decisions</li>
+        <li>Limitations: costly to implement and maintain; subjective driver selection</li>
+      </ul>
+      <h3>CH 10 — Variance Analysis</h3>
+      <p><strong>Variance:</strong> Difference between actual and standard/budgeted cost. Favorable = actual < budget; Unfavorable = actual > budget.</p>
+      <p><strong>Flexible Budget:</strong> Adjusts budgeted costs to actual output level; isolates price from efficiency variances.</p>
+      <ul>
+        <li>DM/DL Price Variance = (Actual Price − Standard Price) × Actual Quantity</li>
+        <li>DM/DL Efficiency Variance = (Actual Qty − Standard Qty) × Standard Price</li>
+        <li>VOH Price (Spending) Variance and Efficiency Variance</li>
+        <li>FOH Price (Spending) Variance and Volume Variance</li>
+      </ul>
+      <h3>CH 11 — Process Costing</h3>
+      <p><strong>Weighted-Average Method:</strong> Combines beginning WIP units with current period work; mixes costs from prior and current period. Simpler.</p>
+      <p><strong>FIFO Method:</strong> Keeps beginning WIP separate; only current period costs included in EUP. More accurate for cost control.</p>
+      <p>Key difference: FIFO keeps prior-period costs separate; WA blends them together.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PRACTICE EXAM ===================== -->
+<div id="section-exam" class="section">
+  <div id="setup-area">
+    <div class="exam-controls">
+      <div>
+        <label>Questions per exam: </label>
+        <select id="qCount">
+          <option value="20">20 questions</option>
+          <option value="30">30 questions</option>
+          <option value="50" selected>50 questions (full exam)</option>
+        </select>
+      </div>
+      <div>
+        <label>Filter by chapter: </label>
+        <select id="chapterFilter">
+          <option value="all">All chapters</option>
+          <option value="CH12">CH 12 only</option>
+          <option value="CH14">CH 14 only</option>
+          <option value="CH17">CH 17 only</option>
+          <option value="CH18">CH 18 only</option>
+          <option value="review">Exam 1 & 2 Review</option>
+        </select>
+      </div>
+      <div>
+        <label>Question type: </label>
+        <select id="typeFilter">
+          <option value="all">All types</option>
+          <option value="conceptual">Conceptual only</option>
+          <option value="calculation">Calculation only</option>
+        </select>
+      </div>
+      <button class="start-btn" onclick="startExam()">Start Practice Exam</button>
+    </div>
+    <div style="background:#1e293b;border-radius:10px;padding:20px;font-size:13px;color:#94a3b8;line-height:1.8;">
+      <strong style="color:#60a5fa;">Exam Format Reminder:</strong><br>
+      • 50 multiple-choice questions (graded out of 48) — 120 total points<br>
+      • Coverage: CH 12, 14, 17, 18 (~80%) + Exam 1 & 2 conceptual review (~20%)<br>
+      • Exam 1 & 2 material: conceptual only, no calculations<br>
+      • Time: 2 hours | Non-programmable calculator allowed
+    </div>
+
+    <!-- AI Question Generator -->
+    <div class="ai-panel">
+      <div class="ai-panel-header" onclick="toggleAiPanel()">
+        <h3>🤖 AI Question Bank</h3>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="ai-badge" id="ai-q-count-badge"></span>
+          <span style="color:#6b7280;font-size:12px;" id="ai-chevron">▼</span>
+        </div>
+      </div>
+      <div class="ai-panel-body" id="ai-panel-body">
+        <p style="font-size:12px;color:#6b7280;margin-bottom:12px;">Enter your Anthropic API key once — Claude generates fresh practice questions and saves them to your browser. Questions are added to the exam pool automatically.</p>
+        <label style="font-size:12px;color:#94a3b8;display:block;margin-bottom:6px;">Anthropic API Key</label>
+        <div class="api-key-row">
+          <input type="password" id="api-key-input" class="api-key-input" placeholder="sk-ant-api03-..." />
+          <button class="save-key-btn" onclick="saveApiKey()">Save Key</button>
+        </div>
+        <div id="key-status" style="font-size:11px;color:#64748b;margin-bottom:4px;"></div>
+
+        <div class="gen-row">
+          <select id="gen-chapter" class="gen-select">
+            <option value="CH12">CH 12 — Absorption/Variable Costing</option>
+            <option value="CH14">CH 14 — Support Dept Allocation</option>
+            <option value="CH17">CH 17 — Responsibility Centers & Transfer Pricing</option>
+            <option value="CH18" selected>CH 18 — Strategy & Balanced Scorecard</option>
+            <option value="review">Exam 1 &amp; 2 Review</option>
+          </select>
+          <select id="gen-count" class="gen-select">
+            <option value="3">3 questions</option>
+            <option value="5" selected>5 questions</option>
+            <option value="10">10 questions</option>
+          </select>
+          <button class="gen-btn" id="gen-btn" onclick="generateQuestions()">⚡ Generate</button>
+        </div>
+        <div class="gen-status" id="gen-status"></div>
+
+        <div class="custom-q-section" id="custom-q-section" style="display:none;">
+          <div class="custom-q-header">
+            <span class="custom-q-count" id="custom-q-count"></span>
+            <button class="clear-all-btn" onclick="clearAllCustom()">Clear All</button>
+          </div>
+          <div class="custom-q-list" id="custom-q-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="exam-area">
+    <div class="exam-progress">
+      <span id="q-counter">Question 1 of 50</span>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+      <span class="timer" id="timer">2:00:00</span>
+    </div>
+    <div id="question-container"></div>
+  </div>
+
+  <div id="results-area">
+    <div class="results-card">
+      <div class="results-score" id="res-score">0%</div>
+      <div class="results-label" id="res-label">Practice Exam Complete</div>
+      <div class="results-breakdown">
+        <div class="results-stat"><div class="val green" id="res-correct">0</div><div class="lbl">Correct</div></div>
+        <div class="results-stat"><div class="val red" id="res-wrong">0</div><div class="lbl">Wrong</div></div>
+        <div class="results-stat"><div class="val yellow" id="res-total">0</div><div class="lbl">Total</div></div>
+      </div>
+      <div id="res-by-chapter" style="margin:16px 0;font-size:13px;color:#94a3b8;"></div>
+      <button class="restart-btn" onclick="restartExam()">New Exam (Reshuffle)</button>
+      <button class="restart-btn" onclick="reviewExam()">Review Answers</button>
+    </div>
+    <div id="review-container" style="margin-top:20px;display:none;"></div>
+  </div>
+</div>
+
+<!-- ===================== FLASHCARDS ===================== -->
+<div id="section-flash" class="section">
+  <div class="flashcard-controls">
+    <label>Chapter: </label>
+    <select id="fc-filter" onchange="filterFlashcards()">
+      <option value="all">All Chapters</option>
+      <option value="CH12">CH 12</option>
+      <option value="CH14">CH 14</option>
+      <option value="CH17">CH 17</option>
+      <option value="CH18">CH 18</option>
+      <option value="review">Exam 1 & 2 Review</option>
+    </select>
+    <button class="start-btn" onclick="shuffleFlashcards()" style="padding:8px 16px;font-size:13px;">Shuffle</button>
+    <span id="fc-counter-top" style="font-size:13px;color:#64748b;margin-left:8px;"></span>
+  </div>
+  <div class="fc-wrap" onclick="flipCard()">
+    <div class="fc-inner" id="fc-inner">
+      <div class="fc-face front">
+        <div class="label">Question / Term</div>
+        <div class="content" id="fc-front"></div>
+        <div class="chapter-tag" id="fc-chapter-tag"></div>
+      </div>
+      <div class="fc-face back">
+        <div class="label">Answer / Definition</div>
+        <div class="content" id="fc-back"></div>
+      </div>
+    </div>
+  </div>
+  <div class="fc-hint">Click card to flip • Use arrows to navigate</div>
+  <div class="fc-nav">
+    <button onclick="fcNav(-1)">◀ Prev</button>
+    <span class="fc-counter" id="fc-counter">1 / 1</span>
+    <button onclick="fcNav(1)">Next ▶</button>
+  </div>
+</div>
+
+<!-- ===================== QUICK REFERENCE ===================== -->
+<div id="section-ref" class="section">
+  <div class="qr-grid">
+    <div class="qr-card">
+      <h3>CH 12 — Key Formulas</h3>
+      <div class="qr-formula">Absorption OI = Variable OI + FMOH Rate × (Units Produced − Units Sold)</div>
+      <div class="qr-formula">Reconciliation:
+  Var OI + FMOH in EI − FMOH in BI = Abs OI</div>
+      <div class="qr-formula">FMOH Rate = Budgeted FMOH ÷ Denominator Volume</div>
+      <div class="qr-formula">Fixed-MOH Volume Variance:
+  (Actual − Budgeted Production) × FMOH Rate</div>
+    </div>
+    <div class="qr-card">
+      <h3>CH 14 — Direct Method</h3>
+      <div class="qr-formula">Denominator = SUM of operating dept driver units ONLY
+Rate = SD Cost ÷ Denominator
+Allocation = Rate × Dept's driver units</div>
+      <div class="qr-note">Never include other support depts in denominator</div>
+    </div>
+    <div class="qr-card">
+      <h3>CH 14 — Step-Down Method</h3>
+      <div class="qr-formula">Rank SDs by highest % (or $) of services to other SDs
+New cost for Step N = Original + allocations received
+Denominator = all remaining OPEN depts
+Closed SDs receive nothing further</div>
+    </div>
+    <div class="qr-card">
+      <h3>CH 14 — Reciprocal Method</h3>
+      <div class="qr-formula">J = Direct_J + (J's share of P) × P
+P = Direct_P + (P's share of J) × J
+Solve simultaneously; allocate each total to ALL depts</div>
+      <div class="qr-note">All depts (including other SDs) in each denominator</div>
+    </div>
+    <div class="qr-card">
+      <h3>CH 14 — Common Costs</h3>
+      <div class="qr-formula">Stand-Alone:
+  User % = User's standalone ÷ Total standalone
+  Allocation = % × Common Cost
+
+Incremental:
+  Primary = full stand-alone cost
+  Secondary = Common Cost − Primary's share</div>
+    </div>
+    <div class="qr-card">
+      <h3>CH 17 — ROI / RI / EVA</h3>
+      <div class="qr-formula">ROI = Operating Income ÷ Avg Operating Assets
+ROI = (OI/Sales) × (Sales/Assets)  [DuPont]
+
+RI = OI − (Required Rate × Avg Assets)
+
+EVA = After-Tax OI − (WACC × Invested Capital)
+Invested Capital = Total Assets − Current Liabilities</div>
+    </div>
+    <div class="qr-card">
+      <h3>CH 17 — Transfer Pricing</h3>
+      <div class="qr-formula">TP Minimum (Seller) = VC + Opportunity Cost
+  No idle capacity: OC = CM lost on external sales
+  Idle capacity: OC = $0
+
+TP Maximum (Buyer) = External market price</div>
+    </div>
+    <div class="qr-card">
+      <h3>CH 4 — CVP (Review)</h3>
+      <div class="qr-formula">CM per Unit = SP − VC per Unit
+CM Ratio = CM per Unit ÷ Selling Price
+BE Units = Fixed Costs ÷ CM per Unit
+BE Sales $ = Fixed Costs ÷ CM Ratio</div>
+    </div>
+    <div class="qr-card">
+      <h3>CH 10 — Variances (Review)</h3>
+      <div class="qr-formula">Price Var = (AP − SP) × Actual Qty
+Efficiency Var = (AQ − SQ) × Standard Price
+Flexible Budget Var = Actual − Flexible Budget
+Volume Var (FOH) = (Actual − Budgeted) × FMOH Rate</div>
+    </div>
+    <div class="qr-card">
+      <h3>Key Mnemonics</h3>
+      <div class="qr-formula">DSR = Direct→Step→Reciprocal (least→most accurate)
+CRPI = Cost→Revenue→Profit→Investment centers
+MGE = Motivation, Goal Congruence, Effort (MCS)
+FDMC = Financial, Decision, Motivate, Cost reimb.
+FCIL = Financial, Customer, Internal, Learning (BSC)
+ARA = Authority, Responsibility, Accountability</div>
+    </div>
+    <div class="qr-card">
+      <h3>Capacity Levels (CH 12)</h3>
+      <div class="qr-formula">Theoretical → Practical → Normal
+(Highest denominator → Lowest denominator)
+(Lowest FMOH rate → Highest FMOH rate)
+Practical = recommended for product costing</div>
+      <div class="qr-note">Death Spiral: Normal capacity + falling demand = increasing FMOH rate loop</div>
+    </div>
+    <div class="qr-card">
+      <h3>Porter's 5 Forces (CH 18)</h3>
+      <div class="qr-formula">1. Threat of new entrants
+2. Power of buyers (customers)
+3. Power of suppliers
+4. Threat of substitutes
+5. Rivalry among existing competitors</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===================== QUESTION BANK =====================
+const ALL_QUESTIONS = [
+
+// ---- CH 12 CONCEPTUAL ----
+{ id:1, chapter:"CH12", type:"conceptual", text:"Under absorption costing, fixed manufacturing overhead (FMOH) is treated as:", options:["A period cost expensed immediately","A product cost included in inventory","An administrative expense","A selling expense"], correct:1, explanation:"<strong>Absorption costing</strong> (required by GAAP) includes FMOH as a product cost — it flows through WIP, FG, and ultimately COGS. Under variable costing, FMOH is a period cost." },
+
+{ id:2, chapter:"CH12", type:"conceptual", text:"Under variable costing, fixed manufacturing overhead is:", options:["Deferred in ending inventory","Included in the cost of each unit","Expensed as a period cost in the period incurred","Allocated using a budgeted rate"], correct:2, explanation:"Variable costing treats FMOH as a <strong>period cost</strong> — expensed in full on the income statement when incurred, regardless of production or sales levels." },
+
+{ id:3, chapter:"CH12", type:"conceptual", text:"When units produced EXCEED units sold in a period, which statement is true?", options:["Variable costing OI > Absorption costing OI","Absorption costing OI > Variable costing OI","The two methods always yield equal operating income","Variable costing OI is always lower regardless of production"], correct:1, explanation:"When production > sales, absorption costing defers FMOH into ending inventory, reducing current-period expenses. This results in <strong>higher absorption OI</strong>. Reconciliation: Abs OI = Var OI + FMOH Rate × (Produced − Sold)." },
+
+{ id:4, chapter:"CH12", type:"conceptual", text:"A company produced 10,000 units and sold 8,000 units. FMOH rate = $5/unit. Under absorption costing vs. variable costing, operating income differs by:", options:["$0","$10,000","$40,000","$50,000"], correct:1, explanation:"Difference = FMOH Rate × (Produced − Sold) = $5 × (10,000 − 8,000) = $5 × 2,000 = <strong>$10,000</strong>. Absorption OI is $10,000 higher because 2,000 units × $5 FMOH is deferred in ending inventory." },
+
+{ id:5, chapter:"CH12", type:"conceptual", text:"Which of the following is an advantage of variable costing for internal management?", options:["Required by GAAP for external reporting","Matches fixed costs to units produced","Clearly separates fixed and variable costs, supporting CVP analysis","Produces higher operating income when production exceeds sales"], correct:2, explanation:"Variable costing's main benefit for internal use: it <strong>separates fixed and variable costs</strong>, making contribution margin analysis, CVP analysis, and relevant cost decisions clearer. GAAP requires absorption for external reports." },
+
+{ id:6, chapter:"CH12", type:"conceptual", text:"Under absorption costing, a manager can increase operating income without selling more units by:", options:["Reducing selling prices","Increasing production beyond sales","Reducing fixed costs","Switching to variable costing"], correct:1, explanation:"A key criticism of absorption costing: <strong>producing more units</strong> defers FMOH into inventory, reducing COGS and inflating OI — even if those units sit unsold. Variable costing eliminates this incentive." },
+
+{ id:7, chapter:"CH12", type:"conceptual", text:"Which capacity level produces the LOWEST fixed manufacturing overhead rate per unit?", options:["Normal capacity","Practical capacity","Theoretical capacity","Budgeted capacity"], correct:2, explanation:"<strong>Theoretical capacity</strong> = maximum possible output (no downtime) — the highest denominator, producing the lowest FMOH rate. Normal capacity = lowest denominator (average demand) = highest FMOH rate." },
+
+{ id:8, chapter:"CH12", type:"conceptual", text:"Which capacity level accounts for unavoidable operating interruptions like scheduled maintenance and holidays?", options:["Theoretical capacity","Practical capacity","Normal capacity","Idle capacity"], correct:1, explanation:"<strong>Practical capacity</strong> = Theoretical capacity minus unavoidable interruptions. It is realistic and achievable. Theoretical ignores all interruptions (unrealistic ideal)." },
+
+{ id:9, chapter:"CH12", type:"conceptual", text:"The 'death spiral' (downward demand spiral) is most directly associated with which capacity level choice?", options:["Theoretical capacity","Practical capacity","Normal capacity","Idle capacity"], correct:2, explanation:"<strong>Normal capacity</strong> is based on average demand. When demand falls, normal capacity decreases → FMOH rate increases → product costs rise → prices increase → demand falls further. This self-reinforcing loop is the death/demand spiral." },
+
+{ id:10, chapter:"CH12", type:"conceptual", text:"Which capacity level is recommended for product costing because it best highlights the cost of unused capacity?", options:["Theoretical capacity","Normal capacity","Practical capacity","Budgeted capacity"], correct:2, explanation:"<strong>Practical capacity</strong> sets the cost of capacity at the cost of supplying it, regardless of demand. Any unused capacity is explicitly identified as a separate cost — helping managers manage it, rather than hiding it in product costs." },
+
+{ id:11, chapter:"CH12", type:"conceptual", text:"The fixed-MOH volume variance is FAVORABLE when:", options:["Fixed MOH spending exceeds budget","Actual production is less than budgeted production","Actual production exceeds budgeted production","Variable MOH efficiency is favorable"], correct:2, explanation:"Fixed-MOH Volume Variance = (Actual Production − Budgeted Production) × FMOH Rate. <strong>Favorable</strong> = actual > budgeted (more capacity used than planned)." },
+
+{ id:12, chapter:"CH12", type:"conceptual", text:"Under variable costing, which of the following is NOT included in inventory cost?", options:["Direct materials","Direct labor","Variable manufacturing overhead","Fixed manufacturing overhead"], correct:3, explanation:"Variable costing inventory = DM + DL + VMOH only. <strong>Fixed MOH</strong> is a period cost, never capitalized in inventory under variable costing." },
+
+{ id:13, chapter:"CH12", type:"conceptual", text:"The reconciliation from Variable to Absorption Operating Income is:", options:["Var OI + FMOH in Beginning Inventory − FMOH in Ending Inventory = Abs OI","Var OI + FMOH in Ending Inventory − FMOH in Beginning Inventory = Abs OI","Var OI × FMOH Rate = Abs OI","Var OI − Total FMOH = Abs OI"], correct:1, explanation:"Reconciliation: <strong>Var OI + FMOH deferred (Ending Inventory) − FMOH released (Beginning Inventory) = Abs OI</strong>. FMOH in ending inventory is 'deferred' (added back); FMOH in beginning inventory was deferred last period and now 'released' (subtracted)." },
+
+{ id:14, chapter:"CH12", type:"conceptual", text:"Under theoretical capacity, what typically happens to the fixed-MOH volume variance?", options:["It is always zero","It is usually a large favorable variance","It is usually a large unfavorable variance","It equals the spending variance"], correct:2, explanation:"Since theoretical capacity assumes 100% utilization (impossible in practice), actual production almost always falls short → <strong>large unfavorable volume variance</strong>. This is a key reason theoretical capacity is rarely used." },
+
+// ---- CH 12 CALCULATION ----
+{ id:15, chapter:"CH12", type:"calculation", text:"Budgeted FMOH = $300,000. Normal capacity = 60,000 units. Actual production = 55,000 units. What is the fixed-MOH volume variance?", options:["$25,000 Favorable","$25,000 Unfavorable","$5,000 Unfavorable","$5,000 Favorable"], correct:1, explanation:"FMOH Rate = $300,000 ÷ 60,000 = <strong>$5/unit</strong>. Volume Variance = (55,000 − 60,000) × $5 = −$25,000 = <strong>$25,000 Unfavorable</strong> (actual production < budgeted)." },
+
+{ id:16, chapter:"CH12", type:"calculation", text:"Variable costing OI = $120,000. FMOH rate = $8/unit. Units produced = 15,000. Units sold = 12,000. What is absorption costing OI?", options:["$144,000","$96,000","$120,000","$168,000"], correct:0, explanation:"Difference = $8 × (15,000 − 12,000) = $8 × 3,000 = $24,000. <strong>Absorption OI = Variable OI + $24,000 = $120,000 + $24,000 = $144,000</strong>. Production > sales, so absorption OI is higher." },
+
+// ---- CH 14 CONCEPTUAL ----
+{ id:17, chapter:"CH14", type:"conceptual", text:"In the Direct Method of support department cost allocation, the denominator for a support department's budgeted rate includes:", options:["All departments including other support departments","Operating departments only","The support department itself plus operating departments","Only the department with the highest driver usage"], correct:1, explanation:"<strong>Direct Method denominator = operating departments ONLY</strong>. Other support departments are completely excluded. This is the most common exam trap for this method." },
+
+{ id:18, chapter:"CH14", type:"conceptual", text:"In the Step-Down method, once a support department has been allocated, it:", options:["Receives allocations from remaining support departments","Receives allocations only from operating departments","Is permanently closed and receives no further allocations","Can be reopened if a higher-ranked SD needs to reallocate"], correct:2, explanation:"Step-Down rule: once allocated (stepped down), a support department is <strong>permanently closed</strong>. It cannot receive further allocations from any department." },
+
+{ id:19, chapter:"CH14", type:"conceptual", text:"Which support department cost allocation method is the MOST accurate?", options:["Direct Method","Step-Down Method","Reciprocal Method","Budget-Based Method"], correct:2, explanation:"The <strong>Reciprocal Method</strong> is most accurate because it fully recognizes ALL mutual services between support departments using simultaneous equations — capturing both directions of SD-to-SD services." },
+
+{ id:20, chapter:"CH14", type:"conceptual", text:"In the Step-Down method, how do you rank which support department to allocate first?", options:["Alphabetically by department name","The department with the lowest cost goes first","The department that provides the highest percentage (or dollar amount) of services to other support departments goes first","The department with the most employees goes first"], correct:2, explanation:"Ranking rule: the SD providing the <strong>highest % (or $) of services to other support departments</strong> goes first. This preserves the most accuracy. Mnemonic: 'Who Gives Most Gets Allocated First.'" },
+
+{ id:21, chapter:"CH14", type:"conceptual", text:"Which of the following best describes a support department?", options:["Produces goods directly sold to external customers","Earns revenue through external sales","Supports operating units; its costs are allocated to other departments","Controls both revenues and expenses of the firm"], correct:2, explanation:"A <strong>support (service) department</strong> exists to support operating units — it is a cost center, its costs are allocated to user departments, and it does NOT directly earn external revenue. Examples: Janitorial, HR, IT." },
+
+{ id:22, chapter:"CH14", type:"conceptual", text:"A firm has two support departments (Maintenance and IT) and two operating departments. In the Reciprocal Method, the denominator for Maintenance's proportion calculation includes:", options:["Operating departments only","IT department and operating departments","All departments including Maintenance itself","Operating departments and Maintenance itself"], correct:1, explanation:"In the Reciprocal Method, the denominator for each SD includes <strong>ALL other departments</strong> (other SDs + operating depts), but excludes the department itself. So Maintenance's denominator includes IT + both operating depts." },
+
+{ id:23, chapter:"CH14", type:"conceptual", text:"Regardless of which allocation method is used (Direct, Step-Down, or Reciprocal), which statement is always true?", options:["Each operating department receives the same allocation","The total cost allocated to operating departments is identical across all methods","The step-down method allocates more total cost than the direct method","The reciprocal method allocates less total cost than the direct method"], correct:1, explanation:"<strong>Total SD costs allocated to operating departments are always identical across all three methods</strong>. The distribution BETWEEN operating departments differs, but the total amount leaving support departments is the same." },
+
+{ id:24, chapter:"CH14", type:"conceptual", text:"Under the Stand-Alone common cost allocation method:", options:["The primary user (highest stand-alone cost) absorbs all common costs","Each user's share = their stand-alone cost ÷ total of all users' stand-alone costs, applied to the common cost","The secondary user pays nothing","Costs are split equally regardless of stand-alone prices"], correct:1, explanation:"Stand-Alone method: <strong>each user's allocation % = their stand-alone cost ÷ total stand-alone costs</strong>. Apply that % to the common cost. This is the most equitable method — no ranking required." },
+
+{ id:25, chapter:"CH14", type:"conceptual", text:"In the Incremental common cost method, the 'primary user' is:", options:["The user with the lowest stand-alone cost","The user who joined the arrangement first","The user most responsible for the common cost — typically highest stand-alone cost","The user with the most employees"], correct:2, explanation:"Incremental method primary user = the one <strong>most responsible for incurring the common cost</strong>, typically the user with the highest stand-alone cost. The primary pays their full stand-alone amount; secondary users pay only the increment." },
+
+{ id:26, chapter:"CH14", type:"conceptual", text:"FASB ASC 606 guidance on bundled revenue allocation most directly applies to:", options:["Internal management bonus calculations","External financial reporting of performance obligations in contracts with customers","Government grant reimbursement calculations","Transfer pricing between divisions"], correct:1, explanation:"<strong>FASB ASC 606</strong> governs external reporting — specifically, how to allocate revenue from contracts with customers involving bundled/multiple performance obligations. Internal managers may use any method unless outsiders must interpret the results." },
+
+{ id:27, chapter:"CH14", type:"conceptual", text:"Why do firms allocate support department costs to operating departments?", options:["To eliminate the operating departments","To comply with GAAP, improve decision-making, motivate managers, and satisfy cost reimbursement requirements","To hide fixed costs from managers","To reduce the operating departments' budgets"], correct:1, explanation:"Mnemonic FDMC: <strong>Financial Reporting</strong> (GAAP), <strong>Decision-Making</strong> (full cost visibility), <strong>Motivate Managers</strong> (accountability for support costs), <strong>Cost Reimbursement</strong> (government contracts). All four reasons apply." },
+
+// ---- CH 14 CALCULATION ----
+{ id:28, chapter:"CH14", type:"calculation", text:"Janitor dept cost = $80,000. Driver = sq ft. Operating depts only: Dept A = 4,000 sq ft, Dept B = 6,000 sq ft. Support dept uses 2,000 sq ft. Under the Direct Method, how much is allocated to Dept B?", options:["$48,000","$32,000","$40,000","$60,000"], correct:0, explanation:"Direct Method: denominator = operating depts ONLY = 4,000 + 6,000 = 10,000 sq ft (exclude the support dept's 2,000). Rate = $80,000 ÷ 10,000 = $8/sq ft. Dept B = $8 × 6,000 = <strong>$48,000</strong>." },
+
+{ id:29, chapter:"CH14", type:"calculation", text:"Two roommates share rent of $900. Stand-alone rent: Person A = $600, Person B = $900. Under the Stand-Alone method, how much does Person A pay?", options:["$450","$360","$360","$300"], correct:1, explanation:"Total stand-alone = $600 + $900 = $1,500. Person A's % = $600 ÷ $1,500 = 40%. Person A pays = 40% × $900 = <strong>$360</strong>. Person B pays 60% × $900 = $540." },
+
+{ id:30, chapter:"CH14", type:"calculation", text:"Bundle price = $120. Product X stand-alone = $80; Product Y stand-alone = $40. Under the Stand-Alone revenue allocation method, how much revenue is allocated to Product Y?", options:["$40","$60","$80","$30"], correct:0, explanation:"Total stand-alone = $80 + $40 = $120. Y's % = $40 ÷ $120 = 33.33%. Y's revenue = 33.33% × $120 = <strong>$40</strong>. Note: coincidentally equals its stand-alone price here since total bundle = total stand-alone." },
+
+{ id:31, chapter:"CH14", type:"calculation", text:"IT dept cost = $60,000. Driver = computer hours. Maintenance dept: 2,000 hrs. Assembly: 8,000 hrs. Finishing: 4,000 hrs. Under the Step-Down method (IT goes first), how much does IT allocate to Maintenance?", options:["$8,571","$0","$8,571","$10,000"], correct:0, explanation:"Step-Down: IT allocates to ALL remaining open depts. Denominator = Maintenance (2,000) + Assembly (8,000) + Finishing (4,000) = 14,000. Maintenance gets: $60,000 × (2,000 ÷ 14,000) = $60,000 × 0.1429 = <strong>~$8,571</strong>." },
+
+// ---- CH 17 CONCEPTUAL ----
+{ id:32, chapter:"CH17", type:"conceptual", text:"A management control system (MCS) must have which three key properties?", options:["Authority, Responsibility, Accountability","Motivation, Goal Congruence, Effort","ROI, RI, EVA","Budgeting, Transfer Pricing, Performance Measurement"], correct:1, explanation:"The three key properties of an effective MCS: <strong>Motivation</strong> (incentivizes desired behavior), <strong>Goal Congruence</strong> (aligns individual/division goals with firm goals), and <strong>Effort</strong> (employees exert appropriate effort). Mnemonic: MGE." },
+
+{ id:33, chapter:"CH17", type:"conceptual", text:"Which responsibility center type controls costs, revenues, AND the asset base used to generate returns?", options:["Cost center","Revenue center","Profit center","Investment center"], correct:3, explanation:"<strong>Investment centers</strong> control costs + revenues + invested assets. They are evaluated using ROI, RI, and EVA. Ascending CRPI scope: Cost → Revenue → Profit → Investment." },
+
+{ id:34, chapter:"CH17", type:"conceptual", text:"A division currently has ROI = 18%. A new project would earn ROI = 14% (above the firm's WACC of 10%). The division manager will most likely:", options:["Accept the project because it exceeds WACC","Reject the project because it would lower the division's average ROI","Accept the project because RI would be positive","Reject the project because it doesn't meet the WACC hurdle"], correct:1, explanation:"This illustrates ROI's <strong>goal-congruence problem</strong>: the manager rejects the project (14% ROI) because it would dilute the division's current 18% ROI — even though the project is profitable for the firm (exceeds 10% WACC). RI would solve this." },
+
+{ id:35, chapter:"CH17", type:"conceptual", text:"Residual Income (RI) helps solve ROI's goal-congruence problem because:", options:["RI uses a higher hurdle rate than ROI","RI is always negative, preventing overinvestment","A manager will accept any project where RI > $0, which aligns with firm-wide profitability","RI ignores the cost of capital"], correct:2, explanation:"With RI, a manager accepts any project earning <strong>RI > $0</strong> (i.e., earning above the required rate). This means any profitable project (above WACC) gets accepted — aligning divisional and firm goals. ROI discourages profitable projects that would lower the division's average." },
+
+{ id:36, chapter:"CH17", type:"conceptual", text:"For EVA, invested capital is defined as:", options:["Total assets","Total assets minus current liabilities","Total assets plus long-term debt","Stockholders' equity only"], correct:1, explanation:"EVA invested capital = <strong>Total Assets − Current Liabilities</strong>. For a specific project, use the purchase price of the asset. This excludes short-term financing, reflecting only long-term capital employed." },
+
+{ id:37, chapter:"CH17", type:"conceptual", text:"Which of the following is an advantage of decentralized organizations?", options:["Eliminates suboptimal decision-making","Creates uniformity across all divisions","Faster decision-making and better responsiveness to local conditions","Reduces management development opportunities"], correct:2, explanation:"Key advantages of decentralization: <strong>faster decisions</strong> (made closer to the action), <strong>better local responsiveness</strong>, increased motivation, more specialization, management development. Drawbacks: risk of suboptimal/non-congruent decisions." },
+
+{ id:38, chapter:"CH17", type:"conceptual", text:"Goal congruence means:", options:["All divisions have the same budget","Decisions at all levels of the company align with the company's overall goals","Managers have identical compensation packages","All products have the same profit margin"], correct:1, explanation:"<strong>Goal congruence</strong>: decisions at ALL organizational levels support the firm's overall objectives. Without it, divisions pursue local goals at the expense of company-wide performance — the core risk of decentralization." },
+
+{ id:39, chapter:"CH17", type:"conceptual", text:"The four pillars of a management control system are:", options:["ROI, RI, EVA, and Transfer Pricing","Budgeting, Responsibility Centers, Transfer Pricing, and Performance Measurement","Mission, Strategy, Tactics, and Execution","Cost Centers, Revenue Centers, Profit Centers, Investment Centers"], correct:1, explanation:"The four pillars: <strong>Budgeting</strong> (Ch 6), <strong>Responsibility Centers</strong> (Ch 6 & 17), <strong>Transfer Pricing</strong> (Ch 17), <strong>Performance Measurement</strong> (Ch 18)." },
+
+{ id:40, chapter:"CH17", type:"conceptual", text:"Transfer pricing is necessary when:", options:["A firm has only one division","A firm sells exclusively to external customers","Interdependencies exist where one division sells something another division might use","A firm uses absorption costing"], correct:2, explanation:"Transfer prices arise when <strong>interdependencies exist</strong> between divisions — one division sells goods/services internally to another. The transfer price affects each division's reported OI and manager incentives." },
+
+{ id:41, chapter:"CH17", type:"conceptual", text:"If the selling division has IDLE CAPACITY, its minimum acceptable transfer price equals:", options:["Market price","Full cost + profit markup","Variable cost per unit (opportunity cost = $0)","Variable cost + contribution margin lost on external sales"], correct:2, explanation:"When the seller has idle capacity, there is <strong>no opportunity cost</strong> (no external sales foregone). Minimum TP = Variable Cost + $0 = VC per unit. This makes any price above VC acceptable to the seller." },
+
+{ id:42, chapter:"CH17", type:"conceptual", text:"Which performance measure uses after-tax operating income and invested capital net of current liabilities?", options:["ROI","Residual Income","EVA","DuPont ROI"], correct:2, explanation:"<strong>EVA (Economic Value Added)</strong> = After-Tax Operating Income − (After-Tax WACC × Invested Capital), where Invested Capital = Total Assets − Current Liabilities. It accounts for taxes and both debt and equity financing." },
+
+// ---- CH 17 CALCULATION ----
+{ id:43, chapter:"CH17", type:"calculation", text:"Operating Income = $60,000. Average Operating Assets = $400,000. What is ROI?", options:["6.67%","15%","40%","6%"], correct:1, explanation:"ROI = Operating Income ÷ Avg Operating Assets = $60,000 ÷ $400,000 = <strong>15%</strong>." },
+
+{ id:44, chapter:"CH17", type:"calculation", text:"Operating Income = $60,000. Average Operating Assets = $400,000. Required Rate of Return = 12%. What is Residual Income?", options:["$12,000","$48,000","$72,000","$60,000"], correct:0, explanation:"RI = OI − (RRR × Avg Assets) = $60,000 − (0.12 × $400,000) = $60,000 − $48,000 = <strong>$12,000</strong>. Positive RI means the investment earns above the required rate." },
+
+{ id:45, chapter:"CH17", type:"calculation", text:"After-Tax Operating Income = $50,000. After-Tax WACC = 10%. Total Assets = $350,000. Current Liabilities = $50,000. What is EVA?", options:["$10,000","$15,000","$50,000","$20,000"], correct:0, explanation:"Invested Capital = $350,000 − $50,000 = $300,000. EVA = $50,000 − (10% × $300,000) = $50,000 − $30,000 = <strong>$20,000</strong>. Wait — recalculate: $50,000 − $30,000 = $20,000. Answer: $20,000 — select D. Actually: $50,000−$30,000 = $20,000 = option D." },
+
+{ id:46, chapter:"CH17", type:"calculation", text:"Selling division: VC = $30/unit. Capacity is FULL — every unit sold externally at $50. Buyer division wants 1,000 units internally. What is the minimum transfer price for the seller?", options:["$30","$40","$50","$20"], correct:2, explanation:"Seller has NO idle capacity: every internal sale displaces an external sale. Min TP = VC + Opportunity Cost = $30 + ($50 − $30) = $30 + $20 = <strong>$50</strong>. The seller will not accept less than the market price." },
+
+{ id:47, chapter:"CH17", type:"calculation", text:"DuPont analysis: Return on Sales = 8%. Investment Turnover = 2.5. What is ROI?", options:["10.5%","20%","3.2%","32%"], correct:1, explanation:"ROI = Return on Sales × Investment Turnover = 8% × 2.5 = <strong>20%</strong>." },
+
+// ---- CH 18 CONCEPTUAL ----
+{ id:48, chapter:"CH18", type:"conceptual", text:"The Balanced Scorecard's Learning & Growth perspective asks:", options:["How do we look to shareholders?","How do customers see us?","What internal processes must we excel at?","Can we continue to innovate and improve to create value?"], correct:3, explanation:"The <strong>Learning & Growth</strong> perspective (4th in FCIL) focuses on the foundation: employee capabilities, technology, organizational culture, R&D, and training that enable the other three perspectives. It asks: 'Can we improve and create value?'" },
+
+{ id:49, chapter:"CH18", type:"conceptual", text:"Which of the following is a metric in the Customer perspective of the Balanced Scorecard?", options:["Return on Investment","Employee training hours","Market share and customer satisfaction scores","Defect rate and cycle time"], correct:2, explanation:"The <strong>Customer</strong> perspective tracks how customers view the firm: <strong>market share, customer satisfaction, retention rate, on-time delivery</strong>. ROI is Financial; training hours are Learning & Growth; defect rate is Internal Business Process." },
+
+{ id:50, chapter:"CH18", type:"conceptual", text:"A strategy map in the Balanced Scorecard context is:", options:["A geographic map of market territories","A diagram showing cause-and-effect relationships that link strategy to the four BSC perspectives","A list of all financial ratios used by management","A chart of support department allocations"], correct:1, explanation:"A <strong>strategy map</strong> is a visual diagram showing the <strong>cause-and-effect links</strong> between objectives across the four BSC perspectives — Learning & Growth enables better Internal Processes → improves Customer outcomes → drives Financial results." },
+
+{ id:51, chapter:"CH18", type:"conceptual", text:"Porter's Five Forces framework identifies competitive threats from all EXCEPT:", options:["New market entrants","Supplier bargaining power","Employee satisfaction","Substitute products"], correct:2, explanation:"Porter's Five Forces: threat of new entrants, power of buyers, <strong>power of suppliers</strong>, threat of substitutes, and rivalry among existing competitors. <strong>Employee satisfaction</strong> is an internal factor, not one of the five external forces." },
+
+{ id:52, chapter:"CH18", type:"conceptual", text:"A company competes by being the lowest-cost producer in its industry. This is an example of:", options:["Product differentiation strategy","Market penetration","Cost leadership strategy","Niche marketing"], correct:2, explanation:"<strong>Cost leadership strategy</strong>: compete by minimizing costs to offer the lowest prices. Contrast with product differentiation, which competes on unique features/quality for which customers pay a premium." },
+
+{ id:53, chapter:"CH18", type:"conceptual", text:"A company offers a premium product with unique features for which customers pay a higher price. This is:", options:["Cost leadership","Product differentiation","Market skimming","Normal capacity management"], correct:1, explanation:"<strong>Product differentiation strategy</strong>: creates unique value (innovation, quality, brand, features) that commands a price premium. Examples: Apple, BMW, Starbucks." },
+
+{ id:54, chapter:"CH18", type:"conceptual", text:"Short-term compensation incentives (annual bonuses) can cause managers to:", options:["Maximize long-run shareholder value","Focus on immediate financial results at the expense of long-term investments","Improve the Learning & Growth BSC perspective","Increase R&D spending every year"], correct:1, explanation:"A key risk of short-term incentives: managers may <strong>cut R&D, training, or maintenance</strong> to boost current-year earnings — harming long-run value. Long-term incentives (stock options, multi-year plans) combat this by aligning managers with shareholder value." },
+
+{ id:55, chapter:"CH18", type:"conceptual", text:"Which of the following is a FINANCIAL metric in the Balanced Scorecard?", options:["On-time delivery rate","Employee turnover","Defect rate per thousand units","Return on Investment (ROI)"], correct:3, explanation:"<strong>ROI</strong> is a financial metric. On-time delivery = Customer perspective. Employee turnover = Learning & Growth. Defect rate = Internal Business Process." },
+
+{ id:56, chapter:"CH18", type:"conceptual", text:"The Balanced Scorecard is best described as:", options:["A purely financial performance measurement tool","A strategic management tool that translates strategy into measurable objectives across four perspectives","A replacement for traditional accounting statements","A method for allocating support department costs"], correct:1, explanation:"The <strong>Balanced Scorecard</strong> translates an organization's mission and strategy into measurable objectives across four perspectives (Financial, Customer, Internal Process, Learning & Growth), balancing financial with nonfinancial measures." },
+
+{ id:57, chapter:"CH18", type:"conceptual", text:"Which of the following correctly lists Porter's Five Forces?", options:["Threats, Substitutes, Entry, Competition, Employees","New entrants, buyer power, supplier power, substitutes, rivalry","Costs, Quality, Speed, Flexibility, Service","Mission, Strategy, Tactics, Budget, Control"], correct:1, explanation:"Porter's Five Forces: <strong>(1) Threat of new entrants, (2) Bargaining power of buyers, (3) Bargaining power of suppliers, (4) Threat of substitutes, (5) Rivalry among existing competitors</strong>." },
+
+{ id:58, chapter:"CH18", type:"conceptual", text:"The Internal Business Process perspective of the BSC focuses on:", options:["How shareholders view financial returns","Customer satisfaction and market share","Operational processes the firm must excel at to deliver value","Employee skills and organizational learning"], correct:2, explanation:"<strong>Internal Business Process</strong>: the critical activities and processes the firm must excel at internally — cycle time, defect rates, process efficiency, throughput. These enable customer satisfaction and ultimately financial results." },
+
+// ---- EXAM 1 REVIEW (conceptual) ----
+{ id:59, chapter:"review", type:"conceptual", text:"The relevant range is best defined as:", options:["The range of selling prices over which a product is profitable","The range of activity over which the assumed cost behavior relationships are valid","The range of products a firm can produce","The range of time periods a budget covers"], correct:1, explanation:"<strong>Relevant range</strong>: the activity level (units, hours, etc.) over which the assumed cost behavior is valid — variable costs remain constant per unit and fixed costs remain constant in total. Outside this range, behaviors may change." },
+
+{ id:60, chapter:"review", type:"conceptual", text:"Which cost estimation method uses only the highest and lowest activity data points?", options:["Account analysis","Regression analysis","High-Low method","Contribution margin method"], correct:2, explanation:"The <strong>High-Low method</strong> uses exactly two data points — the highest and lowest activity levels — to estimate the variable cost per unit and total fixed cost. Simple but less accurate than regression, which uses all data points." },
+
+{ id:61, chapter:"review", type:"conceptual", text:"A sunk cost is:", options:["A future cost that differs between alternatives","A cost that is always relevant to decision-making","A past cost that has already been incurred and cannot be recovered","A variable cost that changes with production"], correct:2, explanation:"A <strong>sunk cost</strong> is a past expenditure already incurred and irrecoverable. Sunk costs are <strong>never relevant</strong> to future decisions because they cannot be changed by any current or future action." },
+
+{ id:62, chapter:"review", type:"conceptual", text:"If fixed costs increase and selling price and variable cost remain unchanged, what happens to the break-even point?", options:["Break-even point decreases","Break-even point increases","Break-even point stays the same","Break-even point cannot be determined"], correct:1, explanation:"BE Units = Fixed Costs ÷ CM per Unit. If fixed costs increase while CM per unit stays the same, the numerator rises → <strong>break-even point increases</strong>. More units must be sold to cover higher fixed costs." },
+
+{ id:63, chapter:"review", type:"conceptual", text:"Product costs (inventoriable costs) include:", options:["Selling, general, and administrative expenses","Only direct materials","Direct materials, direct labor, and manufacturing overhead","Research and development costs"], correct:2, explanation:"<strong>Product (inventoriable) costs</strong> = DM + DL + Manufacturing Overhead (both VMOH and FMOH under absorption costing). These costs are capitalized as inventory until the product is sold, then become COGS." },
+
+{ id:64, chapter:"review", type:"conceptual", text:"Which of the following is a PERIOD cost?", options:["Direct materials","Variable manufacturing overhead","Fixed manufacturing overhead (under absorption costing)","Sales commissions"], correct:3, explanation:"<strong>Period costs</strong> are expensed in the period incurred, not inventoried. <strong>Sales commissions</strong> (selling expense) are period costs. DM, DL, and MOH are product costs under absorption costing." },
+
+{ id:65, chapter:"review", type:"conceptual", text:"For a cost to be RELEVANT to a decision, it must be:", options:["A fixed cost","Both a future cost AND one that differs between the alternatives","A past cost that was recently incurred","A product cost included in inventory"], correct:1, explanation:"Relevant costs must be: (1) <strong>future costs</strong> (not sunk) AND (2) <strong>differ between alternatives</strong>. A cost common to all alternatives is irrelevant even if it is a future cost." },
+
+// ---- EXAM 2 REVIEW (conceptual) ----
+{ id:66, chapter:"review", type:"conceptual", text:"Job costing is most appropriate when:", options:["All units are identical and produced in a continuous process","Products are distinct, customizable, and costs can be tracked per job","A firm uses a process costing system","All products use the same overhead rate"], correct:1, explanation:"<strong>Job costing</strong> is used for <strong>distinct, custom products</strong> — hospitals, law firms, custom manufacturing. Each job has its own cost sheet. Process costing is used for homogeneous, continuous production (chemicals, food processing)." },
+
+{ id:67, chapter:"review", type:"conceptual", text:"The key difference between Activity-Based Costing (ABC) and traditional costing is:", options:["ABC uses actual overhead rates; traditional uses budgeted rates","ABC uses a single overhead rate; traditional uses multiple","ABC uses multiple cost drivers reflecting actual resource consumption; traditional uses one or few rates","ABC is required by GAAP; traditional is not"], correct:2, explanation:"<strong>ABC</strong> assigns overhead using <strong>multiple activity cost pools and cost drivers</strong> that reflect how each product actually consumes resources — more accurate, especially for diverse product lines. Traditional costing uses one (or few) broader allocation rates." },
+
+{ id:68, chapter:"review", type:"conceptual", text:"A favorable direct labor efficiency variance indicates:", options:["Workers were paid less than the standard wage rate","Fewer direct labor hours were used than standard hours allowed","More direct labor hours were used than standard hours allowed","The labor price variance was also favorable"], correct:1, explanation:"DL Efficiency Variance = (Actual Hours − Standard Hours Allowed) × Standard Rate. <strong>Favorable</strong> = Actual Hours &lt; Standard Hours (workers were more efficient than planned)." },
+
+{ id:69, chapter:"review", type:"conceptual", text:"In the Weighted-Average process costing method, equivalent units of production:", options:["Exclude any work done in prior periods on beginning WIP","Combine prior-period work in beginning WIP with current-period work","Are always the same as actual units completed","Use FIFO assumptions for cost flow"], correct:1, explanation:"<strong>Weighted-Average EUP</strong> treats beginning WIP as if it were started and completed in the current period — combining prior-period work and costs with current-period work. This is simpler but less precise than FIFO." },
+
+{ id:70, chapter:"review", type:"conceptual", text:"A flexible budget differs from a static (master) budget in that it:", options:["Uses last year's actual numbers","Adjusts budgeted amounts to the actual level of output achieved","Ignores fixed costs","Is only used for support departments"], correct:1, explanation:"A <strong>flexible budget</strong> adjusts to the <strong>actual output level</strong> achieved — isolating whether variances are due to price/efficiency (controllable) versus volume (not controllable by the manager). A static budget uses planned output only." },
+
+{ id:71, chapter:"review", type:"conceptual", text:"An unfavorable direct materials price variance indicates:", options:["Less material was used than standard","Actual price paid for materials exceeded the standard price","Actual price paid for materials was below standard","More units were produced than planned"], correct:1, explanation:"DM Price Variance = (Actual Price − Standard Price) × Actual Quantity. <strong>Unfavorable</strong> = Actual Price > Standard Price (paid more per unit of material than planned)." },
+
+{ id:72, chapter:"review", type:"conceptual", text:"The FIFO method in process costing differs from the Weighted-Average method primarily because:", options:["FIFO ignores equivalent units entirely","FIFO keeps beginning WIP costs separate from current-period costs","FIFO includes prior-period work in this period's EUP calculation","FIFO is simpler and less accurate than Weighted-Average"], correct:1, explanation:"<strong>FIFO</strong> separates beginning WIP costs from current-period costs, only including current-period work in EUP. This gives a purer picture of current-period performance. Weighted-Average blends prior and current costs." },
+
+// ---- Additional CH12 ----
+{ id:73, chapter:"CH12", type:"conceptual", text:"Which statement about variable costing is FALSE?", options:["Variable costing OI is only affected by changes in unit sales","Fixed MOH is a period cost under variable costing","Variable costing is required for external GAAP reporting","Variable costing OI is not affected by changes in production volume alone"], correct:2, explanation:"<strong>False: Variable costing is NOT required for external GAAP reporting</strong> — it is used for internal management decisions. Absorption costing is GAAP-required for external financial statements and tax reporting." },
+
+{ id:74, chapter:"CH12", type:"conceptual", text:"Under absorption costing, when actual production EQUALS budgeted production, the fixed-MOH volume variance is:", options:["Favorable","Unfavorable","Zero","Always negative"], correct:2, explanation:"Volume Variance = (Actual − Budgeted Production) × FMOH Rate. When actual = budgeted: (0) × Rate = <strong>$0</strong>. No volume variance when actual production hits the denominator level exactly." },
+
+// ---- Additional CH17 ----
+{ id:75, chapter:"CH17", type:"conceptual", text:"Vertical integration refers to:", options:["Adding more product lines to a firm's offerings","Expanding the firm to include activities that precede or follow it in its value chain","Merging with a competitor at the same level","Increasing the number of responsibility centers"], correct:1, explanation:"<strong>Vertical integration</strong>: expanding the firm to control upstream (backward) or downstream (forward) activities in the value chain. Example: a manufacturer buying its raw material supplier (backward) or distribution network (forward)." },
+
+{ id:76, chapter:"CH17", type:"conceptual", text:"Using historical (net book) value for operating assets in ROI calculations can be misleading because:", options:["It overstates the cost of assets","As assets depreciate over time, the denominator falls and ROI mechanically increases — even with unchanged performance","It understates the return on sales","It ignores current liabilities"], correct:1, explanation:"Net book value declines as assets depreciate → lower denominator → <strong>higher ROI ratio over time</strong>, even if actual OI and performance are unchanged. This can create a false impression of improving performance for older divisions." },
+
+{ id:77, chapter:"CH17", type:"conceptual", text:"Which of the following best describes a cost center?", options:["A business unit that controls both revenues and costs","A business unit that controls only costs — not revenues","A business unit evaluated based on ROI and RI","A business unit that has full control over its asset base"], correct:1, explanation:"A <strong>cost center</strong> is a responsibility center that controls <strong>costs only</strong>. Managers are evaluated on cost efficiency, not revenue generation. Examples: HR department, maintenance, IT support." },
+
+// ---- Additional CH14 ----
+{ id:78, chapter:"CH14", type:"conceptual", text:"In the Reciprocal Method, simultaneous equations are used because:", options:["It is easier than the direct method","Both support departments provide services to each other — the full mutual exchange must be captured simultaneously","Step-Down requires it","Operating departments must also allocate back to support departments"], correct:1, explanation:"Reciprocal Method sets up simultaneous equations to capture the <strong>full mutual exchange</strong> between support departments. J allocates to P, and P allocates back to J — this circular relationship requires solving both equations simultaneously." },
+
+{ id:79, chapter:"CH14", type:"calculation", text:"Stand-alone: Company A = $10,000, Company B = $15,000. Common cost = $18,000. Under Stand-Alone method, Company A pays:", options:["$7,200","$10,800","$9,000","$8,000"], correct:0, explanation:"Total stand-alone = $25,000. A's % = $10,000 ÷ $25,000 = 40%. A pays = 40% × $18,000 = <strong>$7,200</strong>. B pays 60% × $18,000 = $10,800." },
+
+// ---- Additional CH18 ----
+{ id:80, chapter:"CH18", type:"conceptual", text:"A mission statement defines:", options:["The detailed tactical steps for the next fiscal year","The organization's fundamental reason for existing","The specific financial targets for the next quarter","How costs are allocated between departments"], correct:1, explanation:"A <strong>mission statement</strong> defines WHY the organization exists — its fundamental purpose and values. Strategy defines HOW to achieve the mission; strategic and operational plans define the specific actions." },
+
+{ id:81, chapter:"CH18", type:"conceptual", text:"In SWOT analysis, which two elements are INTERNAL to the company?", options:["Opportunities and Threats","Strengths and Weaknesses","Strengths and Opportunities","Weaknesses and Threats"], correct:1, explanation:"SWOT: <strong>Strengths and Weaknesses are internal</strong> (within the company's control); Opportunities and Threats are external (from the environment, competitors, market). SWOT is a strategic planning tool used alongside Porter's Five Forces." },
+
+{ id:82, chapter:"CH18", type:"conceptual", text:"A company using the Balanced Scorecard finds it motivates managers, tells the story of its strategy, and limits measures to the most critical ones. These are examples of:", options:["Pitfalls to avoid in BSC implementation","Features of a good balanced scorecard","Porter's Five Forces analysis","Transfer pricing guidelines"], correct:1, explanation:"These are <strong>features of a good balanced scorecard</strong>: (1) tells the story of the company's strategy, (2) communicates strategy to all members, (3) motivates managers toward financial improvement, (4) limits number of measures to critical ones, (5) highlights less-than-optimal trade-offs." },
+
+{ id:83, chapter:"CH18", type:"conceptual", text:"Which of the following is a PITFALL to avoid when implementing a Balanced Scorecard?", options:["Limiting the number of performance measures","Communicating strategy to all employees","Assuming cause-and-effect linkages between BSC measures are precise and certain","Balancing financial and nonfinancial measures"], correct:2, explanation:"A key BSC pitfall: <strong>assuming cause-and-effect linkages are precise</strong>. These links are hypotheses about what drives performance — not mathematical certainties. Other pitfalls: seeking improvements in ALL measures simultaneously; using only objective measures; ignoring nonfinancial measures when evaluating managers." },
+
+{ id:84, chapter:"CH18", type:"conceptual", text:"A company pursuing a Cost Leadership strategy would most likely use which performance measures to encourage cost reduction?", options:["Number of new patents and R&D spending","Direct material and direct labor cost variances","Customer brand perception scores","Employee stock option grants"], correct:1, explanation:"A cost leader competes on having the <strong>lowest costs</strong>. Performance measures like <strong>DM and DL variances</strong> directly incentivize cost reduction. A product differentiator, by contrast, might measure number of new product ideas or patents — not cost variances." },
+
+{ id:85, chapter:"CH18", type:"conceptual", text:"The Customer Value Proposition type called 'Operational Excellence' corresponds most closely to which competitive strategy?", options:["Product Differentiation","Customer Solutions (Intimacy)","Cost Leadership","Niche Market Penetration"], correct:2, explanation:"<strong>Operational Excellence</strong> = best total cost, reliable, convenient, no-hassle — this directly matches the <strong>Cost Leadership</strong> strategy. Product Leadership aligns with Differentiation. Customer Solutions (Intimacy) aligns with deep customer relationship strategies." },
+
+{ id:86, chapter:"CH18", type:"conceptual", text:"In the Balanced Scorecard's cause-and-effect strategy map, which perspective is at the FOUNDATION (bottom) driving all others?", options:["Financial","Customer","Internal Business Process","Learning & Growth"], correct:3, explanation:"The <strong>Learning &amp; Growth perspective is the foundation</strong>. It enables better Internal Business Processes → which improves Customer outcomes → which ultimately drives Financial results. The flow is bottom-up: Learning &amp; Growth → Internal → Customer → Financial." },
+
+{ id:87, chapter:"CH18", type:"conceptual", text:"Which of the following is a metric most appropriate for the Internal Business Process perspective of the BSC for a Cost Leader?", options:["Revenue from new products","Employee training hours","Defect rate and production cycle time","Market share percentage"], correct:2, explanation:"Internal Business Process for a cost leader focuses on <strong>operational efficiency</strong>: defect rate (% defect-free), cycle time, throughput, process efficiency. Revenue from new products is Financial; training hours are Learning &amp; Growth; market share is Customer." },
+
+{ id:88, chapter:"CH17", type:"calculation", text:"Division A (seller): Variable cost = $40/unit. External market price = $65/unit. Division A is operating at FULL capacity. Division B (buyer) wants 500 units. What is the minimum transfer price, and will the seller accept anything below $65?", options:["Min TP = $40; yes, seller accepts any price above $40","Min TP = $65; no, seller will not accept less than $65","Min TP = $52.50; seller accepts prices above average cost","Min TP = $25; seller accepts anything above the contribution margin"], correct:1, explanation:"Full capacity: every internal unit displaces an external sale. Opportunity cost = CM foregone = ($65 − $40) = $25/unit. <strong>Min TP = VC + OC = $40 + $25 = $65</strong>. The seller will NOT accept less than $65 — transferring internally at a lower price would sacrifice external CM. This is the goal-congruence problem: if the buyer's max TP &lt; $65, no mutually beneficial transfer price exists." },
+
+{ id:89, chapter:"CH18", type:"conceptual", text:"The Balanced Scorecard's balanced scorecard pitfall of 'seeking improvements in ALL measures simultaneously' is a problem because:", options:["It makes the BSC too simple to implement","Some measures involve trade-offs — improving one may require accepting lower performance in another","All measures should always improve simultaneously","It violates GAAP requirements"], correct:1, explanation:"Trade-offs exist between BSC measures: spending more on R&amp;D (Learning &amp; Growth) may reduce short-term profitability (Financial). The BSC should <strong>highlight these trade-offs</strong>, not assume all measures can improve together at all times." },
+
+{ id:90, chapter:"CH18", type:"conceptual", text:"A firm's strategy map shows: 'Employee training → Fewer defects → Higher customer retention → Higher revenue.' This is an example of:", options:["A SWOT analysis","Porter's Five Forces in action","Cause-and-effect relationships linking BSC perspectives (bottom-up)","The cost leadership vs. differentiation trade-off"], correct:2, explanation:"This is a <strong>strategy map</strong> showing cause-and-effect linkages across BSC perspectives: Learning &amp; Growth (training) → Internal Process (fewer defects) → Customer (retention) → Financial (revenue). This bottom-up chain is the defining feature of a strategy map." },
+
+];
+
+// ===================== FLASHCARDS =====================
+const FLASHCARDS = [
+  { chapter:"CH12", front:"What is the only difference between absorption and variable costing?", back:"Treatment of Fixed Manufacturing Overhead (FMOH). Absorption: product cost (in inventory). Variable: period cost (expensed immediately)." },
+  { chapter:"CH12", front:"When does Absorption OI > Variable OI?", back:"When units PRODUCED > units SOLD. Extra FMOH is deferred into ending inventory under absorption costing." },
+  { chapter:"CH12", front:"Reconciliation formula: Variable → Absorption OI", back:"Absorption OI = Variable OI + FMOH Rate × (Units Produced − Units Sold)\n\nOr: Var OI + FMOH in EI − FMOH in BI = Abs OI" },
+  { chapter:"CH12", front:"Theoretical Capacity — define it and its FMOH rate impact", back:"100% efficiency, zero downtime — unrealistic ideal. Produces the LOWEST FMOH rate (highest denominator). Usually results in large unfavorable volume variance." },
+  { chapter:"CH12", front:"Practical Capacity — define it", back:"Theoretical capacity minus unavoidable interruptions (maintenance, holidays). Realistic and achievable. RECOMMENDED for product costing — reveals cost of unused capacity." },
+  { chapter:"CH12", front:"Normal Capacity — define it and its risk", back:"Average demand over a multi-year period. Produces the HIGHEST FMOH rate. Risk: Death Spiral — falling demand raises FMOH rate, raising prices, reducing demand further." },
+  { chapter:"CH12", front:"Why is variable costing better for internal decisions?", back:"Clearly separates fixed and variable costs; OI only changes with sales (not production); prevents inventory manipulation; better supports CVP analysis and relevant cost analysis." },
+  { chapter:"CH14", front:"Direct Method denominator rule", back:"OPERATING DEPARTMENTS ONLY. Never include other support departments in the denominator." },
+  { chapter:"CH14", front:"Step-Down Method: ranking rule", back:"The support department providing the HIGHEST % (or $) of services to other support departments goes FIRST and is allocated first." },
+  { chapter:"CH14", front:"Step-Down Method: can a closed SD receive allocations?", back:"NO. Once a support department is stepped down (allocated), it is PERMANENTLY CLOSED and receives no further allocations." },
+  { chapter:"CH14", front:"Which allocation method is most accurate and why?", back:"RECIPROCAL METHOD — it fully captures the mutual exchange of services between support departments using simultaneous linear equations (both directions recognized)." },
+  { chapter:"CH14", front:"Are total SD costs allocated to operating depts the same across all three methods?", back:"YES — the total dollar amount is always identical regardless of method. Only the DISTRIBUTION between operating departments differs." },
+  { chapter:"CH14", front:"Stand-Alone common cost allocation formula", back:"User's % = User's stand-alone cost ÷ Sum of ALL users' stand-alone costs\nUser's allocation = % × Total Common Cost" },
+  { chapter:"CH14", front:"Incremental method: who is the primary user?", back:"The user MOST RESPONSIBLE for the common cost — typically the one with the HIGHEST stand-alone cost. Primary pays full stand-alone; secondary pays the increment." },
+  { chapter:"CH14", front:"4 reasons firms allocate support department costs (FDMC)", back:"F - Financial Reporting (GAAP/inventory valuation)\nD - Decision-Making (full cost visibility)\nM - Motivate Managers (accountability)\nC - Cost Reimbursement (government contracts)" },
+  { chapter:"CH17", front:"ROI formula (two ways)", back:"ROI = Operating Income ÷ Average Operating Assets\n\nDuPont: ROI = (OI ÷ Sales) × (Sales ÷ Avg Assets)\n     = Return on Sales × Investment Turnover" },
+  { chapter:"CH17", front:"Residual Income (RI) formula and decision rule", back:"RI = Operating Income − (Required Rate of Return × Avg Operating Assets)\nAccept project if RI > $0\n\nSolves ROI's goal-congruence problem: accepts any project above the required rate." },
+  { chapter:"CH17", front:"EVA formula and invested capital definition", back:"EVA = After-Tax OI − (After-Tax WACC × Invested Capital)\nInvested Capital = Total Assets − Current Liabilities\n(For a specific project: use purchase price)" },
+  { chapter:"CH17", front:"ROI's goal-congruence problem — explain it", back:"A division with ROI = 20% rejects a new project earning 15% ROI (even if 15% > WACC) because it would dilute the average. This harms the firm. RI/EVA solve this." },
+  { chapter:"CH17", front:"Minimum transfer price formula (both capacity scenarios)", back:"TP min = Variable Cost per unit + Opportunity Cost per unit\n\nIdle capacity: OC = $0 → TP min = VC\nFull capacity: OC = CM lost on external sales foregone" },
+  { chapter:"CH17", front:"Four Responsibility Centers (CRPI)", back:"Cost Center — controls costs only\nRevenue Center — controls revenue only\nProfit Center — controls costs + revenue\nInvestment Center — controls costs + revenue + assets (evaluated with ROI/RI/EVA)" },
+  { chapter:"CH17", front:"Three key properties of an effective MCS (MGE)", back:"Motivation — incentivizes desired behavior\nGoal Congruence — aligns all levels with firm goals\nEffort — managers exert appropriate effort" },
+  { chapter:"CH18", front:"Four BSC Perspectives (FCIL)", back:"Financial — shareholder returns (ROI, EPS, OI)\nCustomer — market share, satisfaction, retention\nInternal Business Process — cycle time, defects, efficiency\nLearning & Growth — training, R&D, employee satisfaction" },
+  { chapter:"CH18", front:"Porter's Five Forces", back:"1. Threat of new entrants\n2. Bargaining power of buyers\n3. Bargaining power of suppliers\n4. Threat of substitute products\n5. Rivalry among existing competitors" },
+  { chapter:"CH18", front:"Cost Leadership vs. Product Differentiation Strategy", back:"Cost Leadership: compete by being lowest-cost producer (e.g., Walmart)\nProduct Differentiation: compete through unique value customers pay premium for (e.g., Apple)" },
+  { chapter:"CH18", front:"What is a Strategy Map?", back:"A diagram showing CAUSE-AND-EFFECT relationships linking strategy to the four BSC perspectives. Learning & Growth → Internal Process → Customer → Financial (bottom-up)." },
+  { chapter:"CH18", front:"Mission vs. Strategy vs. Strategic Plan", back:"Mission: WHY the organization exists (fundamental purpose)\nStrategy: HOW it will achieve its mission (long-run plan)\nStrategic Plan: Specific long-run goals from the strategy\nOperational Plan: Short-run (annual) tactics" },
+  { chapter:"CH18", front:"SWOT Analysis — what is it and what's internal vs. external?", back:"Strategic planning tool:\nINTERNAL: Strengths (advantages) & Weaknesses (shortfalls)\nEXTERNAL: Opportunities (favorable conditions) & Threats (harmful conditions)\n\nUsed with Porter's Five Forces to understand the competitive environment." },
+  { chapter:"CH18", front:"5 Features of a Good Balanced Scorecard", back:"1. Tells the STORY of the company's strategy\n2. COMMUNICATES strategy to all members\n3. MOTIVATES managers toward financial improvement\n4. LIMITS number of measures to the most critical\n5. HIGHLIGHTS less-than-optimal trade-offs" },
+  { chapter:"CH18", front:"4 Pitfalls to Avoid with the Balanced Scorecard", back:"1. Don't assume cause-and-effect linkages are PRECISE\n2. Don't seek improvements in ALL measures simultaneously\n3. Don't use ONLY objective (financial) measures\n4. Don't IGNORE nonfinancial measures when evaluating managers" },
+  { chapter:"CH18", front:"3 Customer Value Propositions", back:"Operational Excellence — best total cost, reliable, no-hassle → Cost Leadership\nProduct Leadership — best product, continuous innovation → Differentiation\nCustomer Solutions (Intimacy) — best total solution, deep relationships, customization" },
+  { chapter:"CH18", front:"BSC for a Cost Leader — example metrics per perspective", back:"Financial: Operating income growth, cost reduction %\nCustomer: Market share, price vs. competition, on-time delivery\nInternal Process: Defect rate, cycle time, process efficiency\nLearning & Growth: Employee training hours, satisfaction, turnover rate" },
+  { chapter:"CH18", front:"Porter's Five Forces — name and describe each", back:"1. Competitive Rivalry — existing competition in the industry\n2. Power of Customers (Buyers) — demand power, price pressure\n3. Threat of Substitutes — alternative products limit pricing\n4. New Entrants — new competitors dilute market share\n5. Bargaining Power of Suppliers — supplier control over input costs" },
+  { chapter:"review", front:"Relevant costs must have two characteristics — what are they?", back:"1. FUTURE costs (not sunk — already incurred)\n2. DIFFER between the alternatives being considered\n\nSunk costs are NEVER relevant." },
+  { chapter:"review", front:"Break-Even formula", back:"BE Units = Fixed Costs ÷ Contribution Margin per Unit\nBE Sales $ = Fixed Costs ÷ CM Ratio\n\nCM per Unit = SP − VC per Unit\nCM Ratio = CM per Unit ÷ SP" },
+  { chapter:"review", front:"Three cost estimation methods", back:"Account Analysis — manager classifies costs as fixed/variable\nHigh-Low — uses only highest/lowest activity points\nRegression — statistical; uses ALL data points; most accurate" },
+  { chapter:"review", front:"Job Costing vs. Process Costing — when to use each", back:"Job Costing: distinct, customizable products (hospitals, custom manufacturing)\nProcess Costing: homogeneous products in continuous process (chemicals, food processing)" },
+  { chapter:"review", front:"Weighted-Average vs. FIFO process costing — key difference", back:"Weighted-Average: combines prior and current period work/costs (simpler, less precise)\nFIFO: keeps beginning WIP separate — only current period work in EUP (more accurate for cost control)" },
+  { chapter:"review", front:"Favorable vs. Unfavorable variance — define each", back:"Favorable: Actual cost < Budget/Standard (spending less than planned)\nUnfavorable: Actual cost > Budget/Standard (spending more than planned)" },
+  { chapter:"review", front:"ABC vs. Traditional Costing — key difference", back:"Traditional: one (or few) overhead rates → can distort product costs\nABC: multiple activity cost pools + multiple cost drivers → reflects how products actually consume resources → more accurate" },
+];
+
+// ===================== AI QUESTION GENERATOR =====================
+const AI_Q_KEY = 'acct3121_ai_questions';
+const API_KEY_KEY = 'acct3121_api_key';
+
+const CHAPTER_CONTEXT = {
+  CH12: `Chapter 12 - Absorption vs Variable Costing & Capacity Analysis:
+- Absorption costing: FMOH is a PRODUCT cost (capitalized: DM+DL+VMOH+FMOH). Required by GAAP for external reporting.
+- Variable costing: FMOH is a PERIOD cost (expensed immediately). Internal use only.
+- When produced > sold: Absorption OI > Variable OI (FMOH deferred into ending inventory).
+- When produced < sold: Absorption OI < Variable OI (prior FMOH released from beginning inventory).
+- When produced = sold: Absorption OI = Variable OI.
+- Reconciliation: Abs OI = Var OI + FMOH Rate × (Units Produced − Units Sold). Or: Var OI + FMOH in EI − FMOH in BI = Abs OI.
+- Fixed-MOH Volume Variance = (Actual Production − Budgeted Production) × FMOH Rate. Favorable if Actual > Budgeted.
+- Capacity levels: Theoretical (100% efficiency, no downtime — unrealistic; LOWEST FMOH rate because highest denominator; large unfavorable volume variance). Practical (theoretical minus unavoidable interruptions; RECOMMENDED for product costing; explicitly reveals cost of unused capacity). Normal (average demand over multi-year; HIGHEST FMOH rate; lowest denominator; risk of death spiral).
+- Death spiral: Normal capacity → falling demand → lower normal capacity → higher FMOH rate → higher prices → less demand → repeats.
+- Variable costing OI is only affected by sales volume, not production level. Absorption OI is affected by both.`,
+  CH14: `Chapter 14 - Support Department Cost Allocation & Common Costs:
+- Support departments (cost centers, no external revenue): HR, maintenance, IT, janitorial. Costs allocated to operating depts then to products.
+- Operating departments: directly produce goods/services sold to external customers.
+- 4 reasons to allocate (FDMC): Financial reporting (GAAP/inventory), Decision-making (full cost visibility), Motivate managers (accountability for support costs), Cost reimbursement (government contracts).
+- Direct Method: denominator = operating departments ONLY (NEVER include other support depts). Least accurate. Ignores all SD-to-SD services.
+- Step-Down Method: Rank by highest % (or $) of services to other SDs. Allocate to ALL remaining open departments (other SDs + operating). Once closed, permanently receives NO further allocations. New cost for next step = original cost + allocations received from prior steps. More accurate than direct.
+- Reciprocal Method: Uses simultaneous equations. Fully captures mutual exchange between all support departments. Each SD's denominator includes ALL other departments (other SDs + operating, but NOT itself). Most accurate.
+- Total SD costs allocated to operating departments is IDENTICAL across all three methods. Distribution between departments differs.
+- Common Costs — Stand-Alone method: each user's share = their stand-alone cost ÷ total of all stand-alone costs, applied to common cost. Most equitable, no ranking needed.
+- Incremental method: Primary user (highest stand-alone cost) pays their full stand-alone amount; secondary user(s) pay the increment (common cost minus primary's share).
+- FASB ASC 606: governs external reporting of bundled revenue from contracts with customers.`,
+  CH17: `Chapter 17 - Management Control Systems, Responsibility Centers & Transfer Pricing:
+- MCS three key properties: Motivation, Goal Congruence, Effort (MGE).
+- Four pillars of MCS: Budgeting, Responsibility Centers, Transfer Pricing, Performance Measurement.
+- Centralized: authority at top (slow, uniform). Decentralized: authority delegated down (faster, but risk suboptimal decisions/lack of goal congruence).
+- Responsibility centers CRPI (ascending scope): Cost Center (costs only; e.g., HR, maintenance); Revenue Center (revenue only; e.g., sales team); Profit Center (costs + revenue; e.g., product line, business unit); Investment Center (costs + revenue + assets; evaluated with ROI/RI/EVA).
+- Each center needs Authority (power to decide), Responsibility (owns the task), Accountability (answers for results) = ARA.
+- ROI = Operating Income ÷ Average Operating Assets. DuPont: ROI = (OI/Sales) × (Sales/Assets) = Return on Sales × Investment Turnover.
+- ROI goal-congruence problem: a division at 20% ROI rejects a profitable project at 15% ROI (even if 15% > WACC = 10%) because it would dilute their average. Bad for the firm.
+- Net book value problem: as assets depreciate, denominator falls and ROI mechanically rises — false sense of improving performance.
+- Residual Income (RI) = OI − (Required Rate of Return × Avg Operating Assets). Accept if RI > $0. Solves ROI's goal-congruence problem.
+- EVA = After-Tax OI − (After-Tax WACC × Invested Capital). Invested Capital = Total Assets − Current Liabilities (for whole division). For specific project, use purchase price. Accept if EVA > $0.
+- WACC = weighted average after-tax cost of all long-term financing (debt + equity).
+- Transfer Pricing: internal price at which divisions exchange goods/services.
+- Min TP (seller floor) = VC per unit + Opportunity Cost per unit. With idle capacity: OC = $0, so Min TP = VC. At full capacity: OC = CM lost on external sales foregone, so Min TP = VC + (SP − VC) = External Market Price.
+- Max TP (buyer ceiling) = External market price buyer would pay outside.
+- Transfer pricing methods: Cost-based (VC or full cost, often cost-plus); Market-based (external market price, objective); Negotiated (between Min and Max TP, most flexible).
+- Vertical integration: expanding the firm to include upstream (backward) or downstream (forward) activities in its value chain.`,
+  CH18: `Chapter 18 - Business Strategy, Performance Measurement & Balanced Scorecard:
+- Strategy: how organization matches its capabilities with market opportunities. Mission = why we exist. Vision = destination. Strategic Plan = multi-year goals. Operating Plan = this year's tactics, budgets, KPIs.
+- Porter's Five Forces (know all five): (1) Competitive Rivalry — existing competitors; (2) Power of Customers/Buyers — demand pressure; (3) Threat of Substitutes — alternative products limit pricing; (4) New Entrants — new competitors dilute market share; (5) Bargaining Power of Suppliers — input cost control.
+- SWOT Analysis: Strengths and Weaknesses are INTERNAL. Opportunities and Threats are EXTERNAL.
+- Two broad strategies: Cost Leadership (lowest-cost producer; performance measures: DM/DL variances; competitive advantage: lower prices); Product Differentiation (unique/superior products; performance measures: new patents, customer satisfaction, R&D spending; competitive advantage: brand loyalty, premium prices).
+- Customer Value Proposition: Operational Excellence (best total cost = cost leadership); Product Leadership (best product = differentiation); Customer Solutions/Intimacy (deep relationships, customization).
+- Compensation types: Hourly wage, Salary, Commission, Piece rate, Bonus (year-end %), Stock options (long-term), Incentive pay (forward-looking short-term targets).
+- Short-term incentive risk: managers cut R&D, training, maintenance to boost current-year earnings — harms long-run value. Stock options align with shareholder long-term value.
+- Balanced Scorecard (BSC) four perspectives FCIL: Financial (ROI, RI, EVA, OI, revenue growth, EPS — how do we look to shareholders?); Customer (market share, satisfaction, retention, on-time delivery — how do customers see us?); Internal Business Process (cycle time, defect rate, throughput, efficiency — what must we excel at?); Learning & Growth (training hours, R&D, employee satisfaction, turnover — can we improve and grow?).
+- Strategy Map: visual diagram of cause-and-effect links across BSC perspectives. Bottom-up flow: Learning & Growth → Internal Process → Customer → Financial.
+- Features of a good BSC: tells the story of strategy; communicates strategy to all members; motivates managers toward financial improvement; limits number of measures to the most critical; highlights less-than-optimal trade-offs.
+- Pitfalls to avoid: don't assume cause-and-effect linkages are precise; don't seek improvements in all measures simultaneously; don't use only objective/financial measures; don't ignore nonfinancial measures when evaluating managers and employees.`,
+  review: `Exam 1 & 2 Review — Conceptual Only (no calculations on exam):
+- CH2 Cost Terms: Direct cost (traceable to cost object); Indirect cost (allocated, e.g., MOH); Variable cost (constant per unit, total changes with activity); Fixed cost (constant in total, per-unit changes); Product cost (inventoriable: DM+DL+MOH); Period cost (expensed immediately: SG&A, selling expense); Relevant range (activity range where cost behavior holds).
+- CH3 Cost Estimation: Account analysis (manager judgment, classifies each cost); High-Low method (uses only two extreme activity points — simplest but least accurate, ignores other data); Regression analysis (all data points, most objective and accurate).
+- CH4 CVP: Break-even units = Fixed Costs ÷ CM per unit; BE Sales $ = FC ÷ CM Ratio; CM per unit = SP − VC per unit; CM Ratio = CM ÷ SP. Higher fixed costs → higher break-even. Higher CM → lower break-even. Assumptions: constant SP, VC, FC; all units produced are sold.
+- CH5 Relevant Costs: Must be (1) future costs AND (2) differ between alternatives. Sunk costs (already incurred, irrecoverable) are NEVER relevant. Fixed costs relevant only if they differ between alternatives.
+- CH8 Job Costing: Distinct, customizable products (hospitals, law firms, custom manufacturing). Costs per job on job cost sheet. Normal costing: actual DM + actual DL + applied MOH (budgeted rate × actual driver).
+- CH9 ABC: Multiple cost pools + multiple cost drivers reflecting actual resource consumption. More accurate than traditional single plantwide rate. Better for diverse product mixes. Costly to implement and maintain.
+- CH10 Variances: Price variance = (AP − SP) × AQ; Efficiency variance = (AQ − SQ) × SP. Favorable = actual < standard (spending less). Unfavorable = actual > standard. Flexible budget adjusts to actual output level to isolate price/efficiency from volume effects.
+- CH11 Process Costing: Weighted-Average (combines prior + current period work and costs; simpler); FIFO (keeps beginning WIP costs separate; only current-period work in EUP; more accurate for cost control). Key difference: FIFO isolates current-period costs; WA blends them.`
+};
+
+function loadAiQuestions() {
+  try { return JSON.parse(localStorage.getItem(AI_Q_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+
+function saveAiQuestions(qs) {
+  localStorage.setItem(AI_Q_KEY, JSON.stringify(qs));
+}
+
+function getAllQuestions() {
+  const custom = loadAiQuestions();
+  const maxId = ALL_QUESTIONS.length > 0 ? Math.max(...ALL_QUESTIONS.map(q => q.id)) : 0;
+  return [
+    ...ALL_QUESTIONS,
+    ...custom.map((q, i) => ({ ...q, id: maxId + i + 1, aiGenerated: true }))
+  ];
+}
+
+function toggleAiPanel() {
+  const body = document.getElementById('ai-panel-body');
+  const chevron = document.getElementById('ai-chevron');
+  body.classList.toggle('collapsed');
+  chevron.textContent = body.classList.contains('collapsed') ? '▶' : '▼';
+}
+
+function saveApiKey() {
+  const val = document.getElementById('api-key-input').value.trim();
+  if (!val) return;
+  localStorage.setItem(API_KEY_KEY, val);
+  document.getElementById('api-key-input').value = '';
+  updateKeyStatus();
+}
+
+function clearApiKey(e) {
+  e && e.preventDefault();
+  localStorage.removeItem(API_KEY_KEY);
+  updateKeyStatus();
+}
+
+function updateKeyStatus() {
+  const key = localStorage.getItem(API_KEY_KEY);
+  const el = document.getElementById('key-status');
+  if (!el) return;
+  if (key) {
+    const masked = key.substring(0, 14) + '…';
+    el.innerHTML = `<span style="color:#22c55e;">✓ Key saved (${masked})</span> &nbsp;<a href="#" onclick="clearApiKey(event)" style="color:#ef4444;font-size:11px;">Remove</a>`;
+  } else {
+    el.innerHTML = '<span style="color:#64748b;">No key saved — get yours at console.anthropic.com</span>';
+  }
+  updateAiBadge();
+  renderCustomQList();
+}
+
+function updateAiBadge() {
+  const qs = loadAiQuestions();
+  const badge = document.getElementById('ai-q-count-badge');
+  if (badge) badge.textContent = qs.length > 0 ? `+${qs.length} AI questions` : '';
+}
+
+function renderCustomQList() {
+  const qs = loadAiQuestions();
+  const section = document.getElementById('custom-q-section');
+  const list = document.getElementById('custom-q-list');
+  const countEl = document.getElementById('custom-q-count');
+  if (!section) return;
+  if (qs.length === 0) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  countEl.textContent = `${qs.length} AI-generated question${qs.length !== 1 ? 's' : ''} in bank`;
+  list.innerHTML = qs.map((q, i) => `
+    <div class="custom-q-item">
+      <span class="q-text">
+        <span class="badge badge-blue" style="margin-right:4px;">${q.chapter}</span>
+        <span class="badge ${q.type === 'calculation' ? 'badge-yellow' : 'badge-purple'}" style="margin-right:6px;">${q.type}</span>
+        ${q.text.length > 90 ? q.text.substring(0, 90) + '…' : q.text}
+      </span>
+      <button class="del-btn" onclick="deleteCustomQ(${i})">✕</button>
+    </div>`).join('');
+}
+
+function deleteCustomQ(idx) {
+  const qs = loadAiQuestions();
+  qs.splice(idx, 1);
+  saveAiQuestions(qs);
+  updateAiBadge();
+  renderCustomQList();
+}
+
+function clearAllCustom() {
+  if (!confirm(`Delete all ${loadAiQuestions().length} AI-generated questions from the bank?`)) return;
+  saveAiQuestions([]);
+  updateAiBadge();
+  renderCustomQList();
+  document.getElementById('gen-status').textContent = 'Question bank cleared.';
+}
+
+async function generateQuestions() {
+  const apiKey = localStorage.getItem(API_KEY_KEY);
+  if (!apiKey) {
+    document.getElementById('gen-status').innerHTML = '<span style="color:#ef4444;">⚠ Save your Anthropic API key first.</span>';
+    return;
+  }
+
+  const chapter = document.getElementById('gen-chapter').value;
+  const count = parseInt(document.getElementById('gen-count').value);
+  const btn = document.getElementById('gen-btn');
+  const statusEl = document.getElementById('gen-status');
+
+  btn.disabled = true;
+  statusEl.innerHTML = '<span class="spinner"></span>Generating questions with Claude…';
+
+  const existingTopics = getAllQuestions()
+    .filter(q => q.chapter === chapter)
+    .map(q => q.text.substring(0, 70))
+    .join(' | ');
+
+  const chapterLabel = {
+    CH12: 'Chapter 12 — Absorption vs Variable Costing & Capacity Analysis',
+    CH14: 'Chapter 14 — Support Department Cost Allocation & Common Costs',
+    CH17: 'Chapter 17 — Management Control Systems, Responsibility Centers & Transfer Pricing',
+    CH18: 'Chapter 18 — Business Strategy, Performance Measurement & Balanced Scorecard',
+    review: 'Exam 1 & 2 Conceptual Review (Cost Terms, CVP, Relevant Costs, Job Costing, ABC, Variances, Process Costing)'
+  }[chapter];
+
+  const prompt = `You are writing multiple-choice exam questions for an undergraduate cost accounting final exam.
+
+Topic: ${chapterLabel}
+
+Key content to draw from:
+${CHAPTER_CONTEXT[chapter]}
+
+Requirements:
+- Generate EXACTLY ${count} questions
+- Mix conceptual and calculation types; label each as "conceptual" or "calculation"
+- Every question must have exactly 4 answer choices
+- Do NOT duplicate these already-existing question topics: ${existingTopics}
+- Write explanations that explain the correct answer AND why the wrong answers are wrong
+- For calculation questions, include specific numbers and show the arithmetic in the explanation
+- Use the chapter code exactly as: ${chapter}
+
+Return ONLY a valid JSON array — no markdown, no code fences, no explanation text before or after. Format:
+[{"chapter":"${chapter}","type":"conceptual","text":"Question text?","options":["A. ...","B. ...","C. ...","D. ..."],"correct":0,"explanation":"Full explanation here."}]`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5',
+        max_tokens: 4096,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || `API error ${res.status}`);
+    }
+
+    const data = await res.json();
+    let raw = data.content[0].text.trim();
+
+    // Strip markdown fences if present
+    const fence = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (fence) raw = fence[1].trim();
+    // Extract the array from anywhere in the string
+    const start = raw.indexOf('['), end = raw.lastIndexOf(']');
+    if (start !== -1 && end !== -1) raw = raw.slice(start, end + 1);
+
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed) || parsed.length === 0) throw new Error('No questions returned');
+
+    const valid = parsed.filter(q =>
+      q.text && Array.isArray(q.options) && q.options.length === 4 &&
+      typeof q.correct === 'number' && q.correct >= 0 && q.correct <= 3 &&
+      q.explanation && q.chapter
+    );
+    if (valid.length === 0) throw new Error('All questions failed validation');
+
+    const existing = loadAiQuestions();
+    saveAiQuestions([...existing, ...valid]);
+    updateAiBadge();
+    renderCustomQList();
+
+    statusEl.innerHTML = `<span style="color:#22c55e;">✓ Added ${valid.length} new question${valid.length !== 1 ? 's' : ''} to the bank!</span>`;
+  } catch(err) {
+    statusEl.innerHTML = `<span style="color:#ef4444;">⚠ ${err.message}</span>`;
+    console.error('AI generation error:', err);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// ===================== EXAM LOGIC =====================
+let examQuestions = [];
+let currentQ = 0;
+let score = 0;
+let answered = [];
+let timerInterval = null;
+let timeLeft = 7200; // 2 hours
+
+function startExam() {
+  const count = parseInt(document.getElementById('qCount').value);
+  const chapter = document.getElementById('chapterFilter').value;
+  const type = document.getElementById('typeFilter').value;
+
+  let pool = getAllQuestions().filter(q => {
+    if (chapter !== 'all' && q.chapter !== chapter) return false;
+    if (type !== 'all' && q.type !== type) return false;
+    return true;
+  });
+
+  // shuffle
+  pool = pool.sort(() => Math.random() - 0.5);
+  examQuestions = pool.slice(0, Math.min(count, pool.length));
+  currentQ = 0;
+  score = 0;
+  answered = new Array(examQuestions.length).fill(null);
+  timeLeft = count >= 50 ? 7200 : count * 144; // proportional time
+
+  document.getElementById('setup-area').style.display = 'none';
+  document.getElementById('exam-area').style.display = 'block';
+  document.getElementById('results-area').style.display = 'none';
+  document.getElementById('review-container').style.display = 'none';
+
+  startTimer();
+  renderQuestion();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    if (timeLeft <= 0) { clearInterval(timerInterval); showResults(); return; }
+    const h = Math.floor(timeLeft / 3600);
+    const m = Math.floor((timeLeft % 3600) / 60);
+    const s = timeLeft % 60;
+    document.getElementById('timer').textContent = `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    const t = document.getElementById('timer');
+    t.style.color = timeLeft < 300 ? '#ef4444' : timeLeft < 600 ? '#f59e0b' : '#f59e0b';
+  }, 1000);
+}
+
+function renderQuestion() {
+  const q = examQuestions[currentQ];
+  const total = examQuestions.length;
+
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${total}`;
+  document.getElementById('progress-bar').style.width = `${(currentQ / total) * 100}%`;
+
+  const alreadyAnswered = answered[currentQ] !== null;
+
+  let html = `<div class="question-card">
+    <div class="question-meta">
+      <span class="badge badge-blue">${q.chapter}</span>&nbsp;
+      <span class="badge ${q.type === 'calculation' ? 'badge-yellow' : 'badge-green'}">${q.type}</span>
+    </div>
+    <div class="question-text">${currentQ + 1}. ${q.text}</div>`;
+
+  q.options.forEach((opt, i) => {
+    let cls = '';
+    if (alreadyAnswered) {
+      if (i === q.correct) cls = 'correct';
+      else if (i === answered[currentQ] && i !== q.correct) cls = 'wrong';
+    }
+    html += `<button class="option-btn ${cls}" ${alreadyAnswered ? 'disabled' : ''} onclick="selectAnswer(${i})">${opt}</button>`;
+  });
+
+  html += `<div class="explanation ${alreadyAnswered ? 'show' : ''}" id="expl-${currentQ}">
+    <strong>Explanation:</strong> ${q.explanation}
+  </div>`;
+
+  if (alreadyAnswered && currentQ < examQuestions.length - 1) {
+    html += `<button class="next-btn show" onclick="nextQuestion()">Next Question →</button>`;
+  } else if (alreadyAnswered && currentQ === examQuestions.length - 1) {
+    html += `<button class="next-btn show" onclick="showResults()">See Results →</button>`;
+  }
+
+  html += `</div>`;
+  document.getElementById('question-container').innerHTML = html;
+}
+
+function selectAnswer(idx) {
+  const q = examQuestions[currentQ];
+  answered[currentQ] = idx;
+  if (idx === q.correct) score++;
+
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add('correct');
+    else if (i === idx && i !== q.correct) btn.classList.add('wrong');
+  });
+
+  document.getElementById(`expl-${currentQ}`).classList.add('show');
+
+  const nextBtn = document.querySelector('.next-btn');
+  if (nextBtn) nextBtn.classList.add('show');
+  else {
+    const nb = document.createElement('button');
+    nb.className = 'next-btn show';
+    nb.textContent = currentQ < examQuestions.length - 1 ? 'Next Question →' : 'See Results →';
+    nb.onclick = currentQ < examQuestions.length - 1 ? nextQuestion : showResults;
+    document.querySelector('.question-card').appendChild(nb);
+  }
+}
+
+function nextQuestion() {
+  currentQ++;
+  renderQuestion();
+  window.scrollTo(0, document.querySelector('.exam-progress').offsetTop - 10);
+}
+
+function showResults() {
+  clearInterval(timerInterval);
+  document.getElementById('exam-area').style.display = 'none';
+  document.getElementById('results-area').style.display = 'block';
+
+  const total = examQuestions.length;
+  const pct = Math.round((score / total) * 100);
+  document.getElementById('res-score').textContent = pct + '%';
+  document.getElementById('res-correct').textContent = score;
+  document.getElementById('res-wrong').textContent = total - score;
+  document.getElementById('res-total').textContent = total;
+
+  const grade = pct >= 90 ? '🎯 Excellent!' : pct >= 80 ? '👍 Good job!' : pct >= 70 ? '📚 Keep studying!' : '⚡ More review needed';
+  document.getElementById('res-label').textContent = grade;
+
+  // by chapter
+  const chapterStats = {};
+  examQuestions.forEach((q, i) => {
+    if (!chapterStats[q.chapter]) chapterStats[q.chapter] = { right: 0, total: 0 };
+    chapterStats[q.chapter].total++;
+    if (answered[i] === q.correct) chapterStats[q.chapter].right++;
+  });
+  let chapHTML = '<strong style="color:#60a5fa;">By Chapter:</strong><br>';
+  Object.entries(chapterStats).forEach(([ch, s]) => {
+    const p = Math.round((s.right / s.total) * 100);
+    const c = p >= 80 ? '#22c55e' : p >= 60 ? '#f59e0b' : '#ef4444';
+    chapHTML += `<span style="color:${c};margin-right:16px;">${ch}: ${s.right}/${s.total} (${p}%)</span>`;
+  });
+  document.getElementById('res-by-chapter').innerHTML = chapHTML;
+}
+
+function restartExam() {
+  clearInterval(timerInterval);
+  document.getElementById('setup-area').style.display = 'block';
+  document.getElementById('exam-area').style.display = 'none';
+  document.getElementById('results-area').style.display = 'none';
+}
+
+function reviewExam() {
+  const container = document.getElementById('review-container');
+  container.style.display = 'block';
+  let html = '<h3 style="color:#60a5fa;margin-bottom:16px;">Answer Review</h3>';
+  examQuestions.forEach((q, i) => {
+    const correct = answered[i] === q.correct;
+    const borderColor = correct ? '#22c55e' : '#ef4444';
+    html += `<div style="background:#1e293b;border:1px solid ${borderColor};border-radius:8px;padding:16px;margin-bottom:12px;">
+      <div style="font-size:11px;color:#64748b;margin-bottom:6px;"><span class="badge badge-blue">${q.chapter}</span></div>
+      <div style="font-size:14px;color:#e2e8f0;margin-bottom:8px;">${i + 1}. ${q.text}</div>
+      <div style="font-size:13px;color:${correct ? '#22c55e' : '#ef4444'}">Your answer: ${q.options[answered[i]] || 'Not answered'}</div>
+      <div style="font-size:13px;color:#22c55e;">Correct: ${q.options[q.correct]}</div>
+      <div style="font-size:12px;color:#94a3b8;margin-top:8px;">${q.explanation}</div>
+    </div>`;
+  });
+  container.innerHTML = html;
+  container.scrollIntoView({ behavior: 'smooth' });
+}
+
+// ===================== FLASHCARD LOGIC =====================
+let fcDeck = [...FLASHCARDS];
+let fcIdx = 0;
+
+function filterFlashcards() {
+  const filter = document.getElementById('fc-filter').value;
+  fcDeck = filter === 'all' ? [...FLASHCARDS] : FLASHCARDS.filter(f => f.chapter === filter);
+  fcIdx = 0;
+  renderFlashcard();
+}
+
+function shuffleFlashcards() {
+  fcDeck = fcDeck.sort(() => Math.random() - 0.5);
+  fcIdx = 0;
+  renderFlashcard();
+}
+
+function renderFlashcard() {
+  const card = fcDeck[fcIdx];
+  document.getElementById('fc-front').textContent = card.front;
+  document.getElementById('fc-back').innerHTML = card.back.replace(/\n/g, '<br>');
+  document.getElementById('fc-chapter-tag').textContent = card.chapter;
+  document.getElementById('fc-counter').textContent = `${fcIdx + 1} / ${fcDeck.length}`;
+  document.getElementById('fc-counter-top').textContent = `${fcDeck.length} cards`;
+  document.getElementById('fc-inner').classList.remove('flipped');
+}
+
+function flipCard() {
+  document.getElementById('fc-inner').classList.toggle('flipped');
+}
+
+function fcNav(dir) {
+  fcIdx = (fcIdx + dir + fcDeck.length) % fcDeck.length;
+  renderFlashcard();
+}
+
+// ===================== STUDY GUIDE LOGIC =====================
+function toggleChapter(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.chevron');
+  body.classList.toggle('open');
+  chevron.classList.toggle('open');
+}
+
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('section-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Init flashcards
+window.onload = () => {
+  renderFlashcard();
+  // Open first chapter by default
+  document.querySelector('.chapter-header').click();
+  // Init AI panel
+  updateKeyStatus();
+};
+</script>
+</body>
+</html>

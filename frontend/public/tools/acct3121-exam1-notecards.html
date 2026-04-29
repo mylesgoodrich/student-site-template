@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACCT 3121 Exam 1 — Study Notecards</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --card-radius: 16px;
+    --shadow: 0 2px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.06);
+    --shadow-hover: 0 8px 32px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f0ece4;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    color: #1a1a2e;
+    letter-spacing: -0.5px;
+  }
+
+  .header p {
+    color: #6b6b7b;
+    font-size: 0.95rem;
+    margin-top: 0.4rem;
+  }
+
+  .instructions {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #8a8a9a;
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .notecard {
+    perspective: 1200px;
+    min-height: 340px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .notecard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 340px;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+
+  .notecard.flipped .notecard-inner {
+    transform: rotateY(180deg);
+  }
+
+  .notecard-front, .notecard-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: var(--card-radius);
+    padding: 1.8rem 2rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+  }
+
+  .notecard:hover .notecard-front,
+  .notecard:hover .notecard-back {
+    box-shadow: var(--shadow-hover);
+  }
+
+  .notecard-front {
+    background: #fff;
+    border-left: 5px solid var(--accent);
+  }
+
+  .notecard-back {
+    background: var(--accent);
+    transform: rotateY(180deg);
+    color: #fff;
+  }
+
+  .card-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.5;
+    margin-bottom: 0.6rem;
+  }
+
+  .notecard-back .card-number { opacity: 0.7; }
+
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.35rem;
+    color: #1a1a2e;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+
+  .notecard-back .card-title {
+    color: #fff;
+    font-size: 1.15rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .card-content {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: #3a3a4a;
+    flex: 1;
+  }
+
+  .notecard-back .card-content {
+    color: rgba(255,255,255,0.92);
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  .card-content .formula {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    background: rgba(0,0,0,0.05);
+    padding: 3px 8px;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 2px 0;
+  }
+
+  .notecard-back .card-content .formula {
+    background: rgba(255,255,255,0.18);
+  }
+
+  .card-content .key-point {
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .notecard-back .card-content .key-point {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .flip-hint {
+    font-size: 0.72rem;
+    text-align: right;
+    opacity: 0.4;
+    margin-top: auto;
+    padding-top: 0.8rem;
+  }
+
+  /* Individual card accent colors */
+  .notecard:nth-child(1)  { --accent: #2d5a7b; }
+  .notecard:nth-child(2)  { --accent: #3a7ca5; }
+  .notecard:nth-child(3)  { --accent: #5b8c5a; }
+  .notecard:nth-child(4)  { --accent: #7a6c5d; }
+  .notecard:nth-child(5)  { --accent: #8b5e3c; }
+  .notecard:nth-child(6)  { --accent: #6b4c8a; }
+  .notecard:nth-child(7)  { --accent: #c2553d; }
+  .notecard:nth-child(8)  { --accent: #2a7a6b; }
+  .notecard:nth-child(9)  { --accent: #4a6fa5; }
+  .notecard:nth-child(10) { --accent: #8a4a5e; }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .instructions { display: none; }
+    .notecard { page-break-inside: avoid; break-inside: avoid; perspective: none; }
+    .notecard-inner { transform: none !important; position: static; min-height: auto; }
+    .notecard-front, .notecard-back {
+      position: static;
+      transform: none !important;
+      backface-visibility: visible;
+      -webkit-backface-visibility: visible;
+      box-shadow: none;
+      border: 1px solid #ccc;
+      margin-bottom: 0.5rem;
+    }
+    .notecard-front { page-break-after: avoid; }
+    .flip-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>ACCT 3121 — Exam 1 Notecards</h1>
+  <p>Chapters 2, 3, 4 & 5 — 10 Cards</p>
+</div>
+<div class="instructions">Click or tap a card to flip it over</div>
+
+<div class="cards-grid" id="cards"></div>
+
+<script>
+const cards = [
+  {
+    num: "Card 1 — Chapter 2",
+    frontTitle: "Product Costs vs. Period Costs",
+    front: `<span class="key-point">Product (Inventoriable) Costs</span> = DM + DL + MOH<br>
+→ Recorded as <strong>assets</strong> (inventory) when incurred<br>
+→ Become expenses (COGS) when goods are <strong>sold</strong><br><br>
+<span class="key-point">Period Costs</span> = Selling + General & Administrative<br>
+→ Recorded as <strong>expenses immediately</strong> in the period incurred<br>
+→ NOT part of inventory or COGS<br><br>
+❓ Which are product costs and which are period costs from a list?`,
+    backTitle: "How to Tell Them Apart",
+    back: `Ask: <strong>Is it a manufacturing cost?</strong><br><br>
+✅ YES → Product cost (goes to inventory first)<br>
+• Factory rent, factory utilities, raw materials, production wages, MOH<br><br>
+❌ NO → Period cost (expensed right away)<br>
+• Sales commissions, office rent, advertising, CEO salary, delivery costs<br><br>
+<strong>CM Income Statement trick:</strong> COGS only has VARIABLE manufacturing costs. All fixed costs are below the CM line.`
+  },
+  {
+    num: "Card 2 — Chapter 2",
+    frontTitle: "Prime & Conversion Costs + COGM/COGS",
+    front: `<span class="formula">Prime Costs = DM + DL</span><br>
+<span class="formula">Conversion Costs = DL + MOH</span><br><br>
+<span class="formula">DM Used = Beg DM + Purchases − End DM</span><br>
+<span class="formula">COGM = Beg WIP + DM + DL + MOH − End WIP</span><br>
+<span class="formula">COGS = Beg FG + COGM − End FG</span><br>
+<span class="formula">Gross Profit = Revenue − COGS</span><br><br>
+❓ Be ready to compute any of these from given data`,
+    backTitle: "Journal Entries — Manufacturing Flow",
+    back: `<span class="formula">Buy DM:</span> DR Raw Materials, CR AP/Cash<br>
+<span class="formula">Use DM:</span> DR WIP, CR Raw Materials<br>
+<span class="formula">DL incurred:</span> DR WIP, CR Wages Payable<br>
+<span class="formula">MOH applied:</span> DR WIP, CR Mfg Overhead<br>
+<span class="formula">Goods done:</span> DR Finished Goods, CR WIP<br>
+<span class="formula">Goods sold:</span> DR COGS, CR Finished Goods<br><br>
+Flow: <strong>Raw Mat → WIP → FG → COGS</strong>`
+  },
+  {
+    num: "Card 3 — Chapter 2",
+    frontTitle: "Variable vs. Fixed Cost Behavior",
+    front: `<table style="width:100%;border-collapse:collapse;margin:0.5rem 0;font-size:0.85rem;">
+<tr style="border-bottom:2px solid var(--accent)"><td></td><td><strong>Per Unit</strong></td><td><strong>Total</strong></td></tr>
+<tr style="border-bottom:1px solid #ddd"><td><strong>Variable</strong></td><td>SAME ✓</td><td>Changes ↕</td></tr>
+<tr><td><strong>Fixed</strong></td><td>Changes ↕</td><td>SAME ✓</td></tr>
+</table><br>
+<span class="key-point">Relevant Range</span> = the range of activity where FC stay fixed and VC/unit stays constant<br><br>
+❓ If told production goes up, what happens to total FC? Total VC? FC per unit? VC per unit?`,
+    backTitle: "Tricky Exam Scenarios",
+    back: `If production <strong>increases</strong>:<br>
+• Total FC → <strong>stays the same</strong><br>
+• Total VC → <strong>increases</strong><br>
+• FC per unit → <strong>decreases</strong> (spread over more units)<br>
+• VC per unit → <strong>stays the same</strong><br><br>
+<strong>Rosland Graphics example:</strong> Mostly FC + lower volume = higher cost per unit → loss even at same price.<br><br>
+Total Cost = FC + (VC/unit × Activity Level)`
+  },
+  {
+    num: "Card 4 — Chapter 3",
+    frontTitle: "Cost Estimation Methods (Conceptual)",
+    front: `<span class="key-point">Account Analysis</span> — managers classify each account as FC, VC, or mixed. Subjective.<br><br>
+<span class="key-point">High-Low Method</span> — uses only 2 data points (highest & lowest activity)<br>
+<span class="formula">VC/unit = (Cost_H − Cost_L) ÷ (Act_H − Act_L)</span><br>
+<span class="formula">FC = Total Cost − (VC/unit × Activity)</span><br><br>
+<span class="key-point">Scatter Plot</span> — visualizes all data points, good for spotting outliers<br><br>
+<span class="key-point">Regression</span> — line of best fit using ALL data points`,
+    backTitle: "Regression & Mixed Costs",
+    back: `<strong>R² (R-squared)</strong> = how well the model fits (0 to 1). Higher = better. Measures economic plausibility.<br><br>
+<strong>t-statistic</strong> = whether the cost driver is statistically significant. Higher absolute value = more significant.<br><br>
+<strong>Mixed Cost</strong> = has BOTH fixed and variable parts<br>
+<span class="formula">y = a + bx</span><br>
+(Total Cost = Fixed + Variable × Activity)<br><br>
+⚠️ High-low is <strong>risky</strong> if the 2 points are outliers. Regression is more reliable.`
+  },
+  {
+    num: "Card 5 — Chapter 4",
+    frontTitle: "CVP Core Formulas — Breakeven & Target Profit",
+    front: `<span class="formula">CM/unit = SP − VC/unit</span><br>
+<span class="formula">CM Ratio = CM ÷ Revenue</span><br><br>
+<span class="key-point">Breakeven (OI = $0):</span><br>
+<span class="formula">BEP units = FC ÷ CM/unit</span><br>
+<span class="formula">BEP $ = FC ÷ CM ratio</span><br><br>
+<span class="key-point">Target Operating Income:</span><br>
+<span class="formula">Units = (FC + Target OI) ÷ CM/unit</span><br><br>
+<span class="key-point">Target Net Income (after tax):</span><br>
+<span class="formula">Pre-tax OI = Target NI ÷ (1 − tax rate)</span><br>
+<span class="formula">Units = (FC + Pre-tax OI) ÷ CM/unit</span>`,
+    backTitle: "Step-by-Step Process",
+    back: `<strong>Every CVP problem:</strong><br>
+1️⃣ Find CM/unit = SP − VC/unit<br>
+2️⃣ Identify FC and what you're solving for<br>
+3️⃣ Plug into the right formula<br><br>
+<strong>After-tax trick:</strong><br>
+"Gross up" the net income: divide by (1 − tax rate)<br>
+Example: $63,000 NI at 30% tax → $63,000 ÷ 0.70 = $90,000 pre-tax OI<br><br>
+<strong>For sales dollars:</strong> multiply units × SP<br>
+OR use: (FC + TOI) ÷ CM ratio`
+  },
+  {
+    num: "Card 6 — Chapter 4",
+    frontTitle: "DOL, Margin of Safety & Sensitivity Analysis",
+    front: `<span class="key-point">Degree of Operating Leverage:</span><br>
+<span class="formula">DOL = CM ÷ Operating Income</span><br>
+<span class="formula">% Δ in OI = DOL × % Δ in Sales</span><br><br>
+<span class="key-point">Margin of Safety:</span><br>
+<span class="formula">MoS = Actual Sales − BEP Sales</span><br>
+(How far sales can drop before hitting breakeven)<br><br>
+<span class="key-point">Sensitivity Analysis</span> = testing "what-if" scenarios by changing one variable at a time`,
+    backTitle: "DOL — What to Remember",
+    back: `<strong>Higher FC → Higher DOL → More risk & reward</strong><br>
+<strong>Lower FC → Lower DOL → Less risk & reward</strong><br><br>
+Example: DOL = 3.50, sales ↑ 20%<br>
+→ OI increases 3.50 × 20% = <strong>70%</strong><br>
+→ New OI = Old OI × 1.70<br><br>
+⚠️ DOL also works in reverse — a sales <em>decrease</em> is magnified too!<br><br>
+If FC <strong>increase</strong> → DOL <strong>increases</strong><br>
+If FC <strong>decrease</strong> → DOL <strong>decreases</strong>`
+  },
+  {
+    num: "Card 7 — Chapter 4",
+    frontTitle: "Multiple Products — WACM & Sales Mix",
+    front: `When selling multiple products, use <span class="key-point">Weighted Average CM</span>:<br><br>
+<span class="formula">WACM = Σ (CM_i × Sales Mix %_i)</span><br>
+<span class="formula">BEP total units = FC ÷ WACM</span><br><br>
+Then split by mix:<br>
+<span class="formula">Product units = Total BEP × that product's mix %</span><br><br>
+❓ Can also be set up as "packages" — if mix is 2:1, one package = 2 of A + 1 of B. CM per package = 2(CM_A) + 1(CM_B).`,
+    backTitle: "Example Walkthrough",
+    back: `<strong>Product M</strong>: SP $12, VC $7, CM = $5, Mix = 2<br>
+<strong>Product Q</strong>: SP $15, VC $10, CM = $5, Mix = 1<br>
+FC = $60,000<br><br>
+Package approach: 1 pkg = 2M + 1Q<br>
+CM per pkg = 2($5) + 1($5) = <strong>$15</strong><br>
+BEP packages = $60,000 ÷ $15 = <strong>4,000 pkgs</strong><br>
+Product M = 4,000 × 2 = <strong>8,000 units</strong><br>
+Product Q = 4,000 × 1 = <strong>4,000 units</strong><br><br>
+OR use WACM: (2/3 × $5) + (1/3 × $5) = $5<br>
+BEP = $60,000 ÷ $5 = 12,000 total → M = 8,000`
+  },
+  {
+    num: "Card 8 — Chapter 5",
+    frontTitle: "Relevant Costs, Sunk Costs & Opportunity Costs",
+    front: `<span class="key-point">Relevant Costs</span> = Expected FUTURE costs that DIFFER between alternatives<br><br>
+<span class="key-point">Sunk Costs</span> = Past costs already incurred<br>
+→ ALWAYS <strong>irrelevant</strong> — cannot be changed<br><br>
+<span class="key-point">Opportunity Cost</span> = Benefit foregone from the next-best alternative<br>
+→ <strong>Relevant</strong> to decisions<br>
+→ NOT in the general ledger (never actually incurred)<br><br>
+❓ Can be added to "make" cost OR subtracted from "buy" cost — same answer either way`,
+    backTitle: "Identifying Relevant vs. Irrelevant",
+    back: `<strong>Ask two questions:</strong><br>
+1. Is it a FUTURE cost? (Not sunk/past)<br>
+2. Does it DIFFER between options?<br><br>
+Both YES → <strong>Relevant</strong> ✅<br>
+Either NO → <strong>Irrelevant</strong> ❌<br><br>
+Examples:<br>
+• Lunch provided either way → Irrelevant (doesn't differ)<br>
+• Travel costs (only if in-person) → Relevant (differs)<br>
+• Equipment already bought → Irrelevant (sunk)<br>
+• Avoidable supervisor salary → Relevant (differs)`
+  },
+  {
+    num: "Card 9 — Chapter 5",
+    frontTitle: "Make-or-Buy & Special Orders",
+    front: `<span class="key-point">Make or Buy (Insource vs. Outsource):</span><br>
+<span class="formula">Relevant cost to make = VC + Avoidable FC</span><br>
+Compare to supplier's price:<br>
+• If make cost < buy price → <strong>Make</strong><br>
+• If make cost > buy price → <strong>Buy</strong> (+ consider qualitative factors)<br><br>
+<span class="key-point">Special Orders:</span><br>
+Accept if: <span class="formula">Special price > Relevant cost/unit</span><br>
+(Usually just VC if there's idle capacity — FC are irrelevant)`,
+    backTitle: "Make-or-Buy with Opportunity Cost",
+    back: `If freed-up space can generate income:<br><br>
+<strong>Method A:</strong> Add opportunity cost to "make" cost<br>
+Relevant make = VC + Avoidable FC + (Opp Cost ÷ units)<br><br>
+<strong>Method B:</strong> Subtract opportunity cost from "buy" cost<br>
+Relevant buy = Purchase price − (Opp Cost ÷ units)<br><br>
+<strong>Same conclusion either way!</strong><br><br>
+Qualitative factors to consider:<br>
+• Supplier quality & reliability<br>
+• Loss of control over production<br>
+• Core competency concerns<br>
+• Contract length & price stability`
+  },
+  {
+    num: "Card 10 — Chapter 5",
+    frontTitle: "Keep vs. Drop & Three Types of Fixed Costs",
+    front: `<span class="key-point">Segment Margin</span> = CM − Direct (Avoidable) FC<br><br>
+<strong>Rule:</strong> If Segment Margin > 0 → <strong>KEEP</strong><br>
+(Even if operating income is negative after allocated FC!)<br><br>
+<span class="key-point">3 Types of Fixed Costs:</span><br>
+<strong>Direct FC</strong> — tied to one segment (supervisor salary, dedicated equipment). Usually <strong>AVOIDABLE</strong>.<br>
+<strong>Common FC</strong> — shared (factory rent, property tax). <strong>UNAVOIDABLE</strong>.<br>
+<strong>Allocated FC</strong> — HQ costs assigned to segments (HR, IT, CEO). <strong>UNAVOIDABLE</strong> — just reallocated if dropped.`,
+    backTitle: "Keep vs. Drop Example",
+    back: `<strong>Wild Division:</strong><br>
+Sales $80,000 − VC $50,000 = CM $30,000<br>
+Direct FC: $15,000 (avoidable)<br>
+Allocated FC: $30,000 (unavoidable)<br><br>
+Segment Margin = $30,000 − $15,000 = <strong>+$15,000</strong><br>
+→ <strong>KEEP!</strong><br><br>
+OI = $30,000 − $45,000 = −$15,000 (loss)<br>
+But that loss includes $30K of allocated FC that <strong>won't go away</strong> if dropped.<br><br>
+Dropping it loses $15,000 of segment margin that was helping cover those allocated costs.`
+  }
+];
+
+const grid = document.getElementById('cards');
+
+cards.forEach((card, i) => {
+  const el = document.createElement('div');
+  el.className = 'notecard';
+  el.onclick = () => el.classList.toggle('flipped');
+  el.innerHTML = `
+    <div class="notecard-inner">
+      <div class="notecard-front">
+        <div class="card-number">${card.num}</div>
+        <div class="card-title">${card.frontTitle}</div>
+        <div class="card-content">${card.front}</div>
+        <div class="flip-hint">tap to flip →</div>
+      </div>
+      <div class="notecard-back">
+        <div class="card-number">${card.num} — Answer Side</div>
+        <div class="card-title">${card.backTitle}</div>
+        <div class="card-content">${card.back}</div>
+        <div class="flip-hint">← tap to flip back</div>
+      </div>
+    </div>
+  `;
+  grid.appendChild(el);
+});
+</script>
+
+</body>
+</html>

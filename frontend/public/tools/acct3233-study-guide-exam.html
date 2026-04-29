@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internal Audit Exam Prep – ACCT 3233/7233</title>
+<style>
+  :root {
+    --purple: #4a1d96;
+    --purple-mid: #6d28d9;
+    --gold: #f59e0b;
+    --gold-light: #fde68a;
+    --bg: #f5f3ff;
+    --white: #ffffff;
+    --text: #1e1b4b;
+    --correct: #059669;
+    --wrong: #dc2626;
+    --gray: #e5e7eb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); }
+  header {
+    background: linear-gradient(135deg, #2e1065, #4a1d96);
+    color: white; text-align: center; padding: 2rem 1rem;
+    border-bottom: 4px solid var(--gold);
+  }
+  header h1 { font-size: 1.9rem; font-weight: 800; }
+  header p { color: var(--gold-light); margin-top: .4rem; font-size: .95rem; }
+
+  nav {
+    display: flex; justify-content: center; gap: .5rem; flex-wrap: wrap;
+    background: #3b0764; padding: .75rem 1rem;
+    position: sticky; top: 0; z-index: 100;
+  }
+  nav button {
+    background: transparent; border: 2px solid var(--gold);
+    color: var(--gold); padding: .4rem 1rem; border-radius: 20px;
+    cursor: pointer; font-size: .85rem; font-weight: 600;
+    transition: all .2s;
+  }
+  nav button:hover, nav button.active {
+    background: var(--gold); color: #1e1b4b;
+  }
+
+  .page { display: none; max-width: 960px; margin: 0 auto; padding: 2rem 1rem; }
+  .page.active { display: block; }
+
+  h2 { color: var(--purple); font-size: 1.5rem; margin-bottom: 1.2rem; border-left: 4px solid var(--gold); padding-left: .75rem; }
+  h3 { color: var(--purple-mid); font-size: 1.1rem; margin: 1.2rem 0 .5rem; }
+
+  .card {
+    background: white; border-radius: 10px; padding: 1.2rem 1.4rem;
+    margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(74,29,150,.08);
+    border-left: 4px solid var(--purple-mid);
+  }
+  .card.gold { border-left-color: var(--gold); }
+  .card.green { border-left-color: var(--correct); }
+  .card.red { border-left-color: var(--wrong); }
+
+  .tag {
+    display: inline-block; background: var(--purple); color: white;
+    font-size: .72rem; font-weight: 700; padding: .15rem .5rem;
+    border-radius: 12px; margin-bottom: .5rem; letter-spacing: .5px;
+    text-transform: uppercase;
+  }
+  .tag.gold { background: var(--gold); color: #1e1b4b; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+  @media (max-width: 650px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  table { width: 100%; border-collapse: collapse; margin: .75rem 0; font-size: .9rem; }
+  th { background: var(--purple); color: white; padding: .6rem .75rem; text-align: left; }
+  td { padding: .5rem .75rem; border-bottom: 1px solid var(--gray); }
+  tr:nth-child(even) td { background: #f5f3ff; }
+
+  /* Quiz styles */
+  .q-block {
+    background: white; border-radius: 10px; padding: 1.3rem 1.5rem;
+    margin-bottom: 1.2rem; box-shadow: 0 2px 8px rgba(74,29,150,.08);
+  }
+  .q-num { color: var(--gold); font-weight: 800; font-size: .85rem; margin-bottom: .4rem; }
+  .q-text { font-weight: 600; margin-bottom: .8rem; line-height: 1.5; }
+  .q-opts label {
+    display: block; padding: .45rem .75rem; margin: .3rem 0;
+    border: 2px solid var(--gray); border-radius: 8px; cursor: pointer;
+    transition: border-color .2s; font-size: .95rem;
+  }
+  .q-opts label:hover { border-color: var(--purple-mid); }
+  .q-opts input[type=radio] { margin-right: .5rem; }
+  .q-opts label.correct { border-color: var(--correct); background: #ecfdf5; }
+  .q-opts label.wrong { border-color: var(--wrong); background: #fef2f2; }
+  .explanation {
+    display: none; margin-top: .75rem; padding: .75rem; background: #f5f3ff;
+    border-radius: 8px; font-size: .9rem; border-left: 3px solid var(--purple-mid);
+  }
+  .explanation.show { display: block; }
+
+  .quiz-controls { text-align: center; margin: 1.5rem 0; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    background: var(--purple); color: white; border: none;
+    padding: .65rem 1.8rem; border-radius: 25px; cursor: pointer;
+    font-size: .95rem; font-weight: 700; transition: background .2s;
+  }
+  .btn:hover { background: var(--purple-mid); }
+  .btn.gold { background: var(--gold); color: #1e1b4b; }
+  .btn.gold:hover { background: #d97706; color: white; }
+
+  .score-box {
+    background: var(--purple); color: white; border-radius: 12px;
+    padding: 1.5rem 2rem; text-align: center; margin: 1rem 0;
+    display: none;
+  }
+  .score-box .big { font-size: 3rem; font-weight: 900; color: var(--gold); }
+  .score-box p { margin-top: .4rem; font-size: 1rem; }
+
+  .key-term { font-weight: 700; color: var(--purple-mid); }
+  ul { padding-left: 1.2rem; }
+  ul li { margin: .3rem 0; line-height: 1.5; }
+  .callout {
+    background: #fffbeb; border: 1px solid var(--gold); border-radius: 8px;
+    padding: .8rem 1rem; margin: .8rem 0; font-size: .92rem;
+  }
+  .callout strong { color: #92400e; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 Internal Audit Exam Prep</h1>
+  <p>ACCT 3233/7233 · LSU · IIA Standards, Cybersecurity Risk & ITGC Testing</p>
+</header>
+
+<nav>
+  <button class="active" onclick="show('guide')">Study Guide</button>
+  <button onclick="show('cyber')">Cybersecurity</button>
+  <button onclick="show('iia')">IIA Standards</button>
+  <button onclick="show('itgc')">ITGC Testing</button>
+  <button onclick="show('readings')">Readings</button>
+  <button onclick="show('quiz')">Practice Exam (60 Qs)</button>
+</nav>
+
+<!-- ==================== STUDY GUIDE ==================== -->
+<div id="guide" class="page active">
+  <h2>📋 Master Study Guide</h2>
+  <div class="callout"><strong>Exam Tips:</strong> 70 questions covering all 3 slide decks + 3 readings. Focus on definitions, frameworks, the IIA 2024 structure, CIA Triad, ITGC testing types, the Four C's of findings, and the <em>thematic connections</em> between Solzhenitsyn, Didion, Milgram and the IIA ethics principles.</div>
+
+  <div class="card gold">
+    <div class="tag gold">Big Picture</div>
+    <h3>The Three Topic Areas</h3>
+    <div class="grid-3">
+      <div><strong>1. IIA Standards</strong><br>2024 IPPF • 5 Domains • 15 Principles • 52 Standards • Topical Requirements</div>
+      <div><strong>2. Cybersecurity Risk</strong><br>CIA Triad • Attack surface • Defense in Depth • Org Pathologies • IIA Topical Req</div>
+      <div><strong>3. ITGC Testing</strong><br>Positive/Negative • TOD/TOE • Sampling • Risk Ratings • Finding Structure</div>
+    </div>
+  </div>
+
+  <h2>⚡ Quick-Reference Flash Facts</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="tag">IIA 2024 Architecture</div>
+      <ul>
+        <li><span class="key-term">5 Domains</span>, <span class="key-term">15 Principles</span>, <span class="key-term">52 Standards</span></li>
+        <li>Domain I – Purpose (Why we exist)</li>
+        <li>Domain II – Ethics & Professionalism</li>
+        <li>Domain III – Governing the Function</li>
+        <li>Domain IV – Managing the Function</li>
+        <li>Domain V – Performing Services</li>
+        <li>Old "Attribute" / "Performance" categories are <strong>gone</strong></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Domain I Purpose</div>
+      <p>Internal auditing provides <strong>4 services</strong>:</p>
+      <ul>
+        <li><span class="key-term">Assurance</span> – independent evaluation</li>
+        <li><span class="key-term">Advice</span> – recommendations to improve</li>
+        <li><span class="key-term">Insight</span> – deeper understanding</li>
+        <li><span class="key-term">Foresight</span> – anticipating emerging risks ⭐ NEW in 2024</li>
+      </ul>
+      <p style="margin-top:.5rem">Goal: create, protect, and <strong>sustain value</strong></p>
+    </div>
+    <div class="card">
+      <div class="tag">Domain II – 5 Ethics Principles</div>
+      <ul>
+        <li><strong>P1</strong> – Demonstrate <span class="key-term">Integrity</span> (Kant's categorical imperative)</li>
+        <li><strong>P2</strong> – Maintain <span class="key-term">Objectivity</span> (Husserl's epoché – bracket assumptions)</li>
+        <li><strong>P3</strong> – Demonstrate <span class="key-term">Competency</span> (Aristotle's phronesis – practical wisdom)</li>
+        <li><strong>P4</strong> – Exercise <span class="key-term">Due Professional Care</span> (Hume – can't test everything)</li>
+        <li><strong>P5</strong> – Maintain <span class="key-term">Confidentiality</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Domain III – Governance</div>
+      <ul>
+        <li><strong>P6</strong> – Authorized by the Board (charter = source of authority)</li>
+        <li><strong>P7</strong> – Positioned Independently (CAE reports to board)</li>
+        <li><strong>P8</strong> – Overseen by the Board</li>
+        <li>Most significant change in 2024 – boards have explicit responsibilities</li>
+        <li>Defines "Essential Conditions" boards must provide</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Domain IV – Managing</div>
+      <ul>
+        <li><strong>P9</strong> – Plan Strategically (risk-based)</li>
+        <li><strong>P10</strong> – Manage Resources</li>
+        <li><strong>P11</strong> – Communicate Effectively</li>
+        <li><strong>P12</strong> – Enhance Quality (QAIP required)</li>
+        <li>External Quality Assessment every <strong>5 years</strong>, requires active CIA</li>
+        <li>No more "audit everything every 3 years" cyclical approach</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Domain V – Performing Services</div>
+      <ul>
+        <li><strong>P13</strong> – Plan Engagements</li>
+        <li><strong>P14</strong> – Conduct Work (Four C's of Findings)</li>
+        <li><strong>P15</strong> – Communicate & Monitor</li>
+        <li>New term: <span class="key-term">"conclusion"</span> replaces "opinion"</li>
+        <li>Engagement effort split: Planning 20-30% / Fieldwork 40-50% / Reporting 15-20% / F/U ongoing</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card gold">
+    <div class="tag gold">⭐ Must Memorize</div>
+    <h3>The Four C's of Findings (Domain V)</h3>
+    <div class="grid-2">
+      <div>
+        <ul>
+          <li><span class="key-term">Condition</span> – What IS (the actual situation found)</li>
+          <li><span class="key-term">Criteria</span> – What SHOULD BE (the standard/policy)</li>
+          <li><span class="key-term">Cause</span> – WHY the gap exists</li>
+          <li><span class="key-term">Consequence</span> – WHY it matters (the risk/impact)</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Three Lines Model:</strong></p>
+        <ul>
+          <li><strong>1st Line</strong> – Management (owns risk day-to-day)</li>
+          <li><strong>2nd Line</strong> – Risk & Compliance (monitors/supports)</li>
+          <li><strong>3rd Line</strong> – Internal Audit (independent assurance to board)</li>
+          <li>Governing Body – accountability to stakeholders</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h2>🔒 Cybersecurity Risk Key Concepts</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="tag">CIA Triad</div>
+      <ul>
+        <li><span class="key-term">Confidentiality</span> – only authorized access; threats: breaches, eavesdropping</li>
+        <li><span class="key-term">Integrity</span> – accurate, unaltered data; threats: tampering, MITM attacks</li>
+        <li><span class="key-term">Availability</span> – accessible when needed; threats: DDoS, ransomware</li>
+      </ul>
+      <div class="callout" style="margin-top:.5rem"><strong>Audit tip:</strong> Every control should map to ≥1 CIA objective</div>
+    </div>
+    <div class="card">
+      <div class="tag">Why Cyber Risk is Different</div>
+      <ul>
+        <li><span class="key-term">Adversarial</span> – intelligent actor actively probes (not passive like market risk)</li>
+        <li><span class="key-term">Asymmetric</span> – attacker needs 1 weakness; defender must protect everything</li>
+        <li><span class="key-term">Evolving</span> – threat landscape changes daily</li>
+        <li><span class="key-term">Invisible</span> – breaches often undetected for months</li>
+        <li><span class="key-term">Interconnected</span> – your security = your vendors' security</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Defense in Depth Layers</div>
+      <ul>
+        <li><strong>Preventive</strong> – firewalls, patching, encryption, access controls</li>
+        <li><strong>Detective</strong> – SIEM, IDS/IPS, log monitoring, anomaly detection</li>
+        <li><strong>Corrective</strong> – incident response, backup/restore, DR</li>
+        <li>Layers: Network → Endpoint → Application → Data → Human → Governance</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">4 Organizational Pathologies</div>
+      <ul>
+        <li><strong>#1 Ownership Gap</strong> – no one knows who owns a system (e.g., Target 2013 HVAC vendor)</li>
+        <li><strong>#2 Security vs. Business</strong> – speed vs. control; CISO reporting line matters</li>
+        <li><strong>#3 Compliance Trap</strong> – compliance ≠ security (Equifax was PCI compliant when breached)</li>
+        <li><strong>#4 Learned Helplessness</strong> – "if they want in, they'll get in" fatalism; fundamentals still matter</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="tag">IIA Cybersecurity Topical Requirement</div>
+    <div class="grid-3">
+      <div><strong>Released:</strong> Feb 5, 2025<br><strong>Effective:</strong> Feb 5, 2026<br><strong>First</strong> Topical Requirement under 2024 IPPF<br>Maps to NIST & COBIT</div>
+      <div><strong>When it applies:</strong><br>• Cybersecurity is in audit plan<br>• Cyber risks emerge during engagement<br>• Management/board requests cyber audit</div>
+      <div><strong>3 Domains:</strong><br>• Governance<br>• Risk Management<br>• Controls<br><br>Must document applicability & rationale for exclusions</div>
+    </div>
+  </div>
+
+  <h2>🖥️ ITGC Testing Key Concepts</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="tag">Positive vs. Negative Testing</div>
+      <ul>
+        <li><span class="key-term">Positive</span> – "Did the control work when it should?" → Testing the happy path (verifying approvals, timelines)</li>
+        <li><span class="key-term">Negative</span> – "Did the control block what it should?" → Testing guardrails (can terminated users log in? self-approve?)</li>
+        <li><strong>Key point:</strong> Positive testing alone creates false confidence</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Test of Design (TOD)</div>
+      <p>Evaluates if the control <em>can</em> work (the blueprint):</p>
+      <ul>
+        <li><span class="key-term">Precision</span> – is the control specific enough?</li>
+        <li><span class="key-term">Completeness</span> – does it cover all scenarios?</li>
+        <li><span class="key-term">Authority</span> – are the right people involved?</li>
+      </ul>
+      <p style="margin-top:.4rem"><em>"A flawed blueprint can never produce a sound structure"</em></p>
+    </div>
+    <div class="card">
+      <div class="tag">Design vs. OE Failures</div>
+      <ul>
+        <li><span class="key-term">Design Failure</span> – control CAN'T work; blueprint is flawed. Remedy: process redesign</li>
+        <li><span class="key-term">OE Failure</span> – control DIDN'T work; good design, bad execution. Remedy: training, monitoring, automation</li>
+        <li><strong>Critical:</strong> Don't prescribe training for a design problem</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Sampling Framework</div>
+      <ul>
+        <li><span class="key-term">Random</span> – equal probability; good for large homogeneous populations</li>
+        <li><span class="key-term">Stratified</span> – subgroups by risk; best practice with census for high-risk strata</li>
+        <li><span class="key-term">Haphazard</span> – judgment-based; not statistically valid</li>
+        <li><span class="key-term">Census</span> – 100% testing; use for critical controls, small populations</li>
+        <li>Privileged users, SoD conflicts → census (100%)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card gold">
+    <div class="tag gold">Sample Size Table (AICPA/PCAOB Guidance)</div>
+    <table>
+      <tr><th>Frequency</th><th>Low Risk</th><th>Moderate Risk</th><th>High Risk</th></tr>
+      <tr><td>Annual</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>Quarterly</td><td>2</td><td>2-3</td><td>4</td></tr>
+      <tr><td>Monthly</td><td>2-3</td><td>4-6</td><td>8-12</td></tr>
+      <tr><td>Weekly</td><td>5-9</td><td>10-15</td><td>20-25</td></tr>
+      <tr><td>Daily</td><td>10-15</td><td>20-30</td><td>40-60</td></tr>
+      <tr><td>Per occurrence</td><td>25</td><td>40</td><td>60</td></tr>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="tag">Risk Ratings (External vs. Internal)</div>
+      <p><strong>External (SOX/PCAOB):</strong></p>
+      <ul>
+        <li><span class="key-term">Material Weakness</span> – reasonable possibility of material misstatement → adverse ICFR opinion</li>
+        <li><span class="key-term">Significant Deficiency</span> – less than MW but merits attention → report to Audit Committee</li>
+        <li><span class="key-term">Control Deficiency</span> – design/operation gap</li>
+      </ul>
+      <p style="margin-top:.5rem"><strong>Internal (IIA-aligned):</strong> Critical/High, Medium, Low</p>
+    </div>
+    <div class="card">
+      <div class="tag">Assurance vs. Advisory Services</div>
+      <p><strong>Assurance:</strong> 3 parties (auditor, auditee, stakeholders); auditor sets scope; formal conclusions; skepticism default. Examples: SOX testing, compliance reviews</p>
+      <p style="margin-top:.5rem"><strong>Advisory:</strong> 2 parties (auditor + client); client sets scope; recommendations only (no "opinion"); collaboration posture. Examples: M&A due diligence, process design</p>
+      <div class="callout" style="margin-top:.4rem"><strong>Warning:</strong> Advisory on a process may impair objectivity for future assurance on the same process</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="tag">Common Topical Requirements (New 2024 IPPF)</div>
+    <p>Mandatory when in scope. Effective 12 months after issuance. Must document which apply and rationale for any exclusions.</p>
+    <div class="grid-3" style="margin-top:.75rem">
+      <div><strong>Cybersecurity</strong> – governance, risk, controls, incident response</div>
+      <div><strong>IT Governance</strong> – tech strategy, performance, risk</div>
+      <div><strong>Privacy Risk Management</strong> – GDPR, CCPA compliance</div>
+      <div><strong>Third-Party Management</strong> – vendor risk, due diligence</div>
+      <div><strong>Sustainability & ESG</strong> – climate, DEI metrics</div>
+      <div><strong>More coming…</strong> as risks evolve</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>⭐ Key Philosophical Connections (Your professor clearly loves these):</strong><br>
+    Integrity → Kant's Categorical Imperative | Objectivity → Husserl's Epoché | Competency → Aristotle's Phronesis | Due Care → Hume's Induction Problem | Findings → Heidegger's Aletheia (unconcealment/truth) | Standards → Plato's Forms
+  </div>
+</div>
+
+<!-- ==================== CYBERSECURITY ==================== -->
+<div id="cyber" class="page">
+  <h2>🔒 Cybersecurity Risk Deep Dive</h2>
+
+  <div class="card gold">
+    <div class="tag gold">Core Concept</div>
+    <p>Cyber risk is <strong>adversarial</strong> — an intelligent actor actively probes for weaknesses and adapts to your defenses. Most risks are passive; cyber risk is not. Hobbes: cyberspace is close to the "war of all against all."</p>
+  </div>
+
+  <h3>CIA Triad</h3>
+  <div class="grid-3">
+    <div class="card">
+      <div class="tag">Confidentiality</div>
+      <p>Info accessible only to authorized users. Protection against <strong>unauthorized disclosure</strong>.</p>
+      <p style="margin-top:.4rem"><em>Threats:</em> Data breaches, unauthorized access, eavesdropping</p>
+    </div>
+    <div class="card">
+      <div class="tag">Integrity</div>
+      <p>Info/systems accurate, complete, unaltered except by authorized actions. Protection against <strong>unauthorized modification</strong>.</p>
+      <p style="margin-top:.4rem"><em>Threats:</em> Data tampering, malware, man-in-the-middle attacks</p>
+    </div>
+    <div class="card">
+      <div class="tag">Availability</div>
+      <p>Info/systems accessible when needed. Protection against <strong>disruption</strong>.</p>
+      <p style="margin-top:.4rem"><em>Threats:</em> DDoS attacks, ransomware, system failures</p>
+    </div>
+  </div>
+
+  <h3>Modern Enterprise Attack Surfaces</h3>
+  <div class="grid-2">
+    <div class="card"><strong>On-Premises Infrastructure</strong> – data centers, servers, legacy systems. Often decades old, poorly documented.</div>
+    <div class="card"><strong>Cloud Services</strong> – IaaS, PaaS, SaaS. Shared responsibility models. Shadow IT proliferates faster than governance.</div>
+    <div class="card"><strong>Endpoints</strong> – laptops, mobile, IoT, printers, cameras. Each a potential entry point.</div>
+    <div class="card"><strong>Third-Party Connections</strong> – vendors, partners, APIs. Your security = your weakest vendor.</div>
+    <div class="card"><strong>Identity & Access</strong> – Active Directory, SSO, MFA, privileged accounts. "The keys to the kingdom."</div>
+    <div class="card"><strong>The Invisible Layer</strong> – shadow IT, personal devices, forgotten test systems. What you don't know CAN hurt you.</div>
+  </div>
+
+  <h3>Defense in Depth</h3>
+  <table>
+    <tr><th>Control Type</th><th>Purpose</th><th>Examples</th></tr>
+    <tr><td>Preventive</td><td>Stop attacks before they succeed</td><td>Firewalls, access controls, encryption, patching, security awareness</td></tr>
+    <tr><td>Detective</td><td>Identify attacks in progress or after</td><td>SIEM, IDS/IPS, log monitoring, anomaly detection, threat hunting</td></tr>
+    <tr><td>Corrective</td><td>Respond and recover</td><td>Incident response, backup/restore, disaster recovery, forensics</td></tr>
+  </table>
+
+  <h3>4 Organizational Pathologies</h3>
+  <div class="card red"><div class="tag">Pathology #1</div><strong>Ownership Gap</strong> – Who owns this system? Unowned systems don't get patched. Real example: Target 2013 breach via HVAC vendor. Audit: asset inventory, clear ownership assignment, orphan system process.</div>
+  <div class="card red"><div class="tag">Pathology #2</div><strong>Security vs. Business Tension</strong> – Business wants speed; security wants control. CISO reporting line signals organizational priorities. Shadow IT bypasses controls. Rational actors optimize for what's measured.</div>
+  <div class="card red"><div class="tag">Pathology #3</div><strong>The Compliance Trap</strong> – Compliance ≠ Security. Equifax, Target, Capital One were all compliant when breached. Attackers don't check compliance status. Organizations optimize for passing audits, not actual security.</div>
+  <div class="card red"><div class="tag">Pathology #4</div><strong>Learned Helplessness</strong> – "If they want in, they'll get in." Most breaches are NOT sophisticated — stolen credentials, phishing, unpatched systems. Verizon DBIR confirms: fundamentals prevent most breaches. Stoic wisdom: focus on what you can control.</div>
+
+  <h3>IIA Cybersecurity Topical Requirement (2025)</h3>
+  <table>
+    <tr><th>Domain</th><th>Focus Areas</th><th>Key Question</th></tr>
+    <tr><td>Governance</td><td>Board oversight, strategy, policies, roles, resource allocation</td><td>Does leadership own cybersecurity?</td></tr>
+    <tr><td>Risk Management</td><td>Asset ID/classification, threat assessment, risk appetite, third-party risk</td><td>Do they know what they're protecting?</td></tr>
+    <tr><td>Controls</td><td>IAM, network security, data protection, monitoring, incident response, DR</td><td>Are the controls actually working?</td></tr>
+  </table>
+</div>
+
+<!-- ==================== IIA STANDARDS ==================== -->
+<div id="iia" class="page">
+  <h2>📜 IIA 2024 Standards Deep Dive</h2>
+
+  <div class="card gold">
+    <div class="tag gold">Architecture</div>
+    <div class="grid-3">
+      <div style="text-align:center"><div style="font-size:2rem;font-weight:900;color:#4a1d96">5</div>Domains</div>
+      <div style="text-align:center"><div style="font-size:2rem;font-weight:900;color:#4a1d96">15</div>Principles</div>
+      <div style="text-align:center"><div style="font-size:2rem;font-weight:900;color:#4a1d96">52</div>Standards</div>
+    </div>
+    <p style="margin-top:.75rem;text-align:center">Old "Attribute" and "Performance" categories are <strong>eliminated</strong>. New structure is cleaner, governance-focused.</p>
+  </div>
+
+  <h3>All 15 Principles by Domain</h3>
+  <table>
+    <tr><th>Domain</th><th>#</th><th>Principle</th><th>Key Concept</th></tr>
+    <tr><td rowspan="1">I – Purpose</td><td>—</td><td>Why IA exists</td><td>Assurance, Advice, Insight, Foresight (NEW)</td></tr>
+    <tr><td rowspan="5">II – Ethics</td><td>P1</td><td>Integrity</td><td>Kant – categorical imperative; truthful even when difficult</td></tr>
+    <tr><td>P2</td><td>Objectivity</td><td>Husserl – epoché; bracket assumptions; manage confirmation bias</td></tr>
+    <tr><td>P3</td><td>Competency</td><td>Aristotle – phronesis; know what you don't know; use specialists</td></tr>
+    <tr><td>P4</td><td>Due Professional Care</td><td>Hume – can't test everything; sample intelligently; document reasoning</td></tr>
+    <tr><td>P5</td><td>Confidentiality</td><td>Protect info; breach once = never get candid info again</td></tr>
+    <tr><td rowspan="3">III – Governing</td><td>P6</td><td>Authorized by Board</td><td>Charter = source of authority; board approves mandate</td></tr>
+    <tr><td>P7</td><td>Positioned Independently</td><td>CAE reports functionally to board; structural independence</td></tr>
+    <tr><td>P8</td><td>Overseen by Board</td><td>Board approves plan, budget, resources; they're accountable too</td></tr>
+    <tr><td rowspan="4">IV – Managing</td><td>P9</td><td>Plan Strategically</td><td>Risk-based audit plan; dynamic, not cyclical</td></tr>
+    <tr><td>P10</td><td>Manage Resources</td><td>People, tech, budget; document when insufficient</td></tr>
+    <tr><td>P11</td><td>Communicate Effectively</td><td>Bidirectional; listen as much as inform</td></tr>
+    <tr><td>P12</td><td>Enhance Quality</td><td>QAIP; EQA every 5 years with active CIA required</td></tr>
+    <tr><td rowspan="3">V – Performing</td><td>P13</td><td>Plan Engagements</td><td>Understand activity, risk assessment, define scope, work program</td></tr>
+    <tr><td>P14</td><td>Conduct Work</td><td>Gather evidence, Four C's, recommendations, conclusions</td></tr>
+    <tr><td>P15</td><td>Communicate & Monitor</td><td>No surprises; confirm implementation; follow-up</td></tr>
+  </table>
+
+  <h3>Assurance vs. Advisory</h3>
+  <div class="grid-2">
+    <div class="card green">
+      <div class="tag">Assurance Services</div>
+      <ul>
+        <li>3 parties: auditor, auditee, stakeholders</li>
+        <li>Auditor determines scope</li>
+        <li>Results in formal <strong>conclusions</strong></li>
+        <li>Skepticism is the default posture</li>
+        <li>Examples: SOX testing, operational audits, compliance reviews</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Advisory Services</div>
+      <ul>
+        <li>2 parties: auditor + client</li>
+        <li>Client typically sets scope</li>
+        <li>Results in recommendations (no "opinion")</li>
+        <li>Collaboration is the posture</li>
+        <li>Examples: M&A due diligence, process design, training</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>The Engagement Lifecycle</h3>
+  <div class="grid-2">
+    <div class="card"><strong>Planning (20-30%)</strong> – Most audit failures are planning failures. Understand the business first. Talk to process owners early.</div>
+    <div class="card"><strong>Fieldwork (40-50%)</strong> – Document as you go. When something "feels off," dig. That instinct is often correct.</div>
+    <div class="card"><strong>Reporting (15-20%)</strong> – No surprises in the final report. Management responses are their words. "Conclusion" not "opinion."</div>
+    <div class="card"><strong>Follow-up (Ongoing)</strong> – An untracked recommendation is a wasted recommendation. This is where audit demonstrates it has teeth.</div>
+  </div>
+
+  <h3>The Three Lines Model</h3>
+  <table>
+    <tr><th>Line</th><th>Who</th><th>Role</th><th>Reports To</th></tr>
+    <tr><td>1st Line</td><td>Management (Operations, IT, HR)</td><td>Owns risk and controls day-to-day</td><td>Senior Management</td></tr>
+    <tr><td>2nd Line</td><td>Risk & Compliance (ERM, Legal, Security)</td><td>Supports, monitors, provides expertise</td><td>Senior Management</td></tr>
+    <tr><td>3rd Line</td><td>Internal Audit</td><td>Independent assurance on governance, risk, controls</td><td>Board/Audit Committee</td></tr>
+    <tr><td>Governing Body</td><td>Board</td><td>Accountability to stakeholders</td><td>Stakeholders</td></tr>
+  </table>
+  <div class="callout"><strong>Key:</strong> Lines should collaborate but maintain distinct roles. IA can rely on 2nd line work but must independently verify before reporting conclusions.</div>
+</div>
+
+<!-- ==================== ITGC ==================== -->
+<div id="itgc" class="page">
+  <h2>🖥️ ITGC Testing Deep Dive</h2>
+
+  <h3>Positive vs. Negative Testing</h3>
+  <div class="grid-2">
+    <div class="card green">
+      <div class="tag">Positive Testing</div>
+      <p><em>"Did the control work when it should have?"</em></p>
+      <p>Testing the <strong>happy path</strong>. Select legitimate transactions and verify approvals obtained, within timeframes, by authorized individuals, with proper documentation.</p>
+      <p style="margin-top:.5rem"><strong>Limitation:</strong> Positive testing alone creates false confidence. A control that approves everything but blocks nothing is useless.</p>
+    </div>
+    <div class="card red">
+      <div class="tag">Negative Testing</div>
+      <p><em>"Did the control prevent what it should have?"</em></p>
+      <p>Testing the <strong>guardrails</strong>. Attempt to bypass: Can terminated users log in? Can users self-approve? Does system block SoD violations? Are unauthorized changes rejected?</p>
+    </div>
+  </div>
+
+  <h3>Test of Design (TOD) – The Blueprint Test</h3>
+  <div class="card">
+    <p><strong>Core question:</strong> "If everyone followed this control perfectly, would it actually prevent or detect the risk?"</p>
+    <div class="grid-3" style="margin-top:.75rem">
+      <div><span class="key-term">Precision</span> – specific enough? "Manager approval" vs. "Direct manager via ServiceNow within 24 hours with documented justification"</div>
+      <div><span class="key-term">Completeness</span> – covers all scenarios? Contractors? Emergency access? Department transfers?</div>
+      <div><span class="key-term">Authority</span> – right people involved? Is a clerk approving executive access?</div>
+    </div>
+  </div>
+
+  <h3>Sampling Methods</h3>
+  <table>
+    <tr><th>Method</th><th>Description</th><th>When to Use</th><th>Limitation</th></tr>
+    <tr><td>Random</td><td>Equal probability; use random number generator</td><td>Large, homogeneous populations</td><td>May miss high-risk items by chance</td></tr>
+    <tr><td>Stratified</td><td>Divide into subgroups; sample by risk</td><td>Heterogeneous populations with risk strata</td><td>Requires understanding of risk factors</td></tr>
+    <tr><td>Haphazard</td><td>Without specific pattern; auditor judgment</td><td>Small populations; preliminary testing</td><td>Unconscious bias; not statistically valid</td></tr>
+    <tr><td>Census (100%)</td><td>Test entire population</td><td>Small populations; critical controls</td><td>Time-consuming; may not be practical</td></tr>
+  </table>
+  <div class="callout"><strong>Best Practice:</strong> Combine methods. Random for general population + 100% for privileged users + 100% for SoD conflicts.</div>
+
+  <h3>Design Failure vs. Operating Effectiveness Failure</h3>
+  <div class="grid-2">
+    <div class="card red">
+      <div class="tag">Design Failure</div>
+      <p>The control <strong>CAN'T work</strong>. The blueprint is flawed (policy doesn't exist, gaps, wrong approvers, SLA undefined).</p>
+      <p style="margin-top:.5rem">Even perfect execution won't prevent the risk.</p>
+      <p style="margin-top:.3rem"><strong>Remedy:</strong> Policy/process redesign</p>
+      <p style="margin-top:.3rem">⚠️ Don't prescribe training for a design problem!</p>
+    </div>
+    <div class="card">
+      <div class="tag">OE Failure</div>
+      <p>The control <strong>DIDN'T work</strong>. Good design, but execution failed (approvals missing, SLA breached, reviews not completed).</p>
+      <p style="margin-top:.5rem"><strong>Remedy:</strong> Training, monitoring, automation</p>
+    </div>
+  </div>
+
+  <h3>Audit Tick Marks</h3>
+  <table>
+    <tr><th>Symbol</th><th>Meaning</th><th>When to Use</th></tr>
+    <tr><td>✓</td><td>Tested, no exception</td><td>Attribute tested and passed</td></tr>
+    <tr><td>✗</td><td>Exception identified</td><td>Attribute tested and failed</td></tr>
+    <tr><td>N/A</td><td>Not applicable</td><td>Attribute doesn't apply to this item</td></tr>
+    <tr><td>T</td><td>Traced/Tied</td><td>Amount traced to source document</td></tr>
+    <tr><td>R</td><td>Recalculated</td><td>Calculation independently verified</td></tr>
+    <tr><td>I</td><td>Inquiry</td><td>Confirmed via inquiry</td></tr>
+    <tr><td>⊙</td><td>Inspected original</td><td>Viewed original document/screen</td></tr>
+    <tr><td>◊</td><td>Follow-up needed</td><td>Requires additional investigation</td></tr>
+  </table>
+
+  <h3>Finding Structure: External vs. Internal</h3>
+  <div class="grid-2">
+    <div class="card"><strong>External (Management Letter)</strong><br>Condition → Criteria → Cause → Effect → Recommendation<br>Tone: formal, regulatory. Generalized ("certain users"). High-level recommendations.</div>
+    <div class="card"><strong>Internal (Audit Finding)</strong><br>Observation Title → Background/Criteria → Observation → Risk/Impact → Recommendation (with owner + due date) → Management Response<br>Tone: collaborative. Named individuals. Specific actions with accountability.</div>
+  </div>
+
+  <h3>Risk Ratings</h3>
+  <table>
+    <tr><th>Rating (External)</th><th>Definition</th><th>Consequence</th></tr>
+    <tr><td>Material Weakness</td><td>Reasonable possibility material misstatement not prevented/detected</td><td>Adverse ICFR opinion</td></tr>
+    <tr><td>Significant Deficiency</td><td>Less than MW but merits oversight attention</td><td>Report to Audit Committee</td></tr>
+    <tr><td>Control Deficiency</td><td>Design/operation gap not reaching SD/MW level</td><td>Management letter</td></tr>
+  </table>
+
+  <h3>8 Rules for Audit Reporting Excellence</h3>
+  <div class="grid-2">
+    <div>
+      <ol style="padding-left:1.2rem">
+        <li>Lead with the headline (exception rate first)</li>
+        <li>Quantify everything ("3 of 127" not "several")</li>
+        <li>Separate fact from judgment</li>
+        <li>Define your population clearly</li>
+      </ol>
+    </div>
+    <div>
+      <ol start="5" style="padding-left:1.2rem">
+        <li>Show your math (elapsed time, calculation)</li>
+        <li>Acknowledge compensating factors</li>
+        <li>Make recommendations actionable</li>
+        <li>Write for the skeptic</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== READINGS ==================== -->
+<div id="readings" class="page">
+  <h2>📖 Readings Deep Dive</h2>
+  <div class="callout"><strong>Why these readings?</strong> Your professor paired them with the IIA Standards slides deliberately. Both essays address the same core problem: what happens to a person — and a profession — when integrity is abandoned for comfort. Read them through the lens of Principle 1 (Integrity) and Principle 2 (Objectivity).</div>
+
+  <!-- SOLZHENITSYN -->
+  <div class="card gold" style="margin-top:1.5rem">
+    <div class="tag gold">Reading 1</div>
+    <h3 style="margin-top:.3rem">Alexander Solzhenitsyn — "Live Not By Lies" (1974)</h3>
+    <p style="font-size:.9rem;color:#78350f;margin-top:.2rem">Written Moscow, February 12, 1974 — the day before his arrest and deportation from the Soviet Union. Circulated as <em>samizdat</em> (underground self-published literature).</p>
+  </div>
+
+  <h3>The Central Argument</h3>
+  <div class="card">
+    <p>Solzhenitsyn argues that totalitarian power sustains itself not primarily through overt violence, but through the daily participation of ordinary people in lies. Violence and lies are <strong>symbiotic</strong>: violence needs lies to maintain a respectable face; lies need violence to be enforced. But here is the key insight — violence cannot act on every person every day. All it demands is <strong>obedience to lies and daily participation in lies</strong>.</p>
+    <p style="margin-top:.6rem">Therefore, the simplest and most accessible act of resistance is <strong>personal non-participation in lies</strong>. Not revolution. Not mass protest. Just: refuse to say what you do not think.</p>
+  </div>
+
+  <h3>Key Concepts & Quotable Ideas</h3>
+  <div class="grid-2">
+    <div class="card">
+      <div class="tag">The Virus Metaphor</div>
+      <p>Lies are compared to a virus: they can survive only in a living organism. When people stop participating, the lies are rendered helpless and subside. The power of the system depends entirely on individual complicity.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Spiritual Independence vs. Servitude</div>
+      <p>Solzhenitsyn frames the choice starkly: every day presents a choice between <strong>spiritual independence</strong> (truth) or <strong>spiritual servitude</strong> (lies). There is no neutral ground. Even technically-minded people working in the sciences face this choice daily.</p>
+    </div>
+    <div class="card">
+      <div class="tag">The Fear Hierarchy</div>
+      <p>He observes that people don't even fear nuclear war or a third world war — but they deeply fear <strong>acts of civil courage</strong>: lagging behind the herd, taking one step alone, losing their job, their heating gas, their Moscow registration. Comfort is the prison.</p>
+    </div>
+    <div class="card">
+      <div class="tag">The Minimum Path</div>
+      <p>He explicitly calls this "the most moderate of all paths of resistance" — easier than Gandhi's civil disobedience, far easier than a hunger strike or self-immolation. The flames will not touch your body. Your family can still get black bread and fresh water. The bar is low — which makes the failure to clear it all the more damning.</p>
+    </div>
+    <div class="card">
+      <div class="tag">The Code of Conduct</div>
+      <p>He lists specific commitments: will not sign/write/print phrases that distort truth; will not utter them in public or private; will not cite out of context to please someone; will walk out of a meeting if a speaker tells lies; will not subscribe to publications that distort facts. The pattern, once started, applies itself to new cases.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Czechoslovakia & Collective Courage</div>
+      <p>He invokes Czechoslovakia — "betrayed and deceived by us" — as evidence that even an unarmed people with worthy hearts can stand up to tanks. And: if we are in thousands, they cannot do anything to anyone. If tens of thousands, we will not recognize our country. Individual choices aggregate into collective transformation.</p>
+    </div>
+  </div>
+
+  <div class="card" style="border-left-color:#dc2626">
+    <div class="tag" style="background:#dc2626">The Pushkin Closing</div>
+    <p>He ends with contempt for those too frightened to act, quoting Pushkin: <em>"What use to the herds the gifts of freedom? The scourge, and a yoke with tinkling bells — this is their heritage, bequeathed to every generation."</em> Those who choose comfort over truth have no right to complain about their suffocation — they are doing it to themselves.</p>
+  </div>
+
+  <h3>Connection to IIA Standards &amp; Audit Practice</h3>
+  <table>
+    <tr><th>Solzhenitsyn Concept</th><th>IIA / Audit Parallel</th></tr>
+    <tr><td>"Personal non-participation in lies"</td><td>Standard 1.1 – Acting Honestly and Courageously; never omitting material facts from findings</td></tr>
+    <tr><td>"Obedience to lies" as the crux of complicity</td><td>Softening findings to protect relationships; "reframing" unfavorable results at management's request</td></tr>
+    <tr><td>Violence needs lies; lies need participation</td><td>Fraudulent organizations depend on auditors who look the other way or document what they're told</td></tr>
+    <tr><td>Fear of civil courage (losing job/comfort)</td><td>Practitioner pressure: "could we reframe this?" — the auditor who backs down under pressure</td></tr>
+    <tr><td>Spiritual independence vs. servitude</td><td>Every audit engagement is a choice between objective reporting and management appeasement</td></tr>
+    <tr><td>The code of conduct list</td><td>The IIA Code of Ethics; the specific prohibitions in Standards 1.1, 2.1</td></tr>
+    <tr><td>Kant's categorical imperative (referenced in slides)</td><td>If all auditors softened findings, the profession collapses — same logic as Solzhenitsyn</td></tr>
+  </table>
+
+  <!-- DIDION -->
+  <div class="card gold" style="margin-top:2rem">
+    <div class="tag gold">Reading 2</div>
+    <h3 style="margin-top:.3rem">Joan Didion — "On Self-Respect" (1961)</h3>
+    <p style="font-size:.9rem;color:#78350f;margin-top:.2rem">Originally published in <em>Vogue</em>; later collected in <em>Slouching Towards Bethlehem</em>. Uses "negative definition" — defining the concept largely through what it is not.</p>
+  </div>
+
+  <h3>The Central Argument</h3>
+  <div class="card">
+    <p>Didion argues that self-respect is fundamentally an <strong>internal standard</strong>, having nothing to do with others' approval or reputation. Its source is <strong>character</strong> — the willingness to accept responsibility for one's own life. Without it, one becomes an unwilling audience to an interminable documentary of one's own failures, and eventually runs away from oneself to find no one at home.</p>
+    <p style="margin-top:.6rem">Self-deception, she argues, is the <strong>most difficult deception</strong> — far harder to overcome than deceiving others. The tricks that work on others count for nothing in the well-lit back alley where one keeps assignations with oneself.</p>
+  </div>
+
+  <h3>Key Concepts &amp; Quotable Ideas</h3>
+  <div class="grid-2">
+    <div class="card">
+      <div class="tag">The Opening Anecdote</div>
+      <p>She begins with not being elected to Phi Beta Kappa — a failure predictable, unambiguous. She had thought herself exempt from cause-and-effect relationships that hampered others. That day marked the end of something: the loss of the comfortable conviction that lights would always turn green for her.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Self-Respect ≠ Approval / Reputation</div>
+      <p>Self-respect has nothing to do with the approval of others — who are, after all, deceived easily enough. It has nothing to do with reputation, which, as Rhett Butler told Scarlett O'Hara, is something people with courage can do without. No winning smiles or prettily drawn lists of good intentions will do here.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Character as the Source</div>
+      <p>"Character — the willingness to accept responsibility for one's own life — is the source from which self-respect springs." People with self-respect have <strong>the courage of their mistakes</strong>: they do not seek absolution, do not complain unduly of unfairness. They exhibit moral nerve — what was once called character.</p>
+    </div>
+    <div class="card">
+      <div class="tag">The Interminable Documentary</div>
+      <p>To live without self-respect is to be an unwilling audience to a documentary of one's own failings — fresh footage spliced in for every screening. Counting the sins of commission and omission, the trusts betrayed, the promises broken, the gifts wasted through sloth or cowardice. Eventually one lies down alone in that notoriously uncomfortable bed we make ourselves.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Jordan Baker vs. Julian English</div>
+      <p>Jordan Baker (careless, dishonest in <em>The Great Gatsby</em>) had self-respect — she made her own peace, avoided threats to that peace. Julian English (careless, suicidal in <em>Appointment in Samarra</em>) did not. The paradox: the outwardly dishonest person had it; the seemingly respectable one was hollow. Self-respect is not correlated with conventional virtue.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Discipline as Practice</div>
+      <p>Self-respect is a <strong>discipline, a habit of mind</strong> — it can be developed, trained, coaxed forth. Small disciplines represent larger ones — not for the ritual itself but as a way of remembering who and what we are. It is difficult to continue fancying oneself Cathy in <em>Wuthering Heights</em> with one's head in a paper bag.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Alienation from Self</div>
+      <p>In its advanced stages, alienation from self means we no longer answer the telephone — someone might want something. We cannot say <em>no</em> without drowning in self-reproach. Every encounter demands too much. Without self-respect, one eventually runs away to find oneself and finds no one at home.</p>
+    </div>
+    <div class="card">
+      <div class="tag">The Intrinsic Worth Thesis</div>
+      <p>To have that sense of intrinsic worth is potentially to have everything: the ability to discriminate, to love, and to remain indifferent. To lack it is to be locked within oneself — paradoxically incapable of either love or indifference. Without it, we despise those who have so few resources as to consort with us.</p>
+    </div>
+  </div>
+
+  <h3>Connection to IIA Standards &amp; Audit Practice</h3>
+  <table>
+    <tr><th>Didion Concept</th><th>IIA / Audit Parallel</th></tr>
+    <tr><td>Self-respect ≠ approval of others</td><td>Principle 2 (Objectivity) — independence not just attitudinal but structural; not seeking management approval</td></tr>
+    <tr><td>Character = accepting responsibility for one's own life</td><td>Principle 1 (Integrity) — the willingness to own unfavorable findings without softening them</td></tr>
+    <tr><td>Discipline as habit of mind</td><td>Principle 4 (Due Professional Care) — skepticism not as instinct but as cultivated practice</td></tr>
+    <tr><td>Courage of one's mistakes</td><td>Auditors who acknowledge their own errors in prior work rather than burying them</td></tr>
+    <tr><td>The "interminable documentary"</td><td>The auditor who compromised integrity — each watered-down finding replays in professional memory</td></tr>
+    <tr><td>Small disciplines represent larger ones</td><td>Documentation rigor, tick marks, referencing every exhibit — small habits that hold when under pressure</td></tr>
+    <tr><td>Self-deception is the most difficult deception</td><td>Confirmation bias (Principle 2 — most dangerous bias is finding what you expect to find)</td></tr>
+  </table>
+
+  <h3>The Cross-Essay Synthesis</h3>
+  <div class="card gold">
+    <div class="tag gold">⭐ The Big Picture — Why Both Essays Together</div>
+    <div class="grid-2" style="margin-top:.75rem">
+      <div>
+        <p><strong>What they share:</strong></p>
+        <ul style="margin-top:.4rem">
+          <li>Both locate integrity in an <em>internal</em> standard, not external approval or consequences</li>
+          <li>Both identify complicity with comfortable falsehood as the central moral failure</li>
+          <li>Both argue the minimum act — simply refusing to say what you don't think / accepting responsibility — is within everyone's reach</li>
+          <li>Both connect individual choices to collective outcomes</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Applied to auditing:</strong></p>
+        <ul style="margin-top:.4rem">
+          <li>Solzhenitsyn: the auditor who softens a finding is participating in lies — the profession depends on non-participation</li>
+          <li>Didion: the auditor who seeks management approval lacks self-respect in the deepest sense — and will eventually find no one home</li>
+          <li>Together: the IIA's five ethics principles are not bureaucratic rules but descriptions of what an <em>integrated person</em> looks like — someone who has internalized Solzhenitsyn's refusal and Didion's discipline</li>
+          <li>Heidegger's aletheia (unconcealment) = Solzhenitsyn's insistence that the naked truth be allowed to appear naked</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:1rem">
+    <strong>Likely exam angle:</strong> Expect questions that ask you to connect a specific passage concept (the virus metaphor, the interminable documentary, Jordan Baker's self-respect) to an IIA principle or to the auditor's real-world situation. Your professor is testing whether you read with the slides in mind.
+  </div>
+</div>
+
+  <!-- MILGRAM -->
+  <div class="card gold" style="margin-top:2rem">
+    <div class="tag gold">Reading 3</div>
+    <h3 style="margin-top:.3rem">Stanley Milgram — "The Perils of Obedience" (1973)</h3>
+    <p style="font-size:.9rem;color:#78350f;margin-top:.2rem">Published in <em>Harper's Magazine</em>, December 1973. Adapted from <em>Obedience to Authority</em>. Written in direct response to Hannah Arendt's coverage of the Eichmann trial and her concept of the "banality of evil."</p>
+  </div>
+
+  <h3>The Central Argument</h3>
+  <div class="card">
+    <p>Milgram set out to test empirically what philosophers and historians had theorized: how far will ordinary people go when ordered to harm another person by an authority figure? His answer was disturbing — and directly relevant to anyone who works inside an institution. Most people will comply with harmful orders not because they are sadistic, but because they have entered what Milgram calls the <strong>agentic state</strong>: they come to view themselves as instruments of another's will, and therefore no longer hold themselves responsible for the content of their actions.</p>
+    <p style="margin-top:.6rem">This is, Milgram argues, the most fundamental lesson of his study: ordinary people, simply doing their jobs, without any particular hostility, can become agents in a terrible destructive process.</p>
+  </div>
+
+  <h3>The Experiment — Design & Results</h3>
+  <div class="grid-2">
+    <div class="card">
+      <div class="tag">The Setup</div>
+      <p>Two people come to a Yale psychology lab to take part in a study of "memory and learning." One is designated <strong>Teacher</strong> (the real, naïve subject); the other a <strong>Learner</strong> (actually an actor/confederate). The Learner is strapped into a chair with an electrode on his wrist. The Teacher sits before a shock generator with 30 switches ranging from 15 to 450 volts, labeled from "Slight Shock" through "Danger: Severe Shock" to simply "XXX."</p>
+      <p style="margin-top:.5rem">Each wrong answer from the Learner requires the Teacher to administer a shock of increasing intensity. The Learner — who receives no actual shock — follows a script: grunts at 75V, complains at 120V, demands to be released at 150V, goes silent after 330V.</p>
+    </div>
+    <div class="card">
+      <div class="tag">The Findings</div>
+      <p><strong>Predicted:</strong> Psychiatrists, college students, and middle-class adults all forecast that virtually all subjects would refuse. Psychiatrists specifically predicted only a pathological fringe of ~1 in 1,000 would reach 450 volts.</p>
+      <p style="margin-top:.5rem"><strong>Actual:</strong> <strong>25 of 40 subjects (62.5%) obeyed to the maximum 450-volt shock.</strong> Results replicated across Yale undergrads, New Haven community members, and internationally — Munich: 85% obedient. The result was the same regardless of social class, profession, or background.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Subject Profiles — Gretchen Brandt</div>
+      <p>A 31-year-old medical technician who had emigrated from Germany. At 210V she tells the experimenter firmly: "Well, I'm sorry, I don't think we should continue." When told she has no other choice, she replies: "I think we are here on our own free will. I don't want to be responsible for anything happening to him." She refuses — and the experiment is terminated. Milgram notes her behavior was "the very embodiment of what I envisioned would be true for almost all subjects."</p>
+    </div>
+    <div class="card">
+      <div class="tag">Subject Profiles — Fred Prozi</div>
+      <p>Unemployed, about 50. Becomes increasingly agitated as the voltage climbs but continues obeying. At 375V the subject stands up. Prozi insists something has happened to the man in there. He continues all the way to 450V — but not from indifference. He is visibly distressed, asking the experimenter who will take responsibility. The experimenter replies: "The responsibility is mine." Prozi continues. The subjects excused their behavior by saying responsibility belonged to the man who actually pulled the switch.</p>
+    </div>
+  </div>
+
+  <h3>Key Concepts</h3>
+  <div class="grid-2">
+    <div class="card">
+      <div class="tag">The Agentic State</div>
+      <p>The essence of obedience: a person comes to view himself as the <strong>instrument for carrying out another person's wishes</strong>, and therefore no longer regards himself as responsible for his actions. Once this critical shift of viewpoint has occurred, all the essential features of obedience follow. The subordinate's morality doesn't disappear — it acquires a radically different focus: shame or pride based on how adequately he has performed the actions called for by authority.</p>
+    </div>
+    <div class="card">
+      <div class="tag">The Banality of Evil (Arendt Connection)</div>
+      <p>Hannah Arendt contended that the prosecution's effort to depict Eichmann as a sadistic monster was wrong — he came closer to being an uninspired bureaucrat who simply sat at his desk and did his job. Milgram's data confirms: the ordinary person who shocked the victim did so out of a sense of obligation — an impression of his duties as a subject — and not from any peculiarly aggressive tendencies. <em>"The subjects do not derive satisfaction from inflicting pain, but they often like the feeling they get from pleasing the experimenter."</em></p>
+    </div>
+    <div class="card">
+      <div class="tag">Diffusion of Responsibility</div>
+      <p>In a variation where the subject only administered the word-pair test while another person pulled the shock lever, 37 of 40 adults continued to the highest level — excusing their behavior by saying responsibility belonged to the man who actually pulled the switch. This illustrates a dangerously typical arrangement in complex organizations: it is easy to ignore responsibility when one is only an intermediate link in a chain of action. No one is confronted with the full consequences of his decision to carry out the evil act.</p>
+    </div>
+    <div class="card">
+      <div class="tag">What Reduces Obedience</div>
+      <p><strong>Physical presence of authority:</strong> When orders were given by telephone instead of in person, obedience dropped to roughly one-third of normal levels.<br><br>
+      <strong>Conflicting authority:</strong> When two experimenters of equal status gave incompatible orders, no shocks were delivered past the point of their disagreement.<br><br>
+      <strong>Rebellious peers:</strong> When two other "teachers" (actors) disobeyed and refused to continue, 36 of 40 real subjects joined them and refused as well. One voice of dissent drastically changes the moral landscape.</p>
+    </div>
+  </div>
+
+  <h3>Connection to IIA Standards &amp; Audit Practice</h3>
+  <table>
+    <tr><th>Milgram Concept</th><th>IIA / Audit Parallel</th></tr>
+    <tr><td>The agentic state — "I'm just carrying out instructions"</td><td>Standard 1.1 (Integrity) — "I just did what the partner told me" is not a defense; auditors retain personal responsibility for their work</td></tr>
+    <tr><td>Diffusion of responsibility in a chain of action</td><td>In complex audit engagements, each person signs only one workpaper — but the collective failure belongs to all; "someone else checked it" is not sufficient</td></tr>
+    <tr><td>Obedience drops sharply without physical presence</td><td>Remote/hybrid audit teams; the importance of direct engagement with management rather than purely email/documentation trails</td></tr>
+    <tr><td>One rebellious peer collapses obedience</td><td>Speak-up culture; the IIA's expectation that auditors report impairments to independence; a single auditor voicing concern changes the room</td></tr>
+    <tr><td>Subjects comply out of duty, not sadism</td><td>Audit failures are rarely malicious — they are the product of incremental compliance: each small compromise feels manageable until the finding is unrecognizable</td></tr>
+    <tr><td>The banality of evil — bureaucrat at his desk</td><td>The auditor who processes 40 workpapers a day without engaging judgment is Eichmann at his desk — technically compliant, morally vacant</td></tr>
+    <tr><td>Experimenter's authority was fragile — no real power to enforce</td><td>Management pressure on audit findings is similarly fragile if the auditor simply refuses to capitulate; authority depends on the subject's continued consent</td></tr>
+  </table>
+
+  <h3>The Cross-Essay Synthesis — All Three Readings</h3>
+  <div class="card gold">
+    <div class="tag gold">⭐ The Big Picture — Why All Three Essays Together</div>
+    <div class="grid-2" style="margin-top:.75rem">
+      <div>
+        <p><strong>What they share:</strong></p>
+        <ul style="margin-top:.4rem">
+          <li>All three locate moral failure in <strong>ordinary people yielding to structure, authority, or the desire for approval</strong> — not in monsters or exceptional cases</li>
+          <li>All three argue the individual retains a genuine choice that determines their moral identity</li>
+          <li>Solzhenitsyn &amp; Didion: integrity is an <em>internal</em> standard, not calibrated to external approval</li>
+          <li>Milgram &amp; Solzhenitsyn: <strong>ordinary compliance</strong> enables large-scale harm — no malice required, only obedience</li>
+          <li>All three connect individual choices to collective outcomes — one person refusing changes the dynamic</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Applied to auditing:</strong></p>
+        <ul style="margin-top:.4rem">
+          <li><strong>Solzhenitsyn:</strong> the auditor who softens a finding is participating in lies — the profession depends on non-participation</li>
+          <li><strong>Didion:</strong> the auditor who seeks management approval lacks self-respect — and will eventually find no professional self at home</li>
+          <li><strong>Milgram:</strong> the auditor who says "I just followed the manager's direction" has entered the agentic state — responsibility does not transfer upward</li>
+          <li><strong>Together:</strong> the IIA's five ethics principles describe what an <em>integrated person</em> looks like — someone who refuses to participate in lies (Solzhenitsyn), derives standards from within (Didion), and refuses the agentic state (Milgram)</li>
+          <li>Heidegger's aletheia (unconcealment) = Solzhenitsyn's insistence that truth appear naked before the world = Milgram's subject who says "I won't do this" = Didion's discipline as habit of mind</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:1rem">
+    <strong>Likely exam angle:</strong> Expect questions that ask you to connect a specific concept (the agentic state, the banality of evil, diffusion of responsibility, peer disobedience) to an IIA principle or real audit situation. Also expect synthesis questions requiring you to compare all three readings — what they share, where they differ, and how together they define the ethical auditor.
+  </div>
+</div>
+
+<!-- ==================== QUIZ ==================== -->
+<div id="quiz" class="page">
+  <h2>📝 70-Question Practice Exam</h2>
+  <div class="callout" style="margin-bottom:1rem">
+    <strong>Instructions:</strong> Q1–50 cover the slide decks; Q51–60 cover Solzhenitsyn &amp; Didion; Q61–70 cover Milgram's "The Perils of Obedience" and all three reading connections to the IIA standards. Select your answer, then click "Submit Answers" at the bottom to see your score and explanations.
+  </div>
+
+  <div id="score-display" class="score-box">
+    <div class="big" id="score-text">0/70</div>
+    <p id="score-pct"></p>
+    <p id="score-msg"></p>
+  </div>
+
+  <div id="quiz-form">
+
+    <!-- Q1 -->
+    <div class="q-block">
+      <div class="q-num">Question 1 of 50 · IIA Standards</div>
+      <div class="q-text">The 2024 Global Internal Audit Standards consist of how many domains, principles, and standards?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q1" value="a"> 3 domains, 10 principles, 40 standards</label>
+        <label><input type="radio" name="q1" value="b"> 5 domains, 15 principles, 52 standards</label>
+        <label><input type="radio" name="q1" value="c"> 5 domains, 20 principles, 60 standards</label>
+        <label><input type="radio" name="q1" value="d"> 4 domains, 15 principles, 48 standards</label>
+      </div>
+      <div class="explanation" data-q="q1">✅ <strong>B is correct.</strong> The 2024 Standards have 5 Domains, 15 Principles, and 52 Standards. The old "Attribute" and "Performance" categories were eliminated.</div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-block">
+      <div class="q-num">Question 2 · IIA Standards</div>
+      <div class="q-text">Which of the following is a NEW addition to the stated purpose of internal auditing in the 2024 Standards?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q2" value="a"> Advice</label>
+        <label><input type="radio" name="q2" value="b"> Assurance</label>
+        <label><input type="radio" name="q2" value="c"> Foresight</label>
+        <label><input type="radio" name="q2" value="d"> Insight</label>
+      </div>
+      <div class="explanation" data-q="q2">✅ <strong>C is correct.</strong> "Foresight" — anticipating emerging risks and future challenges — is explicitly new in the 2024 Standards. The board now expects auditors to "see around corners."</div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-block">
+      <div class="q-num">Question 3 · IIA Standards</div>
+      <div class="q-text">Kant's categorical imperative is used to illustrate which IIA Principle?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q3" value="a"> Objectivity</label>
+        <label><input type="radio" name="q3" value="b"> Integrity</label>
+        <label><input type="radio" name="q3" value="c"> Competency</label>
+        <label><input type="radio" name="q3" value="d"> Due Professional Care</label>
+      </div>
+      <div class="explanation" data-q="q3">✅ <strong>B is correct.</strong> Kant's categorical imperative ("act only as you could will to become universal law") illustrates Integrity (Principle 1). If all auditors concealed findings to protect relationships, the profession would collapse.</div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-block">
+      <div class="q-num">Question 4 · IIA Standards</div>
+      <div class="q-text">Husserl's "epoché" — suspending assumptions to let evidence speak — is applied to illustrate which principle?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q4" value="a"> Integrity</label>
+        <label><input type="radio" name="q4" value="b"> Confidentiality</label>
+        <label><input type="radio" name="q4" value="c"> Objectivity</label>
+        <label><input type="radio" name="q4" value="d"> Competency</label>
+      </div>
+      <div class="explanation" data-q="q4">✅ <strong>C is correct.</strong> Husserl's epoché (bracketing assumptions) illustrates Objectivity (Principle 2). The most dangerous bias is confirmation bias — auditors must actively look for disconfirming evidence.</div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="q-block">
+      <div class="q-num">Question 5 · IIA Standards</div>
+      <div class="q-text">Aristotle's concept of "phronesis" (practical wisdom) is associated with which principle?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q5" value="a"> Competency</label>
+        <label><input type="radio" name="q5" value="b"> Integrity</label>
+        <label><input type="radio" name="q5" value="c"> Due Professional Care</label>
+        <label><input type="radio" name="q5" value="d"> Objectivity</label>
+      </div>
+      <div class="explanation" data-q="q5">✅ <strong>A is correct.</strong> Phronesis = practical wisdom through experience. Competency (P3) is not just certifications — it's the capacity to see what matters in a specific context and knowing when to use specialists.</div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="q-block">
+      <div class="q-num">Question 6 · IIA Standards</div>
+      <div class="q-text">Domain III of the 2024 Standards is considered the most significant change because it:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q6" value="a"> Eliminated all mandatory guidance</label>
+        <label><input type="radio" name="q6" value="b"> Explicitly assigns boards and senior management responsibilities for internal audit effectiveness</label>
+        <label><input type="radio" name="q6" value="c"> Introduced advisory services for the first time</label>
+        <label><input type="radio" name="q6" value="d"> Replaced the Three Lines Model with a new framework</label>
+      </div>
+      <div class="explanation" data-q="q6">✅ <strong>B is correct.</strong> Domain III defines "Essential Conditions" that boards and management must provide. It made explicit what was always implicit — boards have real accountability for internal audit effectiveness.</div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="q-block">
+      <div class="q-num">Question 7 · IIA Standards</div>
+      <div class="q-text">In the Three Lines Model, which line is responsible for independent assurance to the board?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q7" value="a"> First Line – Management</label>
+        <label><input type="radio" name="q7" value="b"> Second Line – Risk & Compliance</label>
+        <label><input type="radio" name="q7" value="c"> Third Line – Internal Audit</label>
+        <label><input type="radio" name="q7" value="d"> Governing Body – Board</label>
+      </div>
+      <div class="explanation" data-q="q7">✅ <strong>C is correct.</strong> Internal Audit is the Third Line and provides independent assurance on governance, risk management, and controls to the board. It tests both 1st and 2nd line effectiveness.</div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="q-block">
+      <div class="q-num">Question 8 · IIA Standards</div>
+      <div class="q-text">Which of the following correctly describes Assurance Services under the 2024 Standards?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q8" value="a"> Two parties; client sets scope; results in recommendations</label>
+        <label><input type="radio" name="q8" value="b"> Three parties; auditor sets scope; results in formal conclusions; skepticism default</label>
+        <label><input type="radio" name="q8" value="c"> Three parties; client sets scope; collaboration is posture</label>
+        <label><input type="radio" name="q8" value="d"> Two parties; auditor sets scope; results in formal opinions</label>
+      </div>
+      <div class="explanation" data-q="q8">✅ <strong>B is correct.</strong> Assurance: 3 parties (auditor, auditee, stakeholders); auditor determines scope; results in formal conclusions (not opinions); skepticism is default. Examples: SOX testing, compliance reviews.</div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="q-block">
+      <div class="q-num">Question 9 · IIA Standards</div>
+      <div class="q-text">Under Domain V, the 2024 Standards use which new term instead of "opinion"?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q9" value="a"> Finding</label>
+        <label><input type="radio" name="q9" value="b"> Assessment</label>
+        <label><input type="radio" name="q9" value="c"> Conclusion</label>
+        <label><input type="radio" name="q9" value="d"> Determination</label>
+      </div>
+      <div class="explanation" data-q="q9">✅ <strong>C is correct.</strong> The 2024 Standards use "conclusion" instead of "opinion" — a more accurate term for what audit work produces.</div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="q-block">
+      <div class="q-num">Question 10 · IIA Standards</div>
+      <div class="q-text">Topical Requirements are effective how long after issuance, and what must auditors document?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q10" value="a"> Immediately; no documentation required</label>
+        <label><input type="radio" name="q10" value="b"> 6 months after; only requirements that apply</label>
+        <label><input type="radio" name="q10" value="c"> 12 months after; which requirements apply and rationale for any exclusions</label>
+        <label><input type="radio" name="q10" value="d"> 24 months after; all requirements regardless of scope</label>
+      </div>
+      <div class="explanation" data-q="q10">✅ <strong>C is correct.</strong> Topical Requirements are effective 12 months after issuance. Auditors must document which requirements apply to each engagement and the rationale for any exclusions.</div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="q-block">
+      <div class="q-num">Question 11 · IIA Standards</div>
+      <div class="q-text">The External Quality Assessment (EQA) requirement under Standard 12.4 specifies:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q11" value="a"> Required annually; no specific personnel requirement</label>
+        <label><input type="radio" name="q11" value="b"> Required every 3 years; CAE must be a CIA</label>
+        <label><input type="radio" name="q11" value="c"> Required every 5 years; at least one team member must be an active CIA</label>
+        <label><input type="radio" name="q11" value="d"> Required every 5 years; no personnel requirement</label>
+      </div>
+      <div class="explanation" data-q="q11">✅ <strong>C is correct.</strong> EQA is required every 5 years, and at least one team member must be an active CIA. This is now explicitly stated in Standard 12.4.</div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="q-block">
+      <div class="q-num">Question 12 · IIA Standards</div>
+      <div class="q-text">Heidegger's concept of "aletheia" (unconcealment/truth) is applied to illustrate:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q12" value="a"> The role of the audit committee</label>
+        <label><input type="radio" name="q12" value="b"> The audit finding as an act of bringing hidden things to light</label>
+        <label><input type="radio" name="q12" value="c"> The importance of documentation</label>
+        <label><input type="radio" name="q12" value="d"> The need for independence</label>
+      </div>
+      <div class="explanation" data-q="q12">✅ <strong>B is correct.</strong> Aletheia (ἀλήθεια) means unconcealment — truth as bringing what is hidden into the open. An audit finding is an act of unconcealment: making visible what the organization could not see about itself.</div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="q-block">
+      <div class="q-num">Question 13 · IIA Standards</div>
+      <div class="q-text">Providing advisory services on a process may:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q13" value="a"> Enhance future assurance by building knowledge</label>
+        <label><input type="radio" name="q13" value="b"> Impair objectivity for future assurance engagements on the same process</label>
+        <label><input type="radio" name="q13" value="c"> Have no effect on future assurance work</label>
+        <label><input type="radio" name="q13" value="d"> Automatically disqualify the auditor permanently</label>
+      </div>
+      <div class="explanation" data-q="q13">✅ <strong>B is correct.</strong> Providing advisory services on a process may impair objectivity for future assurance engagements. Standard 7.2 requires safeguards in these situations.</div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="q-block">
+      <div class="q-num">Question 14 · IIA Standards</div>
+      <div class="q-text">The "Four C's of Findings" framework consists of:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q14" value="a"> Condition, Context, Concern, Conclusion</label>
+        <label><input type="radio" name="q14" value="b"> Condition, Criteria, Cause, Consequence</label>
+        <label><input type="radio" name="q14" value="c"> Criteria, Control, Concern, Conclusion</label>
+        <label><input type="radio" name="q14" value="d"> Condition, Control, Compliance, Consequence</label>
+      </div>
+      <div class="explanation" data-q="q14">✅ <strong>B is correct.</strong> The Four C's: Condition (what IS), Criteria (what SHOULD BE), Cause (WHY the gap exists), Consequence (WHY it matters / the risk or impact).</div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="q-block">
+      <div class="q-num">Question 15 · IIA Standards</div>
+      <div class="q-text">Internal audit can rely on second-line work, but before reporting conclusions must:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q15" value="a"> Get written permission from the CFO</label>
+        <label><input type="radio" name="q15" value="b"> Independently verify that work</label>
+        <label><input type="radio" name="q15" value="c"> Have the second line redo the work</label>
+        <label><input type="radio" name="q15" value="d"> Disclose the reliance in a footnote only</label>
+      </div>
+      <div class="explanation" data-q="q15">✅ <strong>B is correct.</strong> IA can coordinate with and rely on 2nd line work, but must independently verify before reporting conclusions. The lines should collaborate but maintain distinct roles.</div>
+    </div>
+
+    <!-- Q16 -->
+    <div class="q-block">
+      <div class="q-num">Question 16 · Cybersecurity</div>
+      <div class="q-text">What makes cyber risk fundamentally different from most other business risks?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q16" value="a"> It is exclusively a technology problem</label>
+        <label><input type="radio" name="q16" value="b"> It is adversarial — an intelligent actor actively probes for weaknesses and adapts to defenses</label>
+        <label><input type="radio" name="q16" value="c"> It only affects large organizations</label>
+        <label><input type="radio" name="q16" value="d"> It is entirely preventable with the right tools</label>
+      </div>
+      <div class="explanation" data-q="q16">✅ <strong>B is correct.</strong> Most risks are passive (market volatility doesn't try to defeat your hedging strategy). Cyber risk is adversarial — an intelligent actor actively probes and adapts. This changes everything about how you assess it.</div>
+    </div>
+
+    <!-- Q17 -->
+    <div class="q-block">
+      <div class="q-num">Question 17 · Cybersecurity</div>
+      <div class="q-text">The CIA Triad's "Integrity" objective protects against:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q17" value="a"> Unauthorized disclosure of data</label>
+        <label><input type="radio" name="q17" value="b"> Disruption to system availability</label>
+        <label><input type="radio" name="q17" value="c"> Unauthorized modification of data or systems</label>
+        <label><input type="radio" name="q17" value="d"> Identity theft</label>
+      </div>
+      <div class="explanation" data-q="q17">✅ <strong>C is correct.</strong> Integrity = information and systems are accurate, complete, and unaltered except by authorized actions. Threats include data tampering, malware, and man-in-the-middle attacks.</div>
+    </div>
+
+    <!-- Q18 -->
+    <div class="q-block">
+      <div class="q-num">Question 18 · Cybersecurity</div>
+      <div class="q-text">Which CIA Triad objective would a DDoS attack most directly threaten?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q18" value="a"> Confidentiality</label>
+        <label><input type="radio" name="q18" value="b"> Integrity</label>
+        <label><input type="radio" name="q18" value="c"> Availability</label>
+        <label><input type="radio" name="q18" value="d"> All three equally</label>
+      </div>
+      <div class="explanation" data-q="q18">✅ <strong>C is correct.</strong> DDoS (Distributed Denial of Service) attacks target Availability — making systems inaccessible to authorized users. Other availability threats include ransomware and system failures.</div>
+    </div>
+
+    <!-- Q19 -->
+    <div class="q-block">
+      <div class="q-num">Question 19 · Cybersecurity</div>
+      <div class="q-text">The "asymmetric" nature of cyber risk means:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q19" value="a"> Attackers need more resources than defenders</label>
+        <label><input type="radio" name="q19" value="b"> Attackers need one weakness; defenders must protect everything</label>
+        <label><input type="radio" name="q19" value="c"> Large companies face more risk than small companies</label>
+        <label><input type="radio" name="q19" value="d"> Insider threats are more dangerous than external threats</label>
+      </div>
+      <div class="explanation" data-q="q19">✅ <strong>B is correct.</strong> The fundamental asymmetry: defenders must protect everything, but attackers only need to find one weakness. This asymmetry is structural and permanent. Growth and security are in constant tension.</div>
+    </div>
+
+    <!-- Q20 -->
+    <div class="q-block">
+      <div class="q-num">Question 20 · Cybersecurity</div>
+      <div class="q-text">The 2013 Target data breach is cited as an example of which organizational pathology?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q20" value="a"> The Compliance Trap</label>
+        <label><input type="radio" name="q20" value="b"> Learned Helplessness</label>
+        <label><input type="radio" name="q20" value="c"> The Ownership Gap</label>
+        <label><input type="radio" name="q20" value="d"> Security vs. Business Tension</label>
+      </div>
+      <div class="explanation" data-q="q20">✅ <strong>C is correct.</strong> The Ownership Gap: Target's HVAC vendor had network access. Who owned that relationship? Who reviewed their security? The answer was effectively "no one." Unowned relationships become attack vectors.</div>
+    </div>
+
+    <!-- Q21 -->
+    <div class="q-block">
+      <div class="q-num">Question 21 · Cybersecurity</div>
+      <div class="q-text">Equifax being PCI compliant when it was breached illustrates which organizational pathology?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q21" value="a"> The Ownership Gap</label>
+        <label><input type="radio" name="q21" value="b"> Learned Helplessness</label>
+        <label><input type="radio" name="q21" value="c"> Security vs. Business Tension</label>
+        <label><input type="radio" name="q21" value="d"> The Compliance Trap</label>
+      </div>
+      <div class="explanation" data-q="q21">✅ <strong>D is correct.</strong> The Compliance Trap: Compliance ≠ Security. Equifax, Target, and Capital One all passed audits but were breached. Attackers don't check compliance status. Organizations optimize for passing audits, not actual security.</div>
+    </div>
+
+    <!-- Q22 -->
+    <div class="q-block">
+      <div class="q-num">Question 22 · Cybersecurity</div>
+      <div class="q-text">In a defense-in-depth model, a SIEM (Security Information and Event Management) system is an example of which control type?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q22" value="a"> Preventive control</label>
+        <label><input type="radio" name="q22" value="b"> Detective control</label>
+        <label><input type="radio" name="q22" value="c"> Corrective control</label>
+        <label><input type="radio" name="q22" value="d"> Deterrent control</label>
+      </div>
+      <div class="explanation" data-q="q22">✅ <strong>B is correct.</strong> SIEM is a detective control — it identifies attacks in progress or after the fact through log monitoring and anomaly detection. Preventive controls stop attacks; corrective controls respond/recover.</div>
+    </div>
+
+    <!-- Q23 -->
+    <div class="q-block">
+      <div class="q-num">Question 23 · Cybersecurity</div>
+      <div class="q-text">The IIA Cybersecurity Topical Requirement was released on:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q23" value="a"> January 1, 2024 with immediate effect</label>
+        <label><input type="radio" name="q23" value="b"> February 5, 2025 with effective date of February 5, 2026</label>
+        <label><input type="radio" name="q23" value="c"> January 1, 2025 with effective date of January 1, 2026</label>
+        <label><input type="radio" name="q23" value="d"> February 5, 2024 with effective date of February 5, 2025</label>
+      </div>
+      <div class="explanation" data-q="q23">✅ <strong>B is correct.</strong> Released February 5, 2025. Effective February 5, 2026. One year to prepare. It was the first Topical Requirement under the 2024 IPPF.</div>
+    </div>
+
+    <!-- Q24 -->
+    <div class="q-block">
+      <div class="q-num">Question 24 · Cybersecurity</div>
+      <div class="q-text">According to the Verizon DBIR, most breaches are caused by:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q24" value="a"> Advanced AI-powered attacks and zero-days</label>
+        <label><input type="radio" name="q24" value="b"> Nation-state sophisticated attacks</label>
+        <label><input type="radio" name="q24" value="c"> Stolen credentials, phishing, and unpatched vulnerabilities</label>
+        <label><input type="radio" name="q24" value="d"> Insider threats and disgruntled employees</label>
+      </div>
+      <div class="explanation" data-q="q24">✅ <strong>C is correct.</strong> Year after year, the Verizon DBIR shows: stolen credentials, phishing, and unpatched vulnerabilities cause most breaches. Not zero-days or AI-powered attacks — basic hygiene failures. Fundamentals beat sophistication.</div>
+    </div>
+
+    <!-- Q25 -->
+    <div class="q-block">
+      <div class="q-num">Question 25 · Cybersecurity</div>
+      <div class="q-text">Which of the following best describes the "learned helplessness" organizational pathology in cybersecurity?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q25" value="a"> Security teams that over-invest in preventive controls</label>
+        <label><input type="radio" name="q25" value="b"> A fatalism that excuses inaction ("if they want to get in, they'll get in")</label>
+        <label><input type="radio" name="q25" value="c"> Organizations that rely solely on compliance frameworks</label>
+        <label><input type="radio" name="q25" value="d"> Security teams that refuse to share information with auditors</label>
+      </div>
+      <div class="explanation" data-q="q25">✅ <strong>B is correct.</strong> Learned helplessness is the fatalistic attitude that sophisticated attackers are unstoppable. The reality: most breaches exploit basic failures. Stoic wisdom — focus on what you can control. Fundamentals prevent 95% of attacks.</div>
+    </div>
+
+    <!-- Q26 -->
+    <div class="q-block">
+      <div class="q-num">Question 26 · Cybersecurity</div>
+      <div class="q-text">The IIA Cybersecurity Topical Requirement's three domains are:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q26" value="a"> Prevention, Detection, Response</label>
+        <label><input type="radio" name="q26" value="b"> Governance, Risk Management, Controls</label>
+        <label><input type="radio" name="q26" value="c"> People, Process, Technology</label>
+        <label><input type="radio" name="q26" value="d"> Identify, Protect, Detect</label>
+      </div>
+      <div class="explanation" data-q="q26">✅ <strong>B is correct.</strong> The three domains are: Governance (does leadership own cybersecurity?), Risk Management (do they know what they're protecting?), and Controls (are the controls actually working?). Maps to NIST and COBIT frameworks.</div>
+    </div>
+
+    <!-- Q27 -->
+    <div class="q-block">
+      <div class="q-num">Question 27 · Cybersecurity</div>
+      <div class="q-text">Encryption at rest and in transit is primarily a control at which defense-in-depth layer?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q27" value="a"> Network Layer</label>
+        <label><input type="radio" name="q27" value="b"> Endpoint Layer</label>
+        <label><input type="radio" name="q27" value="c"> Data Layer</label>
+        <label><input type="radio" name="q27" value="d"> Application Layer</label>
+      </div>
+      <div class="explanation" data-q="q27">✅ <strong>C is correct.</strong> The Data Layer includes encryption at rest/transit, DLP (Data Loss Prevention), classification, access controls, and backups. These protect the data itself regardless of what layer it's accessed from.</div>
+    </div>
+
+    <!-- Q28 -->
+    <div class="q-block">
+      <div class="q-num">Question 28 · Cybersecurity</div>
+      <div class="q-text">An internal auditor's role in cybersecurity is best described as:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q28" value="a"> Performing penetration testing and acting as the security operations team</label>
+        <label><input type="radio" name="q28" value="b"> Providing independent assessment, bridging technical teams and the board, and identifying blind spots</label>
+        <label><input type="radio" name="q28" value="c"> Guaranteeing the organization will not be breached</label>
+        <label><input type="radio" name="q28" value="d"> Replacing the CISO function during high-risk periods</label>
+      </div>
+      <div class="explanation" data-q="q28">✅ <strong>B is correct.</strong> Internal audit provides independent assessment of security posture, validates controls, bridges technical teams and the board, identifies blind spots, and holds management accountable for remediation. IA is NOT a pen testing team or a guarantee against breach.</div>
+    </div>
+
+    <!-- Q29 -->
+    <div class="q-block">
+      <div class="q-num">Question 29 · ITGC Testing</div>
+      <div class="q-text">Positive testing of an access control verifies:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q29" value="a"> That terminated users cannot log in after their accounts are disabled</label>
+        <label><input type="radio" name="q29" value="b"> That legitimate requests were properly approved within defined timeframes by authorized individuals</label>
+        <label><input type="radio" name="q29" value="c"> That the system rejects self-approval attempts</label>
+        <label><input type="radio" name="q29" value="d"> That SoD conflicts trigger system alerts</label>
+      </div>
+      <div class="explanation" data-q="q29">✅ <strong>B is correct.</strong> Positive testing = "Did the control work when it should have?" — testing the happy path. Select legitimate transactions and verify approvals obtained, within timeframes, by authorized individuals, with proper documentation.</div>
+    </div>
+
+    <!-- Q30 -->
+    <div class="q-block">
+      <div class="q-num">Question 30 · ITGC Testing</div>
+      <div class="q-text">A control requires manager approval for access requests, but the policy is vague about timelines and doesn't specify what "manager" means (direct, skip-level, department head). This is primarily a:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q30" value="a"> Operating Effectiveness (OE) failure</label>
+        <label><input type="radio" name="q30" value="b"> Sampling methodology failure</label>
+        <label><input type="radio" name="q30" value="c"> Test of Design (TOD) failure — precision gap</label>
+        <label><input type="radio" name="q30" value="d"> Documentation failure</label>
+      </div>
+      <div class="explanation" data-q="q30">✅ <strong>C is correct.</strong> TOD evaluates if the control can work. Precision asks: Is the control specific enough? "Manager approval" vs. "Direct manager via ServiceNow within 24 hours with documented justification" — the former lacks precision and is a design gap.</div>
+    </div>
+
+    <!-- Q31 -->
+    <div class="q-block">
+      <div class="q-num">Question 31 · ITGC Testing</div>
+      <div class="q-text">Based on AICPA/PCAOB guidance, how many samples should an auditor test for a HIGH RISK control that occurs DAILY?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q31" value="a"> 10-15</label>
+        <label><input type="radio" name="q31" value="b"> 20-30</label>
+        <label><input type="radio" name="q31" value="c"> 40-60</label>
+        <label><input type="radio" name="q31" value="d"> 4-6</label>
+      </div>
+      <div class="explanation" data-q="q31">✅ <strong>C is correct.</strong> For a daily control at high risk: 40-60 samples. Low risk daily = 10-15. Moderate risk daily = 20-30. Higher risk, higher frequency, prior exceptions, and higher desired confidence all increase sample size.</div>
+    </div>
+
+    <!-- Q32 -->
+    <div class="q-block">
+      <div class="q-num">Question 32 · ITGC Testing</div>
+      <div class="q-text">For privileged users and SoD (Segregation of Duties) conflicts, the recommended sampling method is:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q32" value="a"> Random sampling</label>
+        <label><input type="radio" name="q32" value="b"> Haphazard sampling</label>
+        <label><input type="radio" name="q32" value="c"> Stratified sampling at 25%</label>
+        <label><input type="radio" name="q32" value="d"> Census (100% testing)</label>
+      </div>
+      <div class="explanation" data-q="q32">✅ <strong>D is correct.</strong> For high-risk populations like privileged users and SoD conflicts, auditors should consider 100% testing (census) regardless of population size. Missing one can have material consequences.</div>
+    </div>
+
+    <!-- Q33 -->
+    <div class="q-block">
+      <div class="q-num">Question 33 · ITGC Testing</div>
+      <div class="q-text">Haphazard sampling is described as:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q33" value="a"> Statistically valid and preferred for high-risk populations</label>
+        <label><input type="radio" name="q33" value="b"> Selection without specific pattern using auditor judgment; not statistically valid</label>
+        <label><input type="radio" name="q33" value="c"> Division of population into subgroups for proportional testing</label>
+        <label><input type="radio" name="q33" value="d"> Testing the entire population regardless of size</label>
+      </div>
+      <div class="explanation" data-q="q33">✅ <strong>B is correct.</strong> Haphazard = auditor selects without a specific pattern. Used for small populations or preliminary testing. Limitations: unconscious bias and not statistically valid. Not appropriate for high-risk populations.</div>
+    </div>
+
+    <!-- Q34 -->
+    <div class="q-block">
+      <div class="q-num">Question 34 · ITGC Testing</div>
+      <div class="q-text">When classifying an exception where a good policy exists (SLA defined, approval workflow documented) but a required approval was simply skipped by an employee, this is a:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q34" value="a"> Design failure requiring process redesign</label>
+        <label><input type="radio" name="q34" value="b"> Operating effectiveness failure requiring training/monitoring</label>
+        <label><input type="radio" name="q34" value="c"> Topical requirement non-conformance</label>
+        <label><input type="radio" name="q34" value="d"> Material weakness automatically</label>
+      </div>
+      <div class="explanation" data-q="q34">✅ <strong>B is correct.</strong> Good design, bad execution = Operating Effectiveness (OE) failure. Remedy: training, monitoring, automation. Critical distinction: don't prescribe training for a design problem. Classification drives the right recommendation.</div>
+    </div>
+
+    <!-- Q35 -->
+    <div class="q-block">
+      <div class="q-num">Question 35 · ITGC Testing</div>
+      <div class="q-text">Under the external audit risk rating framework, what is a "Material Weakness"?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q35" value="a"> Any control deficiency that requires remediation</label>
+        <label><input type="radio" name="q35" value="b"> A deficiency that merits attention from the audit committee but is less severe than a material weakness</label>
+        <label><input type="radio" name="q35" value="c"> A reasonable possibility that a material misstatement will not be prevented or detected, resulting in an adverse ICFR opinion</label>
+        <label><input type="radio" name="q35" value="d"> Any control that fails positive testing</label>
+      </div>
+      <div class="explanation" data-q="q35">✅ <strong>C is correct.</strong> Material Weakness = reasonable possibility that material misstatement will not be prevented or detected by the company's ICFR. Result: adverse ICFR opinion. Significant Deficiency is less severe but still requires reporting to audit committee.</div>
+    </div>
+
+    <!-- Q36 -->
+    <div class="q-block">
+      <div class="q-num">Question 36 · ITGC Testing</div>
+      <div class="q-text">The "R" tick mark in audit documentation means:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q36" value="a"> Reviewed by manager</label>
+        <label><input type="radio" name="q36" value="b"> Recalculated — calculation independently verified</label>
+        <label><input type="radio" name="q36" value="c"> Referenced to prior year workpapers</label>
+        <label><input type="radio" name="q36" value="d"> Rejected — exception identified</label>
+      </div>
+      <div class="explanation" data-q="q36">✅ <strong>B is correct.</strong> "R" = Recalculated — the auditor independently verified the calculation. Every tick mark must be defined in a legend on the work paper. "T" = Traced/Tied, "I" = Inquiry, "✓" = Tested no exception, "✗" = Exception identified.</div>
+    </div>
+
+    <!-- Q37 -->
+    <div class="q-block">
+      <div class="q-num">Question 37 · ITGC Testing</div>
+      <div class="q-text">The "Golden Rule" of audit documentation states:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q37" value="a"> Document everything you observe, whether or not it's material</label>
+        <label><input type="radio" name="q37" value="b"> If you can't point to a specific exhibit, row, or document for every fact in your finding, you haven't documented it properly</label>
+        <label><input type="radio" name="q37" value="c"> All workpapers must be reviewed by two senior auditors</label>
+        <label><input type="radio" name="q37" value="d"> Tick marks must be approved by the CAE</label>
+      </div>
+      <div class="explanation" data-q="q37">✅ <strong>B is correct.</strong> The Golden Rule: If you can't point to a specific exhibit, row, or document for every fact in your finding, you haven't documented it properly. Every assertion must trace to specific evidence.</div>
+    </div>
+
+    <!-- Q38 -->
+    <div class="q-block">
+      <div class="q-num">Question 38 · ITGC Testing</div>
+      <div class="q-text">In internal audit findings (versus external), what additional elements are included that are NOT typically in external management letter findings?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q38" value="a"> The Four C's of findings</label>
+        <label><input type="radio" name="q38" value="b"> Named individuals, specific data, owner/due date, and management response</label>
+        <label><input type="radio" name="q38" value="c"> Only the condition and criteria</label>
+        <label><input type="radio" name="q38" value="d"> Regulatory citations and legal opinions</label>
+      </div>
+      <div class="explanation" data-q="q38">✅ <strong>B is correct.</strong> Internal audit findings include accountability: named individuals, specific data, owner + due date, and space for management's response/action plan. External audit uses generalized language ("certain users") and high-level recommendations.</div>
+    </div>
+
+    <!-- Q39 -->
+    <div class="q-block">
+      <div class="q-num">Question 39 · ITGC Testing</div>
+      <div class="q-text">Required documentation elements for sampling methodology include all of the following EXCEPT:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q39" value="a"> Population source (where did data come from)</label>
+        <label><input type="radio" name="q39" value="b"> Selection method (how items were chosen)</label>
+        <label><input type="radio" name="q39" value="c"> CAE's written approval of sample size</label>
+        <label><input type="radio" name="q39" value="d"> Sample size rationale (why this number)</label>
+      </div>
+      <div class="explanation" data-q="q39">✅ <strong>C is correct.</strong> Required documentation includes: population source, population completeness verification, selection criteria, sample size rationale, selection method, and sample listing. CAE written approval is NOT a listed required element. The test: could another auditor recreate your exact sample?</div>
+    </div>
+
+    <!-- Q40 -->
+    <div class="q-block">
+      <div class="q-num">Question 40 · ITGC Testing</div>
+      <div class="q-text">The "Best Practice" for sample selection when a population has both general and high-risk items is:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q40" value="a"> Random sampling for everything to eliminate bias</label>
+        <label><input type="radio" name="q40" value="b"> Haphazard selection using auditor judgment</label>
+        <label><input type="radio" name="q40" value="c"> Combine methods: stratified sampling + census for high-risk strata</label>
+        <label><input type="radio" name="q40" value="d"> Census testing of the entire population regardless of size</label>
+      </div>
+      <div class="explanation" data-q="q40">✅ <strong>C is correct.</strong> Best practice: combine methods. Random/stratified for general population + 100% census for privileged users and SoD conflicts. This balances efficiency with appropriate risk coverage.</div>
+    </div>
+
+    <!-- Q41 -->
+    <div class="q-block">
+      <div class="q-num">Question 41 · Mixed</div>
+      <div class="q-text">Which of the following is a Topical Requirement released under the 2024 IPPF?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q41" value="a"> Enterprise Risk Management</label>
+        <label><input type="radio" name="q41" value="b"> Sustainability & ESG</label>
+        <label><input type="radio" name="q41" value="c"> Internal Controls Over Financial Reporting</label>
+        <label><input type="radio" name="q41" value="d"> Operational Audit Standards</label>
+      </div>
+      <div class="explanation" data-q="q41">✅ <strong>B is correct.</strong> Topical Requirements include: Cybersecurity, IT Governance, Privacy Risk Management, Third-Party Management, and Sustainability & ESG. ERM and ICFR are not listed Topical Requirements.</div>
+    </div>
+
+    <!-- Q42 -->
+    <div class="q-block">
+      <div class="q-num">Question 42 · Mixed</div>
+      <div class="q-text">According to the engagement lifecycle, what percentage of effort should fieldwork typically represent?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q42" value="a"> 20-30%</label>
+        <label><input type="radio" name="q42" value="b"> 40-50%</label>
+        <label><input type="radio" name="q42" value="c"> 60-70%</label>
+        <label><input type="radio" name="q42" value="d"> 15-20%</label>
+      </div>
+      <div class="explanation" data-q="q42">✅ <strong>B is correct.</strong> Fieldwork = 40-50% of effort (the largest portion). Planning = 20-30%. Reporting = 15-20%. Follow-up = ongoing. Most audit failures are planning failures despite planning being a smaller portion.</div>
+    </div>
+
+    <!-- Q43 -->
+    <div class="q-block">
+      <div class="q-num">Question 43 · Mixed</div>
+      <div class="q-text">If an auditor discovers that a terminated user's account was not disabled until 16.75 hours after termination (SLA = 4 hours), but sign-in logs confirm no post-termination logins occurred, the finding should:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q43" value="a"> Be omitted entirely because no harm occurred</label>
+        <label><input type="radio" name="q43" value="b"> Be rated as a Material Weakness automatically</label>
+        <label><input type="radio" name="q43" value="c"> Be documented noting the SLA breach and acknowledging the compensating factor (no unauthorized access)</label>
+        <label><input type="radio" name="q43" value="d"> Be escalated to law enforcement</label>
+      </div>
+      <div class="explanation" data-q="q43">✅ <strong>C is correct.</strong> Document the control gap (16.75 hrs vs. 4-hr SLA = OE failure) AND acknowledge the compensating factor (no unauthorized access occurred). Rule #6 of reporting: acknowledge compensating factors. The risk didn't materialize, but the control gap still exists.</div>
+    </div>
+
+    <!-- Q44 -->
+    <div class="q-block">
+      <div class="q-num">Question 44 · Mixed</div>
+      <div class="q-text">An auditor is reviewing a cybersecurity control that prevents users from self-approving their own access requests. Attempting to self-approve in the test environment to verify the block is which type of test?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q44" value="a"> Positive test</label>
+        <label><input type="radio" name="q44" value="b"> Test of Design</label>
+        <label><input type="radio" name="q44" value="c"> Negative test</label>
+        <label><input type="radio" name="q44" value="d"> Concurrent test</label>
+      </div>
+      <div class="explanation" data-q="q44">✅ <strong>C is correct.</strong> Negative testing = "Did the control prevent what it should have?" Attempting to self-approve tests the guardrail. Does the system reject it? This tests the negative scenario.</div>
+    </div>
+
+    <!-- Q45 -->
+    <div class="q-block">
+      <div class="q-num">Question 45 · Mixed</div>
+      <div class="q-text">The "Reviewer's Test" for sampling documentation asks:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q45" value="a"> Did the CAE approve the sample size before testing?</label>
+        <label><input type="radio" name="q45" value="b"> Could another auditor recreate your exact sample from your documentation?</label>
+        <label><input type="radio" name="q45" value="c"> Does the sample match last year's sample for comparability?</label>
+        <label><input type="radio" name="q45" value="d"> Was the sample reviewed by an external auditor?</label>
+      </div>
+      <div class="explanation" data-q="q45">✅ <strong>B is correct.</strong> The Reviewer's Test: Could another auditor recreate your exact sample from your documentation? If not, your methodology isn't sufficiently documented. This ensures reproducibility and defensibility.</div>
+    </div>
+
+    <!-- Q46 -->
+    <div class="q-block">
+      <div class="q-num">Question 46 · Mixed</div>
+      <div class="q-text">Plato's "Forms" (ideal essences) as referenced in the IIA Standards lecture represent:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q46" value="a"> The regulatory penalties for non-compliance</label>
+        <label><input type="radio" name="q46" value="b"> Standards themselves — the ideal of what excellent auditing looks like, against which practice is measured</label>
+        <label><input type="radio" name="q46" value="c"> The audit committee's expectations</label>
+        <label><input type="radio" name="q46" value="d"> The COSO framework</label>
+      </div>
+      <div class="explanation" data-q="q46">✅ <strong>B is correct.</strong> Standards represent Platonic ideals — articulating what excellent internal auditing looks like, a reference point against which we measure ourselves. "Practice without form is mere improvisation."</div>
+    </div>
+
+    <!-- Q47 -->
+    <div class="q-block">
+      <div class="q-num">Question 47 · Mixed</div>
+      <div class="q-text">Which of the following best describes why audit findings should help security teams rather than punish them?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q47" value="a"> To avoid legal liability for the audit team</label>
+        <label><input type="radio" name="q47" value="b"> Security teams are often overwhelmed and underappreciated; findings should help them secure resources, and audit's goal is also protecting the organization</label>
+        <label><input type="radio" name="q47" value="c"> Punitive findings violate the IIA Code of Ethics</label>
+        <label><input type="radio" name="q47" value="d"> Regulatory requirements mandate a collaborative approach</label>
+      </div>
+      <div class="explanation" data-q="q47">✅ <strong>B is correct.</strong> Security teams are often overwhelmed and underappreciated. Approach as a partner, not an adversary. Audit's goal is the same — protecting the organization. Findings should help security teams get resources, not punish them.</div>
+    </div>
+
+    <!-- Q48 -->
+    <div class="q-block">
+      <div class="q-num">Question 48 · Mixed</div>
+      <div class="q-text">Which statement about the "No Surprises" principle in audit reporting is correct?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q48" value="a"> Findings should be revealed only in the final report to preserve independence</label>
+        <label><input type="radio" name="q48" value="b"> If you haven't discussed a finding with management before issuing the report, you've failed at communication</label>
+        <label><input type="radio" name="q48" value="c"> Management should only see findings after the audit committee reviews them</label>
+        <label><input type="radio" name="q48" value="d"> Surprise findings are more credible because they're uninfluenced</label>
+      </div>
+      <div class="explanation" data-q="q48">✅ <strong>B is correct.</strong> "No surprises in the final report." If you haven't discussed a finding with management before issuing, you've failed at communication. Management responses are their words — but auditors can comment on them.</div>
+    </div>
+
+    <!-- Q49 -->
+    <div class="q-block">
+      <div class="q-num">Question 49 · Mixed</div>
+      <div class="q-text">A report states: "Several users had issues with their access during the period." According to the 8 Rules for Audit Reporting Excellence, this violates which rule?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q49" value="a"> Lead with the headline</label>
+        <label><input type="radio" name="q49" value="b"> Quantify everything</label>
+        <label><input type="radio" name="q49" value="c"> Make recommendations actionable</label>
+        <label><input type="radio" name="q49" value="d"> Write for the skeptic</label>
+      </div>
+      <div class="explanation" data-q="q49">✅ <strong>B is correct.</strong> "Quantify everything" — not "several users" but "3 of 127 (2.4%)." Vague language undermines credibility and doesn't communicate the magnitude of the issue. Always use numbers.</div>
+    </div>
+
+    <!-- Q50 -->
+    <div class="q-block">
+      <div class="q-num">Question 50 · Mixed</div>
+      <div class="q-text">Which statement BEST captures the philosophical core of internal auditing as described in the course materials?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q50" value="a"> Internal auditors exist to ensure 100% compliance with all regulations</label>
+        <label><input type="radio" name="q50" value="b"> Internal auditors make the invisible visible — bringing to light what organizations cannot or will not see about themselves</label>
+        <label><input type="radio" name="q50" value="c"> Internal auditors serve primarily as a deterrent to fraud</label>
+        <label><input type="radio" name="q50" value="d"> Internal auditors ensure management follows the board's directives</label>
+      </div>
+      <div class="explanation" data-q="q50">✅ <strong>B is correct.</strong> The philosophical core: internal auditors make the invisible visible. This is Heideggerian aletheia (unconcealment), Socratic questioning, trained attention — the auditor's essential task is illuminating what organizations cannot see about themselves. Everything else is technique.</div>
+    </div>
+
+
+  <!-- READINGS QUESTIONS Q51-Q60 -->
+
+  <div class="card" style="background:#f5f3ff;border:2px solid #4a1d96;margin:1.5rem 0 .5rem;text-align:center;padding:.75rem">
+    <strong style="color:#4a1d96">📖 Questions 51–60: The Readings</strong><br>
+    <span style="font-size:.9rem">Solzhenitsyn's "Live Not By Lies" &amp; Didion's "On Self-Respect" — and their connections to the IIA standards</span>
+  </div>
+
+    <!-- Q51 -->
+    <div class="q-block">
+      <div class="q-num">Question 51 · Solzhenitsyn</div>
+      <div class="q-text">According to Solzhenitsyn, what is the relationship between violence and lies in a totalitarian system?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q51" value="a"> Violence and lies are opposites — regimes choose one or the other</label>
+        <label><input type="radio" name="q51" value="b"> They are symbiotic: violence needs lies to maintain a respectable face; lies need violence to be enforced</label>
+        <label><input type="radio" name="q51" value="c"> Lies eventually eliminate the need for violence entirely</label>
+        <label><input type="radio" name="q51" value="d"> Violence is primary; lies are only a minor tool</label>
+      </div>
+      <div class="explanation" data-q="q51">✅ <strong>B is correct.</strong> Solzhenitsyn argues that violence and lies are mutually dependent: violence cannot maintain a respectable face without lies, and lies can only be sustained by violence. Together they form the mechanism of oppression.</div>
+    </div>
+
+    <!-- Q52 -->
+    <div class="q-block">
+      <div class="q-num">Question 52 · Solzhenitsyn</div>
+      <div class="q-text">Solzhenitsyn compares lies to a virus because:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q52" value="a"> They spread quickly through communication networks</label>
+        <label><input type="radio" name="q52" value="b"> They are invisible to the naked eye</label>
+        <label><input type="radio" name="q52" value="c"> They can survive only in a living organism — they require human participation to persist</label>
+        <label><input type="radio" name="q52" value="d"> They mutate and evolve over time to evade detection</label>
+      </div>
+      <div class="explanation" data-q="q52">✅ <strong>C is correct.</strong> The virus metaphor captures the dependency of lies on human participation. When people stop complying — stop saying what they do not think — the lies lose their host and are rendered helpless. Withdrawal of participation is the cure.</div>
+    </div>
+
+    <!-- Q53 -->
+    <div class="q-block">
+      <div class="q-num">Question 53 · Solzhenitsyn</div>
+      <div class="q-text">Solzhenitsyn's "simplest and most accessible key to our self-neglected liberation" is:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q53" value="a"> Organizing mass protests in the city squares</label>
+        <label><input type="radio" name="q53" value="b"> Personal non-participation in lies — refusing to say what one does not think</label>
+        <label><input type="radio" name="q53" value="c"> Armed resistance following the model of past revolutions</label>
+        <label><input type="radio" name="q53" value="d"> Emigrating to countries with free elections</label>
+      </div>
+      <div class="explanation" data-q="q53">✅ <strong>B is correct.</strong> Personal non-participation in lies is the minimum — not marching into squares shouting truth, not hunger strikes or self-immolation. Simply: refuse to say what you do not think. It is the easiest possible resistance, which makes the failure to exercise it all the more indefensible.</div>
+    </div>
+
+    <!-- Q54 -->
+    <div class="q-block">
+      <div class="q-num">Question 54 · Solzhenitsyn</div>
+      <div class="q-text">What does Solzhenitsyn say people fear most — more than nuclear war?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q54" value="a"> Poverty and loss of their home</label>
+        <label><input type="radio" name="q54" value="b"> Acts of civil courage — lagging behind the herd and standing alone</label>
+        <label><input type="radio" name="q54" value="c"> Being wrong in public</label>
+        <label><input type="radio" name="q54" value="d"> Foreign invasion and military occupation</label>
+      </div>
+      <div class="explanation" data-q="q54">✅ <strong>B is correct.</strong> Solzhenitsyn observes they don't even fear nuclear death — but they deeply fear acts of civil courage: lagging behind the herd, taking one step alone, and suddenly finding themselves without white bread, heating gas, and a Moscow registration. Comfort is the real prison.</div>
+    </div>
+
+    <!-- Q55 -->
+    <div class="q-block">
+      <div class="q-num">Question 55 · Solzhenitsyn → IIA Connection</div>
+      <div class="q-text">An audit manager who, after management pushes back, agrees to remove a finding from the report to "preserve the relationship" is most directly analogous to which concept in Solzhenitsyn's essay?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q55" value="a"> The courage of the Czechoslovakian people standing up to tanks</label>
+        <label><input type="radio" name="q55" value="b"> Daily participation in lies — obedience that constitutes the crux of the system</label>
+        <label><input type="radio" name="q55" value="c"> The biologists who might restructure our genes</label>
+        <label><input type="radio" name="q55" value="d"> The young revolutionaries who thought terror would bring justice</label>
+      </div>
+      <div class="explanation" data-q="q55">✅ <strong>B is correct.</strong> Solzhenitsyn says violence demands not that it act on every shoulder every day — only obedience to lies and daily participation in them. The audit manager who removes a finding to appease management is exactly this: the small, daily act of participation that sustains the larger falsehood. This directly parallels IIA Standard 1.1 (Acting Honestly and Courageously).</div>
+    </div>
+
+    <!-- Q56 -->
+    <div class="q-block">
+      <div class="q-num">Question 56 · Didion</div>
+      <div class="q-text">According to Didion, what is the source from which self-respect springs?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q56" value="a"> The approval and recognition of others</label>
+        <label><input type="radio" name="q56" value="b"> One's reputation and professional accomplishments</label>
+        <label><input type="radio" name="q56" value="c"> Character — the willingness to accept responsibility for one's own life</label>
+        <label><input type="radio" name="q56" value="d"> A record of virtuous decisions made publicly</label>
+      </div>
+      <div class="explanation" data-q="q56">✅ <strong>C is correct.</strong> Didion is explicit: "character — the willingness to accept responsibility for one's own life — is the source from which self-respect springs." It is an internal standard entirely independent of others' approval or one's reputation.</div>
+    </div>
+
+    <!-- Q57 -->
+    <div class="q-block">
+      <div class="q-num">Question 57 · Didion</div>
+      <div class="q-text">Didion argues that self-deception is:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q57" value="a"> Relatively harmless if it preserves one's peace of mind</label>
+        <label><input type="radio" name="q57" value="b"> The most difficult deception — no tricks that work on others function in the back alley where one keeps assignations with oneself</label>
+        <label><input type="radio" name="q57" value="c"> Easily overcome once one commits to being more mindful</label>
+        <label><input type="radio" name="q57" value="d"> Less dangerous than deceiving others because no external harm results</label>
+      </div>
+      <div class="explanation" data-q="q57">✅ <strong>B is correct.</strong> Didion: "self-deception remains the most difficult deception." No winning smiles, no prettily drawn lists of good intentions will work in that well-lit back alley. This connects directly to the IIA's confirmation bias warning under Objectivity (Principle 2).</div>
+    </div>
+
+    <!-- Q58 -->
+    <div class="q-block">
+      <div class="q-num">Question 58 · Didion</div>
+      <div class="q-text">The "interminable documentary" metaphor in Didion's essay describes:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q58" value="a"> The process of reviewing one's accomplishments at the end of a career</label>
+        <label><input type="radio" name="q58" value="b"> The internal experience of living without self-respect — endlessly replaying one's failures, broken promises, and wasted gifts</label>
+        <label><input type="radio" name="q58" value="c"> The external process of professional performance review</label>
+        <label><input type="radio" name="q58" value="d"> The benefit of keeping a detailed personal journal</label>
+      </div>
+      <div class="explanation" data-q="q58">✅ <strong>B is correct.</strong> To live without self-respect is to be an unwilling audience to an interminable documentary detailing one's failings — fresh footage spliced in for every screening. Counting sins of commission and omission, trusts betrayed, promises broken, gifts wasted through sloth or cowardice.</div>
+    </div>
+
+    <!-- Q59 -->
+    <div class="q-block">
+      <div class="q-num">Question 59 · Didion → IIA Connection</div>
+      <div class="q-text">Didion's concept of discipline as "a habit of mind that can be developed, trained, coaxed forth" most closely parallels which IIA principle and its philosophical foundation?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q59" value="a"> Integrity (P1) — Kant's categorical imperative about universal law</label>
+        <label><input type="radio" name="q59" value="b"> Confidentiality (P5) — protecting information for legitimate purposes only</label>
+        <label><input type="radio" name="q59" value="c"> Due Professional Care (P4) — Hume's recognition that skepticism must be applied systematically, not instinctively; and Objectivity (P2) — Husserl's trained attention that must be cultivated through practice</label>
+        <label><input type="radio" name="q59" value="d"> Competency (P3) — Aristotle's phronesis as innate practical wisdom</label>
+      </div>
+      <div class="explanation" data-q="q59">✅ <strong>C is correct.</strong> Didion's "discipline as habit of mind, developed and trained" echoes both Due Professional Care (P4) — applying skepticism proportionately and systematically — and Objectivity/Husserl's trained attention ("the auditor's role: making the invisible visible"). Importantly, P3 (Competency/phronesis) is Aristotelian but phronesis is wisdom cultivated through experience, not quite the same as Didion's disciplinary practice.</div>
+    </div>
+
+    <!-- Q60 -->
+    <div class="q-block">
+      <div class="q-num">Question 60 · Cross-Essay Synthesis</div>
+      <div class="q-text">Which statement BEST captures the shared philosophical argument of Solzhenitsyn's "Live Not By Lies" and Didion's "On Self-Respect," as applied to the practice of internal auditing?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q60" value="a"> Auditors should prioritize efficiency over completeness to avoid unnecessary conflict with management</label>
+        <label><input type="radio" name="q60" value="b"> Integrity in auditing — like integrity in life — is an internal standard, not one calibrated to others' approval; the minimum act is simply refusing to say, sign, or report what one does not honestly believe</label>
+        <label><input type="radio" name="q60" value="c"> Auditors are most effective when they work collaboratively with management to craft findings</label>
+        <label><input type="radio" name="q60" value="d"> Both essays argue that systemic change requires large-scale collective action, not individual choices</label>
+      </div>
+      <div class="explanation" data-q="q60">✅ <strong>B is correct.</strong> Both essays locate integrity in an internal standard rather than external approval. Solzhenitsyn: refuse to say what you do not think. Didion: self-respect is not the approval of others but the willingness to accept responsibility for one's own life. Applied to auditing: an auditor who softens findings to please management fails both standards simultaneously — lacking Solzhenitsyn's refusal to participate in lies and Didion's self-respect rooted in character, not approval.</div>
+    </div>
+
+
+    <!-- MILGRAM QUESTIONS Q61-Q70 -->
+    <div class="q-section" style="margin-top:1.5rem;padding:1rem;background:#f5f3ff;border-radius:8px;border-left:4px solid #7c3aed">
+      <strong style="color:#4a1d96">📖 Questions 61–70: Milgram — "The Perils of Obedience" &amp; Three-Reading Synthesis</strong><br>
+      <span style="font-size:.9rem">Stanley Milgram's obedience experiments and their connections to Solzhenitsyn, Didion, and the IIA standards</span>
+    </div>
+
+    <!-- Q61 -->
+    <div class="q-block">
+      <div class="q-num">Question 61 · Milgram — Experiment Design</div>
+      <div class="q-text">In Milgram's experiment, what was the actual purpose of the study — and who was the real subject?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q61" value="a"> To test the Learner's memory retention under stress; the Learner was the real subject</label>
+        <label><input type="radio" name="q61" value="b"> To measure how far the Teacher would go in obeying authority; the Teacher (naïve participant) was the real subject</label>
+        <label><input type="radio" name="q61" value="c"> To compare the behavior of the Experimenter across different settings</label>
+        <label><input type="radio" name="q61" value="d"> To test whether word-pair memorization improved under punishment conditions</label>
+      </div>
+      <div class="explanation" data-q="q61">✅ <strong>B is correct.</strong> The Learner was an actor who received no actual shock. The real focus was the Teacher — an ordinary person placed in a situation where authority commanded harm. The Learner's protests and the increasing voltage created the moral conflict Milgram was studying.</div>
+    </div>
+
+    <!-- Q62 -->
+    <div class="q-block">
+      <div class="q-num">Question 62 · Milgram — Results</div>
+      <div class="q-text">What percentage of subjects obeyed to the maximum 450-volt shock in Milgram's original experiment — and how did this compare to expert predictions?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q62" value="a"> About 10%; psychiatrists had predicted roughly 15%</label>
+        <label><input type="radio" name="q62" value="b"> About 30%; psychiatrists had predicted about 25%</label>
+        <label><input type="radio" name="q62" value="c"> About 62.5% (25 of 40); psychiatrists predicted only a pathological fringe of about 1 in 1,000</label>
+        <label><input type="radio" name="q62" value="d"> About 85%; psychiatrists had predicted about 50%</label>
+      </div>
+      <div class="explanation" data-q="q62">✅ <strong>C is correct.</strong> 25 of 40 subjects (62.5%) obeyed fully to 450 volts. Psychiatrists had predicted only a pathological fringe — about 1 in 1,000 — would reach the maximum. The actual result was a profound shock to professional assumptions about human nature and the exceptionality of evil.</div>
+    </div>
+
+    <!-- Q63 -->
+    <div class="q-block">
+      <div class="q-num">Question 63 · Milgram — The Agentic State</div>
+      <div class="q-text">Milgram describes the "agentic state" as the psychological mechanism underlying obedience. Which of the following best defines it?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q63" value="a"> A state of heightened aggression in which subjects enjoy inflicting pain</label>
+        <label><input type="radio" name="q63" value="b"> A condition of moral confusion in which subjects cannot distinguish right from wrong</label>
+        <label><input type="radio" name="q63" value="c"> A person coming to view themselves as the instrument of another's will, and therefore no longer regarding themselves as responsible for their actions</label>
+        <label><input type="radio" name="q63" value="d"> A state of indifference to the suffering of others caused by repeated exposure to pain</label>
+      </div>
+      <div class="explanation" data-q="q63">✅ <strong>C is correct.</strong> The agentic state is the core mechanism: the person shifts from autonomous moral agent to instrument of authority. Morality doesn't disappear — it redirects. The subject now feels shame or pride based on how well he has carried out the authority's wishes, not on the content of those wishes. This is how ordinary people can do terrible things while feeling virtuous.</div>
+    </div>
+
+    <!-- Q64 -->
+    <div class="q-block">
+      <div class="q-num">Question 64 · Milgram — Diffusion of Responsibility</div>
+      <div class="q-text">In the variation where subjects only administered the word-pair test while a confederate pulled the shock lever, what happened — and what does Milgram say this illustrates?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q64" value="a"> Obedience dropped significantly because subjects felt less in control</label>
+        <label><input type="radio" name="q64" value="b"> 37 of 40 subjects continued to the highest level, excusing themselves because responsibility belonged to whoever "actually pulled the switch" — illustrating how responsibility diffuses in a chain of action</label>
+        <label><input type="radio" name="q64" value="c"> Subjects refused in higher numbers because they could see the harm being done more clearly</label>
+        <label><input type="radio" name="q64" value="d"> Subjects were equally likely to obey or refuse regardless of their role</label>
+      </div>
+      <div class="explanation" data-q="q64">✅ <strong>B is correct.</strong> 37 of 40 — nearly everyone — continued to the maximum when they were only the "administrator" rather than the "shocker." Milgram says this may illustrate a dangerously typical arrangement in complex society: it is easy to ignore responsibility when one is only an intermediate link in a chain of action. No one person is confronted with the consequences of the full evil act.</div>
+    </div>
+
+    <!-- Q65 -->
+    <div class="q-block">
+      <div class="q-num">Question 65 · Milgram — What Reduces Obedience</div>
+      <div class="q-text">Which of the following experimental variations most dramatically reduced obedience in Milgram's studies?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q65" value="a"> Moving the experiment from Yale University to a less prestigious setting</label>
+        <label><input type="radio" name="q65" value="b"> Telling subjects the experiment had been done before</label>
+        <label><input type="radio" name="q65" value="c"> Having two other "teachers" (confederates) disobey the experimenter and refuse to continue — causing 36 of 40 real subjects to follow suit</label>
+        <label><input type="radio" name="q65" value="d"> Increasing the voltage labels to make the danger more obvious</label>
+      </div>
+      <div class="explanation" data-q="q65">✅ <strong>C is correct.</strong> The rebellious peers variation was the most powerful single factor reducing obedience. When two confederates playing "teachers" refused and walked away, 36 of 40 real subjects joined them. One or two voices of conscience in a group can radically change the moral landscape — which is why organizational speak-up culture and IIA independence protections matter so much.</div>
+    </div>
+
+    <!-- Q66 -->
+    <div class="q-block">
+      <div class="q-num">Question 66 · Milgram — Motivation of Subjects</div>
+      <div class="q-text">Milgram's data undermines which common explanation for why people commit atrocities under authority?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q66" value="a"> That people are simply unaware of the harm they are causing</label>
+        <label><input type="radio" name="q66" value="b"> That obedient subjects derive sadistic pleasure or are drawn from the aggressive fringe of society</label>
+        <label><input type="radio" name="q66" value="c"> That authority figures are always physically threatening</label>
+        <label><input type="radio" name="q66" value="d"> That people only obey when they agree with the command</label>
+      </div>
+      <div class="explanation" data-q="q66">✅ <strong>B is correct.</strong> Milgram explicitly notes that the subjects do not derive satisfaction from inflicting pain. When given free choice in a control condition, subjects used very low, usually painless shocks. The two-thirds who obeyed were ordinary people from working, managerial, and professional classes. Their motivation was not sadism but a sense of duty — obligation to fulfill their role as a cooperative subject.</div>
+    </div>
+
+    <!-- Q67 -->
+    <div class="q-block">
+      <div class="q-num">Question 67 · Milgram → IIA Connection</div>
+      <div class="q-text">An audit senior tells the engagement partner: "I documented what you told me to document — the conclusion on that control is your call, not mine." Which Milgram concept does this most directly illustrate, and which IIA principle does it violate?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q67" value="a"> Diffusion of responsibility; P5 Confidentiality</label>
+        <label><input type="radio" name="q67" value="b"> The agentic state — viewing oneself as an instrument rather than a moral agent; P1 Integrity (Standard 1.1 — acting honestly and courageously)</label>
+        <label><input type="radio" name="q67" value="c"> Peer disobedience; P3 Competency</label>
+        <label><input type="radio" name="q67" value="d"> Conflicting authority; P2 Objectivity</label>
+      </div>
+      <div class="explanation" data-q="q67">✅ <strong>B is correct.</strong> "The conclusion is your call" is precisely the agentic state: the senior has transferred perceived responsibility upward and ceased to function as an autonomous moral agent. This violates P1 Integrity — every auditor on the engagement retains personal responsibility for the accuracy of their work product, regardless of who signs off at the top. "Following instructions" is not an ethical defense in audit, just as Milgram showed it is not a moral defense in the lab.</div>
+    </div>
+
+    <!-- Q68 -->
+    <div class="q-block">
+      <div class="q-num">Question 68 · Milgram — Hannah Arendt Connection</div>
+      <div class="q-text">Milgram explicitly connects his findings to Hannah Arendt's concept of the "banality of evil" from her coverage of the Eichmann trial. What is the core claim of that concept as Milgram applies it?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q68" value="a"> Evil acts require individuals with exceptional cruelty and a history of violent behavior</label>
+        <label><input type="radio" name="q68" value="b"> Eichmann's evil was so extreme it could not be explained by normal psychology</label>
+        <label><input type="radio" name="q68" value="c"> The most common form of socially organized evil is performed by ordinary people carrying out narrow roles — not monsters, but uninspired bureaucrats simply doing their jobs</label>
+        <label><input type="radio" name="q68" value="d"> Obedience to authority is only possible in authoritarian political systems</label>
+      </div>
+      <div class="explanation" data-q="q68">✅ <strong>C is correct.</strong> Arendt argued Eichmann was not a sadistic monster but an uninspired bureaucrat who sat at his desk and did his job. Milgram's data confirms this: ordinary people from every stratum of society — not an aggressive fringe — administered the maximum shock. The most common characteristic of socially organized evil in modern society, Milgram concludes, is the fragmentation of the total human act so that no one person is confronted with its full consequences.</div>
+    </div>
+
+    <!-- Q69 -->
+    <div class="q-block">
+      <div class="q-num">Question 69 · Three-Reading Synthesis</div>
+      <div class="q-text">Solzhenitsyn, Didion, and Milgram all address a similar underlying problem. Which of the following best captures what all three share?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q69" value="a"> All three argue that large-scale systemic reform is required before individual integrity is possible</label>
+        <label><input type="radio" name="q69" value="b"> All three locate moral failure in extraordinary individuals — psychopaths, tyrants, and sadists</label>
+        <label><input type="radio" name="q69" value="c"> All three show how ordinary people, through small acts of compliance, approval-seeking, or obedience, enable harm — and all three argue the individual retains a genuine choice that defines their moral identity</label>
+        <label><input type="radio" name="q69" value="d"> All three conclude that ethical behavior is primarily a function of institutional design, not individual character</label>
+      </div>
+      <div class="explanation" data-q="q69">✅ <strong>C is correct.</strong> Solzhenitsyn: ordinary people sustain totalitarianism through daily participation in lies. Didion: ordinary self-deception and approval-seeking erode integrity incrementally. Milgram: ordinary people administer maximum voltage because authority says so. In all three, the agent is not a monster — and in all three, a genuine individual choice remains available. This is the unified lesson the professor is testing.</div>
+    </div>
+
+    <!-- Q70 -->
+    <div class="q-block">
+      <div class="q-num">Question 70 · Three-Reading Synthesis → IIA Application</div>
+      <div class="q-text">An audit manager is pressured by the CFO to remove a significant finding from the draft report. Drawing on all three readings, which response best reflects the integrated ethical auditor?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q70" value="a"> Comply — the CFO has more context about the business, and preserving the relationship serves the long-term audit function</label>
+        <label><input type="radio" name="q70" value="b"> Escalate to the partner and document the conversation, then let the partner decide — the responsibility is theirs</label>
+        <label><input type="radio" name="q70" value="c"> Maintain the finding, document the disagreement per IIA standards, and if necessary escalate to the audit committee — because (Solzhenitsyn) non-participation in lies, (Didion) self-respect rooted in character not approval, and (Milgram) refusing the agentic state all require the same response</label>
+        <label><input type="radio" name="q70" value="d"> Remove the finding but add a management response section noting the CFO's objection</label>
+      </div>
+      <div class="explanation" data-q="q70">✅ <strong>C is correct.</strong> All three readings converge on the same answer. Solzhenitsyn: removing the finding is daily participation in lies — the profession depends on non-participation. Didion: the auditor who removes the finding to keep the CFO happy lacks self-respect — they are calibrating their standard to others' approval rather than to character. Milgram: escalating to the partner and saying "it's your call" is the agentic state — responsibility does not transfer upward. The IIA's Standard 1.1 and the escalation path to the audit committee exist precisely for this moment.</div>
+    </div>
+
+  </div><!-- end quiz-form -->
+
+  <div class="quiz-controls">
+    <button class="btn gold" onclick="submitQuiz()">Submit Answers & See Score</button>
+    <button class="btn" onclick="resetQuiz()">Reset Quiz</button>
+  </div>
+
+  <div id="score-display2" class="score-box" style="display:none">
+    <div class="big" id="score-text2">0/70</div>
+    <p id="score-pct2"></p>
+    <p id="score-msg2"></p>
+  </div>
+</div>
+
+<script>
+  const ANSWERS = {
+    q1:'b',q2:'c',q3:'b',q4:'c',q5:'a',
+    q6:'b',q7:'c',q8:'b',q9:'c',q10:'c',
+    q11:'c',q12:'b',q13:'b',q14:'b',q15:'b',
+    q16:'b',q17:'c',q18:'c',q19:'b',q20:'c',
+    q21:'d',q22:'b',q23:'b',q24:'c',q25:'b',
+    q26:'b',q27:'c',q28:'b',q29:'b',q30:'c',
+    q31:'c',q32:'d',q33:'b',q34:'b',q35:'c',
+    q36:'b',q37:'b',q38:'b',q39:'c',q40:'c',
+    q41:'b',q42:'b',q43:'c',q44:'c',q45:'b',
+    q46:'b',q47:'b',q48:'b',q49:'b',q50:'b',
+    q51:'b',q52:'c',q53:'b',q54:'b',q55:'b',
+    q56:'c',q57:'b',q58:'b',q59:'c',q60:'b',
+    q61:'b',q62:'c',q63:'c',q64:'b',q65:'c',
+    q66:'b',q67:'b',q68:'c',q69:'c',q70:'c'
+  };
+
+  function show(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function submitQuiz() {
+    let correct = 0;
+    for (let q in ANSWERS) {
+      const selected = document.querySelector(`input[name=${q}]:checked`);
+      const opts = document.querySelectorAll(`input[name=${q}]`);
+      const exp = document.querySelector(`.explanation[data-q=${q}]`);
+      opts.forEach(opt => {
+        const label = opt.parentElement;
+        if (opt.value === ANSWERS[q]) label.classList.add('correct');
+        if (selected && opt.value === selected.value && opt.value !== ANSWERS[q]) label.classList.add('wrong');
+      });
+      if (selected && selected.value === ANSWERS[q]) correct++;
+      if (exp) exp.classList.add('show');
+    }
+    const pct = Math.round((correct/70)*100);
+    let msg = pct >= 90 ? '🎉 Excellent! You\'re well prepared!' :
+              pct >= 80 ? '👍 Great job! Review the ones you missed.' :
+              pct >= 70 ? '📖 Good effort — focus on weak areas.' :
+              '💪 Keep studying! Review the study guides above.';
+
+    ['', '2'].forEach(s => {
+      const el = document.getElementById('score-display'+s);
+      if (el) {
+        el.style.display = 'block';
+        document.getElementById('score-text'+s).textContent = `${correct}/70`;
+        document.getElementById('score-pct'+s).textContent = `${pct}% — ${msg}`;
+      }
+    });
+    window.scrollTo(0, 0);
+  }
+
+  function resetQuiz() {
+    document.querySelectorAll('input[type=radio]').forEach(r => r.checked = false);
+    document.querySelectorAll('.q-opts label').forEach(l => { l.classList.remove('correct','wrong'); });
+    document.querySelectorAll('.explanation').forEach(e => e.classList.remove('show'));
+    ['', '2'].forEach(s => {
+      const el = document.getElementById('score-display'+s);
+      if (el) el.style.display = 'none';
+    });
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>

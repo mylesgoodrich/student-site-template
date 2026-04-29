@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Case Study Notecards – Meridian Energy Holdings</title>
+<style>
+  body { background:#d1d5db; font-family:Arial,Helvetica,sans-serif; margin:0; padding:16px; }
+  .page-title { text-align:center; font-size:1.1rem; font-weight:700; color:#064e3b; margin-bottom:12px; }
+  .print-btn { display:block; margin:0 auto 20px; background:#064e3b; color:white; border:none; padding:10px 28px; border-radius:20px; font-size:1rem; font-weight:700; cursor:pointer; }
+  .cards-grid { display:flex; flex-wrap:wrap; gap:16px; justify-content:center; }
+  .card { width:6in; min-height:4in; height:auto; background:#fff; border:1.5px solid #065f46; border-radius:6px; box-sizing:border-box; overflow:visible; display:flex; flex-direction:column; box-shadow:0 2px 8px rgba(0,0,0,.18); page-break-inside:avoid; }
+  .card-header { background:#064e3b; color:#a7f3d0; font-size:8.5pt; font-weight:900; text-transform:uppercase; letter-spacing:.6px; padding:4px 8px; flex-shrink:0; display:flex; justify-content:space-between; align-items:center; }
+  .card-num { color:#6ee7b7; font-size:7pt; font-weight:700; }
+  .card-body { padding:5px 8px 4px; flex:1; overflow:visible; font-size:7.2pt; line-height:1.28; color:#111; }
+  .card-body h2 { font-size:8pt; color:#065f46; margin:4px 0 2px; border-bottom:1px solid #a7f3d0; padding-bottom:1px; font-weight:900; }
+  .card-body .cols { display:flex; gap:6px; }
+  .card-body .col { flex:1; }
+  .card-body .highlight { background:#fef9c3; border-left:3px solid #f59e0b; padding:2px 5px; margin:3px 0; border-radius:2px; font-size:7pt; }
+  .card-body .badge { display:inline-block; background:#065f46; color:#a7f3d0; font-size:6.2pt; font-weight:800; padding:1px 4px; border-radius:3px; text-transform:uppercase; margin-right:2px; }
+  .card-body .badge.r { background:#dc2626; color:white; }
+  .card-body .badge.o { background:#d97706; color:white; }
+  .card-body table { width:100%; border-collapse:collapse; font-size:6.8pt; margin:2px 0; }
+  .card-body th { background:#064e3b; color:#a7f3d0; padding:2px 4px; text-align:left; font-size:6.5pt; }
+  .card-body td { padding:1.5px 4px; border-bottom:1px solid #e5e7eb; vertical-align:top; }
+  .card-body tr:nth-child(even) td { background:#f0fdf4; }
+  .card-body ul { margin:1px 0 2px 13px; padding:0; }
+  .card-body li { margin:1px 0; }
+  .card-body p { margin:2px 0; }
+  .card-body .divider { border:none; border-top:1px dashed #6ee7b7; margin:3px 0; }
+  .card-body .red-box { background:#fef2f2; border:1px solid #fca5a5; border-radius:3px; padding:2px 5px; margin:2px 0; }
+  .card-body .gold-box { background:#fffbeb; border:1px solid #f59e0b; border-radius:3px; padding:2px 5px; margin:2px 0; }
+  @media print {
+    @page { size:6in 4in; margin:0; }
+    body { background:white; padding:0; margin:0; }
+    .page-title, .print-btn { display:none; }
+    .cards-grid { display:block; gap:0; }
+    .card { width:6in; min-height:4in; height:auto; border-radius:0; box-shadow:none; border:none; page-break-after:always; break-after:page; }
+    .card:last-child { page-break-after:avoid; }
+  }
+</style>
+</head>
+<body>
+<p class="page-title">&#x1F4C7; Case Study Notecards &mdash; Meridian Energy Holdings &middot; ITGC Access Controls &middot; Print on 4x6 landscape</p>
+<button class="print-btn" onclick="window.print()">Print Case Study Cards</button>
+<div class="cards-grid">
+
+<!-- CS-1: Company Profile + Control Objectives -->
+<div class="card">
+  <div class="card-header">MEH Company Profile &middot; Identity Stack &middot; Control Objectives AC-01 thru AC-05 <span class="card-num">CS-1 / 6</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <h2>Meridian Energy Holdings (MEH)</h2>
+        <ul>
+          <li>Mid-sized energy co. Houston TX &middot; NYSE-listed</li>
+          <li>~2,800 employees &middot; SAP S/4HANA (ERP)</li>
+          <li>Subject to: <strong>SOX 404</strong>, NERC CIP, FERC</li>
+        </ul>
+        <h2>Identity Stack</h2>
+        <ul>
+          <li><strong>Entra ID</strong> (fka Azure AD) -- Identity Provider; MFA enforced for all users</li>
+          <li><strong>SSO</strong> -- Entra ID federates into SAP; no separate SAP password needed</li>
+          <li><strong>RBAC</strong> -- SAP roles bundle permissions (e.g. Z_FI_AP_PROC = enter invoices)</li>
+          <li><span class="badge">KEY</span> Disabling Entra ID = cutting SAP access. All termination SLA flows through Entra ID, not SAP directly.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h2>Control Objectives (Policy IT-SEC-004)</h2>
+        <table>
+          <tr><th>ID</th><th>What it requires</th><th>Test type</th></tr>
+          <tr><td><strong>AC-01</strong></td><td>MFA enforced via Entra ID for all users</td><td>TOD</td></tr>
+          <tr><td><strong>AC-02</strong></td><td>New access = mgr + data owner approval, job-aligned, within 2 BD SLA</td><td>TOE</td></tr>
+          <tr><td><strong>AC-03</strong></td><td>Entra ID disabled within <strong>4 hours</strong> of HR termination</td><td>TOE</td></tr>
+          <tr><td><strong>AC-04</strong></td><td>Quarterly access reviews validate continued appropriateness</td><td>TOE</td></tr>
+          <tr><td><strong>AC-05</strong></td><td>SoD conflicts identified; remediated or mitigated with documented MCs</td><td>TOE</td></tr>
+        </table>
+        <div class="highlight"><strong>TOD</strong> = "Could this control work?" (inspect config/policy design) &nbsp; <strong>TOE</strong> = "Did it actually work?" (sample evidence over the period)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CS-2: Exhibit A + Exhibit B -->
+<div class="card">
+  <div class="card-header">Exhibit A -- SAP User Population Flags &middot; Exhibit B -- AC-02 Provisioning Exceptions <span class="card-num">CS-2 / 6</span></div>
+  <div class="card-body">
+    <h2>Exhibit A -- Key Users to Know for the Exam</h2>
+    <table>
+      <tr><th>User ID</th><th>Role(s) in SAP</th><th>Flag</th></tr>
+      <tr><td>dkim77 -- AP Supervisor</td><td>Z_FI_AP_PROC + Z_FI_AP_PAY</td><td><span class="badge r">HIGH SoD conflict</span></td></tr>
+      <tr><td>tgarcia08 -- Cash Manager</td><td>Z_FI_AP_PAY + Z_MM_VENDOR</td><td><span class="badge r">HIGH SoD conflict</span></td></tr>
+      <tr><td>jbrown61 -- GL Analyst</td><td>Z_FI_GL_POST + Z_FI_GL_APPROVE</td><td><span class="badge r">HIGH SoD / NO MITIGATING CONTROL</span></td></tr>
+      <tr><td>pjohnson88 -- Fin. Analyst</td><td>Z_FI_GL_POST</td><td><span class="badge r">TERMINATED 01/31 -- still active in population!</span></td></tr>
+      <tr><td>aclark99 -- Security Admin</td><td>Z_SEC_ADM</td><td><span class="badge o">CRITICAL role -- verify CISO approval on provisioning</span></td></tr>
+      <tr><td>rthomas15 -- Buyer</td><td>Z_MM_PURCH</td><td><span class="badge o">SoD conflict with Z_MM_PO_APP (medium risk)</span></td></tr>
+    </table>
+    <hr class="divider">
+    <h2>Exhibit B -- AC-02 Provisioning Exceptions (2 of 6 tickets = 33%)</h2>
+    <table>
+      <tr><th>Ticket</th><th>Exception found</th><th>Classification</th></tr>
+      <tr><td><strong>REQ-2503</strong> (rthomas15, Z_MM_PURCH)</td><td>Data owner approval field = blank. Access granted anyway. Policy requires BOTH manager AND data owner approval before any access grant.</td><td><span class="badge o">Control Deficiency</span></td></tr>
+      <tr><td><strong>REQ-2505</strong> (mchen66, Z_FI_GL_POST)</td><td>Access granted in 4 business days vs. 2-BD SLA. No exception or override documented.</td><td><span class="badge o">Control Deficiency</span></td></tr>
+    </table>
+    <div class="highlight">Critical role additional approvers per Exhibit F: Z_FI_AP_PAY = Treasurer &middot; Z_MM_VENDOR = Controller &middot; Z_SEC_ADM = CISO</div>
+  </div>
+</div>
+
+<!-- CS-3: Exhibit C + Exhibit H -->
+<div class="card">
+  <div class="card-header">Exhibit C -- Termination Testing (AC-03) &middot; Exhibit H -- Access Review (AC-04) <span class="card-num">CS-3 / 6</span></div>
+  <div class="card-body">
+    <h2>Exhibit C -- AC-03 Termination SLA Results &nbsp;<span style="font-weight:normal;font-size:6.8pt;">(Policy: Entra ID disabled within 4 hours of HR termination)</span></h2>
+    <table>
+      <tr><th>User</th><th>HR Term Date/Time</th><th>Entra Disabled</th><th>Elapsed</th><th>4-hr SLA</th><th>Post-Term Login?</th></tr>
+      <tr><td>pjohnson88</td><td>01/31 17:00</td><td>01/31 18:30</td><td>1.5 hrs</td><td><span class="badge">MET</span></td><td>None (last login 16:45)</td></tr>
+      <tr><td>swright42</td><td>02/14 17:00</td><td>02/14 17:15</td><td>0.25 hrs</td><td><span class="badge">MET</span></td><td>None</td></tr>
+      <tr><td><strong>jdavis55</strong></td><td><strong>03/07 17:00 (Fri)</strong></td><td><strong>03/08 09:45 (Sat)</strong></td><td><strong>16.75 hrs</strong></td><td><span class="badge r">MISSED</span></td><td>None confirmed via logs</td></tr>
+      <tr><td>arobinson19</td><td>03/28 17:00</td><td>03/28 17:30</td><td>0.5 hrs</td><td><span class="badge">MET</span></td><td>None</td></tr>
+      <tr><td>mhernandez07</td><td>04/15 17:00</td><td>04/15 18:00</td><td>1.0 hrs</td><td><span class="badge">MET</span></td><td>None</td></tr>
+    </table>
+    <div class="red-box"><strong>jdavis55 root cause (SYSTEMIC):</strong> Workday-to-Entra ID batch sync runs weekday mornings only. Friday 5pm termination not processed until Saturday 9:45am. Every Friday-evening termination has the same gap. Fix: real-time sync trigger. &nbsp;<span class="badge r">Significant Deficiency</span></div>
+    <hr class="divider">
+    <h2>Exhibit H -- Q2 Access Review (July 2025) -- AC-04 Exception</h2>
+    <div class="red-box"><strong>pjohnson88 shows "NO RESPONSE"</strong> -- Terminated 01/31. Entra ID disabled same day (AC-03 SLA met). But SAP role Z_FI_GL_POST was NEVER removed. By July access review, no active manager exists to respond. Policy requires auto-revoke on no response -- not enforced. Orphaned SAP role remains 5+ months post-termination. <span class="badge r">SD / MW candidate</span></div>
+  </div>
+</div>
+
+<!-- CS-4: Exhibits D + E (SoD) -->
+<div class="card">
+  <div class="card-header">Exhibits D + E -- SoD Conflicts and Mitigating Controls (AC-05) <span class="card-num">CS-4 / 6</span></div>
+  <div class="card-body">
+    <table>
+      <tr><th>User</th><th>SoD Conflict (Role 1 + Role 2)</th><th>Fraud Scenario / Risk</th><th>Mitigating Control</th><th>MC Adequate?</th></tr>
+      <tr>
+        <td><strong>dkim77</strong> AP Supervisor</td>
+        <td>Z_FI_AP_PROC (enter invoices) + Z_FI_AP_PAY (release payments)</td>
+        <td><span class="badge r">HIGH</span> Create fraudulent invoice AND release payment to self or shell vendor with no second reviewer on either step</td>
+        <td>MC-001: Controller reviews payment batches over $10,000 before release; evidenced by sign-off log</td>
+        <td><span class="badge o">PARTIAL</span> -- Payments under $10K unreviewed; structuring risk. No control over invoice entry side at all.</td>
+      </tr>
+      <tr>
+        <td><strong>tgarcia08</strong> Cash Mgr</td>
+        <td>Z_FI_AP_PAY (release payments) + Z_MM_VENDOR (create/modify vendors)</td>
+        <td><span class="badge r">HIGH</span> Classic ghost vendor fraud -- add fictitious vendor AND pay them directly</td>
+        <td>MC-002: Vendor master changes require dual approval; weekly AP Manager review of changes</td>
+        <td><span class="badge">ADEQUATE</span> if operating effectively -- dual approval breaks the single-person chain</td>
+      </tr>
+      <tr>
+        <td><strong>jbrown61</strong> GL Analyst</td>
+        <td>Z_FI_GL_POST (post journal entries) + Z_FI_GL_APPROVE (approve journal entries)</td>
+        <td><span class="badge r">HIGH</span> Post AND self-approve journal entries on the general ledger -- enables earnings manipulation on SOX-material accounts</td>
+        <td><strong>NO MITIGATING CONTROL DOCUMENTED</strong></td>
+        <td><span class="badge r">DEFICIENCY</span> -- Unmitigated HIGH SoD on GL of a SOX entity. MW candidate. No fraud required -- the risk alone triggers classification.</td>
+      </tr>
+      <tr>
+        <td><strong>rthomas15</strong> Buyer</td>
+        <td>Z_MM_PURCH (create PO) + Z_MM_PO_APP (approve PO)</td>
+        <td><span class="badge o">MEDIUM</span> Self-create and self-approve purchase orders</td>
+        <td>MC-003: All POs require Procurement Director approval regardless of amount (100% coverage)</td>
+        <td><span class="badge">ADEQUATE</span> -- independent director approval at 100% overrides self-approval risk entirely</td>
+      </tr>
+    </table>
+    <div class="red-box"><strong>jbrown61 key point:</strong> Material Weakness threshold = "reasonable possibility" of material misstatement. No actual fraud needed. Zero MC = zero mitigation on a SOX GL account = immediate escalation required.</div>
+  </div>
+</div>
+
+<!-- CS-5: Role Matrix + Deficiency Cheat Sheet -->
+<div class="card">
+  <div class="card-header">Exhibit F -- SAP Role Classification Matrix &middot; All Deficiencies Quick-Reference <span class="card-num">CS-5 / 6</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <h2>Exhibit F -- SAP Role Risk Levels</h2>
+        <table>
+          <tr><th>Role ID</th><th>Function</th><th>Risk</th><th>Approver</th></tr>
+          <tr><td>Z_FI_GL_POST</td><td>Post journal entries to GL</td><td><span class="badge o">High</span></td><td>Controller</td></tr>
+          <tr><td>Z_FI_GL_APPROVE</td><td>Approve journal entries</td><td><span class="badge o">High</span></td><td>CFO</td></tr>
+          <tr><td>Z_FI_AP_PROC</td><td>Enter and process vendor invoices</td><td><span class="badge o">High</span></td><td>AP Manager</td></tr>
+          <tr><td>Z_FI_AP_PAY</td><td>Execute payment runs and release payments</td><td><span class="badge r">Critical</span></td><td>Treasurer</td></tr>
+          <tr><td>Z_MM_PURCH</td><td>Create purchase orders</td><td>Medium</td><td>Dept Manager</td></tr>
+          <tr><td>Z_MM_PO_APP</td><td>Approve purchase orders</td><td><span class="badge o">High</span></td><td>Proc. Director</td></tr>
+          <tr><td>Z_MM_VENDOR</td><td>Create/modify vendor master records</td><td><span class="badge r">Critical</span></td><td>Controller</td></tr>
+          <tr><td>Z_SEC_ADM</td><td>Administer user accounts and roles</td><td><span class="badge r">Critical</span></td><td>CISO</td></tr>
+          <tr><td>Z_PM_MAINT</td><td>Create plant maintenance work orders</td><td>Low</td><td>Plant Mgr</td></tr>
+        </table>
+      </div>
+      <div class="col">
+        <h2>All Findings -- Classification Summary</h2>
+        <table>
+          <tr><th>Finding</th><th>Control</th><th>Class.</th></tr>
+          <tr><td>REQ-2503: no data owner approval</td><td>AC-02</td><td><span class="badge o">CD</span></td></tr>
+          <tr><td>REQ-2505: SLA missed (4 days vs. 2)</td><td>AC-02</td><td><span class="badge o">CD</span></td></tr>
+          <tr><td>jdavis55: 16.75 hr gap, systemic</td><td>AC-03</td><td><span class="badge r">SD</span></td></tr>
+          <tr><td>pjohnson88: orphaned SAP role 5+ mo.</td><td>AC-03/04</td><td><span class="badge r">SD/MW</span></td></tr>
+          <tr><td>jbrown61: unmitigated GL SoD, no MC</td><td>AC-05</td><td><span class="badge r">SD/MW</span></td></tr>
+          <tr><td>dkim77: MC only covers over $10K</td><td>AC-05</td><td><span class="badge o">CD</span></td></tr>
+        </table>
+        <div class="highlight"><strong>CD</strong> = Control Deficiency &nbsp; <strong>SD</strong> = Significant Deficiency &nbsp; <strong>MW</strong> = Material Weakness<br>MW = "reasonable possibility" of material misstatement -- no actual fraud required</div>
+        <div class="highlight"><strong>Sampling reminder:</strong> High-risk control = 40-60 samples (AICPA/PCAOB). Testing only 5 terminations (Exhibit C) insufficient for full SOX conclusion without documented rationale.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CS-6: Compounding Failure + Mgmt Letter + Didion -->
+<div class="card">
+  <div class="card-header">pjohnson88 Three-Control Failure &middot; Management Letter Template &middot; Case to Didion Connection <span class="card-num">CS-6 / 6</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <h2>pjohnson88 -- Three-Control Failure Chain</h2>
+        <ul>
+          <li><strong>AC-03 design gap:</strong> Policy disables Entra ID within SLA but has no procedure to clean up orphaned SAP roles after termination</li>
+          <li><strong>AC-04 operating failure:</strong> Q2 access review shows NO RESPONSE -- policy requires auto-revoke; not enforced because no manager escalation process exists</li>
+          <li><strong>Result:</strong> Active SAP role Z_FI_GL_POST persists 5+ months after termination (01/31 to July+)</li>
+          <li><strong>Reactivation risk:</strong> If SSO reconfigured or local SAP account exists, access could be restored</li>
+        </ul>
+        <hr class="divider">
+        <h2>Case Study -- Didion Connections</h2>
+        <ul>
+          <li><strong>Objectivity (P2):</strong> Accepting mgmt's "$10K MC is fine" without independently testing it = calibrating judgment to approval, not character</li>
+          <li><strong>Integrity (P1) / courage of mistakes:</strong> Writing "mgmt is aware" on jbrown61's unmitigated SoD instead of escalating = lacking the courage of one's mistakes</li>
+          <li><strong>Small disciplines = larger ones:</strong> Cross-referencing Exhibit A with C and H is the documentation habit that catches the compounding pjohnson88 failure -- the auditor who skips the cross-ref misses it entirely</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h2>Management Letter -- jdavis55 (8 Rules Applied)</h2>
+        <table>
+          <tr><th>Element</th><th>Content</th></tr>
+          <tr><td><strong>Condition</strong></td><td>1 of 5 (20%) terminations tested exceeded the 4-hour SLA. jdavis55 disabled 16.75 hours after HR termination (Fri 03/07 17:00 to Sat 03/08 09:45)</td></tr>
+          <tr><td><strong>Criteria</strong></td><td>IT-SEC-004 Section 4.3: Entra ID account must be disabled within 4 hours of HR termination record</td></tr>
+          <tr><td><strong>Cause</strong></td><td>Workday-to-Entra ID batch sync runs weekday mornings only; Friday terminations are not processed until the following business day (systemic gap)</td></tr>
+          <tr><td><strong>Effect</strong></td><td>16.75-hour window of potential SAP financial system access. Compensating: no post-termination logins confirmed via Entra sign-in logs.</td></tr>
+          <tr><td><strong>Rec.</strong></td><td>Implement real-time Workday-to-Entra ID sync trigger for all termination events regardless of day or time of day</td></tr>
+        </table>
+        <div class="gold-box"><strong>8 Rules check:</strong> Headline first (1/5 = 20%) -- Quantified (16.75 hrs) -- Show math (timestamps) -- Named population -- Compensating control noted -- Actionable specific rec -- Writes for the skeptic</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

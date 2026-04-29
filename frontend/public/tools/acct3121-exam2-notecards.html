@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACCT 3121 Exam 2 – Printable Note Cards</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+  :root {
+    --purple: #461D7C;
+    --gold: #FDD023;
+    --ch8: #1a5276;
+    --ch9: #6c3483;
+    --ch10: #1e8449;
+    --ch11: #b9770e;
+    --card-w: 4in;
+    --card-h: 6in;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: #f0f0f4;
+    color: #1a1a1a;
+  }
+
+  /* === SCREEN VIEW === */
+  @media screen {
+    .print-instructions {
+      background: var(--purple); color: white; padding: 20px 32px; text-align: center;
+      position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,.3);
+    }
+    .print-instructions h1 { font-size: 22px; color: var(--gold); }
+    .print-instructions p { font-size: 14px; margin-top: 6px; opacity: .85; }
+    .print-instructions button {
+      margin-top: 10px; background: var(--gold); color: var(--purple);
+      border: none; padding: 10px 36px; border-radius: 6px; font-weight: 700;
+      font-size: 16px; cursor: pointer;
+    }
+    .cards-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, var(--card-w));
+      gap: 20px; padding: 24px; justify-content: center;
+    }
+    .card {
+      width: var(--card-w); min-height: var(--card-h); background: white;
+      border-radius: 10px; overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,.1); break-inside: avoid;
+    }
+  }
+
+  /* === PRINT === */
+  @media print {
+    .print-instructions { display: none; }
+    body { background: white; }
+    .cards-grid { display: block; padding: 0; }
+    .card {
+      width: var(--card-w); min-height: var(--card-h);
+      page-break-inside: avoid; break-inside: avoid;
+      border: 1px solid #ccc; margin: 0.15in;
+      display: inline-block; vertical-align: top;
+    }
+    @page { size: letter; margin: 0.3in; }
+  }
+
+  /* === CARD INTERNALS === */
+  .card-header {
+    padding: 6px 12px; color: white; font-weight: 700; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 1px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .card-header .num { opacity: .7; font-size: 10px; }
+  .ch8 .card-header { background: var(--ch8); }
+  .ch9 .card-header { background: var(--ch9); }
+  .ch10 .card-header { background: var(--ch10); }
+  .ch11 .card-header { background: var(--ch11); }
+
+  .card-title {
+    padding: 8px 12px 4px; font-size: 13px; font-weight: 700; color: #1a1a1a;
+    border-bottom: 1px solid #eee;
+  }
+
+  .card-body { padding: 8px 12px 10px; font-size: 10.5px; line-height: 1.55; }
+  .card-body p { margin-bottom: 5px; }
+  .card-body ul { padding-left: 14px; margin-bottom: 5px; }
+  .card-body li { margin-bottom: 2px; }
+
+  .formula {
+    background: #f7f5e8; border: 1px solid #e8e2c0; border-radius: 4px;
+    padding: 5px 8px; margin: 5px 0; font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; line-height: 1.6; color: #333; white-space: pre-wrap;
+  }
+
+  .example {
+    background: #eef6ff; border-left: 3px solid #3498db; padding: 5px 8px;
+    margin: 5px 0; font-size: 10px; border-radius: 0 4px 4px 0;
+  }
+
+  .je {
+    background: #f0faf0; border: 1px solid #c8e6c8; border-radius: 4px;
+    padding: 5px 8px; margin: 5px 0; font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px; line-height: 1.5;
+  }
+
+  .highlight { background: #fff3cd; padding: 1px 4px; border-radius: 2px; font-weight: 600; }
+  .tip { color: #1e8449; font-weight: 600; font-style: italic; }
+  b { font-weight: 700; }
+
+  .section-divider {
+    grid-column: 1 / -1; text-align: center; padding: 16px;
+    font-size: 20px; font-weight: 700; color: var(--purple);
+    border-bottom: 3px solid var(--gold); margin: 10px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="print-instructions">
+  <h1>ACCT 3121 Exam 2 – Note Card Set</h1>
+  <p>Print double-sided on cardstock, then cut along card borders. 4×6 index card size.</p>
+  <button onclick="window.print()">🖨️ Print Note Cards</button>
+</div>
+
+<div class="cards-grid">
+
+<!-- ============================================================ -->
+<!-- MASTER CARD: ALL ACRONYMS -->
+<!-- ============================================================ -->
+<div class="card ch10">
+  <div class="card-header">All Chapters <span class="num">#1</span></div>
+  <div class="card-title">Master Acronym Reference</div>
+  <div class="card-body">
+    <ul>
+      <li><b>DM</b> = Direct Materials</li>
+      <li><b>DL</b> = Direct Labor</li>
+      <li><b>MOH</b> = Manufacturing Overhead</li>
+      <li><b>VMOH</b> = Variable Manufacturing Overhead</li>
+      <li><b>FMOH</b> = Fixed Manufacturing Overhead</li>
+      <li><b>WIP</b> = Work-in-Process Inventory</li>
+      <li><b>FG</b> = Finished Goods Inventory</li>
+      <li><b>COGM</b> = Cost of Goods Manufactured</li>
+      <li><b>COGS</b> = Cost of Goods Sold</li>
+      <li><b>CC</b> = Conversion Costs (DL + MOH)</li>
+      <li><b>EU</b> = Equivalent Units</li>
+      <li><b>TI</b> = Transferred-In costs</li>
+      <li><b>ABC</b> = Activity-Based Costing</li>
+      <li><b>TDABC</b> = Time-Driven ABC</li>
+      <li><b>AP</b> = Actual Price &nbsp; <b>SP</b> = Standard Price</li>
+      <li><b>AQ</b> = Actual Qty (inputs) &nbsp; <b>SQ</b> = Standard Qty (inputs)</li>
+      <li><b>AO</b> = Actual Output &nbsp; <b>TO</b> = Targeted Output</li>
+      <li><b>F</b> = Favorable &nbsp; <b>U</b> = Unfavorable</li>
+      <li><b>BI/EI</b> = Beginning/Ending Inventory</li>
+      <li><b>S&C</b> = Started & Completed</li>
+      <li><b>JE</b> = Journal Entry</li>
+      <li><b>IC</b> = Indirect Costs</li>
+      <li><b>SG&A</b> = Selling, General & Administrative</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- CH 8: JOB COSTING -->
+<!-- ============================================================ -->
+<div class="section-divider">CHAPTER 8: JOB COSTING</div>
+
+<div class="card ch8">
+  <div class="card-header">CH 8 – Job Costing <span class="num">#2</span></div>
+  <div class="card-title">Overview & Key Definitions</div>
+  <div class="card-body">
+    <p><b>Job Costing</b> = Costs tracked per distinct job/batch. Used for custom products (homes, audits, consulting).</p>
+    <p><b>Process Costing</b> = Costs averaged over identical units. Used for mass production (gasoline, food).</p>
+    <p><b>Cost Object</b> = What we're measuring cost of (product, service, customer)</p>
+    <p><b>Cost Driver</b> = Activity causing cost (DL hrs, machine hrs, # units)</p>
+    <p><b>Direct Costs</b> = DM + DL (traced to cost object)</p>
+    <p><b>Indirect Costs</b> = MOH (allocated to cost object)</p>
+    <p><b>Normal Costing</b> = Actual DM + Actual DL + <span class="highlight">Applied MOH</span></p>
+    <p><b>Actual Costing</b> = Actual DM + Actual DL + Actual MOH</p>
+    <p><b>Product Costs</b> = DM + DL + MOH → Inventory (B/S)</p>
+    <p><b>Period Costs</b> = SG&A → Expensed immediately (I/S)</p>
+    <p class="tip">Sales commissions = PERIOD cost, NOT product cost!</p>
+  </div>
+</div>
+
+<div class="card ch8">
+  <div class="card-header">CH 8 – Job Costing <span class="num">#3</span></div>
+  <div class="card-title">Source Documents</div>
+  <div class="card-body">
+    <ul>
+      <li><b>Bill of Materials</b> – list of materials + required quantities to mfg product</li>
+      <li><b>Materials Requisition Sheet</b> – request to move items from RM to production (RM → WIP)</li>
+      <li><b>Labor Timesheet</b> – records workers on production run; job #, hours</li>
+      <li><b>Job Cost Sheet</b> – <span class="highlight">CONTROL document</span> that compiles DM, DL, MOH for each specific job</li>
+    </ul>
+    <p><b>Sub-Ledger Accounts:</b></p>
+    <ul>
+      <li>WIP Inventory = control account in GL</li>
+      <li>Individual job cost sheets = sub-ledger</li>
+      <li>Total of all job sheets = WIP control balance</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card ch8">
+  <div class="card-header">CH 8 – Job Costing <span class="num">#4</span></div>
+  <div class="card-title">MOH Rate – The 4-Step Process</div>
+  <div class="card-body">
+    <p>Done <b>BEFORE the year begins</b> using estimates:</p>
+    <ol>
+      <li>Estimate total MOH for the year</li>
+      <li>Choose application base (cost driver): DL hrs, MH, DL $</li>
+      <li>Estimate total base amount for the year</li>
+      <li>Calculate the predetermined rate</li>
+    </ol>
+    <div class="formula">MOH Rate = Estimated Total MOH / Estimated Total Base</div>
+    <div class="formula">Applied MOH = MOH Rate × Actual Base Usage</div>
+    <div class="example">
+      <b>Ex:</b> Est. MOH = $60,000. Est. MH = 6,000.<br>
+      Rate = $60,000/6,000 = <b>$10/MH</b><br>
+      Job uses 80 MH → Applied = 80 × $10 = <b>$800</b>
+    </div>
+    <p class="tip">Applied uses BUDGETED rate × ACTUAL driver quantity!</p>
+  </div>
+</div>
+
+<div class="card ch8">
+  <div class="card-header">CH 8 – Job Costing <span class="num">#5</span></div>
+  <div class="card-title">Departmental MOH Rates</div>
+  <div class="card-body">
+    <p>Different departments may use different cost drivers.</p>
+    <div class="formula">Dept Rate = Dept Budgeted MOH / Dept Budgeted Base
+Total Job MOH = Σ (Dept Rate × Job's Usage in Dept)</div>
+    <div class="example">
+      <b>Ex:</b> Machining: $420K/30K MH = <b>$14/MH</b><br>
+      Assembly: $240K/25K DLH = <b>$9.60/DLH</b><br>
+      Job #316: 70 MH + 80 DLH<br>
+      MOH = (70×$14) + (80×$9.60) = $980 + $768 = <b>$1,748</b>
+    </div>
+  </div>
+</div>
+
+<div class="card ch8">
+  <div class="card-header">CH 8 – Job Costing <span class="num">#6</span></div>
+  <div class="card-title">IC Rate as % of DL Cost & Bid Pricing</div>
+  <div class="card-body">
+    <p><b>Indirect-Cost Rate as % of DL Cost:</b></p>
+    <div class="formula">IC Rate (%) = Total Budgeted IC / Total Budgeted DL Cost
+Applied IC = Actual DL Cost × IC Rate %</div>
+    <div class="example">
+      <b>Ex:</b> IC budget $600K, DL budget $400K<br>
+      IC Rate = $600K/$400K = <b>150%</b><br>
+      Job DL = $15K → IC = $15K × 150% = <b>$22,500</b><br>
+      DL hourly rate = $400K/8K hrs = <b>$50/hr</b>
+    </div>
+    <p><b>Bid Price / Special Order:</b></p>
+    <div class="formula">Total Mfg Cost = DM + DL + Applied MOH
+Bid Price = Total Mfg Cost × (1 + Markup %)</div>
+    <div class="example">
+      <b>Ex:</b> DM $44K + DL (300×$25)=$7.5K + MOH (300×$80)=$24K<br>
+      = $75,500 × 1.20 = <b>$90,600 bid</b>
+    </div>
+  </div>
+</div>
+
+<div class="card ch8">
+  <div class="card-header">CH 8 – Job Costing <span class="num">#7</span></div>
+  <div class="card-title">All Journal Entries (Cost Flow)</div>
+  <div class="card-body">
+    <div class="je">1. Purchase materials (DM + IM):
+  DR Raw Materials Inv     XX
+    CR Accounts Payable        XX
+
+2. DM requisitioned to production:
+  DR WIP Inventory (job #)  XX
+    CR Raw Materials Inv       XX
+
+3. DL incurred:
+  DR WIP Inventory (job #)  XX
+    CR Wages Payable           XX
+
+4. Indirect materials used:
+  DR MOH Control            XX
+    CR Raw Materials Inv       XX
+
+5. Indirect labor:
+  DR MOH Control            XX
+    CR Wages Payable           XX
+
+6. Other actual MOH (rent, dep, utils):
+  DR MOH Control            XX
+    CR Accum Dep/Cash/Payables XX
+
+7. Apply MOH to production:
+  DR WIP Inventory (job #)  XX
+    CR MOH Control (Applied)   XX
+
+8. Job completed:
+  DR Finished Goods Inv     XX
+    CR WIP Inventory           XX
+
+9. Sold:
+  DR COGS                   XX
+    CR Finished Goods Inv      XX
+  DR A/R or Cash            XX
+    CR Sales Revenue           XX
+
+10. Period costs:
+  DR Marketing/Admin Exp    XX
+    CR Cash/Payables           XX</div>
+  </div>
+</div>
+
+<div class="card ch8">
+  <div class="card-header">CH 8 – Job Costing <span class="num">#8</span></div>
+  <div class="card-title">Over/Under-Applied MOH & Closing</div>
+  <div class="card-body">
+    <p>At year-end, Actual MOH ≠ Applied MOH (rate is estimated).</p>
+    <div class="formula">Under-applied: Actual > Applied (DR bal in MOH Control)
+Over-applied: Actual < Applied (CR bal in MOH Control)</div>
+    <p><b>Method 1: Direct Write-Off</b> (if immaterial)</p>
+    <div class="je">Under-applied: DR COGS, CR MOH Control
+Over-applied: DR MOH Control, CR COGS</div>
+    <p><b>Method 2: Proration</b> (proportional to ending balances)</p>
+    <div class="formula">Share = Account Ending Bal / Total (WIP+FG+COGS)
+Allocated = Over/Under × Share</div>
+    <div class="example">
+      <b>Ex:</b> $6K under. WIP=$40K, FG=$8K, COGS=$16K. Total=$64K<br>
+      COGS: $16K/$64K=25% → $6K×25% = <b>$1,500</b><br>
+      Under-applied → DR COGS (increases COGS, ↓ income)<br>
+      Over-applied → CR COGS (decreases COGS, ↑ income)
+    </div>
+  </div>
+</div>
+
+<div class="card ch8">
+  <div class="card-header">CH 8 – Job Costing <span class="num">#9</span></div>
+  <div class="card-title">COGM, COGS, & Ending FG Formulas</div>
+  <div class="card-body">
+    <div class="formula">COGM = DM Used + DL + Applied MOH
+       + Beg WIP - End WIP
+
+COGS = Beg FG + COGM - End FG
+
+End FG = Beg FG + COGM - COGS</div>
+    <div class="example">
+      <b>Ex:</b> Beg FG $53K, COGM $288K, COGS $248K<br>
+      End FG = $53K + $288K - $248K = <b>$93,000</b>
+    </div>
+    <p><b>T-Account Flow:</b></p>
+    <p>RM Inv → WIP Inv → FG Inv → COGS</p>
+    <p>Purchases → DM used → Completed → Sold</p>
+    <p class="tip">MOH Control debits (actual) & credits (applied) flow through WIP</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- CH 9: ABC -->
+<!-- ============================================================ -->
+<div class="section-divider">CHAPTER 9: ACTIVITY-BASED COSTING</div>
+
+<div class="card ch9">
+  <div class="card-header">CH 9 – ABC <span class="num">#10</span></div>
+  <div class="card-title">Traditional vs. ABC Costing</div>
+  <div class="card-body">
+    <p><b>Traditional ("Peanut Butter") Costing:</b></p>
+    <ul>
+      <li>ONE plant-wide rate, ONE cost driver</li>
+      <li>Spreads OH uniformly → product cross-subsidization</li>
+      <li>High-volume products: OVERCOSTED</li>
+      <li>Low-volume products: UNDERCOSTED</li>
+      <li>GAAP approved for financial reporting</li>
+    </ul>
+    <p><b>Activity-Based Costing:</b></p>
+    <ul>
+      <li>MULTIPLE cost pools, each with specific cost driver</li>
+      <li>Cause-and-effect relationships</li>
+      <li>More accurate product costs</li>
+      <li>For MANAGEMENT decisions, NOT GAAP</li>
+      <li>ABC for MOH only; some firms apply to SG&A too</li>
+    </ul>
+    <p><b>Cross-Subsidization</b> = broadly averaged costs assigned without recognizing actual resource usage differences</p>
+  </div>
+</div>
+
+<div class="card ch9">
+  <div class="card-header">CH 9 – ABC <span class="num">#11</span></div>
+  <div class="card-title">The 4-Level Cost Hierarchy</div>
+  <div class="card-body">
+    <p><b>1. Unit-Level (Output)</b></p>
+    <ul><li>Per unit of output. Ex: DM, DL, energy, indirect materials</li>
+    <li>Driver: # units, DL hrs, MH</li></ul>
+    <p><b>2. Batch-Level</b></p>
+    <ul><li>Per batch/group. Ex: machine setup, procurement, cleaning</li>
+    <li>Driver: # setups, # POs, # production runs</li></ul>
+    <p><b>3. Product-Sustaining</b></p>
+    <ul><li>Supports product line. Ex: design costs, product advertising, R&D</li>
+    <li>Driver: # product lines, engineering hours</li></ul>
+    <p><b>4. Facility-Sustaining</b></p>
+    <ul><li>Entire facility. Ex: rent, security, exec salaries, admin, IT, HR</li>
+    <li>Driver: sq ft, # employees</li>
+    <li class="tip">MOST DIFFICULT to allocate — no clear cause-and-effect</li></ul>
+  </div>
+</div>
+
+<div class="card ch9">
+  <div class="card-header">CH 9 – ABC <span class="num">#12</span></div>
+  <div class="card-title">ABC Calculation Steps & Formulas</div>
+  <div class="card-body">
+    <ol>
+      <li>Identify products (cost objects)</li>
+      <li>Identify direct costs (DM, DL)</li>
+      <li>Identify activity cost pools & cost drivers</li>
+      <li>Identify indirect costs per pool</li>
+      <li>Compute activity rate</li>
+      <li>Allocate to products</li>
+      <li>Compute total cost</li>
+    </ol>
+    <div class="formula">Activity Rate = Pool Cost / Total Driver Quantity
+
+Applied MOH = Activity Rate × Product's Driver Usage
+
+Total Applied MOH = Σ all activity allocations
+
+OH per Unit = Total Applied MOH / Units Produced
+
+Total Cost = DM + DL + Total Applied MOH
+Unit Cost = Total Cost / Units Produced</div>
+  </div>
+</div>
+
+<div class="card ch9">
+  <div class="card-header">CH 9 – ABC <span class="num">#13</span></div>
+  <div class="card-title">ABC Worked Example</div>
+  <div class="card-body">
+    <div class="example">
+      <b>Three Brothers – Wall Mirror (40,000 units)</b><br>
+      Facility: $400K/50K sqft = $8/sqft<br>
+      Setup: $200K/8K setups = $25/setup<br>
+      Automation: $800K/40K MH = $20/MH<br>
+      Manual: $750K/100K DLH = $7.50/DLH<br><br>
+      Mirror uses: 12K sqft, 1K setups, 8K MH, 10K DLH<br>
+      Applied: 12K×$8 + 1K×$25 + 8K×$20 + 10K×$7.50<br>
+      = $96K + $25K + $160K + $75K = <b>$356,000</b><br>
+      OH/unit = $356K/40K = <b>$8.90/unit</b><br><br>
+      + DM $560K + DL $250K = Total $1,166K<br>
+      Unit cost = $1,166K/40K = <b>$29.15/unit</b><br><br>
+      Traditional (single rate): $500/unit for all<br>
+      ABC shows actual MOH/unit = $8.90, not $5.00!
+    </div>
+  </div>
+</div>
+
+<div class="card ch9">
+  <div class="card-header">CH 9 – ABC <span class="num">#14</span></div>
+  <div class="card-title">ABC per Unit with Batch Costs</div>
+  <div class="card-body">
+    <p>When costs are per BATCH, divide by units per batch:</p>
+    <div class="formula">Cost per unit = (Rate × Qty per unit)
+  + (Rate per batch / Units per batch)</div>
+    <div class="example">
+      <b>Gizmo Ex:</b> Basic (250/batch), Advanced (100/batch)<br>
+      Materials: $2/part. Setup: $500/setup. Inspect: $90/hr<br><br>
+      <b>Basic (10 parts, 10 min inspect):</b><br>
+      Materials: 10×$2 = $20<br>
+      Setup: $500/250 = $2<br>
+      Inspect: (10/60)×$90 = $15<br>
+      OH/unit = <b>$37</b>. + DM $50 + DL $75 = <b>$162</b><br><br>
+      <b>Advanced (15 parts, 20 min inspect):</b><br>
+      Materials: 15×$2 = $30<br>
+      Setup: $500/100 = $5<br>
+      Inspect: (20/60)×$90 = $30<br>
+      OH/unit = <b>$65</b>. + DM $95 + DL $125 = <b>$285</b>
+    </div>
+  </div>
+</div>
+
+<div class="card ch9">
+  <div class="card-header">CH 9 – ABC <span class="num">#15</span></div>
+  <div class="card-title">ABC for SG&A, TDABC, Pros/Cons</div>
+  <div class="card-body">
+    <p><b>SG&A Allocation:</b></p>
+    <div class="formula">Single-rate: Total SG&A × Product's % of Sales
+ABC: Σ (ABC Rate × Product's Driver Usage)
+New GM = Old GM − Allocated costs
+New GM% = New GM / Sales</div>
+    <p><b>TDABC (Time-Driven ABC):</b></p>
+    <div class="formula">Cost/Min = Capacity Cost per Hr / 60
+Activity Cost = Minutes × Cost/Min</div>
+    <div class="example">$18/hr capacity. Check-in 5 min + checkout 10 min:<br>
+    $0.30/min × 15 min = <b>$4.50/customer</b></div>
+    <p><b>Capacity:</b> Theoretical > Practical > Normal</p>
+    <p><b>Pros:</b> Better pricing, product-mix, identifies non-value-added activities</p>
+    <p><b>Cons:</b> Expensive, time-consuming, employee pushback, need 2 systems</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- CH 10: VARIANCE ANALYSIS -->
+<!-- ============================================================ -->
+<div class="section-divider">CHAPTER 10: VARIANCE ANALYSIS</div>
+
+<div class="card ch10">
+  <div class="card-header">CH 10 – Variance Analysis <span class="num">#16</span></div>
+  <div class="card-title">Core Concepts & Definitions</div>
+  <div class="card-body">
+    <p><b>Budget</b> = Proposed plan of action for a period</p>
+    <p><b>Variance</b> = Difference between actual and budgeted</p>
+    <p><b>Favorable (F)</b> = Increases operating income vs. budget</p>
+    <ul>
+      <li>Revenue: Actual > Planned → F</li>
+      <li>Expense: Actual < Planned → F</li>
+    </ul>
+    <p><b>Unfavorable (U)</b> = Decreases operating income vs. budget</p>
+    <ul>
+      <li>Revenue: Actual < Planned → U</li>
+      <li>Expense: Actual > Planned → U</li>
+    </ul>
+    <p><b>Management by Exception</b> = Focus on significant deviations from budget</p>
+    <p>Criteria: <b>Materiality</b> (% difference) + <b>Controllability</b> (can manager control it?)</p>
+    <p><b>Standard Costs</b> = Expected/predetermined cost per unit</p>
+    <p><b>Ideal Standards</b> = No tolerance (breakdowns, breaks)</p>
+    <p><b>Practical Standards</b> = Attainable, allows for normal inefficiency</p>
+  </div>
+</div>
+
+<div class="card ch10">
+  <div class="card-header">CH 10 – Variance Analysis <span class="num">#17</span></div>
+  <div class="card-title">Budget Framework (3 Columns)</div>
+  <div class="card-body">
+    <div class="formula">         ACTUAL    | FLEXIBLE BUDGET | STATIC BUDGET
+         AQ × AP   | SQ × SP (at AO) | SQ × SP (at TO)
+                    |                 |
+    ←Flex Budget Var→ ←Sales Activity Var→
+    ←────── Master Budget Variance ──────→</div>
+    <div class="formula">Master Budget Var = Actual − Static Budget
+Flex Budget Var = Actual − Flexible Budget
+Sales Activity Var = Flex Budget − Static Budget</div>
+    <p><b>Flexible Budget</b> = adjusts to <span class="highlight">actual output</span> at budgeted prices/costs</p>
+    <p><b>Static (Master) Budget</b> = original budget at planned output</p>
+    <div class="example">
+      Actual: 15 units × $6 = $90<br>
+      Flex: 15 units × $5 = $75<br>
+      Static: 20 units × $5 = $100<br>
+      FBV = $90−$75 = <b>$15 F</b> | SAV = $75−$100 = <b>$25 U</b>
+    </div>
+  </div>
+</div>
+
+<div class="card ch10">
+  <div class="card-header">CH 10 – Variance Analysis <span class="num">#18</span></div>
+  <div class="card-title">Direct Materials Variances</div>
+  <div class="card-body">
+    <p><span class="highlight">Price var at PURCHASE. Efficiency var at USE.</span></p>
+    <div class="formula">DM Price Variance = (AP − SP) × AQ purchased
+  Positive = U (paid more)
+  Negative = F (paid less)
+
+DM Efficiency Variance = (AQ used − SQ) × SP
+  where SQ = Std Qty per unit × Actual Output
+  Positive = U (used more)
+  Negative = F (used less)
+
+Flex Budget Var = Price Var + Efficiency Var</div>
+    <div class="example">
+      SP=$5/lb, SQ=4 lbs/unit, AO=20,000<br>
+      AQ purch=96,000 @ $5.20, AQ used=90,000<br>
+      SQ allowed = 4×20,000 = 80,000 lbs<br>
+      Price: ($5.20−$5)×96,000 = <b>$19,200 U</b><br>
+      Effic: (90,000−80,000)×$5 = <b>$50,000 U</b>
+    </div>
+  </div>
+</div>
+
+<div class="card ch10">
+  <div class="card-header">CH 10 – Variance Analysis <span class="num">#19</span></div>
+  <div class="card-title">DM Journal Entries</div>
+  <div class="card-body">
+    <p><b>When DM Purchased:</b> (recognize Price Var)</p>
+    <div class="je">DM Inventory (AQ purch × SP)     XX
+DM Price Variance (if U)         XX
+  Accounts Payable (AQ × AP)        XX
+  DM Price Variance (if F)          XX</div>
+    <p><b>When DM Used:</b> (recognize Efficiency Var)</p>
+    <div class="je">WIP Inventory (SQ × SP)          XX
+DM Efficiency Variance (if U)    XX
+  DM Inventory (AQ used × SP)       XX
+  DM Efficiency Variance (if F)     XX</div>
+    <div class="example">
+      Purchase: DR DM Inv $480K, DR Price Var $19.2K, CR A/P $499.2K<br>
+      Use: DR WIP $400K, DR Eff Var $50K, CR DM Inv $450K
+    </div>
+  </div>
+</div>
+
+<div class="card ch10">
+  <div class="card-header">CH 10 – Variance Analysis <span class="num">#20</span></div>
+  <div class="card-title">Direct Labor Variances</div>
+  <div class="card-body">
+    <p>Both variances recorded at same time (when labor is used).</p>
+    <div class="formula">DL Rate (Price) Var = (AP − SP) × AQ hours
+DL Efficiency Var = (AQ − SQ) × SP
+  where SQ = Std Hrs/unit × Actual Output
+
+Flex Budget for DL = SQ × SP
+Flex Budget Var = Actual DL − Flex Budget</div>
+    <div class="example">
+      SP=$16/hr, SQ=2 hrs/unit, AO=20,000<br>
+      AQ=41,000 hrs, AP=$15.50<br>
+      SQ = 2×20,000 = 40,000 hrs<br>
+      Rate: ($15.50−$16)×41,000 = <b>$20,500 F</b><br>
+      Effic: (41,000−40,000)×$16 = <b>$16,000 U</b><br>
+      Flex Budget = 40,000×$16 = $640,000<br>
+      Actual = 41,000×$15.50 = $635,500<br>
+      FBV = $635,500−$640,000 = <b>$4,500 F</b>
+    </div>
+  </div>
+</div>
+
+<div class="card ch10">
+  <div class="card-header">CH 10 – Variance Analysis <span class="num">#21</span></div>
+  <div class="card-title">DL Journal Entry</div>
+  <div class="card-body">
+    <div class="je">WIP Inventory (SQ × SP)          XX  ← standard/flex
+DL Efficiency Var (if U)         XX  ← debit if U
+  DL Rate Variance (if F)           XX  ← credit if F
+  Wages Payable (AQ × AP)           XX  ← actual</div>
+    <div class="example">
+      DR WIP $640,000 (standard)<br>
+      DR DL Eff Var $16,000 (U = debit)<br>
+      &nbsp;&nbsp;CR DL Rate Var $20,500 (F = credit)<br>
+      &nbsp;&nbsp;CR Wages Payable $635,500 (actual)
+    </div>
+    <p class="tip">WIP always at STANDARD. Wages Payable at ACTUAL. Variances make it balance.</p>
+  </div>
+</div>
+
+<div class="card ch10">
+  <div class="card-header">CH 10 – Variance Analysis <span class="num">#22</span></div>
+  <div class="card-title">Variable MOH Variances</div>
+  <div class="card-body">
+    <p>Base = DL hours (same as DL). Set standard price first:</p>
+    <div class="formula">VMOH SP = Est. VMOH / Est. Base (SQ × TO)
+  Est. Base = SQ per unit × TO units
+
+VMOH Spending Var = Actual VMOH − (AQ × SP)
+VMOH Efficiency Var = (AQ − SQ) × SP
+  where SQ = Std hrs/unit × AO
+
+Applied VMOH = SQ × SP (= Flexible Budget)</div>
+    <div class="example">
+      Est. VMOH=$67,200. SQ=2 DLH/unit. TO=21,000.<br>
+      Base = 2×21,000 = 42,000. SP = $67,200/42,000 = <b>$1.60/DLH</b><br>
+      AO=20,000, AQ=41,000 hrs, Actual VMOH=$72,000<br>
+      SQ = 2×20,000 = 40,000<br>
+      Spending: $72,000−(41,000×$1.60) = $72K−$65.6K = <b>$6,400 U</b><br>
+      Efficiency: (41,000−40,000)×$1.60 = <b>$1,600 U</b><br>
+      Applied = 40,000×$1.60 = $64,000<br>
+      Total var = $72K−$64K = <b>$8,000 U (underallocated)</b>
+    </div>
+  </div>
+</div>
+
+<div class="card ch10">
+  <div class="card-header">CH 10 – Variance Analysis <span class="num">#23</span></div>
+  <div class="card-title">VMOH Journal Entries</div>
+  <div class="card-body">
+    <div class="je">Incur actual VMOH:
+  DR VOH Control              72,000
+    CR Misc. Payables                 72,000
+
+Apply to production:
+  DR WIP Inventory             64,000
+    CR VOH Allocated                  64,000
+
+Year-end – recognize variances:
+  DR VOH Allocated             64,000
+  DR VOH Spending Var           6,400
+  DR VOH Efficiency Var         1,600
+    CR VOH Control                    72,000
+
+Close variances to COGS:
+  DR COGS                       8,000
+    CR VOH Spending Var               6,400
+    CR VOH Efficiency Var             1,600</div>
+  </div>
+</div>
+
+<div class="card ch10">
+  <div class="card-header">CH 10 – Variance Analysis <span class="num">#24</span></div>
+  <div class="card-title">Fixed MOH Variances</div>
+  <div class="card-body">
+    <p><span class="highlight">NO efficiency variance for FMOH!</span> FMOH doesn't change with cost driver usage.</p>
+    <div class="formula">FMOH SP = Est. FMOH / Est. Base
+  (per-hour price used for ALLOCATION only)
+
+FMOH Spending Var = Actual FMOH − Budgeted FMOH
+  (= Flex Budget Var = Static Budget Var)
+  (Flex budget = Static budget for FMOH!)
+
+FMOH Volume Var = Budgeted FMOH − Applied FMOH
+  Applied FMOH = SQ (for AO) × SP</div>
+    <div class="example">
+      Est. FMOH=$105K, Base=42K DLH, SP=$2.50/DLH<br>
+      AO=20,000 (SQ=40,000), Actual=$104,000<br>
+      Spending: $104K−$105K = <b>$1,000 F</b><br>
+      Applied: 40,000×$2.50 = $100,000<br>
+      Volume: $105K−$100K = <b>$5,000 U</b><br>
+      Total: $104K−$100K = <b>$4,000 U (underallocated)</b>
+    </div>
+  </div>
+</div>
+
+<div class="card ch10">
+  <div class="card-header">CH 10 – Variance Analysis <span class="num">#25</span></div>
+  <div class="card-title">FMOH Volume Variance Meaning & JEs</div>
+  <div class="card-body">
+    <p><b>Volume Variance = capacity utilization indicator</b></p>
+    <ul>
+      <li><b>Favorable</b> = Produced MORE than planned → FOH spread over more units → overallocated</li>
+      <li><b>Unfavorable</b> = Produced LESS than planned → idle capacity → underallocated</li>
+    </ul>
+    <div class="je">Incur: DR FOH Control 104,000
+         CR Misc Payables       104,000
+
+Apply: DR WIP Inventory 100,000
+         CR FOH Allocated       100,000
+
+Recognize: DR FOH Allocated    100,000
+           DR FOH Volume Var     5,000
+             CR FOH Spending Var   1,000
+             CR FOH Control      104,000
+
+Close: DR COGS                   4,000
+         CR FOH Volume Var        5,000
+         DR FOH Spending Var      1,000</div>
+  </div>
+</div>
+
+<div class="card ch10">
+  <div class="card-header">CH 10 – Variance Analysis <span class="num">#26</span></div>
+  <div class="card-title">Closing Variances & COGS Impact</div>
+  <div class="card-body">
+    <p>Variance accounts are <b>temporary</b> – closed at year-end.</p>
+    <div class="formula">Unfavorable (DR balance): DR COGS, CR Variance
+  → INCREASES COGS → DECREASES income
+
+Favorable (CR balance): DR Variance, CR COGS
+  → DECREASES COGS → INCREASES income
+
+Net Effect = Sum of all U − Sum of all F</div>
+    <div class="example">
+      DM Price $250 U + DM Eff $125 U − DL Eff $340 F<br>
+      Net = $375 U − $340 F = <b>$35 net U</b><br>
+      COGS <b>increases by $35</b>
+    </div>
+    <p class="tip">F = CR = ↑ Op Income. U = DR = ↓ Op Income.</p>
+  </div>
+</div>
+
+<div class="card ch10">
+  <div class="card-header">CH 10 – Variance Analysis <span class="num">#27</span></div>
+  <div class="card-title">Complete Variance Framework</div>
+  <div class="card-body">
+    <div class="formula">INPUT       | VARIANCE #1        | VARIANCE #2
+─────────────────────────────────────────────
+DM          | Price (at purchase)| Efficiency (at use)
+            | (AP−SP)×AQ purch   | (AQused−SQ)×SP
+─────────────────────────────────────────────
+DL          | Rate               | Efficiency
+            | (AP−SP)×AQ         | (AQ−SQ)×SP
+─────────────────────────────────────────────
+VMOH        | Spending           | Efficiency
+            | Actual−(AQ×SP)     | (AQ−SQ)×SP
+─────────────────────────────────────────────
+FMOH        | Spending           | Volume
+            | Actual−Budget      | Budget−Applied
+            | (=Flex=Static)     | (NO eff var!)</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- CH 11: PROCESS COSTING -->
+<!-- ============================================================ -->
+<div class="section-divider">CHAPTER 11: PROCESS COSTING</div>
+
+<div class="card ch11">
+  <div class="card-header">CH 11 – Process Costing <span class="num">#28</span></div>
+  <div class="card-title">Overview & When to Use</div>
+  <div class="card-body">
+    <p><b>Process Costing</b> = mass production of identical products. Costs averaged over ALL units.</p>
+    <p><b>Use for:</b> gasoline, milk, candles, roasted peanuts, T-shirts, paint, gum</p>
+    <p><b>Job Order for:</b> custom homes, consulting, wedding rings, baseball bats</p>
+    <p><b>Key Features:</b></p>
+    <ul>
+      <li>Multiple WIP accounts (one per department/process)</li>
+      <li>Must calculate <b>Equivalent Units (EU)</b></li>
+      <li>Costs split: <b>DM</b> and <b>CC</b> (Conversion Costs = DL + MOH)</li>
+      <li>DM typically added at BEGINNING of process</li>
+      <li>CC added EVENLY THROUGHOUT process</li>
+      <li>Two methods: <b>FIFO</b> and <b>Weighted-Average</b></li>
+    </ul>
+    <p><b>Operation Costing</b> = hybrid. DM per job + CC per operation. Ex: furniture (different fabrics, same assembly)</p>
+  </div>
+</div>
+
+<div class="card ch11">
+  <div class="card-header">CH 11 – Process Costing <span class="num">#29</span></div>
+  <div class="card-title">The 5 Steps</div>
+  <div class="card-body">
+    <div class="formula">STEP 1: Verify Units & Degree of Completion
+  Beg WIP + Started = End WIP + Completed & TO
+  (units in = units out)
+
+STEP 2: Compute Equivalent Units
+  For DM and CC separately (different %)
+
+STEP 3: Summarize Total Costs to Account For
+  = Beg WIP costs + Costs added this period
+
+STEP 4: Cost per EU
+  = Costs / EU (method-dependent)
+
+STEP 5: Assign Costs
+  To: Completed & TO + Ending WIP
+  CHECK: Costs Accounted For = Costs to Account For</div>
+    <p class="tip">TIP: Ask yourself — what dept? When are inputs added? Draw a timeline!</p>
+    <p><b>Started & Completed = Completed − Beg WIP units</b></p>
+  </div>
+</div>
+
+<div class="card ch11">
+  <div class="card-header">CH 11 – Process Costing <span class="num">#30</span></div>
+  <div class="card-title">Equivalent Units – FIFO Method</div>
+  <div class="card-body">
+    <p>FIFO = work done <b>THIS PERIOD ONLY</b>. Separates prior period work.</p>
+    <div class="formula">EU = Beg WIP × % TO COMPLETE this period
+   + Started & Completed × 100%
+   + End WIP × % complete
+
+S&C = Total Completed − Beg WIP units
+
+% to complete = 100% − % already done</div>
+    <div class="example">
+      <b>Top That:</b> Beg WIP 50K (100% DM, 40% CC)<br>
+      Started 225K, Completed 200K, End WIP 75K (100% DM, 20% CC)<br>
+      S&C = 200K − 50K = 150K<br><br>
+      <b>DM EU:</b> 50K×0% + 150K×100% + 75K×100% = <b>225,000</b><br>
+      (Beg WIP already 100% DM → 0% to complete)<br><br>
+      <b>CC EU:</b> 50K×60% + 150K×100% + 75K×20%<br>
+      = 30K + 150K + 15K = <b>195,000</b>
+    </div>
+  </div>
+</div>
+
+<div class="card ch11">
+  <div class="card-header">CH 11 – Process Costing <span class="num">#31</span></div>
+  <div class="card-title">Equivalent Units – Weighted-Average</div>
+  <div class="card-body">
+    <p>W-A = total work done <b>TO DATE</b>. Blends prior + current period.</p>
+    <div class="formula">EU = Units Completed × 100%
+   + End WIP × % complete TO DATE
+
+(Ignores Beg WIP % — treats as if started now)</div>
+    <div class="example">
+      <b>Same Top That data:</b><br>
+      <b>DM EU:</b> 200K×100% + 75K×100% = <b>275,000</b><br>
+      <b>CC EU:</b> 200K×100% + 75K×20% = <b>215,000</b>
+    </div>
+    <p class="tip">W-A EU is ALWAYS ≥ FIFO EU (includes prior work)</p>
+    <p><b>Key Difference:</b></p>
+    <ul>
+      <li>FIFO: 3 groups (complete BI, S&C, EI)</li>
+      <li>W-A: 2 groups (completed total, EI)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card ch11">
+  <div class="card-header">CH 11 – Process Costing <span class="num">#32</span></div>
+  <div class="card-title">Steps 3-4: Costs & Cost per EU</div>
+  <div class="card-body">
+    <p><b>Step 3</b> is the SAME for both methods:</p>
+    <div class="formula">Total Costs to Account For =
+  Beg WIP costs + Costs added this period</div>
+    <p><b>Step 4 differs:</b></p>
+    <div class="formula">FIFO Cost/EU = Current Period Costs Only
+                 ÷ Current Period EU Only
+
+W-A Cost/EU = Total Costs to Account For
+              ÷ Total EU (to date)</div>
+    <div class="example">
+      <b>Stretch (FIFO):</b> Current DM=$5,500, DM EU=22,000<br>
+      Cost/EU DM = $5,500/22,000 = <b>$0.25</b><br><br>
+      <b>Stretch (W-A):</b> Total DM=$5,798, DM EU=22,300<br>
+      Cost/EU DM = $5,798/22,300 = <b>$0.26</b>
+    </div>
+    <p class="tip">FIFO cost/EU will differ from W-A because numerator AND denominator differ.</p>
+  </div>
+</div>
+
+<div class="card ch11">
+  <div class="card-header">CH 11 – Process Costing <span class="num">#33</span></div>
+  <div class="card-title">Step 5: Cost Assignment</div>
+  <div class="card-body">
+    <p><b>FIFO:</b></p>
+    <div class="formula">Completed Cost =
+  Beg WIP balance (given)
+  + Costs to complete Beg WIP:
+    DM: Beg WIP DM EU × Cost/EU DM
+    CC: Beg WIP CC EU × Cost/EU CC
+  + S&C: S&C units × (Cost/EU DM + Cost/EU CC)
+
+End WIP = (EI DM EU × Cost/EU DM)
+        + (EI CC EU × Cost/EU CC)</div>
+    <p><b>Weighted-Average:</b></p>
+    <div class="formula">Completed = Units completed × (Cost/EU DM + Cost/EU CC)
+End WIP = (EI DM EU × Cost/EU DM)
+        + (EI CC EU × Cost/EU CC)</div>
+    <div class="example">
+      <b>Stretch FIFO:</b> EI 1,000 units (100% DM, 60% CC)<br>
+      DM: $0.25×1,000 = $250<br>
+      CC: $0.20×600 = $120<br>
+      End WIP = <b>$370</b><br>
+      Completed = $10,616 − $370 = <b>$10,246</b>
+    </div>
+  </div>
+</div>
+
+<div class="card ch11">
+  <div class="card-header">CH 11 – Process Costing <span class="num">#34</span></div>
+  <div class="card-title">Stretch Enterprises – Full FIFO Example</div>
+  <div class="card-body" style="font-size:9.5px;">
+    <p>Beg WIP 300 (100%DM, 30%CC, cost $298DM+$456CC=$754)</p>
+    <p>Started 22,000 | Completed 21,300 | End WIP 1,000 (100%DM, 60%CC)</p>
+    <p>Current costs: DM $5,500, CC $4,362</p>
+    <div class="formula">Step 1: 300+22,000 = 1,000+21,300 ✓ (22,300)
+S&C = 21,300−300 = 21,000
+
+Step 2 EU:        DM        CC
+Beg WIP to compl: 300×0%=0  300×70%=210
+S&C:              21,000    21,000
+End WIP:          1,000×100%=1,000  1,000×60%=600
+Total EU:         22,000    21,810
+
+Step 3: Total = $754+$5,500+$4,362 = $10,616
+
+Step 4: DM: $5,500/22,000 = $0.25
+        CC: $4,362/21,810 = $0.20
+
+Step 5:
+Completed = $754 + (0×$0.25+210×$0.20)
+          + (21,000×$0.25+21,000×$0.20)
+  = $754 + $42 + $9,450 = $10,246
+End WIP = 1,000×$0.25 + 600×$0.20 = $370
+Total: $10,246+$370 = $10,616 ✓</div>
+  </div>
+</div>
+
+<div class="card ch11">
+  <div class="card-header">CH 11 – Process Costing <span class="num">#35</span></div>
+  <div class="card-title">Dept 2: Transferred-In Costs</div>
+  <div class="card-body">
+    <p><b>Transferred-In (TI)</b> = costs from prior department</p>
+    <ul>
+      <li>Treated like DM — added at BEGINNING, 100% complete on entry</li>
+      <li>Separate column in production report</li>
+      <li>Dept 2 has 3 cost categories: TI + DM + CC</li>
+      <li>Product transferred between depts is still WIP (NOT FG!)</li>
+      <li>TI costs may vary between batches</li>
+    </ul>
+    <div class="example">
+      <b>Sewing Dept:</b> Beg WIP 70K (30% CC), 200K transferred in,<br>
+      240K completed, End WIP 30K (80% CC). DM added at END.<br><br>
+      W-A EU: TI = 240K+30K = <b>270,000</b><br>
+      DM = 240K+0 = <b>240,000</b> (EI not at end yet!)<br>
+      CC = 240K+(30K×80%) = <b>264,000</b>
+    </div>
+    <p class="tip">If DM added at END: only completed units get DM EU. EI gets 0 DM EU unless past the addition point.</p>
+  </div>
+</div>
+
+<div class="card ch11">
+  <div class="card-header">CH 11 – Process Costing <span class="num">#36</span></div>
+  <div class="card-title">Journal Entries & Gross Margin</div>
+  <div class="card-body">
+    <div class="je">DM to Dept 1:
+  DR WIP Inv–Dept 1    XX
+    CR Materials Control     XX
+
+CC incurred:
+  DR WIP Inv–Dept 1    XX
+    CR Cash/Wages/MOH Ctrl   XX
+
+Transfer Dept 1 → Dept 2:
+  DR WIP Inv–Dept 2    XX
+    CR WIP Inv–Dept 1        XX
+
+Complete from final dept:
+  DR FG Inventory      XX
+    CR WIP Inv–Final Dept    XX</div>
+    <p><b>Gross Margin:</b></p>
+    <div class="formula">GM = Sales − COGS
+GM% = GM / Sales</div>
+    <div class="example">
+      Sales $14,400 − COGS $10,246 = GM $4,154<br>
+      GM% = $4,154/$14,400 = <b>28.8%</b><br>
+      Compare to goals, prior year, industry.
+    </div>
+  </div>
+</div>
+
+<div class="card ch11">
+  <div class="card-header">CH 11 – Process Costing <span class="num">#37</span></div>
+  <div class="card-title">FIFO vs. W-A Decision & Key Differences</div>
+  <div class="card-body">
+    <div class="formula">                   FIFO          W-A
+EU calc:     This period only   Total to date
+Beg WIP EU:  % to complete      Ignored
+Cost/EU num: Current costs      All costs
+Cost/EU den: Current EU         Total EU
+Accuracy:    MORE accurate      Simpler
+# groups:    3 (BI,S&C,EI)      2 (Comp,EI)
+Best when:   Costs fluctuate    Costs stable</div>
+    <p><b>FIFO is more accurate</b> — separates periods</p>
+    <p><b>W-A is simpler</b> — blends periods together</p>
+    <p>If costs fluctuate significantly → FIFO captures it</p>
+    <p>If costs stable → W-A gives similar results with less effort</p>
+    <p class="tip">Both methods produce same Step 3 total costs. They differ in Steps 2, 4, 5.</p>
+  </div>
+</div>
+
+<!-- BONUS CARD -->
+<div class="card ch10">
+  <div class="card-header">All Chapters <span class="num">#38</span></div>
+  <div class="card-title">Quick-Fire Exam Traps to Watch For</div>
+  <div class="card-body">
+    <ul>
+      <li><b>DM price var uses AQ PURCHASED, not used</b></li>
+      <li><b>DM eff var uses AQ USED, not purchased</b></li>
+      <li><b>FMOH has NO efficiency variance</b></li>
+      <li><b>FMOH Flex budget = Static budget</b> (fixed costs don't flex!)</li>
+      <li><b>Over-applied MOH → CR COGS → ↑ income</b></li>
+      <li><b>Under-applied MOH → DR COGS → ↓ income</b></li>
+      <li><b>Applied MOH = Budgeted rate × ACTUAL driver qty</b></li>
+      <li><b>WIP always recorded at STANDARD cost</b></li>
+      <li><b>Wages Payable always at ACTUAL cost</b></li>
+      <li><b>Sales commissions = period cost (never in COGM)</b></li>
+      <li><b>Product transferred between depts = still WIP</b></li>
+      <li><b>W-A EU ≥ FIFO EU always</b></li>
+      <li><b>DM at beginning → 100% for all units in process</b></li>
+      <li><b>DM at end → only completed units get DM EU</b></li>
+      <li><b>Facility-level = hardest to allocate in ABC</b></li>
+      <li><b>ABC is for management, NOT GAAP</b></li>
+      <li><b>Volume var U = produced LESS = idle capacity</b></li>
+      <li><b>Favorable ≠ always good (cheap DM may hurt quality)</b></li>
+    </ul>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

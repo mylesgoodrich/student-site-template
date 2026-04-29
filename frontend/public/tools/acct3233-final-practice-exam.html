@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACCT 3233 Final — Practice Exam</title>
+<style>
+  :root {
+    --lsu-purple: #461D7C;
+    --lsu-purple-light: #6A3BAF;
+    --lsu-purple-soft: #EDE7F6;
+    --lsu-gold: #FDD023;
+    --lsu-gold-soft: #FFF8DC;
+    --bg: #FAFAFC;
+    --text: #1A1A1A;
+    --text-muted: #666;
+    --border: #E0E0E0;
+    --correct: #1A6B1A;
+    --correct-bg: #D4EDDA;
+    --incorrect: #B71C1C;
+    --incorrect-bg: #F8D7DA;
+    --shadow: 0 2px 8px rgba(70, 29, 124, 0.08);
+    --shadow-lg: 0 8px 24px rgba(70, 29, 124, 0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, var(--lsu-purple) 0%, var(--lsu-purple-light) 100%);
+    color: white;
+    padding: 1.5rem 2rem;
+    box-shadow: var(--shadow-lg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .brand-bar {
+    width: 6px;
+    height: 40px;
+    background: var(--lsu-gold);
+    border-radius: 3px;
+  }
+
+  .brand h1 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .brand .subtitle {
+    font-size: 0.8rem;
+    opacity: 0.85;
+    margin-top: 2px;
+  }
+
+  .stats {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 60px;
+  }
+
+  .stat-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--lsu-gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    opacity: 0.85;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+
+  /* Container */
+  main {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  /* Start Screen */
+  .start-screen {
+    background: white;
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+
+  .start-screen h2 {
+    color: var(--lsu-purple);
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .start-screen .tagline {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+  }
+
+  .distribution {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin: 1.5rem 0 2rem;
+    text-align: left;
+  }
+
+  .dist-item {
+    background: var(--lsu-purple-soft);
+    border-left: 4px solid var(--lsu-purple);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+  }
+
+  .dist-item strong {
+    display: block;
+    color: var(--lsu-purple);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 2px;
+  }
+
+  .mode-selector {
+    background: #F5F3FA;
+    padding: 1.25rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: left;
+  }
+
+  .mode-selector h3 {
+    color: var(--lsu-purple);
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .mode-options {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .mode-btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border);
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .mode-btn:hover {
+    border-color: var(--lsu-purple-light);
+  }
+
+  .mode-btn.active {
+    border-color: var(--lsu-purple);
+    background: var(--lsu-purple);
+    color: white;
+  }
+
+  .mode-btn strong {
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .mode-btn small {
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+
+  .btn-primary {
+    background: var(--lsu-purple);
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    box-shadow: var(--shadow);
+  }
+
+  .btn-primary:hover {
+    background: var(--lsu-purple-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  /* Progress Bar */
+  .progress-wrap {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+  }
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .progress-info span strong {
+    color: var(--lsu-purple);
+  }
+
+  .progress-bar {
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--lsu-purple) 0%, var(--lsu-gold) 100%);
+    transition: width 0.3s ease;
+  }
+
+  /* Question Card */
+  .question-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+  }
+
+  .question-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--lsu-gold);
+  }
+
+  .q-number {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+
+  .q-source {
+    background: var(--lsu-purple-soft);
+    color: var(--lsu-purple);
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  .q-stem {
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .choices {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .choice {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+    width: 100%;
+    font-size: 0.98rem;
+    line-height: 1.5;
+  }
+
+  .choice:hover:not(.disabled) {
+    border-color: var(--lsu-purple-light);
+    background: var(--lsu-purple-soft);
+  }
+
+  .choice.selected {
+    border-color: var(--lsu-purple);
+    background: var(--lsu-purple-soft);
+  }
+
+  .choice.correct {
+    border-color: var(--correct);
+    background: var(--correct-bg);
+  }
+
+  .choice.incorrect {
+    border-color: var(--incorrect);
+    background: var(--incorrect-bg);
+  }
+
+  .choice.disabled {
+    cursor: default;
+  }
+
+  .choice-letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--lsu-purple);
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .choice.correct .choice-letter {
+    background: var(--correct);
+  }
+
+  .choice.incorrect .choice-letter {
+    background: var(--incorrect);
+  }
+
+  .choice-text {
+    flex: 1;
+  }
+
+  .choice-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  /* Explanation */
+  .explanation {
+    margin-top: 1.25rem;
+    padding: 1.25rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--lsu-gold);
+    background: var(--lsu-gold-soft);
+    animation: slideIn 0.3s ease;
+  }
+
+  .explanation.correct {
+    border-left-color: var(--correct);
+    background: var(--correct-bg);
+  }
+
+  .explanation.incorrect {
+    border-left-color: var(--incorrect);
+    background: var(--incorrect-bg);
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .explanation-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .explanation-text {
+    font-size: 0.93rem;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  /* Controls */
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .btn-secondary {
+    background: white;
+    color: var(--lsu-purple);
+    border: 2px solid var(--lsu-purple);
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background: var(--lsu-purple);
+    color: white;
+  }
+
+  .btn-secondary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* Results Screen */
+  .results {
+    background: white;
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+  }
+
+  .results h2 {
+    color: var(--lsu-purple);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .score-circle {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    margin: 1.5rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: conic-gradient(var(--lsu-gold) var(--pct), #E8E4F0 var(--pct));
+    position: relative;
+  }
+
+  .score-inner {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .score-pct {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--lsu-purple);
+    line-height: 1;
+  }
+
+  .score-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+
+  .score-detail {
+    font-size: 1.05rem;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .score-detail strong {
+    color: var(--lsu-purple);
+  }
+
+  .breakdown {
+    margin: 2rem 0;
+    text-align: left;
+  }
+
+  .breakdown h3 {
+    color: var(--lsu-purple);
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .breakdown-item {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+  }
+
+  .breakdown-item:last-child { border-bottom: none; }
+
+  .breakdown-score {
+    font-weight: 600;
+    color: var(--lsu-purple);
+  }
+
+  .breakdown-bar {
+    width: 80px;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .breakdown-bar-fill {
+    height: 100%;
+    background: var(--lsu-gold);
+  }
+
+  .action-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  /* Review Mode */
+  .review-item {
+    background: white;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 0.75rem;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--correct);
+    text-align: left;
+  }
+
+  .review-item.incorrect {
+    border-left-color: var(--incorrect);
+  }
+
+  .review-stem {
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  .review-meta {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .review-answer {
+    font-size: 0.88rem;
+    margin: 0.3rem 0;
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+  }
+
+  .review-answer.your {
+    background: var(--incorrect-bg);
+    color: var(--incorrect);
+  }
+
+  .review-answer.correct {
+    background: var(--correct-bg);
+    color: var(--correct);
+  }
+
+  .review-expl {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border);
+    line-height: 1.5;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    header { padding: 1rem; }
+    .brand h1 { font-size: 0.95rem; }
+    .brand .subtitle { font-size: 0.7rem; }
+    .stats { gap: 0.75rem; }
+    .stat-value { font-size: 1.15rem; }
+    .stat-label { font-size: 0.65rem; }
+    main { padding: 0 1rem; margin: 1rem auto; }
+    .question-card { padding: 1.25rem; }
+    .start-screen { padding: 1.5rem; }
+    .q-stem { font-size: 1rem; }
+    .choice { padding: 0.85rem 1rem; font-size: 0.92rem; }
+    .results { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-bar"></div>
+      <div>
+        <h1>ACCT 3233 / 7233 — Internal Audit</h1>
+        <div class="subtitle">Final Exam Practice Test · Spring 2026 · Dr. Sumners</div>
+      </div>
+    </div>
+    <div class="stats" id="stats" style="display:none;">
+      <div class="stat"><div class="stat-value" id="stat-current">0</div><div class="stat-label">Question</div></div>
+      <div class="stat"><div class="stat-value" id="stat-correct">0</div><div class="stat-label">Correct</div></div>
+      <div class="stat"><div class="stat-value" id="stat-pct">—</div><div class="stat-label">Score</div></div>
+    </div>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<footer>ACCT 3233/7233 Final Exam Practice · Myles D. Goodrich · 50 questions across 7 sources</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+//   QUESTION BANK
+// ═══════════════════════════════════════════════════════════════════════════
+const QUESTIONS = [
+  // AI GOVERNANCE (8)
+  { source: "AI Governance", stem: "Under the EU AI Act, a general-purpose AI model is classified as posing systemic risk when its cumulative training compute exceeds:",
+    choices: ["10²³ FLOPs", "10²⁴ FLOPs", "10²⁵ FLOPs", "10²⁶ FLOPs"], correctIndex: 2,
+    explanation: "The EU AI Act sets the GPAI systemic risk threshold at >10²⁵ FLOPs cumulative compute. Models above this threshold face additional obligations including adversarial testing and incident reporting." },
+  { source: "AI Governance", stem: "Which of the following is NOT one of the four core functions of the NIST AI Risk Management Framework?",
+    choices: ["GOVERN", "MAP", "MEASURE", "MONITOR"], correctIndex: 3,
+    explanation: "The 4 NIST AI RMF core functions are GOVERN, MAP, MEASURE, and MANAGE. MONITOR is not a core function. Mnemonic: 'Good Managers Monitor Machines' — the final M stands for MANAGE, not Monitor." },
+  { source: "AI Governance", stem: "ISO/IEC 42001 differs from the NIST AI RMF most fundamentally because it:",
+    choices: ["Was published five years earlier", "Is legally binding in all UN member states", "Is certifiable — organizations can earn third-party certification", "Applies only to AI systems used in the European Union"], correctIndex: 2,
+    explanation: "ISO 42001 (Dec 2023) is certifiable through a two-stage audit process (Stage 1: documentation review; Stage 2: implementation audit). The NIST AI RMF (Jan 2023) is voluntary guidance — organizations cannot be 'NIST RMF certified.'" },
+  { source: "AI Governance", stem: "Under the EU AI Act, an employer uses an AI system to continuously monitor employee productivity and emotion levels in real time. This application is best classified as:",
+    choices: ["Limited Risk — transparency disclosure required", "High-Risk — Annex III employment category", "Minimal Risk — no obligations", "Unacceptable Risk — banned practice"], correctIndex: 3,
+    explanation: "Emotion recognition in the workplace is explicitly listed as a BANNED (Unacceptable Risk) practice under the EU AI Act. This becomes enforceable from February 2025." },
+  { source: "AI Governance", stem: "The NIST AI 600-1 Generative AI Profile, published in July 2024, specifically addresses which risks NOT covered in the original January 2023 AI RMF?",
+    choices: ["Data governance and model lifecycle management", "Hallucination, CSAM, and information integrity", "Mandatory compliance penalties for AI developers", "Multi-agent orchestration and emergent behavior"], correctIndex: 1,
+    explanation: "NIST AI 600-1 (July 2024) is the GenAI-specific profile addressing hallucination (confabulation), child sexual abuse material (CSAM) generation risks, and information integrity (disinformation). The original 2023 RMF did not address GenAI-specific risks." },
+  { source: "AI Governance", stem: "UAIC-1's primary value proposition compared to existing frameworks like NIST and ISO 42001 is:",
+    choices: ["It is legally enforceable in all G20 nations", "It provides cross-framework mapping to reduce duplicated compliance efforts", "It replaces the need for ISO 42001 certification", "It is the only framework covering third-party AI vendors"], correctIndex: 1,
+    explanation: "UAIC-1's core value is cross-framework compliance mapping across its 7 domains — enabling organizations to satisfy NIST, ISO 42001, EU AI Act, and other frameworks simultaneously rather than managing separate compliance tracks." },
+  { source: "AI Governance", stem: "Step 4 of the 6-step AI compliance strategy is best described as:",
+    choices: ["Classify each AI system by risk tier", "Implement controls mapped to applicable framework requirements", "Monitor regulatory changes as AI capabilities evolve", "Document results and conduct audits"], correctIndex: 1,
+    explanation: "The 6 steps are: 1. Inventory, 2. Classify Risk, 3. Map Frameworks, 4. Implement Controls, 5. Document & Audit, 6. Monitor Changes. Step 4 (Implement Controls) follows the mapping step — you can only implement controls once you know which frameworks apply." },
+  { source: "AI Governance", stem: "Which of the following is an Annex III High-Risk AI application under the EU AI Act?",
+    choices: ["AI-powered email spam filter", "AI that recommends Netflix movies", "AI that ranks job applicants for employer review", "AI-generated art creation tool"], correctIndex: 2,
+    explanation: "The EU AI Act's Annex III lists employment and worker management as a High-Risk category — including AI used to recruit, rank, screen, or evaluate employees. Spam filters, recommendation engines, and art tools are Minimal Risk with no obligations." },
+
+  // AI USAGE LEVELS (7)
+  { source: "AI Usage Levels", stem: "In the AI Usage Levels taxonomy, the phase transition from 'Passive' to 'Active' occurs between:",
+    choices: ["L0 and L1", "L1 and L2", "L3 and L4", "L5 and L6"], correctIndex: 1,
+    explanation: "The Passive→Active transition occurs BETWEEN L1 (Structured Prompting) and L2 (Context Injection). At L2, AI stops using only training data and begins using the user's own data — RAG, file uploads, 200K+ token contexts." },
+  { source: "AI Usage Levels", stem: "An auditor uploads the client's complete accounts payable transaction log to Claude before asking it to identify anomalous patterns. This usage is best classified as:",
+    choices: ["L0 — Naive Prompting", "L1 — Structured Prompting", "L2 — Context Injection", "L3 — Tool Use + Connectors"], correctIndex: 2,
+    explanation: "Uploading a file and injecting it into the AI's context is the defining feature of L2 (Context Injection / Analyst). The AI is now using the auditor's data, not just training data. L3 would require the AI to directly read/write external systems via API calls." },
+  { source: "AI Usage Levels", stem: "An AI agent that automatically creates GitHub pull requests, runs test suites, and commits approved changes to a code repository is operating at:",
+    choices: ["L1 — Structured Prompting", "L2 — Context Injection", "L3 — Tool Use + Connectors", "L4 — Persistent Memory + Skills"], correctIndex: 2,
+    explanation: "L3 (Tool Use + Connectors / Architect) is characterized by the AI reading and writing external state via connectors like MCP. Creating GitHub PRs and committing code requires direct read/write access to external systems — the hallmark of L3." },
+  { source: "AI Usage Levels", stem: "Which frontier axis is MOST important from a GRC/audit perspective due to its ability to provide mathematical proof of agent behavior?",
+    choices: ["Stigmergic/Rhizomatic Coordination (10%)", "Persistent Autonomous Agents (25%)", "Formally Verified Agent Systems (15%)", "Self-Organizing Topologies (20%)"], correctIndex: 2,
+    explanation: "Formally Verified Agent Systems (15% maturity) is the most important frontier axis for GRC/audit/metrological applications because it provides mathematical proof of agent behavior correctness — the only axis that can support regulatory assertions and auditability claims." },
+  { source: "AI Usage Levels", stem: "Wesley Ladd's taxonomy states that AI usage levels are 'additive, not replacements.' This means:",
+    choices: ["Organizations should only use the highest level they can implement", "Level 3 capability makes Level 1 and 2 skills obsolete", "Each higher level includes all capabilities of all lower levels", "Levels can be skipped — organizations can jump from L1 to L5"], correctIndex: 2,
+    explanation: "Levels are cumulative: an L4 Governor still uses L0 prompting, L1 structure, L2 context injection, L3 tools, and L4 persistent skills simultaneously. You cannot jump levels, and higher levels do not replace lower ones — they add to them." },
+  { source: "AI Usage Levels", stem: "When would an AI practitioner choose few-shot prompting over zero-shot prompting?",
+    choices: ["When the task is simple and the model handles it reliably", "When the desired output format is novel or domain-specific and zero-shot fails", "When the user wants to minimize the length of the prompt", "When working at L0 or L1 only"], correctIndex: 1,
+    explanation: "Few-shot prompting (2–5+ examples) is used when the task format is novel, domain-specific, or when zero/one-shot attempts fail. Zero-shot is used for well-defined tasks the model handles reliably from training alone." },
+  { source: "AI Usage Levels", stem: "L5 Hooks + Deterministic Control most directly corresponds to which NIST AI RMF function?",
+    choices: ["MAP — identifying and contextualizing risks", "GOVERN — setting organizational AI policy", "MEASURE — assessing likelihood and impact", "MANAGE — prioritizing and responding to risks"], correctIndex: 3,
+    explanation: "L5 pre-tool and post-tool validation gates ARE the NIST MANAGE function implemented in code — they prioritize risk response and enforce control gates that manage identified AI risks in real time. Implementing L5 hooks is operationalizing NIST MANAGE." },
+
+  // MILGRAM (7)
+  { source: "Milgram", stem: "Stanley Milgram's research found that when the experimenter gave orders by telephone rather than in person, the proportion of fully obedient subjects:",
+    choices: ["Remained approximately the same", "Dropped to roughly one-third of the in-person level", "Increased slightly due to reduced performance anxiety", "Dropped to zero — no subject obeyed phone commands"], correctIndex: 1,
+    explanation: "When the experimenter moved to a different room and gave orders by phone, obedience dropped to approximately one-third of the baseline rate. Physical proximity of authority significantly affects obedience — psychological distance matters." },
+  { source: "Milgram", stem: "In Milgram's baseline Yale experiment, what percentage of subjects administered the maximum 450-volt shock?",
+    choices: ["25%", "42%", "62.5%", "85%"], correctIndex: 2,
+    explanation: "25 of 40 subjects (62.5%) went to the maximum 450V. Psychiatrists had predicted only 1 in 1,000 (the 'pathological fringe') would reach maximum — a prediction Milgram called 'unequivocally wrong.' Munich replications reached 85%." },
+  { source: "Milgram", stem: "In Milgram's 'rebellious peers' variation, what happened when two other teachers (actually confederates) refused to continue?",
+    choices: ["Most subjects continued to obey regardless", "Exactly half of subjects stopped along with the peers", "36 of 40 subjects joined the disobedience", "All 40 subjects immediately stopped"], correctIndex: 2,
+    explanation: "When confederate teachers refused and walked away, 36 of 40 real subjects also refused — by far the most powerful disobedience trigger in all variations. Peer modeling is the most effective tool for breaking obedience to authority." },
+  { source: "Milgram", stem: "Hannah Arendt's concept of the 'banality of evil,' as applied to Milgram's findings, asserts that:",
+    choices: ["Only psychologically disturbed individuals commit atrocities", "Ordinary people commit extraordinary harm through thoughtlessness and obedience", "Evil is always the result of sadistic personality traits", "Authority is inherently corrupting and must be eliminated"], correctIndex: 1,
+    explanation: "Arendt's 'banality of evil' (Eichmann in Jerusalem, 1963) argues that Eichmann was not a monster but an ordinary bureaucrat who failed to think from the standpoint of others. Milgram's subjects confirmed this: ordinary Americans, without sadistic intent, administered what they believed were lethal shocks." },
+  { source: "Milgram", stem: "Gretchen Brandt, the subject who refused at 210 volts saying 'I don't want to be responsible for this,' is significant in Milgram's study because she demonstrates:",
+    choices: ["That women are inherently more obedient than men", "That professional identity and education can support moral agency against authority", "That subjects who refuse are always from non-American backgrounds", "That disobedience requires a group — lone refusal is impossible"], correctIndex: 1,
+    explanation: "Brandt (31-year-old medical technician) demonstrates that professional identity, education, and internalized ethics can give individuals the resources to maintain moral agency even under authority pressure. She is the audit model — refusing at 210V." },
+  { source: "Milgram", stem: "The core mechanism Milgram calls the 'agentic shift' is best described as:",
+    choices: ["A person deliberately choosing to harm others under social pressure", "A person reframing themselves as a tool of another's will, abandoning felt personal responsibility", "A learned helplessness response to prolonged authority", "An emotional numbing that prevents subjects from feeling empathy"], correctIndex: 1,
+    explanation: "Agentic shift: 'A person comes to view himself as the instrument for carrying out another person's wishes, and therefore no longer regards himself as responsible for his actions.' The moral sense is not destroyed — it is redirected. Subjects feel bad but defer responsibility." },
+  { source: "Milgram", stem: "Milgram's sociological thesis about why obedience enables systemic evil centers on:",
+    choices: ["Individual sadism disguised as compliance", "The division of labor and fragmentation of the total human act across many participants", "National culture as the primary driver of obedience rates", "The psychological fragility of working-class subjects"], correctIndex: 1,
+    explanation: "Milgram argued that modern organizational structures fragment moral responsibility: the person who designs the gas chamber, the person who orders it built, the person who operates it, and the person who supplies the gas each do 'their part.' No one sees the whole act — hence the Cyclon-B operator example." },
+
+  // RIVERS (6)
+  { source: "Risk Management", stem: "According to ISO 31000, risk is formally defined as:",
+    choices: ["The probability that a negative event will occur", "The effect of uncertainty on an organization's objectives", "Any threat to organizational assets or people", "The cost of insurance and claims arising from operations"], correctIndex: 1,
+    explanation: "ISO 31000 defines risk as 'the effect of uncertainty on an organization's objectives.' This definition is bidirectional — risk includes upside deviations (opportunities) as well as downside threats. It is not limited to negative events." },
+  { source: "Risk Management", stem: "In the Rivers presentation, the 'risk is like fire' analogy is used to illustrate which key principle?",
+    choices: ["Risk should be eliminated wherever possible", "Risk is always destructive and must be contained", "Risk can be both destructive and useful — it must be managed, not eradicated", "Only large risks deserve management attention"], correctIndex: 2,
+    explanation: "Fire can burn your house down (destructive) or heat it and cook food (useful/necessary). Similarly, risk must be managed — not eliminated. Complete risk avoidance would also eliminate growth opportunities. Same principle as the 'brakes on a car' analogy." },
+  { source: "Risk Management", stem: "Which stage in the evolution of risk management embeds risk considerations directly into corporate strategy as a competitive advantage tool?",
+    choices: ["Transactional", "Integrated", "Strategic", "Operational"], correctIndex: 2,
+    explanation: "The three stages are: Transactional (siloed, reactive, insurance-focused) → Integrated (cross-functional, proactive) → Strategic (enterprise-wide, embedded in strategy, creates competitive advantage). Only the Strategic stage treats risk management as a value creator." },
+  { source: "Risk Management", stem: "Which of the following is NOT one of the Four Major Responsibilities in the risk management quadrant presented by Rivers?",
+    choices: ["Risk Identification", "Risk Financing, Insurance & Claims Administration", "Internal Audit and Assurance", "Compliance"], correctIndex: 2,
+    explanation: "The Four Major Responsibilities are: (1) Risk Identification, (2) Risk Financing, Insurance & Claims Administration, (3) Compliance, and (4) Risk Control and Mitigation. Internal Audit is a related but separate function — it is not part of the risk management quadrant." },
+  { source: "Risk Management", stem: "The 'brakes on a car' analogy for risk management is best interpreted as:",
+    choices: ["Risk management prevents organizations from taking action", "Brakes represent compliance officers who stop risky decisions", "Risk management enables faster, more confident action by providing control", "Organizations with better risk management take fewer risks"], correctIndex: 2,
+    explanation: "Brakes don't exist to stop you — they exist so you can go faster safely. Good risk management enables the organization to take calculated risks with confidence, not to avoid all risk. This connects to the broader course theme: governance exists to enable action, not prevent it." },
+  { source: "Risk Management", stem: "Which of the five roles of risk management focuses on quantifying the total burden of risk across the organization and optimizing how resources are spent on it?",
+    choices: ["Preserve Value", "Maintain Public Trust", "Create Value", "Focus on Cost of Risk"], correctIndex: 3,
+    explanation: "The 5 roles: (1) Preserve Value, (2) Create Value, (3) Maintain Public Trust, (4) Protect People and Assets, (5) Focus on Cost of Risk. 'Focus on Cost of Risk' specifically addresses quantifying the organization's total risk burden and optimizing risk spend." },
+
+  // BEYONDTRUST (5)
+  { source: "BeyondTrust", stem: "The BeyondTrust speaker's 'Phantom Labs' team is best described as:",
+    choices: ["BeyondTrust's customer success organization", "A research team that thinks like attackers to drive security innovation and shape industry standards", "The AI product development division of BeyondTrust", "An external consulting firm hired to test BeyondTrust's products"], correctIndex: 1,
+    explanation: "Phantom Labs is BeyondTrust's dedicated security research team. Their stated mission: 'Researchers think like attackers to accelerate identity security innovation and help shape industry standards.' This adversarial mindset parallels how internal auditors test controls." },
+  { source: "BeyondTrust", stem: "Cloudsplaining, the open-source tool released in 2020, has achieved how many downloads?",
+    choices: ["6.1 million", "61 million", "601 million", "6.01 billion"], correctIndex: 2,
+    explanation: "Cloudsplaining (an AWS IAM security scanning tool) has achieved 601 MILLION downloads — a memorable statistic that demonstrates the massive demand for identity and access management security tooling. This number is a common exam question." },
+  { source: "BeyondTrust", stem: "According to the BeyondTrust speaker, which of the following was NOT among his specific career advice bullets?",
+    choices: ["Learn to code and write it by hand", "Take big swings — your career is short", "Pursue multiple graduate degrees before specializing", "Avoid toxic people in your professional environment"], correctIndex: 2,
+    explanation: "The 6 career advice bullets were: (1) Learn to code by hand, (2) Get Claude/Copilot and master complex systems, (3) Dive deep into AI, (4) Take big swings, (5) Take feedback productively, (6) Avoid toxic people. Pursuing graduate degrees was not mentioned." },
+  { source: "BeyondTrust", stem: "The T-Shaped Engineer model, as described by the BeyondTrust speaker, asserts that:",
+    choices: ["Generalists always reach expert status faster than specialists", "Deep specialization in multiple domains simultaneously is the career ideal", "Broad knowledge across many domains combined with deep expertise in one is optimal", "The 'T' represents two equally weighted specializations"], correctIndex: 2,
+    explanation: "T-Shaped = broad foundation (hardware, cloud, AI, design) + deep expertise in ONE domain (the speaker's: cloud security). The speaker specifically said generalists take LONGER to become experts — the depth component is what differentiates the T-shaped professional." },
+  { source: "BeyondTrust", stem: "The speaker's statement that 'AI is making it easier and easier to find vulnerabilities' most directly supports which audit/governance concept?",
+    choices: ["AI is reducing the need for human security professionals", "AI security is an emerging and rapidly expanding risk surface requiring specialized governance", "Existing cybersecurity frameworks are sufficient for AI-era risks", "BeyondTrust's PAM tools eliminate AI-related security risks"], correctIndex: 1,
+    explanation: "The quote underscores that AI lowers the barrier for attackers — making it faster and cheaper to discover exploitable weaknesses. This directly supports the concept that AI security is 'the newest risk' requiring dedicated governance, specialized skills, and new frameworks." },
+
+  // CELONIS (5)
+  { source: "Celonis", stem: "Celonis describes 'Process Intelligence' as:",
+    choices: ["A business intelligence tool for financial reporting and dashboards", "The only living digital twin that mirrors operational reality and identifies where AI drives the highest ROI", "A compliance management system for ERP environments", "An AI-powered data warehouse for predictive analytics"], correctIndex: 1,
+    explanation: "Process Intelligence is Celonis's core value proposition: a living digital twin (continuously updated, not static) that mirrors how the organization actually operates — providing the data layer that AI needs to function effectively in real enterprise environments." },
+  { source: "Celonis", stem: "According to Corey Aleman, why does AI frequently fail in enterprise implementation?",
+    choices: ["AI models lack the computational power for enterprise scale", "Organizations haven't purchased sufficient AI licenses", "AI lacks detail about how the company actually runs and uses its data", "Employees resist using AI tools in their daily workflows"], correctIndex: 2,
+    explanation: "Aleman's key insight: AI fails because of the DATA — specifically, organizations don't have visibility into how they actually run their processes. AI needs operational ground truth to make correct decisions, and process mining provides that visibility." },
+  { source: "Celonis", stem: "What distinguishes Object-Centric Process Mining (OCPM) from traditional process mining?",
+    choices: ["OCPM only works with financial transaction data", "OCPM traces a single object type through one process at a time", "OCPM visualizes businesses as objects AND events with relationships between them, handling multi-object complexity", "OCPM is a manual review process, unlike automated traditional process mining"], correctIndex: 2,
+    explanation: "Traditional process mining traces one object (e.g., one purchase order) at a time. OCPM (Celonis's 'Secret Sauce') maps multiple objects, their events, and the relationships between them simultaneously — reflecting real-world complexity where many objects interact." },
+  { source: "Celonis", stem: "Celonis holds the distinction of being:",
+    choices: ["The largest German company by market capitalization", "The first unicorn (>$1B) in the European Union", "Germany's first decacorn (startup valued over $10 billion)", "The world's first AI company to go public on the Frankfurt Stock Exchange"], correctIndex: 2,
+    explanation: "Celonis is Germany's first decacorn — a startup valued at over $10 billion. A unicorn = >$1B; decacorn = >$10B. Celonis achieved this distinction in the enterprise software space." },
+  { source: "Celonis", stem: "Which of the following is NOT one of the three stated benefits of process mining for audit?",
+    choices: ["Reduce Compliance Costs", "Increase Speed", "Eliminate the Need for Human Auditors", "Boost Efficiency"], correctIndex: 2,
+    explanation: "The three audit benefits are: (1) Reduce Compliance Costs, (2) Increase Speed, and (3) Boost Efficiency. Eliminating human auditors was never stated — process mining enables 100% population testing via automated log analysis, but the human auditor's judgment remains essential." },
+
+  // LATIN (7)
+  { source: "Latin Vocabulary", stem: "A purchasing manager approves a sole-source contract with a vendor in which she holds a 40% equity stake. The most appropriate Latin term an auditor would apply is:",
+    choices: ["Mutatis mutandis", "Res ipsa loquitur", "Petitio principii", "Sine qua non"], correctIndex: 1,
+    explanation: "Res ipsa loquitur — 'the thing speaks for itself.' The conflict of interest is so obvious that no further documentation is required to establish its significance as an audit finding. The evidence is self-evident and self-documenting." },
+  { source: "Latin Vocabulary", stem: "Management asserts to auditors: 'Our internal controls are effective because we have never had a material misstatement.' This statement is an example of:",
+    choices: ["Post hoc ergo propter hoc", "Res ipsa loquitur", "Petitio principii", "Non sequitur"], correctIndex: 2,
+    explanation: "Petitio principii (begging the question): The statement uses the conclusion ('our controls are effective') as its own evidence ('no past misstatements' is what effective controls would produce). The argument is circular — it assumes what it is trying to prove." },
+  { source: "Latin Vocabulary", stem: "The phrase 'cui bono' traces to which ancient source?",
+    choices: ["Immanuel Kant (Critique of Pure Reason, 1781)", "Cicero / Cassius Longinus (127 BC)", "Byrne v. Boadle (1863 English tort case)", "Aristotle (Nicomachean Ethics)"], correctIndex: 1,
+    explanation: "Cui bono ('to whose benefit?') is attributed to Cicero and the Roman jurist Cassius Longinus, dating to approximately 127 BC. It is the foundational fraud investigation question: who benefits from the anomaly?" },
+  { source: "Latin Vocabulary", stem: "An auditor notes that after a cybersecurity incident, the client implemented new access controls. A junior team member concludes the new controls caused the subsequent decrease in incidents. The auditor correctly identifies this as:",
+    choices: ["Sine qua non reasoning", "Post hoc ergo propter hoc", "A priori analysis", "De novo assessment"], correctIndex: 1,
+    explanation: "Post hoc ergo propter hoc ('after this, therefore because of this') — the junior auditor is committing the classic fallacy of assuming that because the controls came before the decrease, they caused it. Correlation does not imply causation; additional evidence is required." },
+  { source: "Latin Vocabulary", stem: "An audit manager instructs the team: 'Because of the restatement, disregard all prior-year audit work and reassess all assertions from scratch.' This directive best exemplifies:",
+    choices: ["Mutatis mutandis", "Ad hoc auditing", "De novo review", "A posteriori analysis"], correctIndex: 2,
+    explanation: "De novo ('from new') — after a material event like a restatement, the audit team must start fresh without relying on prior-year conclusions. The prior work is no longer a reliable baseline." },
+  { source: "Latin Vocabulary", stem: "An IT department creates a custom workaround script for a one-time data migration that bypasses standard access controls. From a risk management perspective, this is an example of:",
+    choices: ["Sine qua non control design", "A priori risk assessment", "Ad hoc process creating a control gap", "Mutatis mutandis framework adaptation"], correctIndex: 2,
+    explanation: "Ad hoc ('for this specific purpose') — a workaround created for a specific situation, lacking design, repeatability, documentation, and accountability. Ad hoc processes are control gaps because they operate outside the governed framework." },
+  { source: "Latin Vocabulary", stem: "What distinguishes a priori reasoning from a posteriori reasoning in the audit context?",
+    choices: ["A priori is used only in legal proceedings; a posteriori is used in financial audits", "A priori reasoning is based on assumptions before evidence; a posteriori conclusions are drawn from observed evidence", "A priori applies to planning; a posteriori applies only to report writing", "There is no meaningful distinction — the terms are interchangeable in practice"], correctIndex: 1,
+    explanation: "A priori ('from before') = reasoning from assumptions without direct evidence — used in audit planning and risk assessment. A posteriori ('from after') = conclusions drawn from evidence observed during fieldwork. Professional skepticism requires moving from a priori hypotheses to a posteriori, evidence-based conclusions." },
+
+  // INTEGRATION (5)
+  { source: "Integration", stem: "The EU AI Act's Article 14 human oversight requirements for high-risk AI are most directly analogous to which Milgram finding?",
+    choices: ["The Munich replication showing 85% obedience", "The telephone variation showing that physical distance reduces felt accountability", "The rebellious peers variation showing the power of peer modeling", "Brandt's refusal demonstrating that meaningful override capability must be real, not nominal"], correctIndex: 3,
+    explanation: "Article 14 requires that humans be able to understand, monitor, and override AI decisions — substantive oversight, not nominal. Milgram showed that nominal authority ('you're in charge') without real override capability is insufficient. Brandt's refusal illustrates what meaningful human oversight looks like: actual intervention at a critical point." },
+  { source: "Integration", stem: "A company discovers that employees have been using an unauthorized AI tool to process sensitive HR data without IT or audit awareness. Which Latin term best describes this, and which compliance strategy step addresses it?",
+    choices: ["Res ipsa loquitur; Step 5 (Document & Audit)", "Ad hoc; Step 1 (Inventory AI Systems)", "De novo; Step 3 (Map Frameworks)", "Petitio principii; Step 6 (Monitor Changes)"], correctIndex: 1,
+    explanation: "Ad hoc — unauthorized, undocumented, ungoverned AI usage is the definition of an ad hoc control gap. The correct compliance response is Step 1 (Inventory AI Systems) — you cannot classify risk, map frameworks, or implement controls for AI systems you don't know exist." },
+  { source: "Integration", stem: "Celonis process mining most directly enables which NIST AI RMF function by providing continuous visibility into AI behavior within business processes?",
+    choices: ["GOVERN — setting AI policy", "MAP — contextualizing AI risks", "MEASURE — assessing AI risks quantitatively", "MANAGE — responding to AI risks"], correctIndex: 2,
+    explanation: "Celonis provides the continuous data stream that makes the NIST MEASURE function operational — converting AI behavior from an assumption into a quantifiably assessable system. MEASURE requires knowing how AI is performing; process mining provides that 100% population observability." },
+  { source: "Integration", stem: "Which pairing correctly matches a Latin term to a course source and its specific application?",
+    choices: [
+      "Cui bono → ISO 42001 → Identifying which Annex A control domain should be prioritized",
+      "Post hoc ergo propter hoc → BeyondTrust → Assuming an AI tool caused a security breach because it was deployed before the breach",
+      "Res ipsa loquitur → Milgram → Explaining why subjects chose the minimum shock level",
+      "Mutatis mutandis → EU AI Act → The legal rationale for the Brussels Effect"
+    ], correctIndex: 1,
+    explanation: "Post hoc ergo propter hoc applies directly to incident attribution in cybersecurity (BeyondTrust context): if a new AI tool was deployed before a breach, it doesn't mean the tool caused the breach — this is the classic fallacy the term describes. The other options misapply their terms." },
+  { source: "Integration", stem: "The 'brakes on a car' analogy from Rivers, when applied to AI usage levels, best maps to which level and its governance feature?",
+    choices: [
+      "L0 — Naive Prompting — acceptable use policies allow fast adoption",
+      "L3 — Tool Use — MCP connectors enable AI to move faster by accessing real systems",
+      "L5 — Deterministic Control Hooks — validation gates that enable L6 multi-agent orchestration to operate safely at scale",
+      "L6 — Multi-Agent Orchestration — consensus mechanisms allow agents to resolve conflicts rapidly"
+    ], correctIndex: 2,
+    explanation: "L5's pre/post-tool validation hooks are the brakes that enable L6 multi-agent orchestration to go faster safely. Without L5 control gates, L6 agents cannot operate at scale without catastrophic error risk. The hooks don't prevent action — they make high-speed, high-stakes agent action possible and auditable." }
+];
+
+// ═══════════════════════════════════════════════════════════════════════════
+//   STATE & UTILITIES
+// ═══════════════════════════════════════════════════════════════════════════
+const LETTERS = ['A', 'B', 'C', 'D'];
+const state = {
+  mode: 'all',
+  questions: [],
+  currentIdx: 0,
+  selected: null,
+  locked: false,
+  score: 0,
+  answers: [],
+};
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function prepareQuestions(mode) {
+  let pool = [...QUESTIONS];
+  if (mode === 'quick') pool = shuffle(pool).slice(0, 15);
+  else if (mode === 'medium') pool = shuffle(pool).slice(0, 25);
+  else pool = shuffle(pool);
+
+  // Randomize answer choices within each question too
+  return pool.map(q => {
+    const shuffledOrder = shuffle([0, 1, 2, 3]);
+    const newChoices = shuffledOrder.map(i => q.choices[i]);
+    const newCorrectIndex = shuffledOrder.indexOf(q.correctIndex);
+    return { ...q, choices: newChoices, correctIndex: newCorrectIndex };
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//   RENDER
+// ═══════════════════════════════════════════════════════════════════════════
+const app = document.getElementById('app');
+const statsEl = document.getElementById('stats');
+
+function renderStart() {
+  statsEl.style.display = 'none';
+  app.innerHTML = `
+    <div class="start-screen">
+      <h2>Final Exam Practice</h2>
+      <p class="tagline">Interactive review covering all 7 course sources. Questions and answer choices randomize every session.</p>
+
+      <div class="distribution">
+        <div class="dist-item"><strong>AI Governance</strong>8 questions</div>
+        <div class="dist-item"><strong>AI Usage Levels</strong>7 questions</div>
+        <div class="dist-item"><strong>Milgram</strong>7 questions</div>
+        <div class="dist-item"><strong>Risk Management</strong>6 questions</div>
+        <div class="dist-item"><strong>BeyondTrust</strong>5 questions</div>
+        <div class="dist-item"><strong>Celonis</strong>5 questions</div>
+        <div class="dist-item"><strong>Latin Vocab</strong>7 questions</div>
+        <div class="dist-item"><strong>Integration</strong>5 questions</div>
+      </div>
+
+      <div class="mode-selector">
+        <h3>Choose Length</h3>
+        <div class="mode-options">
+          <button class="mode-btn" data-mode="quick"><strong>Quick</strong><small>15 questions</small></button>
+          <button class="mode-btn" data-mode="medium"><strong>Medium</strong><small>25 questions</small></button>
+          <button class="mode-btn active" data-mode="all"><strong>Full</strong><small>All 50 questions</small></button>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="start-btn">Start Practice Exam →</button>
+    </div>
+  `;
+
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.mode = btn.dataset.mode;
+    });
+  });
+
+  document.getElementById('start-btn').addEventListener('click', startExam);
+}
+
+function startExam() {
+  state.questions = prepareQuestions(state.mode);
+  state.currentIdx = 0;
+  state.selected = null;
+  state.locked = false;
+  state.score = 0;
+  state.answers = [];
+  statsEl.style.display = 'flex';
+  renderQuestion();
+}
+
+function updateStats() {
+  document.getElementById('stat-current').textContent = `${state.currentIdx + 1}/${state.questions.length}`;
+  document.getElementById('stat-correct').textContent = state.score;
+  const answered = state.answers.length;
+  document.getElementById('stat-pct').textContent = answered > 0 ? Math.round((state.score / answered) * 100) + '%' : '—';
+}
+
+function renderQuestion() {
+  updateStats();
+  const q = state.questions[state.currentIdx];
+  const pct = ((state.currentIdx) / state.questions.length) * 100;
+
+  app.innerHTML = `
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span>Question <strong>${state.currentIdx + 1}</strong> of <strong>${state.questions.length}</strong></span>
+        <span>${Math.round(pct)}% complete</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
+
+    <div class="question-card">
+      <div class="question-meta">
+        <span class="q-number">Question ${state.currentIdx + 1}</span>
+        <span class="q-source">${q.source}</span>
+      </div>
+      <div class="q-stem">${escapeHTML(q.stem)}</div>
+      <div class="choices" id="choices">
+        ${q.choices.map((c, i) => `
+          <button class="choice" data-idx="${i}">
+            <div class="choice-letter">${LETTERS[i]}</div>
+            <div class="choice-text">${escapeHTML(c)}</div>
+          </button>
+        `).join('')}
+      </div>
+      <div id="explanation-slot"></div>
+      <div class="controls">
+        <button class="btn-secondary" id="prev-btn" ${state.currentIdx === 0 ? 'disabled' : ''}>← Previous</button>
+        <button class="btn-secondary" id="skip-btn">Skip →</button>
+        <button class="btn-primary" id="next-btn" style="display:none;">Next Question →</button>
+      </div>
+    </div>
+  `;
+
+  // Wire up
+  document.querySelectorAll('.choice').forEach(btn => {
+    btn.addEventListener('click', () => selectChoice(parseInt(btn.dataset.idx)));
+  });
+  document.getElementById('prev-btn').addEventListener('click', prevQuestion);
+  document.getElementById('skip-btn').addEventListener('click', skipQuestion);
+
+  // If this question was already answered, show its state
+  const existing = state.answers.find(a => a.questionIdx === state.currentIdx);
+  if (existing) {
+    replayAnswer(existing);
+  }
+}
+
+function selectChoice(idx) {
+  if (state.locked) return;
+  state.locked = true;
+  state.selected = idx;
+
+  const q = state.questions[state.currentIdx];
+  const isCorrect = idx === q.correctIndex;
+
+  // Track answer
+  const existing = state.answers.findIndex(a => a.questionIdx === state.currentIdx);
+  const answerRecord = { questionIdx: state.currentIdx, selectedIdx: idx, correctIdx: q.correctIndex, isCorrect };
+  if (existing >= 0) {
+    // Undo previous score adjustment
+    if (state.answers[existing].isCorrect) state.score--;
+    state.answers[existing] = answerRecord;
+  } else {
+    state.answers.push(answerRecord);
+  }
+  if (isCorrect) state.score++;
+
+  // Visual update
+  document.querySelectorAll('.choice').forEach((btn, i) => {
+    btn.classList.add('disabled');
+    if (i === q.correctIndex) {
+      btn.classList.add('correct');
+      const icon = document.createElement('div');
+      icon.className = 'choice-icon';
+      icon.textContent = '✓';
+      btn.appendChild(icon);
+    } else if (i === idx && !isCorrect) {
+      btn.classList.add('incorrect');
+      const icon = document.createElement('div');
+      icon.className = 'choice-icon';
+      icon.textContent = '✗';
+      btn.appendChild(icon);
+    }
+  });
+
+  // Explanation
+  const slot = document.getElementById('explanation-slot');
+  slot.innerHTML = `
+    <div class="explanation ${isCorrect ? 'correct' : 'incorrect'}">
+      <div class="explanation-header">
+        ${isCorrect ? '✓ Correct' : '✗ Incorrect — Correct answer: ' + LETTERS[q.correctIndex]}
+      </div>
+      <div class="explanation-text">${escapeHTML(q.explanation)}</div>
+    </div>
+  `;
+
+  // Swap skip → next
+  document.getElementById('skip-btn').style.display = 'none';
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.style.display = 'block';
+  nextBtn.textContent = state.currentIdx === state.questions.length - 1 ? 'See Results →' : 'Next Question →';
+  nextBtn.addEventListener('click', nextQuestion);
+
+  updateStats();
+}
+
+function replayAnswer(answer) {
+  const q = state.questions[state.currentIdx];
+  state.locked = true;
+
+  document.querySelectorAll('.choice').forEach((btn, i) => {
+    btn.classList.add('disabled');
+    if (i === q.correctIndex) {
+      btn.classList.add('correct');
+      const icon = document.createElement('div');
+      icon.className = 'choice-icon';
+      icon.textContent = '✓';
+      btn.appendChild(icon);
+    } else if (i === answer.selectedIdx && !answer.isCorrect) {
+      btn.classList.add('incorrect');
+      const icon = document.createElement('div');
+      icon.className = 'choice-icon';
+      icon.textContent = '✗';
+      btn.appendChild(icon);
+    }
+  });
+
+  const slot = document.getElementById('explanation-slot');
+  slot.innerHTML = `
+    <div class="explanation ${answer.isCorrect ? 'correct' : 'incorrect'}">
+      <div class="explanation-header">
+        ${answer.isCorrect ? '✓ Correct' : '✗ Incorrect — Correct answer: ' + LETTERS[q.correctIndex]}
+      </div>
+      <div class="explanation-text">${escapeHTML(q.explanation)}</div>
+    </div>
+  `;
+
+  document.getElementById('skip-btn').style.display = 'none';
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.style.display = 'block';
+  nextBtn.textContent = state.currentIdx === state.questions.length - 1 ? 'See Results →' : 'Next Question →';
+  nextBtn.addEventListener('click', nextQuestion);
+}
+
+function prevQuestion() {
+  if (state.currentIdx > 0) {
+    state.currentIdx--;
+    state.locked = false;
+    renderQuestion();
+  }
+}
+
+function skipQuestion() {
+  // Record as unanswered; advance
+  const existing = state.answers.findIndex(a => a.questionIdx === state.currentIdx);
+  if (existing < 0) {
+    state.answers.push({ questionIdx: state.currentIdx, selectedIdx: null, correctIdx: state.questions[state.currentIdx].correctIndex, isCorrect: false, skipped: true });
+  }
+  nextQuestion();
+}
+
+function nextQuestion() {
+  state.locked = false;
+  if (state.currentIdx < state.questions.length - 1) {
+    state.currentIdx++;
+    renderQuestion();
+  } else {
+    renderResults();
+  }
+}
+
+function renderResults() {
+  statsEl.style.display = 'none';
+  const total = state.questions.length;
+  const correct = state.score;
+  const pct = Math.round((correct / total) * 100);
+  const incorrect = state.answers.filter(a => !a.isCorrect);
+
+  // Breakdown by source
+  const bySource = {};
+  state.questions.forEach((q, i) => {
+    if (!bySource[q.source]) bySource[q.source] = { total: 0, correct: 0 };
+    bySource[q.source].total++;
+    const ans = state.answers.find(a => a.questionIdx === i);
+    if (ans && ans.isCorrect) bySource[q.source].correct++;
+  });
+
+  let message = '';
+  if (pct >= 90) message = '🎯 Excellent — you are exam-ready.';
+  else if (pct >= 80) message = '✓ Strong performance. Review the incorrect items once more.';
+  else if (pct >= 70) message = '📘 Solid foundation. Drill the incorrect areas before the exam.';
+  else if (pct >= 60) message = '⚠️ More review needed. Focus on the sources with the lowest scores.';
+  else message = '📚 Significant gaps — work through the study guide and retake.';
+
+  app.innerHTML = `
+    <div class="results">
+      <h2>Practice Complete</h2>
+      <div class="score-circle" style="--pct: ${pct}%;">
+        <div class="score-inner">
+          <div class="score-pct">${pct}%</div>
+          <div class="score-label">Score</div>
+        </div>
+      </div>
+      <div class="score-detail"><strong>${correct}</strong> correct out of <strong>${total}</strong></div>
+      <div class="score-detail" style="color: var(--text-muted); font-size: 0.95rem;">${message}</div>
+
+      <div class="breakdown">
+        <h3>Breakdown by Source</h3>
+        ${Object.entries(bySource).map(([source, data]) => {
+          const sourcePct = Math.round((data.correct / data.total) * 100);
+          return `
+            <div class="breakdown-item">
+              <div>${source}</div>
+              <div class="breakdown-bar"><div class="breakdown-bar-fill" style="width: ${sourcePct}%;"></div></div>
+              <div class="breakdown-score">${data.correct}/${data.total}</div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+
+      <div class="action-row">
+        <button class="btn-secondary" id="review-btn">Review Incorrect (${incorrect.length})</button>
+        <button class="btn-primary" id="retake-btn">New Random Exam →</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('retake-btn').addEventListener('click', renderStart);
+  document.getElementById('review-btn').addEventListener('click', renderReview);
+  if (incorrect.length === 0) document.getElementById('review-btn').disabled = true;
+}
+
+function renderReview() {
+  const incorrectAnswers = state.answers.filter(a => !a.isCorrect);
+  if (incorrectAnswers.length === 0) return;
+
+  app.innerHTML = `
+    <div class="results" style="text-align:left;">
+      <h2 style="text-align:center;">Review — Incorrect Answers</h2>
+      <p style="text-align:center; color: var(--text-muted); margin-bottom: 1.5rem;">${incorrectAnswers.length} question${incorrectAnswers.length === 1 ? '' : 's'} to review</p>
+      ${incorrectAnswers.map((ans, i) => {
+        const q = state.questions[ans.questionIdx];
+        const yourAnswerText = ans.skipped ? '(Skipped)' : q.choices[ans.selectedIdx];
+        const correctText = q.choices[q.correctIndex];
+        return `
+          <div class="review-item incorrect">
+            <div class="review-meta"><span class="q-source">${q.source}</span></div>
+            <div class="review-stem">${i + 1}. ${escapeHTML(q.stem)}</div>
+            <div class="review-answer your"><strong>Your answer:</strong> ${escapeHTML(yourAnswerText)}</div>
+            <div class="review-answer correct"><strong>Correct:</strong> ${escapeHTML(correctText)}</div>
+            <div class="review-expl">${escapeHTML(q.explanation)}</div>
+          </div>
+        `;
+      }).join('')}
+      <div class="action-row">
+        <button class="btn-primary" id="retake-btn-2">New Random Exam →</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('retake-btn-2').addEventListener('click', renderStart);
+}
+
+function escapeHTML(str) {
+  return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+// Init
+renderStart();
+</script>
+
+</body>
+</html>

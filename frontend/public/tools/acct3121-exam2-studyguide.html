@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACCT 3121 — Exam 2 Study Guide & Practice Exam</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f7fa;
+  --bg-card: #ffffff;
+  --bg-card-alt: #f4f2f7;
+  --accent: #d4830b;
+  --accent-glow: rgba(212, 131, 11, 0.08);
+  --accent-border: rgba(212, 131, 11, 0.25);
+  --teal: #0d9488;
+  --teal-bg: rgba(13, 148, 136, 0.06);
+  --teal-border: rgba(13, 148, 136, 0.2);
+  --red: #dc2626;
+  --red-bg: rgba(220, 38, 38, 0.06);
+  --green: #16a34a;
+  --green-bg: rgba(22, 163, 74, 0.06);
+  --green-border: rgba(22, 163, 74, 0.2);
+  --text-primary: #1e1b2e;
+  --text-secondary: #4a4560;
+  --text-muted: #8c86a0;
+  --border: rgba(0,0,0,0.1);
+  --purple-accent: #7c3aed;
+  --purple-bg: rgba(124,58,237,0.06);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #f5f4f7;
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+.header {
+  background: linear-gradient(135deg, #2d1b69 0%, #4c2d91 50%, #2d1b69 100%);
+  border-bottom: 3px solid var(--accent);
+  padding: 2rem 1rem 1rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 50%, rgba(245,166,35,0.08) 0%, transparent 50%),
+              radial-gradient(circle at 70% 50%, rgba(167,139,250,0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+.header-icon { font-size: 2.2rem; margin-bottom: 0.3rem; }
+.header h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  position: relative;
+  color: #fff;
+}
+.header-sub {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.75);
+  margin-top: 0.3rem;
+  letter-spacing: 1px;
+  position: relative;
+}
+/* Tab navigation */
+.tab-bar {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1rem;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.tab-btn {
+  padding: 0.5rem 1.1rem;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+.tab-btn:hover { border-color: var(--accent-border); color: var(--accent); }
+.tab-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+/* Main content */
+.content { max-width: 880px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+.tab-panel { display: none; animation: fadeIn 0.3s ease; }
+.tab-panel.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.4rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.badge-accent { background: var(--accent); color: #fff; }
+.badge-teal { background: var(--teal); color: #fff; }
+.badge-purple { background: var(--purple-accent); color: #fff; }
+.badge-red { background: var(--red); color: #fff; }
+.badge-outline {
+  background: transparent;
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+}
+
+.card-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+.card p, .card li {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+.card strong, .card b { color: var(--accent); font-weight: 600; }
+
+/* Highlight boxes */
+.highlight-box {
+  background: var(--accent-glow);
+  border: 1px solid var(--accent-border);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin: 1rem 0;
+}
+.highlight-box.teal {
+  background: var(--teal-bg);
+  border-color: var(--teal-border);
+  border-left-color: var(--teal);
+}
+.highlight-box.green {
+  background: var(--green-bg);
+  border-color: var(--green-border);
+  border-left-color: var(--green);
+}
+.highlight-box p { color: var(--text-primary); font-size: 0.88rem; }
+.highlight-box .label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+.highlight-box.teal .label { color: var(--teal); }
+.highlight-box.green .label { color: var(--green); }
+
+/* Tables */
+.table-wrap { overflow-x: auto; margin: 0.8rem 0; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+th {
+  background: #f0edf5;
+  color: #2d1b69;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 2px solid var(--accent-border);
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+td {
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+tr:hover td { background: rgba(0,0,0,0.02); }
+
+/* Formula boxes */
+.formula {
+  font-family: 'JetBrains Mono', monospace;
+  background: #f7f5fa;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  margin: 0.6rem 0;
+  font-size: 0.82rem;
+  color: #2d1b69;
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+
+/* Section headers */
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Two-column grid */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+
+/* Quiz styles */
+.quiz-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.quiz-header h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.6rem;
+}
+.q-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.3s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.q-card.correct { border-color: var(--green); }
+.q-card.incorrect { border-color: var(--red); }
+.q-number {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+.q-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+.q-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.4rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+.q-option:hover { border-color: var(--accent-border); background: rgba(212,131,11,0.04); }
+.q-option.selected { border-color: var(--purple-accent); background: var(--purple-bg); color: var(--text-primary); }
+.q-option.selected-correct { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+.q-option.selected-incorrect { border-color: var(--red); background: var(--red-bg); color: var(--red); }
+.q-option.reveal-correct { border-color: var(--green); background: var(--green-bg); }
+.q-radio {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--text-muted);
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.q-option.selected .q-radio { border-color: var(--purple-accent); }
+.q-option.selected .q-radio::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--purple-accent);
+}
+.q-option.selected-correct .q-radio { border-color: var(--green); }
+.q-option.selected-correct .q-radio::after { background: var(--green); }
+.q-option.selected-incorrect .q-radio { border-color: var(--red); }
+.q-option.selected-incorrect .q-radio::after { background: var(--red); }
+.q-option.reveal-correct .q-radio { border-color: var(--green); }
+.q-explanation {
+  display: none;
+  margin-top: 0.8rem;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+.q-explanation.show { display: block; }
+.q-explanation.correct-exp { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.q-explanation.incorrect-exp { background: var(--red-bg); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
+
+.submit-btn {
+  display: block;
+  margin: 2rem auto;
+  padding: 0.9rem 2.5rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+  letter-spacing: 0.5px;
+}
+.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,131,11,0.25); }
+
+.score-box {
+  display: none;
+  text-align: center;
+  padding: 1.5rem;
+  background: #fff;
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+  margin: 2rem 0;
+  box-shadow: 0 4px 12px rgba(212,131,11,0.1);
+}
+.score-box.show { display: block; }
+.score-number {
+  font-family: 'DM Serif Display', serif;
+  font-size: 3rem;
+  color: var(--accent);
+}
+.score-label { color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.3rem; }
+
+/* Collapsible / Accordion */
+.accordion-btn {
+  width: 100%;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.3rem;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.accordion-btn:hover { border-color: var(--accent-border); }
+.accordion-btn.open { border-color: var(--accent); border-bottom-left-radius: 0; border-bottom-right-radius: 0; margin-bottom: 0; }
+.accordion-btn .arrow { transition: transform 0.3s; font-size: 0.8rem; color: var(--accent); }
+.accordion-btn.open .arrow { transform: rotate(180deg); }
+.accordion-body {
+  display: none;
+  background: #faf9fc;
+  border: 1px solid var(--accent-border);
+  border-top: none;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+.accordion-body.open { display: block; animation: fadeIn 0.3s ease; }
+
+ul.clean { list-style: none; padding: 0; }
+ul.clean li { padding: 0.3rem 0; padding-left: 1.2rem; position: relative; }
+ul.clean li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 0.8rem; }
+
+.prof-tip {
+  background: linear-gradient(135deg, rgba(212,131,11,0.06), rgba(124,58,237,0.06));
+  border: 1px solid var(--accent-border);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  margin: 1rem 0;
+}
+.prof-tip .tip-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+.q-info-table { margin: 0.5rem 0 0.8rem; }
+.q-info-table td { padding: 0.3rem 0.6rem; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">📊</div>
+  <h1>Cost Accounting Exam 2 Prep</h1>
+  <div class="header-sub">ACCT 3121 · LSU · Job Costing, ABC, Variance Analysis & Process Costing</div>
+</div>
+
+<div class="tab-bar" id="tabBar">
+  <button class="tab-btn active" data-tab="overview">Study Guide</button>
+  <button class="tab-btn" data-tab="ch8">Ch 8 · Job Costing</button>
+  <button class="tab-btn" data-tab="ch9">Ch 9 · ABC</button>
+  <button class="tab-btn" data-tab="ch10">Ch 10 · Variances</button>
+  <button class="tab-btn" data-tab="ch11">Ch 11 · Process</button>
+  <button class="tab-btn" data-tab="abbrev">Abbreviations</button>
+  <button class="tab-btn" data-tab="exam" style="background:rgba(212,131,11,0.1);color:var(--accent);border-color:var(--accent);">Practice Exam (40 Qs)</button>
+</div>
+
+<div class="content">
+
+<!-- ===== OVERVIEW TAB ===== -->
+<div class="tab-panel active" id="panel-overview">
+
+  <h2 class="section-title">📋 Master Study Guide</h2>
+
+  <div class="highlight-box">
+    <div class="label">Exam Format</div>
+    <p><strong>40 multiple-choice questions</strong> — 10 per chapter (Ch 8, 9, 10, 11). Mix of conceptual and computation. Bring a <strong>Scantron</strong> and <strong>non-programmable calculator</strong>. Arrive early.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="badge badge-accent">BIG PICTURE</span></div>
+    <div class="card-title" style="margin-bottom:1rem;">The Four Topic Areas</div>
+    <div class="grid-2">
+      <div>
+        <p><strong>1. Job Costing (Ch 8)</strong><br>Normal costing · MOH application · Over/under-applied · Journal entries · Job vs. Process</p>
+      </div>
+      <div>
+        <p><strong>2. Activity-Based Costing (Ch 9)</strong><br>ABC vs. Traditional · Cross-subsidization · 4-level hierarchy · ABC rate calculations</p>
+      </div>
+      <div>
+        <p><strong>3. Variance Analysis (Ch 10)</strong><br>Static vs. Flexible budgets · Variance diagram · DM/DL/MOH variances · Standard costing journal entries</p>
+      </div>
+      <div>
+        <p><strong>4. Process Costing (Ch 11)</strong><br>5-step template · Equivalent units · FIFO vs. Weighted-Average · Operation costing · COGM</p>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title">⚡ Quick-Reference Flash Facts</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <span class="badge badge-accent">CH 8 KEY FORMULAS</span>
+      <div class="formula" style="margin-top:0.8rem;">MOH Rate = Est. MOH ÷ Est. Base
+Applied MOH = Actual Driver × MOH Rate
+Mfg Cost = DM + DL + Applied MOH</div>
+    </div>
+    <div class="card">
+      <span class="badge badge-teal">CH 9 HIERARCHY</span>
+      <p style="margin-top:0.8rem;">
+        <strong>1.</strong> Unit-level (per unit produced)<br>
+        <strong>2.</strong> Batch-level (per batch/run)<br>
+        <strong>3.</strong> Product-sustaining (per product line)<br>
+        <strong>4.</strong> Facility-sustaining (whole facility)
+      </p>
+    </div>
+    <div class="card">
+      <span class="badge badge-purple">CH 10 VARIANCE DIAGRAM</span>
+      <div class="formula" style="margin-top:0.8rem;">  AQ × AP      AQ × SP      SQ × SP
+  (Actual)   (Actual@Std)  (Flex Budget)
+      |__________|__________|
+       Price Var.  Efficiency Var.
+      |________________________|
+          Flexible Budget Var.</div>
+    </div>
+    <div class="card">
+      <span class="badge badge-red">CH 11 UNIT FLOW</span>
+      <div class="formula" style="margin-top:0.8rem;">Beg WIP + Started = End WIP + Completed & TO</div>
+      <p style="margin-top:0.5rem;">Conversion Costs = DL + MOH<br>
+      FIFO = current period work only<br>
+      Wtd-Avg = blends all costs</p>
+    </div>
+  </div>
+
+  <div class="prof-tip">
+    <div class="tip-label">🎯 Professor's Exam Hints (From Lecture)</div>
+    <p style="color:var(--text-secondary);font-size:0.88rem;">
+      • <strong>Ch 10:</strong> "The variance diagram is really good — put it on your cheat sheet and use it to answer any questions."<br>
+      • <strong>Ch 11:</strong> Expect one <strong>FIFO equivalent units</strong> question and one <strong>COGM calculation</strong> (use a T-account).<br>
+      • <strong>Ch 8:</strong> Know how to compute overhead applied to a job and determine over/underapplied.<br>
+      • <strong>Ch 9:</strong> Be able to classify costs into the 4-level hierarchy and determine if a product is over or undercosted.<br>
+      • Adaptive Practice on WileyPlus has questions similar to the test.
+    </p>
+  </div>
+
+</div>
+
+<!-- ===== CHAPTER 8 TAB ===== -->
+<div class="tab-panel" id="panel-ch8">
+  <h2 class="section-title">Chapter 8: Job Costing</h2>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">📌 Key Terminology <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <div class="table-wrap"><table>
+      <tr><th>Term</th><th>Definition</th></tr>
+      <tr><td><strong>Cost Object</strong></td><td>Anything for which costs are measured (product, service, department, job)</td></tr>
+      <tr><td><strong>Cost Driver</strong></td><td>A factor that causes a cost; also called allocation base</td></tr>
+      <tr><td><strong>Cost Tracing</strong></td><td>Assigning <em>direct</em> costs to a cost object</td></tr>
+      <tr><td><strong>Cost Allocation</strong></td><td>Assigning <em>indirect</em> costs using an allocation base</td></tr>
+      <tr><td><strong>Cost Pool</strong></td><td>A grouping of costs allocated using a single cost driver</td></tr>
+      <tr><td><strong>Job Cost Sheet</strong></td><td>Document that records DM, DL, and MOH for a specific job</td></tr>
+      <tr><td><strong>Normal Costing</strong></td><td>Actual DM + Actual DL + Applied MOH (budgeted rate)</td></tr>
+      <tr><td><strong>Actual Costing</strong></td><td>Actual DM + Actual DL + Actual MOH</td></tr>
+    </table></div>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">🏭 Applied MOH — The 4-Step Process <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <p><strong>Manufacturing Costs = DM + DL + MOH</strong></p>
+    <div class="highlight-box" style="margin-top:0.8rem;">
+      <div class="label">THE 4 STEPS — KNOW THIS COLD</div>
+      <p>
+        <strong>1.</strong> Estimate MOH for the year (rent, depreciation, electricity, indirect labor…)<br>
+        <strong>2.</strong> Choose an application base / cost driver (DLH, MH, DL cost)<br>
+        <strong>3.</strong> Estimate the amount of the base for the year<br>
+        <strong>4.</strong> Calculate the rate:
+      </p>
+    </div>
+    <div class="formula">MOH Rate = Estimated MOH ÷ Estimated Base  ("Predetermined Rate")
+Applied MOH = Actual Cost Driver × MOH Rate</div>
+    <p style="margin-top:0.8rem;"><strong>Example:</strong> Synergy budgets $400,000 MOH and 100,000 DLH → Rate = $400,000 ÷ 100,000 = <strong>$4.00/DLH</strong></p>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">⚖️ Over- and Under-Applied MOH <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <p>At year-end, compare actual vs. applied:</p>
+    <div class="grid-2" style="margin:0.8rem 0;">
+      <div class="highlight-box teal">
+        <div class="label">Overallocated</div>
+        <p>Applied > Actual → Credit balance → <strong>Decreases COGS</strong></p>
+      </div>
+      <div class="highlight-box">
+        <div class="label">Underallocated</div>
+        <p>Actual > Applied → Debit balance → <strong>Increases COGS</strong></p>
+      </div>
+    </div>
+    <p><strong>Two disposal methods:</strong></p>
+    <ul class="clean">
+      <li><strong>Direct Write-Off:</strong> Close entire balance to COGS</li>
+      <li><strong>Prorated:</strong> Distribute among WIP, FG, and COGS based on ending balances</li>
+    </ul>
+    <p style="margin-top:0.8rem;"><strong>Example (Filex):</strong> Actual MOH = $13,000 + $30,000 + $22,500 = $65,500. Applied = 4,000 × $18 = $72,000. Difference = <strong>$6,500 Overallocated</strong>. (Sales commissions and admin are NOT MOH!)</p>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">📝 Journal Entries <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <div class="table-wrap"><table>
+      <tr><th>Transaction</th><th>Debit</th><th>Credit</th></tr>
+      <tr><td>Purchase raw materials</td><td>Materials Control</td><td>Accounts Payable</td></tr>
+      <tr><td>Use DM in production</td><td>WIP Control</td><td>Materials Control</td></tr>
+      <tr><td>Record direct labor</td><td>WIP Control</td><td>Wages Payable</td></tr>
+      <tr><td>Apply MOH to WIP</td><td>WIP Control</td><td>MOH Control</td></tr>
+      <tr><td>Record actual MOH</td><td>MOH Control</td><td>Various (Cash, Accum Depr…)</td></tr>
+      <tr><td>Complete a job</td><td>Finished Goods</td><td>WIP Control</td></tr>
+      <tr><td>Sell a job</td><td>COGS / A/R</td><td>FG Control / Revenue</td></tr>
+    </table></div>
+    <div class="prof-tip">
+      <div class="tip-label">🎯 Key Quiz Points</div>
+      <p style="color:var(--text-secondary);font-size:0.85rem;">The MOH Control account does NOT appear on any financial statement. Costs in production but not complete → WIP Control account.</p>
+    </div>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">🔄 Job Costing vs. Process Costing <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <div class="table-wrap"><table>
+      <tr><th>Feature</th><th>Job Costing</th><th>Process Costing</th></tr>
+      <tr><td>Products</td><td>Custom, unique, identifiable</td><td>Identical, homogeneous, mass-produced</td></tr>
+      <tr><td>Examples</td><td>Wedding rings, consulting, CPA firms</td><td>Gasoline, milk, T-shirts, candles</td></tr>
+      <tr><td>Cost tracking</td><td>Per individual job</td><td>Averaged across all units</td></tr>
+    </table></div>
+  </div>
+</div>
+
+<!-- ===== CHAPTER 9 TAB ===== -->
+<div class="tab-panel" id="panel-ch9">
+  <h2 class="section-title">Chapter 9: Activity-Based Costing</h2>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">🔍 Traditional vs. ABC <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <div class="table-wrap"><table>
+      <tr><th>Feature</th><th>Traditional</th><th>ABC</th></tr>
+      <tr><td>MOH Pools</td><td>Single plant-wide pool</td><td>Multiple activity pools</td></tr>
+      <tr><td>Cost Drivers</td><td>One driver (e.g., DLH)</td><td>Multiple activity-specific drivers</td></tr>
+      <tr><td>Accuracy</td><td>Less accurate (broad averages)</td><td>More accurate (cause-effect)</td></tr>
+      <tr><td>Cost</td><td>Simpler, cheaper</td><td>More complex, expensive</td></tr>
+      <tr><td>DM & DL</td><td>Traced to product</td><td>Traced to product (same)</td></tr>
+    </table></div>
+    <p style="margin-top:0.8rem;">ABC divides a large cost pool into smaller pools representing activities, each with its own cost driver. This gives better product costs.</p>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">💰 Product Cost Cross-Subsidization <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <div class="grid-2">
+      <div class="highlight-box">
+        <div class="label">Overcosted Product</div>
+        <p>Consumes LOW resources → Reports HIGH cost. Price set too high → may lose sales.</p>
+      </div>
+      <div class="highlight-box teal">
+        <div class="label">Undercosted Product</div>
+        <p>Consumes HIGH resources → Reports LOW cost. Price set too low → losing money per unit.</p>
+      </div>
+    </div>
+    <p style="margin-top:0.8rem;">Cross-subsidization = one product subsidizes another due to inaccurate cost allocation from broad averages.</p>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">📊 4-Part Cost Hierarchy <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <div class="table-wrap"><table>
+      <tr><th>Level</th><th>Description</th><th>Examples</th></tr>
+      <tr><td><strong>1. Unit-Level</strong></td><td>Per unit produced</td><td>DM, DL, machine costs, selling</td></tr>
+      <tr><td><strong>2. Batch-Level</strong></td><td>Per batch/production run</td><td>Setup costs, purchasing (per PO), shipping</td></tr>
+      <tr><td><strong>3. Product-Sustaining</strong></td><td>Supports a product line</td><td>Advertising for specific product, product design</td></tr>
+      <tr><td><strong>4. Facility-Sustaining</strong></td><td>Supports entire facility</td><td>Rent, CEO salary, HR, IT, accounting, insurance</td></tr>
+    </table></div>
+    <div class="prof-tip">
+      <div class="tip-label">🎯 Exam Tip</div>
+      <p style="color:var(--text-secondary);font-size:0.85rem;">Facility-sustaining costs are the most challenging to allocate because they support the entire organization — no clear cause-and-effect link to individual products. Think: CEO, HR, IT, executive management.</p>
+    </div>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">🧮 ABC Calculations <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <div class="formula">ABC Rate = Budgeted Activity Cost ÷ Quantity of Cost Driver
+Applied MOH = ABC Rate × Actual Cost Driver Used</div>
+    <p style="margin-top:0.8rem;"><strong>Three Brothers Example (Wall Mirror, 40,000 units):</strong></p>
+    <div class="table-wrap"><table>
+      <tr><th>Activity</th><th>Rate</th><th>Usage</th><th>Applied MOH</th></tr>
+      <tr><td>Facility ($400K ÷ 50K sqft)</td><td>$8/sqft</td><td>12,000</td><td>$96,000</td></tr>
+      <tr><td>Setup ($200K ÷ 8K setups)</td><td>$25/setup</td><td>1,000</td><td>$25,000</td></tr>
+      <tr><td>Automation ($800K ÷ 40K MH)</td><td>$20/MH</td><td>8,000</td><td>$160,000</td></tr>
+      <tr><td>Manual ($750K ÷ 100K DLH)</td><td>$7.50/DLH</td><td>10,000</td><td>$75,000</td></tr>
+      <tr><td colspan="3"><strong>Total MOH</strong></td><td><strong>$356,000</strong></td></tr>
+    </table></div>
+    <p>Total cost per unit = ($560K DM + $250K DL + $356K MOH) ÷ 40,000 = <strong>$29.15</strong>. Previously thought $5 MOH/unit → product was <strong>undercosted</strong>.</p>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">🏢 Capacity Definitions & TDABC <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <ul class="clean">
+      <li><strong>Theoretical Capacity:</strong> Maximum output, 100% efficiency, no downtime</li>
+      <li><strong>Practical Capacity:</strong> Max output allowing for normal stoppages (maintenance, breaks)</li>
+      <li><strong>Normal Capacity:</strong> Average output over several periods (accounts for demand)</li>
+    </ul>
+    <p style="margin-top:0.8rem;"><strong>TDABC</strong> simplifies ABC: Cost per unit of time × Estimated time per activity. More accurate because it measures actual time used, not employee survey estimates.</p>
+  </div>
+</div>
+
+<!-- ===== CHAPTER 10 TAB ===== -->
+<div class="tab-panel" id="panel-ch10">
+  <h2 class="section-title">Chapter 10: Variance Analysis</h2>
+
+  <div class="highlight-box green">
+    <div class="label">🎯 Professor's #1 Tip</div>
+    <p>"The variance diagram is really good — put it on your cheat sheet and use it to answer any questions."</p>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">📋 Budgets & Purpose <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <p><strong>Purpose of budgeting and variance analysis:</strong> Plan and control operations, evaluate performance, motivate employees, troubleshoot problems.</p>
+    <p style="margin-top:0.5rem;"><strong>The cycle:</strong> Plan & Control → Evaluate Performance & Troubleshoot → Motivate & Benchmark</p>
+    <div class="grid-2" style="margin-top:0.8rem;">
+      <div class="highlight-box">
+        <div class="label">Static (Master) Budget</div>
+        <p>One planned activity level. Does NOT adjust for actual volume.</p>
+      </div>
+      <div class="highlight-box teal">
+        <div class="label">Flexible Budget</div>
+        <p>Recalculates at ACTUAL output. Budgeted prices × actual volume. "Apples to apples."</p>
+      </div>
+    </div>
+    <p style="margin-top:0.8rem;">Fixed costs carry from master to flexible budget <strong>unchanged</strong> (within relevant range).</p>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">⭐ The Variance Diagram (MEMORIZE!) <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <div class="formula" style="font-size:0.85rem;">     AQ × AP            AQ × SP            SQ × SP
+     (Actual)        (Actual @ Std)     (Flex Budget)
+         |________________|________________|
+          Price/Rate Var.   Efficiency Var.
+         |_________________________________|
+              Flexible Budget Variance
+
+Where:
+  AQ = Actual Quantity    AP = Actual Price
+  SQ = Standard Qty Allowed (for actual output)
+  SP = Standard Price</div>
+    <div class="grid-2" style="margin-top:1rem;">
+      <div class="highlight-box">
+        <div class="label">Price/Rate Variance</div>
+        <p><strong>(AP − SP) × AQ</strong><br>Did we pay more or less per unit of input than planned?</p>
+      </div>
+      <div class="highlight-box teal">
+        <div class="label">Efficiency/Usage Variance</div>
+        <p><strong>(AQ − SQ) × SP</strong><br>Did we use more or less input than allowed for actual output?</p>
+      </div>
+    </div>
+    <div class="table-wrap" style="margin-top:0.8rem;"><table>
+      <tr><th>Variance</th><th>Favorable (F)</th><th>Unfavorable (U)</th></tr>
+      <tr><td>Price/Rate</td><td>Actual < Standard (paid less)</td><td>Actual > Standard (paid more)</td></tr>
+      <tr><td>Efficiency</td><td>Used less than allowed</td><td>Used more than allowed</td></tr>
+    </table></div>
+    <p style="margin-top:0.8rem;"><strong>Impact:</strong> Favorable → increases operating income (decreases COGS). Unfavorable → decreases operating income (increases COGS).</p>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">🔧 DL & DM Variance Examples <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <p><strong>Direct Labor (Problem Packet):</strong> SP=$16, SQ=2 DLH/unit, TO=21,000, AO=20,000, AQ=41,000 hrs, AP=$15.50</p>
+    <div class="formula">Rate Var = (15.50 − 16) × 41,000 = $20,500 F  (paid less)
+Eff Var  = (41,000 − 40,000) × 16 = $16,000 U  (used more hrs)
+Flex Budget Var = $20,500F − $16,000U = $4,500 F</div>
+
+    <p style="margin-top:1rem;"><strong>Direct Materials:</strong> Key difference — purchased ≠ used!</p>
+    <ul class="clean">
+      <li><strong>Price Variance</strong> → recorded at <strong>PURCHASE</strong> (uses AQ purchased)</li>
+      <li><strong>Efficiency Variance</strong> → recorded during <strong>PRODUCTION</strong> (uses AQ used)</li>
+    </ul>
+    <p style="margin-top:0.8rem;"><strong>Relationship:</strong> Buying cheaper (lower quality) materials → favorable price variance BUT may cause unfavorable efficiency variance (more waste).</p>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">📝 Standard Costing Journal Entries <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <p><strong>DM — When Purchased:</strong></p>
+    <div class="table-wrap"><table>
+      <tr><th>Account</th><th>Debit</th><th>Credit</th><th>Note</th></tr>
+      <tr><td>Materials Inventory</td><td>$480,000</td><td></td><td>At standard price</td></tr>
+      <tr><td>DM Price Variance</td><td>$19,200</td><td></td><td>Unfavorable (debit)</td></tr>
+      <tr><td>Accounts Payable</td><td></td><td>$499,200</td><td>Actual cost</td></tr>
+    </table></div>
+    <p style="margin-top:0.8rem;"><strong>DM — When Used:</strong></p>
+    <div class="table-wrap"><table>
+      <tr><th>Account</th><th>Debit</th><th>Credit</th><th>Note</th></tr>
+      <tr><td>WIP Control</td><td>$400,000</td><td></td><td>Standard input for actual output</td></tr>
+      <tr><td>DM Efficiency Var.</td><td>$50,000</td><td></td><td>Unfavorable (debit)</td></tr>
+      <tr><td>Materials Inventory</td><td></td><td>$450,000</td><td>Used at standard price</td></tr>
+    </table></div>
+    <div class="highlight-box" style="margin-top:0.8rem;">
+      <div class="label">Rule</div>
+      <p><strong>Unfavorable</strong> variances = DEBIT (increase COGS when closed).<br>
+      <strong>Favorable</strong> variances = CREDIT (decrease COGS when closed).<br>
+      WIP always debited at <strong>standard cost</strong>. Payable/Wages credited at <strong>actual</strong>.</p>
+    </div>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">🏭 Overhead Variances (VMOH & FMOH) <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <p><strong>Variable MOH</strong> — same framework as DM/DL:</p>
+    <ul class="clean">
+      <li>Spending Variance = Actual − (AQ × SP)</li>
+      <li>Efficiency Variance = (AQ − SQ) × SP</li>
+    </ul>
+    <p style="margin-top:0.8rem;"><strong>Fixed MOH</strong> — different (fixed costs don't flex):</p>
+    <ul class="clean">
+      <li><strong>Spending Variance</strong> = Actual FMOH − Budgeted FMOH</li>
+      <li><strong>Volume Variance</strong> = Budgeted FMOH − Applied FMOH (capacity utilization)</li>
+    </ul>
+    <p style="margin-top:0.5rem;">Volume variance: Produced more than planned → Favorable (overallocated). Produced less → Unfavorable (underallocated, unused capacity).</p>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">📖 Standard Costing Definitions <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <ul class="clean">
+      <li><strong>Standard Costing System:</strong> Uses budgets at the unit level as product costs in the G/L. Materials recorded at standard cost.</li>
+      <li><strong>Ideal Standards:</strong> Perfect efficiency, zero tolerance for breakdowns or breaks.</li>
+      <li><strong>Practical Standards:</strong> Efficient but achievable; allows for normal downtime and waste.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== CHAPTER 11 TAB ===== -->
+<div class="tab-panel" id="panel-ch11">
+  <h2 class="section-title">Chapter 11: Process Costing</h2>
+
+  <div class="prof-tip">
+    <div class="tip-label">🎯 Professor's Exam Hints</div>
+    <p style="color:var(--text-secondary);font-size:0.85rem;">Expect one <strong>FIFO equivalent units</strong> question, one <strong>weighted-average cost per EU</strong> question, and one <strong>COGM calculation</strong> (use a T-account). Also know operation costing and journal entries for transfers.</p>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">🏭 Process Costing Overview <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <p>Used for mass production of identical products. Costs averaged across ALL units. <strong>Conversion Costs = DL + MOH.</strong></p>
+    <p style="margin-top:0.5rem;"><strong>Examples:</strong> Gasoline, milk, T-shirts, candles, soap, peanuts, chewing gum.</p>
+    <div class="formula" style="margin-top:0.8rem;">KEY FORMULA: Beg WIP + Units Started = End WIP + Completed & Transferred Out</div>
+    <p style="margin-top:0.5rem;">This must always balance. When working problems ask: What department? When is input added? Does WIP have beginning/ending balance?</p>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">📋 The 5 Steps <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <div class="highlight-box">
+      <p>
+        <strong>Step 1:</strong> Determine total units to account for (physical flow)<br>
+        <strong>Step 2:</strong> Compute equivalent units for DM and CC<br>
+        <strong>Step 3:</strong> Summarize total costs to account for<br>
+        <strong>Step 4:</strong> Calculate cost per equivalent unit<br>
+        <strong>Step 5:</strong> Assign costs to completed units and ending WIP
+      </p>
+    </div>
+    <p style="margin-top:0.5rem;">Verify: Total costs assigned = Total costs to account for.</p>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">⚖️ FIFO vs. Weighted-Average <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <div class="table-wrap"><table>
+      <tr><th>Feature</th><th>FIFO</th><th>Weighted-Average</th></tr>
+      <tr><td>Approach</td><td>Separates prior from current work</td><td>Blends beg. inv. + current work</td></tr>
+      <tr><td>EU calculation</td><td>Only current period work</td><td>All equivalent units</td></tr>
+      <tr><td>Cost per EU</td><td>Current costs ÷ current EU</td><td>All costs ÷ total EU</td></tr>
+      <tr><td>Accuracy</td><td><strong>More accurate</strong></td><td>Less precise when costs change</td></tr>
+      <tr><td>Complexity</td><td>More complex (3 unit groups)</td><td><strong>Easier</strong> (2 unit groups)</td></tr>
+      <tr><td>Beg WIP info</td><td>Needs % complete</td><td>Ignores beg. WIP % complete</td></tr>
+    </table></div>
+
+    <p style="margin-top:1rem;"><strong>FIFO EU has 3 components:</strong></p>
+    <div class="formula">1. Beg WIP to complete = Beg units × % REMAINING
+2. Started & Completed = Completed − Beg WIP
+3. Ending WIP = End units × % complete</div>
+
+    <p style="margin-top:0.8rem;"><strong>Weighted-Average EU has 2 components:</strong></p>
+    <div class="formula">1. Completed & Transferred Out = All completed × 100%
+2. Ending WIP = End units × % complete</div>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">🧮 Worked Example — Stretch Enterprises <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <p>Beg WIP: 300 units (DM 100%, CC 30%). Started: 22,000. Completed: 21,300. End WIP: 1,000 (DM 100%, CC 60%).</p>
+    <p><strong>FIFO — CC Equivalent Units:</strong></p>
+    <div class="table-wrap"><table>
+      <tr><th>Category</th><th>Physical</th><th>CC %</th><th>CC EU</th></tr>
+      <tr><td>Beg WIP to complete</td><td>300</td><td>70%</td><td>210</td></tr>
+      <tr><td>Started & completed</td><td>21,000</td><td>100%</td><td>21,000</td></tr>
+      <tr><td>Ending WIP</td><td>1,000</td><td>60%</td><td>600</td></tr>
+      <tr><td><strong>Total</strong></td><td></td><td></td><td><strong>21,810</strong></td></tr>
+    </table></div>
+    <p>Cost per EU (CC): $4,362 ÷ 21,810 = <strong>$0.20</strong></p>
+
+    <p style="margin-top:1rem;"><strong>Weighted-Average — CC Equivalent Units:</strong></p>
+    <div class="table-wrap"><table>
+      <tr><th>Category</th><th>Physical</th><th>CC %</th><th>CC EU</th></tr>
+      <tr><td>Completed & TO</td><td>21,300</td><td>100%</td><td>21,300</td></tr>
+      <tr><td>Ending WIP</td><td>1,000</td><td>60%</td><td>600</td></tr>
+      <tr><td><strong>Total</strong></td><td></td><td></td><td><strong>21,900</strong></td></tr>
+    </table></div>
+    <p>Cost per EU (CC): ($456 + $4,362) ÷ 21,900 = <strong>$0.22</strong></p>
+  </div>
+
+  <button class="accordion-btn" onclick="toggleAcc(this)">📝 Journal Entries & Operation Costing <span class="arrow">▼</span></button>
+  <div class="accordion-body">
+    <div class="table-wrap"><table>
+      <tr><th>Transaction</th><th>Debit</th><th>Credit</th></tr>
+      <tr><td>Transfer DM to WIP</td><td>WIP Inventory</td><td>RM Inventory</td></tr>
+      <tr><td>Record conversion costs</td><td>WIP Inventory</td><td>Cash / MOH Control</td></tr>
+      <tr><td>Complete units → FG</td><td>FG Inventory</td><td>WIP Inventory</td></tr>
+      <tr><td>Transfer between depts</td><td>WIP – Dept. 2</td><td>WIP – Dept. 1</td></tr>
+    </table></div>
+    <p style="margin-top:0.8rem;"><strong>Transferred-In costs</strong> in Dept. 2 are treated like DM — <strong>100% complete</strong> upon entry.</p>
+    <p style="margin-top:0.5rem;"><strong>Operation Costing:</strong> Hybrid of job + process costing. Used when different products go through different combinations of operations. DM traced per job; conversion costs allocated per operation rate.</p>
+    <div class="formula">COGM = Beg WIP + DM Used + DL + MOH − Ending WIP    (Use T-account!)</div>
+  </div>
+</div>
+
+<!-- ===== ABBREVIATIONS TAB ===== -->
+<div class="tab-panel" id="panel-abbrev">
+  <h2 class="section-title">📖 Abbreviations & Key Terms</h2>
+
+  <div class="highlight-box">
+    <div class="label">Quick Reference</div>
+    <p>Every abbreviation used across Chapters 8, 9, 10, and 11 — organized by category. Bookmark this tab for fast lookup while studying.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="badge badge-accent">COST INPUTS</span></div>
+    <div class="card-title" style="margin-bottom:0.8rem;">Materials, Labor & Overhead</div>
+    <div class="table-wrap"><table>
+      <tr><th style="width:100px;">Abbreviation</th><th>Full Term</th><th>What It Means</th></tr>
+      <tr><td><strong>DM</strong></td><td>Direct Materials</td><td>Raw materials that can be directly traced to a product (e.g., wood for furniture, flour for bread)</td></tr>
+      <tr><td><strong>DL</strong></td><td>Direct Labor</td><td>Labor costs that can be directly traced to a product (e.g., assembly worker hours)</td></tr>
+      <tr><td><strong>MOH</strong></td><td>Manufacturing Overhead</td><td>Indirect manufacturing costs that cannot be easily traced — must be allocated (rent, utilities, depreciation on factory, indirect labor)</td></tr>
+      <tr><td><strong>VMOH</strong></td><td>Variable Manufacturing Overhead</td><td>MOH costs that change with production volume (e.g., indirect supplies, variable portion of utilities)</td></tr>
+      <tr><td><strong>FMOH</strong></td><td>Fixed Manufacturing Overhead</td><td>MOH costs that stay constant regardless of volume (e.g., factory rent, depreciation, insurance)</td></tr>
+      <tr><td><strong>CC</strong></td><td>Conversion Costs</td><td>DL + MOH — the costs to "convert" raw materials into finished goods. Used heavily in process costing (Ch 11)</td></tr>
+      <tr><td><strong>TI</strong></td><td>Transferred-In (Costs)</td><td>Costs transferred from a prior department in process costing. Treated like DM at 100% complete upon entry</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="badge badge-teal">COSTING SYSTEMS</span></div>
+    <div class="card-title" style="margin-bottom:0.8rem;">Systems & Methods</div>
+    <div class="table-wrap"><table>
+      <tr><th style="width:100px;">Abbreviation</th><th>Full Term</th><th>What It Means</th></tr>
+      <tr><td><strong>ABC</strong></td><td>Activity-Based Costing</td><td>A costing method that divides MOH into many smaller activity pools, each with its own cost driver, for more accurate product costs (Ch 9)</td></tr>
+      <tr><td><strong>TDABC</strong></td><td>Time-Driven Activity-Based Costing</td><td>A simplified version of ABC that uses cost per unit of time × estimated time per activity, instead of surveying employees (Ch 9)</td></tr>
+      <tr><td><strong>FIFO</strong></td><td>First-In, First-Out</td><td>Process costing method that separates prior-period work from current-period work. More accurate but more complex (Ch 11)</td></tr>
+      <tr><td><strong>JO</strong></td><td>Job Order (Costing)</td><td>Costing system for unique, custom products — costs tracked per individual job (Ch 8)</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="badge badge-purple">VARIANCE ANALYSIS</span></div>
+    <div class="card-title" style="margin-bottom:0.8rem;">Variances & Standard Costing (Ch 10)</div>
+    <div class="table-wrap"><table>
+      <tr><th style="width:100px;">Abbreviation</th><th>Full Term</th><th>What It Means</th></tr>
+      <tr><td><strong>AQ</strong></td><td>Actual Quantity</td><td>The actual amount of input used (hours, pounds, etc.)</td></tr>
+      <tr><td><strong>AP</strong></td><td>Actual Price</td><td>The actual price paid per unit of input</td></tr>
+      <tr><td><strong>SQ</strong></td><td>Standard Quantity</td><td>The standard (budgeted) quantity of input allowed for the actual output achieved</td></tr>
+      <tr><td><strong>SP</strong></td><td>Standard Price</td><td>The standard (budgeted) price per unit of input</td></tr>
+      <tr><td><strong>AO</strong></td><td>Actual Output</td><td>The actual number of units produced</td></tr>
+      <tr><td><strong>TO</strong></td><td>Target Output</td><td>The budgeted/planned number of units to produce</td></tr>
+      <tr><td><strong>F</strong></td><td>Favorable (Variance)</td><td>Increases operating income compared to budget (actual < standard for costs, or actual > standard for revenue)</td></tr>
+      <tr><td><strong>U</strong></td><td>Unfavorable (Variance)</td><td>Decreases operating income compared to budget (actual > standard for costs, or actual < standard for revenue)</td></tr>
+      <tr><td><strong>FBV</strong></td><td>Flexible Budget Variance</td><td>Difference between actual results and the flexible budget — isolates price/cost differences (holds volume constant)</td></tr>
+      <tr><td><strong>SAV</strong></td><td>Sales Activity Variance</td><td>Difference between flexible budget and master budget — isolates volume differences (holds price constant)</td></tr>
+      <tr><td><strong>MBV</strong></td><td>Master Budget Variance</td><td>Total difference between actual results and the master (static) budget</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="badge badge-red">INVENTORY & ACCOUNTS</span></div>
+    <div class="card-title" style="margin-bottom:0.8rem;">Accounts, Inventory & Financial Terms</div>
+    <div class="table-wrap"><table>
+      <tr><th style="width:100px;">Abbreviation</th><th>Full Term</th><th>What It Means</th></tr>
+      <tr><td><strong>WIP</strong></td><td>Work-in-Process (Inventory)</td><td>Inventory account for goods currently in production but not yet complete</td></tr>
+      <tr><td><strong>FG</strong></td><td>Finished Goods (Inventory)</td><td>Inventory account for completed products ready for sale</td></tr>
+      <tr><td><strong>RM</strong></td><td>Raw Materials (Inventory)</td><td>Inventory account for materials purchased but not yet used in production</td></tr>
+      <tr><td><strong>COGS</strong></td><td>Cost of Goods Sold</td><td>Expense account for the cost of products that have been sold to customers</td></tr>
+      <tr><td><strong>COGM</strong></td><td>Cost of Goods Manufactured</td><td>Total manufacturing cost of goods completed during the period: Beg WIP + DM + DL + MOH − End WIP</td></tr>
+      <tr><td><strong>A/R</strong></td><td>Accounts Receivable</td><td>Asset account for amounts owed to the company by customers</td></tr>
+      <tr><td><strong>A/P</strong></td><td>Accounts Payable</td><td>Liability account for amounts the company owes to suppliers</td></tr>
+      <tr><td><strong>G/L</strong></td><td>General Ledger</td><td>The main accounting record containing all accounts</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="badge badge-accent">PROCESS COSTING</span></div>
+    <div class="card-title" style="margin-bottom:0.8rem;">Process Costing Terms (Ch 11)</div>
+    <div class="table-wrap"><table>
+      <tr><th style="width:100px;">Abbreviation</th><th>Full Term</th><th>What It Means</th></tr>
+      <tr><td><strong>EU</strong></td><td>Equivalent Units</td><td>A measure that converts partially completed units into the equivalent number of fully completed units. Example: 1,000 units at 60% complete = 600 EU</td></tr>
+      <tr><td><strong>TO</strong></td><td>Transferred Out</td><td>Units completed and moved to the next department or to Finished Goods</td></tr>
+      <tr><td><strong>S&C</strong></td><td>Started and Completed</td><td>Units that were both started AND finished in the current period (used in FIFO). Calculated as: Total Completed − Beginning WIP</td></tr>
+      <tr><td><strong>Beg WIP</strong></td><td>Beginning Work-in-Process</td><td>Units left partially complete at the end of last period, now carried into the current period</td></tr>
+      <tr><td><strong>End WIP</strong></td><td>Ending Work-in-Process</td><td>Units still in production at the end of the current period — not yet complete</td></tr>
+      <tr><td><strong>Dept.</strong></td><td>Department</td><td>A processing area in process costing. Each department has its own WIP account. Dept 2+ may have transferred-in costs</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="badge badge-teal">OVERHEAD & ALLOCATION</span></div>
+    <div class="card-title" style="margin-bottom:0.8rem;">Overhead Application Terms</div>
+    <div class="table-wrap"><table>
+      <tr><th style="width:100px;">Abbreviation</th><th>Full Term</th><th>What It Means</th></tr>
+      <tr><td><strong>DLH</strong></td><td>Direct Labor Hours</td><td>A common cost driver / allocation base for applying MOH</td></tr>
+      <tr><td><strong>MH</strong></td><td>Machine Hours</td><td>Another common cost driver for MOH allocation, especially in automated environments</td></tr>
+      <tr><td><strong>PO</strong></td><td>Purchase Order</td><td>A document authorizing a purchase; used as a batch-level cost driver in ABC (# of POs)</td></tr>
+      <tr><td><strong>VOH</strong></td><td>Variable Overhead</td><td>Same as VMOH — variable portion of manufacturing overhead</td></tr>
+      <tr><td><strong>FOH</strong></td><td>Fixed Overhead</td><td>Same as FMOH — fixed portion of manufacturing overhead</td></tr>
+      <tr><td><strong>SG&A</strong></td><td>Selling, General & Administrative</td><td>Period costs — NOT part of manufacturing costs. Includes sales commissions, admin salaries, office rent</td></tr>
+      <tr><td><strong>GAAP</strong></td><td>Generally Accepted Accounting Principles</td><td>The standard framework for financial reporting. Traditional costing and ABC-for-MOH-only are GAAP; full ABC is for management decisions only</td></tr>
+    </table></div>
+  </div>
+
+</div>
+
+<!-- ===== PRACTICE EXAM TAB ===== -->
+<div class="tab-panel" id="panel-exam">
+  <div class="quiz-header">
+    <h2>📝 40-Question Practice Exam</h2>
+    <p style="color:var(--text-secondary);margin-top:0.5rem;">Select your answer, then click "Submit Answers" at the bottom to see your score and explanations.</p>
+  </div>
+
+  <div class="highlight-box" style="margin-bottom:1.5rem;">
+    <div class="label">Instructions</div>
+    <p>Q1–10 cover Chapter 8 (Job Costing), Q11–20 cover Chapter 9 (ABC), Q21–30 cover Chapter 10 (Variances), Q31–40 cover Chapter 11 (Process Costing). Select your answer, then click "Submit Answers" at the bottom.</p>
+  </div>
+
+  <div class="score-box" id="scoreBox">
+    <div class="score-number" id="scoreNum">0/40</div>
+    <div class="score-label" id="scoreLabel">Review your answers below — correct answers are highlighted in green.</div>
+  </div>
+
+  <div id="quizContainer"></div>
+
+  <button class="submit-btn" id="submitBtn" onclick="submitQuiz()">Submit Answers</button>
+  <button class="submit-btn" id="resetBtn" onclick="resetQuiz()" style="display:none;background:var(--purple-accent);color:#fff;">Reset & Try Again</button>
+
+</div>
+
+</div><!-- end content -->
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+// Accordion
+function toggleAcc(btn) {
+  const body = btn.nextElementSibling;
+  const isOpen = btn.classList.contains('open');
+  btn.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+// Quiz data
+const questions = [
+  // CH 8 (1-10)
+  {q:"Which of the following products would most likely use a job costing system?", ch:"Chapter 8 · Job Costing",
+   opts:["Regular unleaded gasoline","Gallons of milk","Custom-designed wedding rings","Hanes white T-shirts"], ans:2,
+   exp:"Custom wedding rings are unique products requiring individual job costing. All other options are mass-produced identical products suited for process costing."},
+  {q:"Under normal costing, manufacturing costs assigned to a job consist of:", ch:"Chapter 8 · Job Costing",
+   opts:["Actual DM + Actual DL + Actual MOH","Actual DM + Actual DL + Applied MOH using a budgeted rate","Budgeted DM + Budgeted DL + Applied MOH","Actual DM + Budgeted DL + Applied MOH"], ans:1,
+   exp:"Normal costing uses actual DM + actual DL + applied MOH (using a predetermined budgeted rate). The only difference from actual costing is the treatment of MOH."},
+  {q:"Beacon Industries estimates total MOH at $750,000 and total machine hours at 50,000. Job #204 used 120 machine hours. How much MOH is applied to Job #204?", ch:"Chapter 8 · Job Costing",
+   opts:["$1,500","$1,800","$6,250","$15,000"], ans:1,
+   exp:"MOH Rate = $750,000 ÷ 50,000 = $15/MH. Applied = 120 × $15 = $1,800."},
+  {q:"The journal entry to apply manufacturing overhead to Work-in-Process is:", ch:"Chapter 8 · Job Costing",
+   opts:["Debit MOH Control, Credit WIP Control","Debit WIP Control, Credit MOH Control","Debit WIP Control, Credit Finished Goods","Debit COGS, Credit MOH Control"], ans:1,
+   exp:"Applying MOH increases the cost of jobs in WIP (debit) and records the applied side of MOH Control (credit)."},
+  {q:"At year-end, Horizon Corp. had actual MOH of $520,000 and applied MOH of $545,000. Manufacturing overhead is:", ch:"Chapter 8 · Job Costing",
+   opts:["Underallocated by $25,000","Overallocated by $25,000","Underallocated by $545,000","Overallocated by $520,000"], ans:1,
+   exp:"Applied ($545K) > Actual ($520K) = $25,000 overallocated. More was charged to jobs than actually incurred."},
+  {q:"Which cost would be included in the Manufacturing Overhead Control account?", ch:"Chapter 8 · Job Costing",
+   opts:["Sales commissions","Administrative salaries","Depreciation on factory equipment","Cost of raw materials"], ans:2,
+   exp:"Depreciation on factory equipment is MOH. Sales commissions and admin salaries are period costs. Raw materials are direct costs."},
+  {q:"The two approaches to eliminate over- or under-applied MOH are:", ch:"Chapter 8 · Job Costing",
+   opts:["Expensing Method and Capitalizing Method","Direct Write-Off Method and Prorated Method","Direct Write-Off Method and Capitalizing Method","FIFO Method and Weighted-Average Method"], ans:1,
+   exp:"Direct Write-Off closes the balance to COGS. Prorated distributes it among WIP, FG, and COGS based on ending balances."},
+  {q:"Oakridge: Budgeted MOH $360,000, Budgeted DLH 24,000, Actual MOH $370,000, Actual DLH 25,000. Over- or under-applied MOH?", ch:"Chapter 8 · Job Costing",
+   opts:["$5,000 overapplied","$5,000 underapplied","$10,000 overapplied","$10,000 underapplied"], ans:0,
+   exp:"Rate = $360K ÷ 24K = $15/DLH. Applied = 25,000 × $15 = $375,000. Actual = $370,000. Over = $375K − $370K = $5,000 overapplied."},
+  {q:"Costs of a job currently in production but not yet complete appear in:", ch:"Chapter 8 · Job Costing",
+   opts:["Finished Goods Control","Materials Control","Work-in-Process Control","Cost of Goods Sold"], ans:2,
+   exp:"Jobs in production but not complete are held in Work-in-Process Control."},
+  {q:"A cost-allocation base may be any of the following EXCEPT a:", ch:"Chapter 8 · Job Costing",
+   opts:["Cost driver","Cost pool","Way to link indirect costs to a cost object","Nonfinancial quantity"], ans:1,
+   exp:"A cost pool is a grouping of costs, not an allocation base. Allocation bases include cost drivers, linkage methods, and nonfinancial quantities."},
+
+  // CH 9 (11-20)
+  {q:"Product-cost cross-subsidization results from:", ch:"Chapter 9 · ABC",
+   opts:["Allocating indirect costs to multiple products","Assigning traced costs to each product","Using varied costing systems within the same organization","Assigning broadly averaged costs without recognizing differing resource usage"], ans:3,
+   exp:"Cross-subsidization occurs when broad averages spread costs evenly without reflecting which products actually consume more or fewer resources."},
+  {q:"Setting up equipment for a production run is an example of which cost hierarchy level?", ch:"Chapter 9 · ABC",
+   opts:["Unit-level","Batch-level","Product-sustaining","Facility-sustaining"], ans:1,
+   exp:"Equipment setup is performed per batch/production run, not per individual unit."},
+  {q:"Advertising for a specific product line is classified as a:", ch:"Chapter 9 · ABC",
+   opts:["Unit-level cost","Batch-level cost","Product-sustaining cost","Facility-sustaining cost"], ans:2,
+   exp:"Advertising for a specific product supports that product line = product-sustaining level."},
+  {q:"The primary advantage of ABC over traditional costing is that ABC:", ch:"Chapter 9 · ABC",
+   opts:["Uses fewer cost pools, making it simpler","Divides MOH into smaller pools with relevant cost drivers for more accurate allocation","Eliminates the need for cost allocation entirely","Uses only one cost driver for all activities"], ans:1,
+   exp:"ABC's key advantage is multiple smaller, homogeneous pools with activity-specific cost drivers for more accurate product costs."},
+  {q:"Atlas Corp. ABC rates: Setup $400/setup, Inspection $60/hr, Handling $3/part. Product X: 8 setups, 25 inspection hrs, 500 parts. Total MOH allocated?", ch:"Chapter 9 · ABC",
+   opts:["$4,700","$6,200","$6,000","$4,200"], ans:1,
+   exp:"Setups: 8 × $400 = $3,200. Inspection: 25 × $60 = $1,500. Handling: 500 × $3 = $1,500. Total = $6,200."},
+  {q:"Under a plant-wide rate of $15/DLH, a job requiring 200 DLH would be allocated MOH of:", ch:"Chapter 9 · ABC",
+   opts:["$1,500","$3,000","$15,000","$200"], ans:1,
+   exp:"$15 × 200 DLH = $3,000."},
+  {q:"An overcosted product is one that:", ch:"Chapter 9 · ABC",
+   opts:["Consumes high resources but reports low cost","Consumes low resources but reports high cost","Has been allocated too few indirect costs","Has a selling price higher than its cost"], ans:1,
+   exp:"Overcosted = uses few resources but is assigned too much cost due to broad averaging."},
+  {q:"A significant limitation of activity-based costing is:", ch:"Chapter 9 · ABC",
+   opts:["The attention given to indirect cost allocation","The many necessary calculations and complexity","Operations staff's attitude toward the accounting staff","Its use of technology"], ans:2,
+   exp:"Per the textbook, a significant limitation is gaining buy-in from operations staff. Complexity is also a concern."},
+  {q:"Facility-sustaining costs are characterized by:", ch:"Chapter 9 · ABC",
+   opts:["Being the easiest to allocate to specific products","Being incurred for each unit produced","Supporting the entire organization and being difficult to assign to individual products","Always being allocated using direct labor hours"], ans:2,
+   exp:"Facility-sustaining costs (rent, CEO salary, HR, IT) support the whole organization and lack a clear cause-effect link to individual products."},
+  {q:"Rivera: Traditional rate $10/DLH, job used 500 DLH → $5,000. ABC rates: $15/run, $12/DLH, $8/insp hr. Job: 30 runs, 500 DLH, 60 insp hrs. ABC MOH allocated?", ch:"Chapter 9 · ABC",
+   opts:["$5,000","$6,930","$6,450","$6,000"], ans:1,
+   exp:"Runs: 30 × $15 = $450. DL: 500 × $12 = $6,000. Inspection: 60 × $8 = $480. Total = $6,930."},
+
+  // CH 10 (21-30)
+  {q:"A flexible budget:", ch:"Chapter 10 · Variances",
+   opts:["Accommodates changes in the inflation rate","Accommodates changes in activity levels","Is used to evaluate capacity utilization","Is a static budget revised for price changes"], ans:1,
+   exp:"Flexible budgets recalculate budgeted costs at the actual output level, accommodating activity level changes."},
+  {q:"The variance that isolates the difference between actual and budgeted sales volume (holding price constant) is the:", ch:"Chapter 10 · Variances",
+   opts:["MOH volume variance","Master budget variance","Flexible budget variance","Sales activity variance"], ans:3,
+   exp:"The sales activity variance isolates volume differences by holding price and cost per unit constant."},
+  {q:"Sandoval: Budget 5,000 units/month, indirect materials $12,500/month (variable). October: 4,500 units, $11,500 actual. Flexible-budget variance?", ch:"Chapter 10 · Variances",
+   opts:["$250 unfavorable","$250 favorable","$1,000 favorable","$1,000 unfavorable"], ans:0,
+   exp:"Rate = $12,500 ÷ 5,000 = $2.50/unit. Flex budget = 4,500 × $2.50 = $11,250. Variance = $11,500 − $11,250 = $250 U (spent more than flexed budget)."},
+  {q:"Standards with no tolerance for machine breakdowns or employee breaks are:", ch:"Chapter 10 · Variances",
+   opts:["Practical standards","Realistic standards","Ideal standards","Attainable standards"], ans:2,
+   exp:"Ideal standards assume perfect conditions with zero tolerance for any downtime or breaks."},
+  {q:"An efficiency variance compares:", ch:"Chapter 10 · Variances",
+   opts:["Actual price to standard price for actual quantity","Actual quantity used to standard quantity allowed, at standard cost","Actual cost to standard cost for budgeted output","Budgeted price to actual price at budgeted quantity"], ans:1,
+   exp:"Efficiency variance = (AQ − SQ) × SP. It compares actual quantity to standard quantity allowed, measured at standard cost."},
+  {q:"Parker Inc.: Standard rate $14/hr, Actual rate $14.50/hr, Standard hours 8,000, Actual hours 8,200. Direct labor rate variance?", ch:"Chapter 10 · Variances",
+   opts:["$4,100 favorable","$4,100 unfavorable","$2,800 unfavorable","$2,800 favorable"], ans:1,
+   exp:"Rate Var = ($14.50 − $14.00) × 8,200 = $0.50 × 8,200 = $4,100 Unfavorable (paid more per hour)."},
+  {q:"Using Parker Inc. data above, what is the direct labor efficiency variance?", ch:"Chapter 10 · Variances",
+   opts:["$2,800 unfavorable","$2,800 favorable","$2,900 unfavorable","$2,900 favorable"], ans:0,
+   exp:"Eff Var = (8,200 − 8,000) × $14.00 = 200 × $14 = $2,800 Unfavorable (used more hours than allowed)."},
+  {q:"In a standard costing system, DM price variances are typically recorded:", ch:"Chapter 10 · Variances",
+   opts:["When materials are used in production","When materials are purchased","At year end","When finished goods are sold"], ans:1,
+   exp:"DM price variances are recorded at purchase (materials enter inventory at standard). DM efficiency variances are recorded during production."},
+  {q:"Westfield variances: DM Price $400U, DM Efficiency $200U, DL Rate $150F, DL Efficiency $300U. Net effect on COGS?", ch:"Chapter 10 · Variances",
+   opts:["Increase by $750","Decrease by $750","Increase by $150","Decrease by $150"], ans:0,
+   exp:"$400U + $200U + $300U − $150F = $750 net unfavorable → increases COGS by $750."},
+  {q:"In the DL journal entry under standard costing with an unfavorable efficiency variance and favorable rate variance:", ch:"Chapter 10 · Variances",
+   opts:["Debit WIP (standard), Debit DL Eff Var, Credit DL Rate Var, Credit Wages Payable (actual)","Debit WIP (actual), Credit Wages Payable","Debit WIP, Credit DL Eff Var, Debit DL Rate Var, Credit Wages Payable","Debit MOH Control, Credit Wages Payable"], ans:0,
+   exp:"WIP debited at standard. Unfavorable variances are debited. Favorable variances are credited. Wages Payable credited at actual."},
+
+  // CH 11 (31-40)
+  {q:"Process costing would be most appropriate for producing:", ch:"Chapter 11 · Process Costing",
+   opts:["Custom homes","Legal services","Bottled water","Feature films"], ans:2,
+   exp:"Bottled water is a homogeneous mass-produced product, ideal for process costing. Others are unique/custom = job costing."},
+  {q:"Conversion costs consist of:", ch:"Chapter 11 · Process Costing",
+   opts:["Direct materials and direct labor","Direct labor and manufacturing overhead","Direct materials and manufacturing overhead","All manufacturing costs"], ans:1,
+   exp:"Conversion costs = DL + MOH. These are the costs to 'convert' raw materials into finished goods."},
+  {q:"Cascade: Beg WIP 2,000 (DM 100%, CC 40%), Started 18,000, Completed 16,000, End WIP 4,000 (DM 100%, CC 25%). Weighted-average CC equivalent units?", ch:"Chapter 11 · Process Costing",
+   opts:["17,000","16,000","15,200","18,000"], ans:0,
+   exp:"Wtd-Avg CC EU = Completed (16,000 × 100%) + Ending WIP (4,000 × 25%) = 16,000 + 1,000 = 17,000."},
+  {q:"Using the same Cascade data, what are the FIFO CC equivalent units?", ch:"Chapter 11 · Process Costing",
+   opts:["17,000","16,200","15,200","16,000"], ans:1,
+   exp:"FIFO: Beg WIP to complete (2,000 × 60%) = 1,200 + S&C (16,000 − 2,000 = 14,000) + End WIP (4,000 × 25% = 1,000) = 16,200."},
+  {q:"Under the weighted-average method, cost per EU is calculated using:", ch:"Chapter 11 · Process Costing",
+   opts:["Only costs added this period","Only beginning WIP costs","Beginning WIP costs plus costs added this period","Costs from the previous period only"], ans:2,
+   exp:"Weighted-average uses ALL costs: beginning WIP costs + costs added this period, divided by total equivalent units."},
+  {q:"The key difference between FIFO and weighted-average is that FIFO:", ch:"Chapter 11 · Process Costing",
+   opts:["Is simpler to calculate","Blends beginning inventory with current costs","Separates prior-period work from current-period work","Does not require degree of completion info"], ans:2,
+   exp:"FIFO separates prior-period costs from current-period costs. Weighted-average blends them together."},
+  {q:"Which process costing method is generally more accurate?", ch:"Chapter 11 · Process Costing",
+   opts:["Weighted-average — uses all available cost information","FIFO — tracks costs from one period to the next separately","Both always produce the same result","Neither is more accurate"], ans:1,
+   exp:"FIFO is more accurate because it carefully tracks costs period to period, keeping prior and current costs separate."},
+  {q:"Transferred-in costs in Department 2 are treated as:", ch:"Chapter 11 · Process Costing",
+   opts:["Conversion costs at 0% completion","Direct materials at 100% completion upon entry","Direct labor costs","Manufacturing overhead"], ans:1,
+   exp:"Transferred-in costs are treated like DM and are 100% complete when they enter the new department."},
+  {q:"Pinnacle (wtd-avg): DM costs $44,000 / 20,000 EU; CC costs $33,000 / 22,000 EU. Cost per EU for DM and CC?", ch:"Chapter 11 · Process Costing",
+   opts:["DM: $2.20, CC: $1.50","DM: $2.00, CC: $1.50","DM: $2.20, CC: $1.65","DM: $2.00, CC: $1.65"], ans:0,
+   exp:"DM: $44,000 ÷ 20,000 = $2.20. CC: $33,000 ÷ 22,000 = $1.50."},
+  {q:"A company uses operation costing rather than pure process costing because:", ch:"Chapter 11 · Process Costing",
+   opts:["All units are identical in their use of all resources","Not all units go through the same set of operations","It is simpler than process costing","It does not require any cost allocation"], ans:1,
+   exp:"Operation costing is a hybrid used when different products pass through different combinations of operations/processes."}
+];
+
+// Render quiz
+const container = document.getElementById('quizContainer');
+questions.forEach((q, i) => {
+  let html = `<div class="q-card" id="qcard-${i}">
+    <div class="q-number">Question ${i+1} of 40 · ${q.ch}</div>
+    <div class="q-text">${q.q}</div>`;
+  q.opts.forEach((opt, j) => {
+    html += `<div class="q-option" data-q="${i}" data-opt="${j}" onclick="selectOption(this)">
+      <div class="q-radio"></div><div>${opt}</div></div>`;
+  });
+  html += `<div class="q-explanation" id="exp-${i}"></div></div>`;
+  container.innerHTML += html;
+});
+
+const userAnswers = {};
+function selectOption(el) {
+  if (document.getElementById('submitBtn').style.display === 'none') return;
+  const qi = el.dataset.q;
+  document.querySelectorAll(`[data-q="${qi}"]`).forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  userAnswers[qi] = parseInt(el.dataset.opt);
+}
+
+function submitQuiz() {
+  let score = 0;
+  questions.forEach((q, i) => {
+    const card = document.getElementById(`qcard-${i}`);
+    const expDiv = document.getElementById(`exp-${i}`);
+    const opts = document.querySelectorAll(`[data-q="${i}"]`);
+    const userAns = userAnswers[i];
+
+    if (userAns === q.ans) {
+      score++;
+      card.classList.add('correct');
+      opts[q.ans].classList.add('selected-correct');
+      expDiv.className = 'q-explanation show correct-exp';
+      expDiv.innerHTML = '✓ Correct! ' + q.exp;
+    } else {
+      card.classList.add('incorrect');
+      if (userAns !== undefined) opts[userAns].classList.add('selected-incorrect');
+      opts[q.ans].classList.add('reveal-correct');
+      expDiv.className = 'q-explanation show incorrect-exp';
+      expDiv.innerHTML = '✗ ' + (userAns === undefined ? 'No answer selected. ' : 'Incorrect. ') + q.exp;
+    }
+    opts.forEach(o => o.classList.remove('selected'));
+  });
+
+  const pct = Math.round(score/40*100);
+  document.getElementById('scoreNum').textContent = score + '/40 (' + pct + '%)';
+  document.getElementById('scoreLabel').textContent = pct >= 75 ? "Great job! Review any missed questions below." : "Keep studying — review the explanations below and revisit the study guide sections.";
+  document.getElementById('scoreBox').classList.add('show');
+  document.getElementById('submitBtn').style.display = 'none';
+  document.getElementById('resetBtn').style.display = 'block';
+  window.scrollTo({ top: document.getElementById('scoreBox').offsetTop - 80, behavior: 'smooth' });
+}
+
+function resetQuiz() {
+  questions.forEach((q, i) => {
+    const card = document.getElementById(`qcard-${i}`);
+    card.classList.remove('correct','incorrect');
+    document.getElementById(`exp-${i}`).className = 'q-explanation';
+    document.getElementById(`exp-${i}`).innerHTML = '';
+    document.querySelectorAll(`[data-q="${i}"]`).forEach(o => {
+      o.classList.remove('selected','selected-correct','selected-incorrect','reveal-correct');
+    });
+  });
+  Object.keys(userAnswers).forEach(k => delete userAnswers[k]);
+  document.getElementById('scoreBox').classList.remove('show');
+  document.getElementById('submitBtn').style.display = 'block';
+  document.getElementById('resetBtn').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

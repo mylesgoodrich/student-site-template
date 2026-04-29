@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ITGC Concepts Card – CS-7</title>
+<style>
+  body { background:#d1d5db; font-family:Arial,Helvetica,sans-serif; margin:0; padding:16px; }
+  .page-title { text-align:center; font-size:1.1rem; font-weight:700; color:#064e3b; margin-bottom:12px; }
+  .print-btn { display:block; margin:0 auto 20px; background:#064e3b; color:white; border:none; padding:10px 28px; border-radius:20px; font-size:1rem; font-weight:700; cursor:pointer; }
+  .cards-grid { display:flex; flex-wrap:wrap; gap:16px; justify-content:center; }
+  .card { width:6in; min-height:4in; height:auto; background:#fff; border:1.5px solid #065f46; border-radius:6px; box-sizing:border-box; overflow:visible; display:flex; flex-direction:column; box-shadow:0 2px 8px rgba(0,0,0,.18); page-break-inside:avoid; }
+  .card-header { background:#064e3b; color:#a7f3d0; font-size:8.5pt; font-weight:900; text-transform:uppercase; letter-spacing:.6px; padding:4px 8px; flex-shrink:0; display:flex; justify-content:space-between; align-items:center; }
+  .card-num { color:#6ee7b7; font-size:7pt; font-weight:700; }
+  .card-body { padding:5px 8px 4px; flex:1; overflow:visible; font-size:7.2pt; line-height:1.28; color:#111; }
+  .card-body h2 { font-size:8pt; color:#065f46; margin:4px 0 2px; border-bottom:1px solid #a7f3d0; padding-bottom:1px; font-weight:900; }
+  .card-body .cols { display:flex; gap:6px; }
+  .card-body .col { flex:1; }
+  .card-body .highlight { background:#fef9c3; border-left:3px solid #f59e0b; padding:2px 5px; margin:3px 0; border-radius:2px; font-size:7pt; }
+  .card-body .badge { display:inline-block; background:#065f46; color:#a7f3d0; font-size:6.2pt; font-weight:800; padding:1px 4px; border-radius:3px; text-transform:uppercase; margin-right:2px; }
+  .card-body .badge.r { background:#dc2626; color:white; }
+  .card-body .badge.o { background:#d97706; color:white; }
+  .card-body .badge.p { background:#4a1d96; color:#fde68a; }
+  .card-body table { width:100%; border-collapse:collapse; font-size:6.8pt; margin:2px 0; }
+  .card-body th { background:#064e3b; color:#a7f3d0; padding:2px 4px; text-align:left; font-size:6.5pt; }
+  .card-body td { padding:1.5px 4px; border-bottom:1px solid #e5e7eb; vertical-align:top; }
+  .card-body tr:nth-child(even) td { background:#f0fdf4; }
+  .card-body ul { margin:1px 0 2px 13px; padding:0; }
+  .card-body li { margin:1px 0; }
+  .card-body p { margin:2px 0; }
+  .card-body .divider { border:none; border-top:1px dashed #6ee7b7; margin:3px 0; }
+  .card-body .red-box { background:#fef2f2; border:1px solid #fca5a5; border-radius:3px; padding:2px 5px; margin:2px 0; }
+  .card-body .gold-box { background:#fffbeb; border:1px solid #f59e0b; border-radius:3px; padding:2px 5px; margin:2px 0; }
+  @media print {
+    @page { size:6in 4in; margin:0; }
+    body { background:white; padding:0; margin:0; }
+    .page-title, .print-btn { display:none; }
+    .cards-grid { display:block; gap:0; }
+    .card { width:6in; min-height:4in; height:auto; border-radius:0; box-shadow:none; border:none; page-break-after:always; break-after:page; }
+    .card:last-child { page-break-after:avoid; }
+  }
+</style>
+</head>
+<body>
+<p class="page-title">&#x1F4C7; ITGC Concepts Card &mdash; What the Exam Tests (No Case Study Needed) &middot; Print on 4x6 landscape</p>
+<button class="print-btn" onclick="window.print()">Print Card</button>
+<div class="cards-grid">
+
+<!-- CS-7: ITGC Concepts the Exam Actually Tests -->
+<div class="card">
+  <div class="card-header">Applied ITGC Concepts &mdash; What the Exam Tests Without the Case Study in Front of You <span class="card-num">CS-7 / 7</span></div>
+  <div class="card-body">
+    <div class="cols">
+      <div class="col">
+        <h2>Termination Testing -- What Gets Tested</h2>
+        <table>
+          <tr><th>Scenario</th><th>Classification</th><th>Why</th></tr>
+          <tr><td>Single late disable, isolated human error</td><td><span class="badge o">CD</span></td><td>One-time, not systemic</td></tr>
+          <tr><td>Late disable because batch sync has a structural gap (e.g. weekends, after-hours)</td><td><span class="badge r">SD</span></td><td>Systemic -- every future Friday/weekend term has same gap</td></tr>
+          <tr><td>IdP disabled on time BUT ERP app role never removed; access review fails to catch it</td><td><span class="badge r">SD/MW</span></td><td>Two controls both fail; orphaned role persists indefinitely</td></tr>
+        </table>
+        <div class="highlight"><strong>Key distinction:</strong> "No confirmed unauthorized login" = compensating observation, NOT a cure. It reduces severity but does not eliminate the deficiency.</div>
+
+        <hr class="divider">
+        <h2>SoD Classification -- The Decision Tree</h2>
+        <table>
+          <tr><th>Situation</th><th>Class.</th></tr>
+          <tr><td>HIGH SoD + NO mitigating control at all</td><td><span class="badge r">SD / MW</span> -- unmitigated risk on SOX GL</td></tr>
+          <tr><td>HIGH SoD + MC with a dollar threshold gap (structuring risk)</td><td><span class="badge o">CD</span> -- partial MC exists but incomplete</td></tr>
+          <tr><td>HIGH SoD + MC with 100% independent review coverage</td><td><span class="badge">Adequate</span> -- fully mitigated if operating</td></tr>
+          <tr><td>"Management is aware" of SoD</td><td><span class="badge r">NOT a control</span> -- awareness ≠ mitigation</td></tr>
+        </table>
+        <div class="highlight"><strong>MW threshold:</strong> "Reasonable possibility" of material misstatement. No fraud needs to have occurred. The risk alone is sufficient.</div>
+      </div>
+
+      <div class="col">
+        <h2>TOD vs. TOE -- Never Confuse These</h2>
+        <table>
+          <tr><th>Test</th><th>Question it answers</th><th>Evidence</th></tr>
+          <tr><td><strong>TOD</strong></td><td>"Could the control work?" (design, config)</td><td>Review policy docs, inspect config screens, walkthrough</td></tr>
+          <tr><td><strong>TOE</strong></td><td>"Did it actually work during the period?"</td><td>Sample logs, tickets, sign-off records, exception reports</td></tr>
+        </table>
+        <div class="highlight">Config review = TOD only. Even a perfectly configured MFA policy could have bypasses in practice. Always need TOE evidence for SOX conclusion.</div>
+
+        <hr class="divider">
+        <h2>Provisioning Exceptions -- The Rule</h2>
+        <ul>
+          <li>Control requires <strong>both</strong> approvals (mgr + data owner)? One missing = exception. Always.</li>
+          <li>Role risk level affects <em>severity</em> of the exception, not whether it exists</li>
+          <li>Verbal post-hoc confirmation = <strong>not valid</strong> TOE evidence</li>
+          <li>SLA missed with no documented exception = exception, regardless of how close to the deadline</li>
+        </ul>
+
+        <hr class="divider">
+        <h2>SSO Bypass Risk -- The Follow-Up Question</h2>
+        <ul>
+          <li>Disabling IdP = cutting SSO access -- <strong>IF</strong> no local ERP accounts exist</li>
+          <li>Always ask: "Are built-in ERP local/emergency accounts disabled or password-randomized?"</li>
+          <li>SAP example: SAP* and DDIC are default local accounts that bypass SSO entirely</li>
+          <li>This is a <strong>TOD gap</strong> -- the control design is incomplete without addressing local account bypass</li>
+        </ul>
+
+        <hr class="divider">
+        <h2>Sampling -- Know the Numbers</h2>
+        <table>
+          <tr><th>Risk / Frequency</th><th>Sample Size</th></tr>
+          <tr><td>High-risk, daily/frequent (e.g. terminations, provisioning)</td><td><strong>40--60</strong></td></tr>
+          <tr><td>Moderate risk</td><td>20--30</td></tr>
+          <tr><td>Low risk</td><td>10--15</td></tr>
+        </table>
+        <div class="highlight">Small sample (5--8) on a high-risk control = insufficient for SOX conclusion unless documented rationale exists. "Manager approved it" is not sufficient rationale.</div>
+
+        <div class="gold-box"><strong>Didion connection:</strong> The auditor who writes "management is aware" and closes a Material Weakness candidate has located their professional standard in managerial approval -- not character. That is Didion's definition of the loss of self-respect, applied to audit practice. Each such closure is fresh footage in the interminable documentary.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

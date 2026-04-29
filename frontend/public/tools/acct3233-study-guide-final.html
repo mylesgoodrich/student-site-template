@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internal Audit Exam Prep – ACCT 3233/7233</title>
+<style>
+  :root {
+    --purple: #4a1d96;
+    --purple-mid: #6d28d9;
+    --gold: #f59e0b;
+    --gold-light: #fde68a;
+    --bg: #f5f3ff;
+    --white: #ffffff;
+    --text: #1e1b4b;
+    --correct: #059669;
+    --wrong: #dc2626;
+    --gray: #e5e7eb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); }
+  header {
+    background: linear-gradient(135deg, #2e1065, #4a1d96);
+    color: white; text-align: center; padding: 2rem 1rem;
+    border-bottom: 4px solid var(--gold);
+  }
+  header h1 { font-size: 1.9rem; font-weight: 800; }
+  header p { color: var(--gold-light); margin-top: .4rem; font-size: .95rem; }
+
+  nav {
+    display: flex; justify-content: center; gap: .5rem; flex-wrap: wrap;
+    background: #3b0764; padding: .75rem 1rem;
+    position: sticky; top: 0; z-index: 100;
+  }
+  nav button {
+    background: transparent; border: 2px solid var(--gold);
+    color: var(--gold); padding: .4rem 1rem; border-radius: 20px;
+    cursor: pointer; font-size: .85rem; font-weight: 600;
+    transition: all .2s;
+  }
+  nav button:hover, nav button.active {
+    background: var(--gold); color: #1e1b4b;
+  }
+
+  .page { display: none; max-width: 960px; margin: 0 auto; padding: 2rem 1rem; }
+  .page.active { display: block; }
+
+  h2 { color: var(--purple); font-size: 1.5rem; margin-bottom: 1.2rem; border-left: 4px solid var(--gold); padding-left: .75rem; }
+  h3 { color: var(--purple-mid); font-size: 1.1rem; margin: 1.2rem 0 .5rem; }
+
+  .card {
+    background: white; border-radius: 10px; padding: 1.2rem 1.4rem;
+    margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(74,29,150,.08);
+    border-left: 4px solid var(--purple-mid);
+  }
+  .card.gold { border-left-color: var(--gold); }
+  .card.green { border-left-color: var(--correct); }
+  .card.red { border-left-color: var(--wrong); }
+
+  .tag {
+    display: inline-block; background: var(--purple); color: white;
+    font-size: .72rem; font-weight: 700; padding: .15rem .5rem;
+    border-radius: 12px; margin-bottom: .5rem; letter-spacing: .5px;
+    text-transform: uppercase;
+  }
+  .tag.gold { background: var(--gold); color: #1e1b4b; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+  @media (max-width: 650px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  table { width: 100%; border-collapse: collapse; margin: .75rem 0; font-size: .9rem; }
+  th { background: var(--purple); color: white; padding: .6rem .75rem; text-align: left; }
+  td { padding: .5rem .75rem; border-bottom: 1px solid var(--gray); }
+  tr:nth-child(even) td { background: #f5f3ff; }
+
+  /* Quiz styles */
+  .q-block {
+    background: white; border-radius: 10px; padding: 1.3rem 1.5rem;
+    margin-bottom: 1.2rem; box-shadow: 0 2px 8px rgba(74,29,150,.08);
+  }
+  .q-num { color: var(--gold); font-weight: 800; font-size: .85rem; margin-bottom: .4rem; }
+  .q-text { font-weight: 600; margin-bottom: .8rem; line-height: 1.5; }
+  .q-opts label {
+    display: block; padding: .45rem .75rem; margin: .3rem 0;
+    border: 2px solid var(--gray); border-radius: 8px; cursor: pointer;
+    transition: border-color .2s; font-size: .95rem;
+  }
+  .q-opts label:hover { border-color: var(--purple-mid); }
+  .q-opts input[type=radio] { margin-right: .5rem; }
+  .q-opts label.correct { border-color: var(--correct); background: #ecfdf5; }
+  .q-opts label.wrong { border-color: var(--wrong); background: #fef2f2; }
+  .explanation {
+    display: none; margin-top: .75rem; padding: .75rem; background: #f5f3ff;
+    border-radius: 8px; font-size: .9rem; border-left: 3px solid var(--purple-mid);
+  }
+  .explanation.show { display: block; }
+
+  .quiz-controls { text-align: center; margin: 1.5rem 0; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    background: var(--purple); color: white; border: none;
+    padding: .65rem 1.8rem; border-radius: 25px; cursor: pointer;
+    font-size: .95rem; font-weight: 700; transition: background .2s;
+  }
+  .btn:hover { background: var(--purple-mid); }
+  .btn.gold { background: var(--gold); color: #1e1b4b; }
+  .btn.gold:hover { background: #d97706; color: white; }
+
+  .score-box {
+    background: var(--purple); color: white; border-radius: 12px;
+    padding: 1.5rem 2rem; text-align: center; margin: 1rem 0;
+    display: none;
+  }
+  .score-box .big { font-size: 3rem; font-weight: 900; color: var(--gold); }
+  .score-box p { margin-top: .4rem; font-size: 1rem; }
+
+  .key-term { font-weight: 700; color: var(--purple-mid); }
+  ul { padding-left: 1.2rem; }
+  ul li { margin: .3rem 0; line-height: 1.5; }
+  .callout {
+    background: #fffbeb; border: 1px solid var(--gold); border-radius: 8px;
+    padding: .8rem 1rem; margin: .8rem 0; font-size: .92rem;
+  }
+  .callout strong { color: #92400e; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 Internal Audit Exam Prep</h1>
+  <p>ACCT 3233/7233 · LSU · IIA Standards, Cybersecurity Risk & ITGC Testing</p>
+</header>
+
+<nav>
+  <button class="active" onclick="show('guide')">Study Guide</button>
+  <button onclick="show('cyber')">Cybersecurity</button>
+  <button onclick="show('iia')">IIA Standards</button>
+  <button onclick="show('itgc')">ITGC Testing</button>
+  <button onclick="show('readings')">Readings</button>
+  <button onclick="show('casestudy')">Case Study</button>
+  <button onclick="show('quiz')">Practice Exam (70 Qs)</button>
+</nav>
+
+<!-- ==================== STUDY GUIDE ==================== -->
+<div id="guide" class="page active">
+  <h2>📋 Master Study Guide</h2>
+  <div class="callout"><strong>Exam Tips:</strong> 70 questions covering all 3 slide decks + the Didion reading + the case study. Focus on definitions, frameworks, the IIA 2024 structure, CIA Triad, ITGC testing types, the Four C's of findings, and the <em>thematic connections</em> between Didion and the IIA ethics principles.</div>
+
+  <div class="card gold">
+    <div class="tag gold">Big Picture</div>
+    <h3>The Three Topic Areas</h3>
+    <div class="grid-3">
+      <div><strong>1. IIA Standards</strong><br>2024 IPPF • 5 Domains • 15 Principles • 52 Standards • Topical Requirements</div>
+      <div><strong>2. Cybersecurity Risk</strong><br>CIA Triad • Attack surface • Defense in Depth • Org Pathologies • IIA Topical Req</div>
+      <div><strong>3. ITGC Testing</strong><br>Positive/Negative • TOD/TOE • Sampling • Risk Ratings • Finding Structure</div>
+    </div>
+  </div>
+
+  <h2>⚡ Quick-Reference Flash Facts</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="tag">IIA 2024 Architecture</div>
+      <ul>
+        <li><span class="key-term">5 Domains</span>, <span class="key-term">15 Principles</span>, <span class="key-term">52 Standards</span></li>
+        <li>Domain I – Purpose (Why we exist)</li>
+        <li>Domain II – Ethics & Professionalism</li>
+        <li>Domain III – Governing the Function</li>
+        <li>Domain IV – Managing the Function</li>
+        <li>Domain V – Performing Services</li>
+        <li>Old "Attribute" / "Performance" categories are <strong>gone</strong></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Domain I Purpose</div>
+      <p>Internal auditing provides <strong>4 services</strong>:</p>
+      <ul>
+        <li><span class="key-term">Assurance</span> – independent evaluation</li>
+        <li><span class="key-term">Advice</span> – recommendations to improve</li>
+        <li><span class="key-term">Insight</span> – deeper understanding</li>
+        <li><span class="key-term">Foresight</span> – anticipating emerging risks ⭐ NEW in 2024</li>
+      </ul>
+      <p style="margin-top:.5rem">Goal: create, protect, and <strong>sustain value</strong></p>
+    </div>
+    <div class="card">
+      <div class="tag">Domain II – 5 Ethics Principles</div>
+      <ul>
+        <li><strong>P1</strong> – Demonstrate <span class="key-term">Integrity</span> (Kant's categorical imperative)</li>
+        <li><strong>P2</strong> – Maintain <span class="key-term">Objectivity</span> (Husserl's epoché – bracket assumptions)</li>
+        <li><strong>P3</strong> – Demonstrate <span class="key-term">Competency</span> (Aristotle's phronesis – practical wisdom)</li>
+        <li><strong>P4</strong> – Exercise <span class="key-term">Due Professional Care</span> (Hume – can't test everything)</li>
+        <li><strong>P5</strong> – Maintain <span class="key-term">Confidentiality</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Domain III – Governance</div>
+      <ul>
+        <li><strong>P6</strong> – Authorized by the Board (charter = source of authority)</li>
+        <li><strong>P7</strong> – Positioned Independently (CAE reports to board)</li>
+        <li><strong>P8</strong> – Overseen by the Board</li>
+        <li>Most significant change in 2024 – boards have explicit responsibilities</li>
+        <li>Defines "Essential Conditions" boards must provide</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Domain IV – Managing</div>
+      <ul>
+        <li><strong>P9</strong> – Plan Strategically (risk-based)</li>
+        <li><strong>P10</strong> – Manage Resources</li>
+        <li><strong>P11</strong> – Communicate Effectively</li>
+        <li><strong>P12</strong> – Enhance Quality (QAIP required)</li>
+        <li>External Quality Assessment every <strong>5 years</strong>, requires active CIA</li>
+        <li>No more "audit everything every 3 years" cyclical approach</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Domain V – Performing Services</div>
+      <ul>
+        <li><strong>P13</strong> – Plan Engagements</li>
+        <li><strong>P14</strong> – Conduct Work (Four C's of Findings)</li>
+        <li><strong>P15</strong> – Communicate & Monitor</li>
+        <li>New term: <span class="key-term">"conclusion"</span> replaces "opinion"</li>
+        <li>Engagement effort split: Planning 20-30% / Fieldwork 40-50% / Reporting 15-20% / F/U ongoing</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card gold">
+    <div class="tag gold">⭐ Must Memorize</div>
+    <h3>The Four C's of Findings (Domain V)</h3>
+    <div class="grid-2">
+      <div>
+        <ul>
+          <li><span class="key-term">Condition</span> – What IS (the actual situation found)</li>
+          <li><span class="key-term">Criteria</span> – What SHOULD BE (the standard/policy)</li>
+          <li><span class="key-term">Cause</span> – WHY the gap exists</li>
+          <li><span class="key-term">Consequence</span> – WHY it matters (the risk/impact)</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Three Lines Model:</strong></p>
+        <ul>
+          <li><strong>1st Line</strong> – Management (owns risk day-to-day)</li>
+          <li><strong>2nd Line</strong> – Risk & Compliance (monitors/supports)</li>
+          <li><strong>3rd Line</strong> – Internal Audit (independent assurance to board)</li>
+          <li>Governing Body – accountability to stakeholders</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h2>🔒 Cybersecurity Risk Key Concepts</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="tag">CIA Triad</div>
+      <ul>
+        <li><span class="key-term">Confidentiality</span> – only authorized access; threats: breaches, eavesdropping</li>
+        <li><span class="key-term">Integrity</span> – accurate, unaltered data; threats: tampering, MITM attacks</li>
+        <li><span class="key-term">Availability</span> – accessible when needed; threats: DDoS, ransomware</li>
+      </ul>
+      <div class="callout" style="margin-top:.5rem"><strong>Audit tip:</strong> Every control should map to ≥1 CIA objective</div>
+    </div>
+    <div class="card">
+      <div class="tag">Why Cyber Risk is Different</div>
+      <ul>
+        <li><span class="key-term">Adversarial</span> – intelligent actor actively probes (not passive like market risk)</li>
+        <li><span class="key-term">Asymmetric</span> – attacker needs 1 weakness; defender must protect everything</li>
+        <li><span class="key-term">Evolving</span> – threat landscape changes daily</li>
+        <li><span class="key-term">Invisible</span> – breaches often undetected for months</li>
+        <li><span class="key-term">Interconnected</span> – your security = your vendors' security</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Defense in Depth Layers</div>
+      <ul>
+        <li><strong>Preventive</strong> – firewalls, patching, encryption, access controls</li>
+        <li><strong>Detective</strong> – SIEM, IDS/IPS, log monitoring, anomaly detection</li>
+        <li><strong>Corrective</strong> – incident response, backup/restore, DR</li>
+        <li>Layers: Network → Endpoint → Application → Data → Human → Governance</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">4 Organizational Pathologies</div>
+      <ul>
+        <li><strong>#1 Ownership Gap</strong> – no one knows who owns a system (e.g., Target 2013 HVAC vendor)</li>
+        <li><strong>#2 Security vs. Business</strong> – speed vs. control; CISO reporting line matters</li>
+        <li><strong>#3 Compliance Trap</strong> – compliance ≠ security (Equifax was PCI compliant when breached)</li>
+        <li><strong>#4 Learned Helplessness</strong> – "if they want in, they'll get in" fatalism; fundamentals still matter</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="tag">IIA Cybersecurity Topical Requirement</div>
+    <div class="grid-3">
+      <div><strong>Released:</strong> Feb 5, 2025<br><strong>Effective:</strong> Feb 5, 2026<br><strong>First</strong> Topical Requirement under 2024 IPPF<br>Maps to NIST & COBIT</div>
+      <div><strong>When it applies:</strong><br>• Cybersecurity is in audit plan<br>• Cyber risks emerge during engagement<br>• Management/board requests cyber audit</div>
+      <div><strong>3 Domains:</strong><br>• Governance<br>• Risk Management<br>• Controls<br><br>Must document applicability & rationale for exclusions</div>
+    </div>
+  </div>
+
+  <h2>🖥️ ITGC Testing Key Concepts</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="tag">Positive vs. Negative Testing</div>
+      <ul>
+        <li><span class="key-term">Positive</span> – "Did the control work when it should?" → Testing the happy path (verifying approvals, timelines)</li>
+        <li><span class="key-term">Negative</span> – "Did the control block what it should?" → Testing guardrails (can terminated users log in? self-approve?)</li>
+        <li><strong>Key point:</strong> Positive testing alone creates false confidence</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Test of Design (TOD)</div>
+      <p>Evaluates if the control <em>can</em> work (the blueprint):</p>
+      <ul>
+        <li><span class="key-term">Precision</span> – is the control specific enough?</li>
+        <li><span class="key-term">Completeness</span> – does it cover all scenarios?</li>
+        <li><span class="key-term">Authority</span> – are the right people involved?</li>
+      </ul>
+      <p style="margin-top:.4rem"><em>"A flawed blueprint can never produce a sound structure"</em></p>
+    </div>
+    <div class="card">
+      <div class="tag">Design vs. OE Failures</div>
+      <ul>
+        <li><span class="key-term">Design Failure</span> – control CAN'T work; blueprint is flawed. Remedy: process redesign</li>
+        <li><span class="key-term">OE Failure</span> – control DIDN'T work; good design, bad execution. Remedy: training, monitoring, automation</li>
+        <li><strong>Critical:</strong> Don't prescribe training for a design problem</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Sampling Framework</div>
+      <ul>
+        <li><span class="key-term">Random</span> – equal probability; good for large homogeneous populations</li>
+        <li><span class="key-term">Stratified</span> – subgroups by risk; best practice with census for high-risk strata</li>
+        <li><span class="key-term">Haphazard</span> – judgment-based; not statistically valid</li>
+        <li><span class="key-term">Census</span> – 100% testing; use for critical controls, small populations</li>
+        <li>Privileged users, SoD conflicts → census (100%)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card gold">
+    <div class="tag gold">Sample Size Table (AICPA/PCAOB Guidance)</div>
+    <table>
+      <tr><th>Frequency</th><th>Low Risk</th><th>Moderate Risk</th><th>High Risk</th></tr>
+      <tr><td>Annual</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>Quarterly</td><td>2</td><td>2-3</td><td>4</td></tr>
+      <tr><td>Monthly</td><td>2-3</td><td>4-6</td><td>8-12</td></tr>
+      <tr><td>Weekly</td><td>5-9</td><td>10-15</td><td>20-25</td></tr>
+      <tr><td>Daily</td><td>10-15</td><td>20-30</td><td>40-60</td></tr>
+      <tr><td>Per occurrence</td><td>25</td><td>40</td><td>60</td></tr>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="tag">Risk Ratings (External vs. Internal)</div>
+      <p><strong>External (SOX/PCAOB):</strong></p>
+      <ul>
+        <li><span class="key-term">Material Weakness</span> – reasonable possibility of material misstatement → adverse ICFR opinion</li>
+        <li><span class="key-term">Significant Deficiency</span> – less than MW but merits attention → report to Audit Committee</li>
+        <li><span class="key-term">Control Deficiency</span> – design/operation gap</li>
+      </ul>
+      <p style="margin-top:.5rem"><strong>Internal (IIA-aligned):</strong> Critical/High, Medium, Low</p>
+    </div>
+    <div class="card">
+      <div class="tag">Assurance vs. Advisory Services</div>
+      <p><strong>Assurance:</strong> 3 parties (auditor, auditee, stakeholders); auditor sets scope; formal conclusions; skepticism default. Examples: SOX testing, compliance reviews</p>
+      <p style="margin-top:.5rem"><strong>Advisory:</strong> 2 parties (auditor + client); client sets scope; recommendations only (no "opinion"); collaboration posture. Examples: M&A due diligence, process design</p>
+      <div class="callout" style="margin-top:.4rem"><strong>Warning:</strong> Advisory on a process may impair objectivity for future assurance on the same process</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="tag">Common Topical Requirements (New 2024 IPPF)</div>
+    <p>Mandatory when in scope. Effective 12 months after issuance. Must document which apply and rationale for any exclusions.</p>
+    <div class="grid-3" style="margin-top:.75rem">
+      <div><strong>Cybersecurity</strong> – governance, risk, controls, incident response</div>
+      <div><strong>IT Governance</strong> – tech strategy, performance, risk</div>
+      <div><strong>Privacy Risk Management</strong> – GDPR, CCPA compliance</div>
+      <div><strong>Third-Party Management</strong> – vendor risk, due diligence</div>
+      <div><strong>Sustainability & ESG</strong> – climate, DEI metrics</div>
+      <div><strong>More coming…</strong> as risks evolve</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>⭐ Key Philosophical Connections (Your professor clearly loves these):</strong><br>
+    Integrity → Kant's Categorical Imperative | Objectivity → Husserl's Epoché | Competency → Aristotle's Phronesis | Due Care → Hume's Induction Problem | Findings → Heidegger's Aletheia (unconcealment/truth) | Standards → Plato's Forms
+  </div>
+</div>
+
+<!-- ==================== CYBERSECURITY ==================== -->
+<div id="cyber" class="page">
+  <h2>🔒 Cybersecurity Risk Deep Dive</h2>
+
+  <div class="card gold">
+    <div class="tag gold">Core Concept</div>
+    <p>Cyber risk is <strong>adversarial</strong> — an intelligent actor actively probes for weaknesses and adapts to your defenses. Most risks are passive; cyber risk is not. Hobbes: cyberspace is close to the "war of all against all."</p>
+  </div>
+
+  <h3>CIA Triad</h3>
+  <div class="grid-3">
+    <div class="card">
+      <div class="tag">Confidentiality</div>
+      <p>Info accessible only to authorized users. Protection against <strong>unauthorized disclosure</strong>.</p>
+      <p style="margin-top:.4rem"><em>Threats:</em> Data breaches, unauthorized access, eavesdropping</p>
+    </div>
+    <div class="card">
+      <div class="tag">Integrity</div>
+      <p>Info/systems accurate, complete, unaltered except by authorized actions. Protection against <strong>unauthorized modification</strong>.</p>
+      <p style="margin-top:.4rem"><em>Threats:</em> Data tampering, malware, man-in-the-middle attacks</p>
+    </div>
+    <div class="card">
+      <div class="tag">Availability</div>
+      <p>Info/systems accessible when needed. Protection against <strong>disruption</strong>.</p>
+      <p style="margin-top:.4rem"><em>Threats:</em> DDoS attacks, ransomware, system failures</p>
+    </div>
+  </div>
+
+  <h3>Modern Enterprise Attack Surfaces</h3>
+  <div class="grid-2">
+    <div class="card"><strong>On-Premises Infrastructure</strong> – data centers, servers, legacy systems. Often decades old, poorly documented.</div>
+    <div class="card"><strong>Cloud Services</strong> – IaaS, PaaS, SaaS. Shared responsibility models. Shadow IT proliferates faster than governance.</div>
+    <div class="card"><strong>Endpoints</strong> – laptops, mobile, IoT, printers, cameras. Each a potential entry point.</div>
+    <div class="card"><strong>Third-Party Connections</strong> – vendors, partners, APIs. Your security = your weakest vendor.</div>
+    <div class="card"><strong>Identity & Access</strong> – Active Directory, SSO, MFA, privileged accounts. "The keys to the kingdom."</div>
+    <div class="card"><strong>The Invisible Layer</strong> – shadow IT, personal devices, forgotten test systems. What you don't know CAN hurt you.</div>
+  </div>
+
+  <h3>Defense in Depth</h3>
+  <table>
+    <tr><th>Control Type</th><th>Purpose</th><th>Examples</th></tr>
+    <tr><td>Preventive</td><td>Stop attacks before they succeed</td><td>Firewalls, access controls, encryption, patching, security awareness</td></tr>
+    <tr><td>Detective</td><td>Identify attacks in progress or after</td><td>SIEM, IDS/IPS, log monitoring, anomaly detection, threat hunting</td></tr>
+    <tr><td>Corrective</td><td>Respond and recover</td><td>Incident response, backup/restore, disaster recovery, forensics</td></tr>
+  </table>
+
+  <h3>4 Organizational Pathologies</h3>
+  <div class="card red"><div class="tag">Pathology #1</div><strong>Ownership Gap</strong> – Who owns this system? Unowned systems don't get patched. Real example: Target 2013 breach via HVAC vendor. Audit: asset inventory, clear ownership assignment, orphan system process.</div>
+  <div class="card red"><div class="tag">Pathology #2</div><strong>Security vs. Business Tension</strong> – Business wants speed; security wants control. CISO reporting line signals organizational priorities. Shadow IT bypasses controls. Rational actors optimize for what's measured.</div>
+  <div class="card red"><div class="tag">Pathology #3</div><strong>The Compliance Trap</strong> – Compliance ≠ Security. Equifax, Target, Capital One were all compliant when breached. Attackers don't check compliance status. Organizations optimize for passing audits, not actual security.</div>
+  <div class="card red"><div class="tag">Pathology #4</div><strong>Learned Helplessness</strong> – "If they want in, they'll get in." Most breaches are NOT sophisticated — stolen credentials, phishing, unpatched systems. Verizon DBIR confirms: fundamentals prevent most breaches. Stoic wisdom: focus on what you can control.</div>
+
+  <h3>IIA Cybersecurity Topical Requirement (2025)</h3>
+  <table>
+    <tr><th>Domain</th><th>Focus Areas</th><th>Key Question</th></tr>
+    <tr><td>Governance</td><td>Board oversight, strategy, policies, roles, resource allocation</td><td>Does leadership own cybersecurity?</td></tr>
+    <tr><td>Risk Management</td><td>Asset ID/classification, threat assessment, risk appetite, third-party risk</td><td>Do they know what they're protecting?</td></tr>
+    <tr><td>Controls</td><td>IAM, network security, data protection, monitoring, incident response, DR</td><td>Are the controls actually working?</td></tr>
+  </table>
+</div>
+
+<!-- ==================== IIA STANDARDS ==================== -->
+<div id="iia" class="page">
+  <h2>📜 IIA 2024 Standards Deep Dive</h2>
+
+  <div class="card gold">
+    <div class="tag gold">Architecture</div>
+    <div class="grid-3">
+      <div style="text-align:center"><div style="font-size:2rem;font-weight:900;color:#4a1d96">5</div>Domains</div>
+      <div style="text-align:center"><div style="font-size:2rem;font-weight:900;color:#4a1d96">15</div>Principles</div>
+      <div style="text-align:center"><div style="font-size:2rem;font-weight:900;color:#4a1d96">52</div>Standards</div>
+    </div>
+    <p style="margin-top:.75rem;text-align:center">Old "Attribute" and "Performance" categories are <strong>eliminated</strong>. New structure is cleaner, governance-focused.</p>
+  </div>
+
+  <h3>All 15 Principles by Domain</h3>
+  <table>
+    <tr><th>Domain</th><th>#</th><th>Principle</th><th>Key Concept</th></tr>
+    <tr><td rowspan="1">I – Purpose</td><td>—</td><td>Why IA exists</td><td>Assurance, Advice, Insight, Foresight (NEW)</td></tr>
+    <tr><td rowspan="5">II – Ethics</td><td>P1</td><td>Integrity</td><td>Kant – categorical imperative; truthful even when difficult</td></tr>
+    <tr><td>P2</td><td>Objectivity</td><td>Husserl – epoché; bracket assumptions; manage confirmation bias</td></tr>
+    <tr><td>P3</td><td>Competency</td><td>Aristotle – phronesis; know what you don't know; use specialists</td></tr>
+    <tr><td>P4</td><td>Due Professional Care</td><td>Hume – can't test everything; sample intelligently; document reasoning</td></tr>
+    <tr><td>P5</td><td>Confidentiality</td><td>Protect info; breach once = never get candid info again</td></tr>
+    <tr><td rowspan="3">III – Governing</td><td>P6</td><td>Authorized by Board</td><td>Charter = source of authority; board approves mandate</td></tr>
+    <tr><td>P7</td><td>Positioned Independently</td><td>CAE reports functionally to board; structural independence</td></tr>
+    <tr><td>P8</td><td>Overseen by Board</td><td>Board approves plan, budget, resources; they're accountable too</td></tr>
+    <tr><td rowspan="4">IV – Managing</td><td>P9</td><td>Plan Strategically</td><td>Risk-based audit plan; dynamic, not cyclical</td></tr>
+    <tr><td>P10</td><td>Manage Resources</td><td>People, tech, budget; document when insufficient</td></tr>
+    <tr><td>P11</td><td>Communicate Effectively</td><td>Bidirectional; listen as much as inform</td></tr>
+    <tr><td>P12</td><td>Enhance Quality</td><td>QAIP; EQA every 5 years with active CIA required</td></tr>
+    <tr><td rowspan="3">V – Performing</td><td>P13</td><td>Plan Engagements</td><td>Understand activity, risk assessment, define scope, work program</td></tr>
+    <tr><td>P14</td><td>Conduct Work</td><td>Gather evidence, Four C's, recommendations, conclusions</td></tr>
+    <tr><td>P15</td><td>Communicate & Monitor</td><td>No surprises; confirm implementation; follow-up</td></tr>
+  </table>
+
+  <h3>Assurance vs. Advisory</h3>
+  <div class="grid-2">
+    <div class="card green">
+      <div class="tag">Assurance Services</div>
+      <ul>
+        <li>3 parties: auditor, auditee, stakeholders</li>
+        <li>Auditor determines scope</li>
+        <li>Results in formal <strong>conclusions</strong></li>
+        <li>Skepticism is the default posture</li>
+        <li>Examples: SOX testing, operational audits, compliance reviews</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Advisory Services</div>
+      <ul>
+        <li>2 parties: auditor + client</li>
+        <li>Client typically sets scope</li>
+        <li>Results in recommendations (no "opinion")</li>
+        <li>Collaboration is the posture</li>
+        <li>Examples: M&A due diligence, process design, training</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>The Engagement Lifecycle</h3>
+  <div class="grid-2">
+    <div class="card"><strong>Planning (20-30%)</strong> – Most audit failures are planning failures. Understand the business first. Talk to process owners early.</div>
+    <div class="card"><strong>Fieldwork (40-50%)</strong> – Document as you go. When something "feels off," dig. That instinct is often correct.</div>
+    <div class="card"><strong>Reporting (15-20%)</strong> – No surprises in the final report. Management responses are their words. "Conclusion" not "opinion."</div>
+    <div class="card"><strong>Follow-up (Ongoing)</strong> – An untracked recommendation is a wasted recommendation. This is where audit demonstrates it has teeth.</div>
+  </div>
+
+  <h3>The Three Lines Model</h3>
+  <table>
+    <tr><th>Line</th><th>Who</th><th>Role</th><th>Reports To</th></tr>
+    <tr><td>1st Line</td><td>Management (Operations, IT, HR)</td><td>Owns risk and controls day-to-day</td><td>Senior Management</td></tr>
+    <tr><td>2nd Line</td><td>Risk & Compliance (ERM, Legal, Security)</td><td>Supports, monitors, provides expertise</td><td>Senior Management</td></tr>
+    <tr><td>3rd Line</td><td>Internal Audit</td><td>Independent assurance on governance, risk, controls</td><td>Board/Audit Committee</td></tr>
+    <tr><td>Governing Body</td><td>Board</td><td>Accountability to stakeholders</td><td>Stakeholders</td></tr>
+  </table>
+  <div class="callout"><strong>Key:</strong> Lines should collaborate but maintain distinct roles. IA can rely on 2nd line work but must independently verify before reporting conclusions.</div>
+</div>
+
+<!-- ==================== ITGC ==================== -->
+<div id="itgc" class="page">
+  <h2>🖥️ ITGC Testing Deep Dive</h2>
+
+  <h3>Positive vs. Negative Testing</h3>
+  <div class="grid-2">
+    <div class="card green">
+      <div class="tag">Positive Testing</div>
+      <p><em>"Did the control work when it should have?"</em></p>
+      <p>Testing the <strong>happy path</strong>. Select legitimate transactions and verify approvals obtained, within timeframes, by authorized individuals, with proper documentation.</p>
+      <p style="margin-top:.5rem"><strong>Limitation:</strong> Positive testing alone creates false confidence. A control that approves everything but blocks nothing is useless.</p>
+    </div>
+    <div class="card red">
+      <div class="tag">Negative Testing</div>
+      <p><em>"Did the control prevent what it should have?"</em></p>
+      <p>Testing the <strong>guardrails</strong>. Attempt to bypass: Can terminated users log in? Can users self-approve? Does system block SoD violations? Are unauthorized changes rejected?</p>
+    </div>
+  </div>
+
+  <h3>Test of Design (TOD) – The Blueprint Test</h3>
+  <div class="card">
+    <p><strong>Core question:</strong> "If everyone followed this control perfectly, would it actually prevent or detect the risk?"</p>
+    <div class="grid-3" style="margin-top:.75rem">
+      <div><span class="key-term">Precision</span> – specific enough? "Manager approval" vs. "Direct manager via ServiceNow within 24 hours with documented justification"</div>
+      <div><span class="key-term">Completeness</span> – covers all scenarios? Contractors? Emergency access? Department transfers?</div>
+      <div><span class="key-term">Authority</span> – right people involved? Is a clerk approving executive access?</div>
+    </div>
+  </div>
+
+  <h3>Sampling Methods</h3>
+  <table>
+    <tr><th>Method</th><th>Description</th><th>When to Use</th><th>Limitation</th></tr>
+    <tr><td>Random</td><td>Equal probability; use random number generator</td><td>Large, homogeneous populations</td><td>May miss high-risk items by chance</td></tr>
+    <tr><td>Stratified</td><td>Divide into subgroups; sample by risk</td><td>Heterogeneous populations with risk strata</td><td>Requires understanding of risk factors</td></tr>
+    <tr><td>Haphazard</td><td>Without specific pattern; auditor judgment</td><td>Small populations; preliminary testing</td><td>Unconscious bias; not statistically valid</td></tr>
+    <tr><td>Census (100%)</td><td>Test entire population</td><td>Small populations; critical controls</td><td>Time-consuming; may not be practical</td></tr>
+  </table>
+  <div class="callout"><strong>Best Practice:</strong> Combine methods. Random for general population + 100% for privileged users + 100% for SoD conflicts.</div>
+
+  <h3>Design Failure vs. Operating Effectiveness Failure</h3>
+  <div class="grid-2">
+    <div class="card red">
+      <div class="tag">Design Failure</div>
+      <p>The control <strong>CAN'T work</strong>. The blueprint is flawed (policy doesn't exist, gaps, wrong approvers, SLA undefined).</p>
+      <p style="margin-top:.5rem">Even perfect execution won't prevent the risk.</p>
+      <p style="margin-top:.3rem"><strong>Remedy:</strong> Policy/process redesign</p>
+      <p style="margin-top:.3rem">⚠️ Don't prescribe training for a design problem!</p>
+    </div>
+    <div class="card">
+      <div class="tag">OE Failure</div>
+      <p>The control <strong>DIDN'T work</strong>. Good design, but execution failed (approvals missing, SLA breached, reviews not completed).</p>
+      <p style="margin-top:.5rem"><strong>Remedy:</strong> Training, monitoring, automation</p>
+    </div>
+  </div>
+
+  <h3>Audit Tick Marks</h3>
+  <table>
+    <tr><th>Symbol</th><th>Meaning</th><th>When to Use</th></tr>
+    <tr><td>✓</td><td>Tested, no exception</td><td>Attribute tested and passed</td></tr>
+    <tr><td>✗</td><td>Exception identified</td><td>Attribute tested and failed</td></tr>
+    <tr><td>N/A</td><td>Not applicable</td><td>Attribute doesn't apply to this item</td></tr>
+    <tr><td>T</td><td>Traced/Tied</td><td>Amount traced to source document</td></tr>
+    <tr><td>R</td><td>Recalculated</td><td>Calculation independently verified</td></tr>
+    <tr><td>I</td><td>Inquiry</td><td>Confirmed via inquiry</td></tr>
+    <tr><td>⊙</td><td>Inspected original</td><td>Viewed original document/screen</td></tr>
+    <tr><td>◊</td><td>Follow-up needed</td><td>Requires additional investigation</td></tr>
+  </table>
+
+  <h3>Finding Structure: External vs. Internal</h3>
+  <div class="grid-2">
+    <div class="card"><strong>External (Management Letter)</strong><br>Condition → Criteria → Cause → Effect → Recommendation<br>Tone: formal, regulatory. Generalized ("certain users"). High-level recommendations.</div>
+    <div class="card"><strong>Internal (Audit Finding)</strong><br>Observation Title → Background/Criteria → Observation → Risk/Impact → Recommendation (with owner + due date) → Management Response<br>Tone: collaborative. Named individuals. Specific actions with accountability.</div>
+  </div>
+
+  <h3>Risk Ratings</h3>
+  <table>
+    <tr><th>Rating (External)</th><th>Definition</th><th>Consequence</th></tr>
+    <tr><td>Material Weakness</td><td>Reasonable possibility material misstatement not prevented/detected</td><td>Adverse ICFR opinion</td></tr>
+    <tr><td>Significant Deficiency</td><td>Less than MW but merits oversight attention</td><td>Report to Audit Committee</td></tr>
+    <tr><td>Control Deficiency</td><td>Design/operation gap not reaching SD/MW level</td><td>Management letter</td></tr>
+  </table>
+
+  <h3>8 Rules for Audit Reporting Excellence</h3>
+  <div class="grid-2">
+    <div>
+      <ol style="padding-left:1.2rem">
+        <li>Lead with the headline (exception rate first)</li>
+        <li>Quantify everything ("3 of 127" not "several")</li>
+        <li>Separate fact from judgment</li>
+        <li>Define your population clearly</li>
+      </ol>
+    </div>
+    <div>
+      <ol start="5" style="padding-left:1.2rem">
+        <li>Show your math (elapsed time, calculation)</li>
+        <li>Acknowledge compensating factors</li>
+        <li>Make recommendations actionable</li>
+        <li>Write for the skeptic</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== READINGS ==================== -->
+<div id="readings" class="page">
+  <h2>📖 Readings Deep Dive</h2>
+  <div class="callout"><strong>Why this reading?</strong> Joan Didion's "On Self-Respect" was paired with the IIA Standards slides deliberately. It addresses the core problem: what happens to a person — and a profession — when integrity is abandoned for comfort or approval. Read it through the lens of Principle 1 (Integrity) and Principle 2 (Objectivity).</div>
+
+  <!-- DIDION -->
+  <div class="card gold" style="margin-top:1.5rem">
+    <div class="tag gold">Reading</div>
+    <h3 style="margin-top:.3rem">Joan Didion — "On Self-Respect" (1961)</h3>
+    <p style="font-size:.9rem;color:#78350f;margin-top:.2rem">Originally published in <em>Vogue</em>; later collected in <em>Slouching Towards Bethlehem</em>. Uses "negative definition" — defining the concept largely through what it is not.</p>
+  </div>
+
+  <h3>The Central Argument</h3>
+  <div class="card">
+    <p>Didion argues that self-respect is fundamentally an <strong>internal standard</strong>, having nothing to do with others' approval or reputation. Its source is <strong>character</strong> — the willingness to accept responsibility for one's own life. Without it, one becomes an unwilling audience to an interminable documentary of one's own failures, and eventually runs away from oneself to find no one at home.</p>
+    <p style="margin-top:.6rem">Self-deception, she argues, is the <strong>most difficult deception</strong> — far harder to overcome than deceiving others. The tricks that work on others count for nothing in the well-lit back alley where one keeps assignations with oneself.</p>
+  </div>
+
+  <h3>Key Concepts &amp; Quotable Ideas</h3>
+  <div class="grid-2">
+    <div class="card">
+      <div class="tag">The Opening Anecdote</div>
+      <p>She begins with not being elected to Phi Beta Kappa — a failure predictable, unambiguous. She had thought herself exempt from cause-and-effect relationships that hampered others. That day marked the end of something: the loss of the comfortable conviction that lights would always turn green for her.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Self-Respect ≠ Approval / Reputation</div>
+      <p>Self-respect has nothing to do with the approval of others — who are, after all, deceived easily enough. It has nothing to do with reputation, which, as Rhett Butler told Scarlett O'Hara, is something people with courage can do without. No winning smiles or prettily drawn lists of good intentions will do here.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Character as the Source</div>
+      <p>"Character — the willingness to accept responsibility for one's own life — is the source from which self-respect springs." People with self-respect have <strong>the courage of their mistakes</strong>: they do not seek absolution, do not complain unduly of unfairness. They exhibit moral nerve — what was once called character.</p>
+    </div>
+    <div class="card">
+      <div class="tag">The Interminable Documentary</div>
+      <p>To live without self-respect is to be an unwilling audience to a documentary of one's own failings — fresh footage spliced in for every screening. Counting the sins of commission and omission, the trusts betrayed, the promises broken, the gifts wasted through sloth or cowardice. Eventually one lies down alone in that notoriously uncomfortable bed we make ourselves.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Jordan Baker vs. Julian English</div>
+      <p>Jordan Baker (careless, dishonest in <em>The Great Gatsby</em>) had self-respect — she made her own peace, avoided threats to that peace. Julian English (careless, suicidal in <em>Appointment in Samarra</em>) did not. The paradox: the outwardly dishonest person had it; the seemingly respectable one was hollow. Self-respect is not correlated with conventional virtue.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Discipline as Practice</div>
+      <p>Self-respect is a <strong>discipline, a habit of mind</strong> — it can be developed, trained, coaxed forth. Small disciplines represent larger ones — not for the ritual itself but as a way of remembering who and what we are. It is difficult to continue fancying oneself Cathy in <em>Wuthering Heights</em> with one's head in a paper bag.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Alienation from Self</div>
+      <p>In its advanced stages, alienation from self means we no longer answer the telephone — someone might want something. We cannot say <em>no</em> without drowning in self-reproach. Every encounter demands too much. Without self-respect, one eventually runs away to find oneself and finds no one at home.</p>
+    </div>
+    <div class="card">
+      <div class="tag">The Intrinsic Worth Thesis</div>
+      <p>To have that sense of intrinsic worth is potentially to have everything: the ability to discriminate, to love, and to remain indifferent. To lack it is to be locked within oneself — paradoxically incapable of either love or indifference. Without it, we despise those who have so few resources as to consort with us.</p>
+    </div>
+  </div>
+
+  <h3>Connection to IIA Standards &amp; Audit Practice</h3>
+  <table>
+    <tr><th>Didion Concept</th><th>IIA / Audit Parallel</th></tr>
+    <tr><td>Self-respect ≠ approval of others</td><td>Principle 2 (Objectivity) — independence not just attitudinal but structural; not seeking management approval</td></tr>
+    <tr><td>Character = accepting responsibility for one's own life</td><td>Principle 1 (Integrity) — the willingness to own unfavorable findings without softening them</td></tr>
+    <tr><td>Discipline as habit of mind</td><td>Principle 4 (Due Professional Care) — skepticism not as instinct but as cultivated practice</td></tr>
+    <tr><td>Courage of one's mistakes</td><td>Auditors who acknowledge their own errors in prior work rather than burying them</td></tr>
+    <tr><td>The "interminable documentary"</td><td>The auditor who compromised integrity — each watered-down finding replays in professional memory</td></tr>
+    <tr><td>Small disciplines represent larger ones</td><td>Documentation rigor, tick marks, referencing every exhibit — small habits that hold when under pressure</td></tr>
+    <tr><td>Self-deception is the most difficult deception</td><td>Confirmation bias (Principle 2 — most dangerous bias is finding what you expect to find)</td></tr>
+  </table>
+
+  <div class="callout" style="margin-top:1rem">
+    <strong>Likely exam angle:</strong> Expect questions connecting a specific Didion concept (the interminable documentary, Jordan Baker, discipline as habit, self-deception) to an IIA principle or to the auditor's real-world situation. Your professor is testing whether you read the essay through the lens of the IIA standards.
+  </div>
+</div>
+
+
+<!-- ==================== CASE STUDY ==================== -->
+<div id="casestudy" class="page">
+  <h2>🏢 Case Study: Meridian Energy Holdings — ITGC Access Controls</h2>
+  <div class="callout"><strong>Context:</strong> You are a first-year associate on the IT audit team. Your firm performs the integrated audit of Meridian Energy Holdings, Inc. (MEH) — a publicly traded energy company on the NYSE, subject to SOX Section 404. MEH uses SAP S/4HANA as its ERP, with Microsoft Entra ID (formerly Azure AD) as its Identity Provider for Single Sign-On. Your job: test IT General Controls (ITGCs) over logical access.</div>
+
+  <!-- COMPANY OVERVIEW -->
+  <div class="card gold" style="margin-top:1rem">
+    <div class="tag gold">Company Profile</div>
+    <div class="grid-2" style="margin-top:.5rem">
+      <div>
+        <p><strong>Meridian Energy Holdings, Inc. (MEH)</strong><br>Mid-sized energy company, Houston TX · NYSE-listed · ~2,800 employees</p>
+        <p style="margin-top:.4rem"><strong>Regulatory exposure:</strong> SOX §404 (ICFR), NERC CIP (cybersecurity), FERC (reporting)</p>
+        <p style="margin-top:.4rem"><strong>ERP:</strong> SAP S/4HANA — financial reporting, procurement, operations</p>
+      </div>
+      <div>
+        <p><strong>Identity stack:</strong></p>
+        <ul style="margin-top:.3rem">
+          <li><strong>Entra ID</strong> — Identity Provider (IdP); authenticates all employees via MFA</li>
+          <li><strong>SSO</strong> — Entra ID federates into SAP; no separate SAP password needed</li>
+          <li><strong>RBAC</strong> — SAP roles bundle permissions (e.g., Z_FI_AP_PROC = enter invoices; Z_FI_AP_PAY = release payments)</li>
+          <li><strong>Key insight:</strong> Disabling Entra ID = cutting access to SAP. This is why the 4-hour termination SLA flows through Entra ID, not SAP directly.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTROL OBJECTIVES -->
+  <h3>Control Objectives (AC-01 through AC-05)</h3>
+  <table>
+    <tr><th>ID</th><th>Control Objective</th><th>Testing Method</th></tr>
+    <tr><td><strong>AC-01</strong></td><td>User authentication enforced via Entra ID with MFA</td><td>TOD — inspect Entra ID config, MFA policy</td></tr>
+    <tr><td><strong>AC-02</strong></td><td>New access granted only with documented manager + data owner approval, aligned to job role</td><td>TOE — attribute test ServiceNow tickets (Exhibit B)</td></tr>
+    <tr><td><strong>AC-03</strong></td><td>Access removed within 4 hours of HR termination</td><td>TOE — calculate SLA compliance from Exhibit C</td></tr>
+    <tr><td><strong>AC-04</strong></td><td>Periodic access reviews validate continued appropriateness</td><td>TOE — review Exhibit H completion rates</td></tr>
+    <tr><td><strong>AC-05</strong></td><td>SoD conflicts identified and either remediated or mitigated with documented compensating controls</td><td>TOE — Exhibits D + E cross-reference</td></tr>
+  </table>
+
+  <!-- EXHIBIT A -->
+  <h3>Exhibit A — SAP User Population (as of Nov 10, 2025)</h3>
+  <div class="callout" style="font-size:.85rem">Source: SAP transaction SUIM. Note: dkim77 has two roles (shown on consecutive rows) — this is the SoD conflict flag.</div>
+  <table>
+    <tr><th>User ID</th><th>Name</th><th>Department</th><th>Job Title</th><th>SAP Role</th><th>Risk Flag</th></tr>
+    <tr><td>jsmith01</td><td>John Smith</td><td>Accounting</td><td>Staff Accountant</td><td>Z_FI_GL_POST</td><td>—</td></tr>
+    <tr><td>mwilson03</td><td>Maria Wilson</td><td>Accounting</td><td>Senior Accountant</td><td>Z_FI_GL_APPROVE</td><td>—</td></tr>
+    <tr><td>bjones22</td><td>Brian Jones</td><td>Accounts Payable</td><td>AP Clerk</td><td>Z_FI_AP_PROC</td><td>—</td></tr>
+    <tr><td>klee45</td><td>Karen Lee</td><td>Accounts Payable</td><td>AP Manager</td><td>Z_FI_AP_PAY</td><td>—</td></tr>
+    <tr><td>tgarcia08</td><td>Tony Garcia</td><td>Treasury</td><td>Cash Manager</td><td>Z_FI_AP_PAY</td><td>⚠ SoD (Table D)</td></tr>
+    <tr><td>aclark99</td><td>Amy Clark</td><td>IT Security</td><td>Security Admin</td><td>Z_SEC_ADM</td><td>CRITICAL role</td></tr>
+    <tr><td>rthomas15</td><td>Robert Thomas</td><td>Procurement</td><td>Buyer</td><td>Z_MM_PURCH</td><td>⚠ SoD (Table D)</td></tr>
+    <tr><td>dkim77</td><td>David Kim</td><td>AP</td><td>AP Supervisor</td><td>Z_FI_AP_PROC <em>+</em> Z_FI_AP_PAY</td><td>⚠ HIGH SoD conflict</td></tr>
+    <tr><td>lmartinez44</td><td>Laura Martinez</td><td>Operations</td><td>Plant Supervisor</td><td>Z_PM_MAINT</td><td>—</td></tr>
+    <tr><td>pjohnson88</td><td>Paul Johnson</td><td>Finance</td><td>Financial Analyst</td><td>Z_FI_GL_POST</td><td>⚠ Terminated 1/31 — still in population!</td></tr>
+  </table>
+  <div class="card" style="border-left-color:#dc2626;margin-top:.5rem">
+    <div class="tag" style="background:#dc2626">⚠ Key Finding — pjohnson88</div>
+    <p>Paul Johnson appears in the active user population with role Z_FI_GL_POST. Cross-referencing Exhibit C: he was terminated 01/31/2025. Cross-referencing Exhibit H: he shows "NO RESPONSE" on the Q2 access review (July 2025) — meaning his access was never cleaned up even 5+ months after termination. This is a <strong>Significant Deficiency or Material Weakness candidate</strong>.</p>
+  </div>
+
+  <!-- EXHIBIT B -->
+  <h3>Exhibit B — Access Provisioning Tickets (ServiceNow, Jan–Apr 2025)</h3>
+  <table>
+    <tr><th>Ticket</th><th>User</th><th>Req Date</th><th>Role</th><th>Mgr Approval</th><th>Data Owner Appr.</th><th>Access Granted</th><th>SLA (2 BD)</th><th>Exception?</th></tr>
+    <tr><td>REQ-2501</td><td>jsmith01</td><td>01/08</td><td>Z_FI_GL_POST</td><td>01/08 ✓</td><td>01/08 ✓</td><td>01/09</td><td>✅ Met</td><td>None</td></tr>
+    <tr><td>REQ-2502</td><td>bjones22</td><td>01/15</td><td>Z_FI_AP_PROC</td><td>01/15 ✓</td><td>01/16 ✓</td><td>01/16</td><td>✅ Met</td><td>None</td></tr>
+    <tr><td>REQ-2503</td><td>rthomas15</td><td>02/03</td><td>Z_MM_PURCH</td><td>02/03 ✓</td><td>— ✗</td><td>02/04</td><td>✅ Met</td><td><strong>⚠ No data owner approval</strong></td></tr>
+    <tr><td>REQ-2504</td><td>nwhite33</td><td>02/20</td><td>Z_FI_AR_BILL</td><td>02/20 ✓</td><td>02/21 ✓</td><td>02/24</td><td>✅ Met</td><td>None</td></tr>
+    <tr><td>REQ-2505</td><td>mchen66</td><td>03/10</td><td>Z_FI_GL_POST</td><td>03/10 ✓</td><td>03/10 ✓</td><td>03/14</td><td><strong>⚠ 4 days — MISSED</strong></td><td>SLA exception</td></tr>
+    <tr><td>REQ-2506</td><td>kpatel91</td><td>04/05</td><td>Z_SEC_ADM</td><td>04/05 ✓</td><td>04/07 ✓</td><td>04/07</td><td>✅ Met</td><td>CRITICAL role — verify CISO approval per Exhibit F</td></tr>
+  </table>
+  <div class="card gold" style="margin-top:.5rem">
+    <div class="tag gold">Analysis — AC-02 Exceptions (2 of 6)</div>
+    <p><strong>REQ-2503:</strong> No data owner approval documented. Policy requires dual approval (manager + data owner) before access grant. Exception rate: 1/6 = 16.7%. Root cause: likely bypassed due to business urgency or workflow gap. <strong>Control Deficiency at minimum.</strong></p>
+    <p style="margin-top:.4rem"><strong>REQ-2505:</strong> Access granted in 4 business days vs. 2-day SLA. No process exception approved. Isolated? Need to expand testing to determine if systemic.</p>
+  </div>
+
+  <!-- EXHIBIT C -->
+  <h3>Exhibit C — Termination Testing (Jan–Apr 2025)</h3>
+  <table>
+    <tr><th>User</th><th>Name</th><th>HR Term Date/Time</th><th>Entra Disabled</th><th>Elapsed</th><th>4-Hr SLA</th><th>Last Login</th><th>Post-Term Access?</th></tr>
+    <tr><td>pjohnson88</td><td>Paul Johnson</td><td>01/31 17:00</td><td>01/31 18:30</td><td>1.5 hrs</td><td>✅ Met</td><td>01/31 16:45</td><td>None</td></tr>
+    <tr><td>swright42</td><td>Susan Wright</td><td>02/14 17:00</td><td>02/14 17:15</td><td>0.25 hrs</td><td>✅ Met</td><td>02/14 14:30</td><td>None</td></tr>
+    <tr><td>jdavis55</td><td>James Davis</td><td>03/07 17:00</td><td>03/08 09:45</td><td><strong>16.75 hrs</strong></td><td><strong>❌ Missed</strong></td><td>03/07 16:58</td><td>Possibly — login 2 min before term; verify</td></tr>
+    <tr><td>arobinson19</td><td>Alice Robinson</td><td>03/28 17:00</td><td>03/28 17:30</td><td>0.5 hrs</td><td>✅ Met</td><td>03/28 15:00</td><td>None</td></tr>
+    <tr><td>mhernandez07</td><td>Miguel Hernandez</td><td>04/15 17:00</td><td>04/15 18:00</td><td>1.0 hrs</td><td>✅ Met</td><td>04/15 13:20</td><td>None</td></tr>
+  </table>
+  <div class="card" style="border-left-color:#dc2626;margin-top:.5rem">
+    <div class="tag" style="background:#dc2626">⚠ jdavis55 — SLA Exception: 16.75 Hours</div>
+    <p>James Davis was terminated Friday 03/07 at 5:00pm. Entra ID wasn't disabled until Saturday 03/08 at 9:45am — <strong>16.75 hours later</strong>. Root cause: the batch sync process that triggers Workday → Entra ID only runs on weekday mornings. Friday evening terminations fall into a gap window. This is the canonical example from the 8 Reporting Rules (Card 9 in your notecards).</p>
+    <p style="margin-top:.4rem">Exception rate: <strong>1 of 5 (20%)</strong>. With only 5 terminations in the test window, consider whether this is systemic (the Friday-batch-gap affects all Friday terminations) vs. isolated. Likely <strong>Significant Deficiency</strong> given the 16.75-hour exposure window on a SOX-regulated system.</p>
+  </div>
+
+  <!-- EXHIBIT D+E -->
+  <h3>Exhibits D + E — SoD Conflicts &amp; Mitigating Controls</h3>
+  <table>
+    <tr><th>User</th><th>Conflict</th><th>Risk</th><th>Mitigating Control</th><th>MC Adequate?</th></tr>
+    <tr><td><strong>dkim77</strong> (David Kim)</td><td>Z_FI_AP_PROC (enter invoices) + Z_FI_AP_PAY (release payments)</td><td>HIGH — can create fraudulent invoice AND pay it to himself or a shell vendor with no second set of eyes</td><td>MC-001: Controller reviews all payment batches &gt;$10K before release</td><td><strong>⚠ PARTIAL</strong> — leaves payments &lt;$10K unreviewed; no control over invoice entry itself</td></tr>
+    <tr><td><strong>tgarcia08</strong> (Tony Garcia)</td><td>Z_FI_AP_PAY (release payments) + Z_MM_VENDOR (create/modify vendors)</td><td>HIGH — can add a fictitious vendor AND pay them; classic ghost vendor fraud scheme</td><td>MC-002: Vendor master changes require dual approval; weekly AP Manager review</td><td>✅ Adequate if operating effectively — dual approval breaks the single-person control chain</td></tr>
+    <tr><td><strong>jbrown61</strong> (Jennifer Brown)</td><td>Z_FI_GL_POST (post JEs) + Z_FI_GL_APPROVE (approve JEs)</td><td>HIGH — can post and self-approve journal entries; enables earnings manipulation</td><td><strong>NONE DOCUMENTED</strong></td><td><strong>❌ DEFICIENCY</strong> — no mitigating control = unmitigated HIGH SoD conflict on a SOX-material account</td></tr>
+    <tr><td><strong>rthomas15</strong> (Robert Thomas)</td><td>Z_MM_PURCH (create PO) + Z_MM_PO_APP (approve PO)</td><td>MEDIUM — can create and self-approve own purchase orders</td><td>MC-003: All POs require Procurement Director approval regardless of amount</td><td>✅ Adequate — independent director approval at 100% overrides the self-approval risk</td></tr>
+  </table>
+  <div class="card" style="border-left-color:#dc2626;margin-top:.5rem">
+    <div class="tag" style="background:#dc2626">⚠ jbrown61 — Unmitigated HIGH SoD</div>
+    <p>Jennifer Brown has both JE posting and JE approval roles with <strong>zero mitigating controls documented</strong>. On a SOX engagement for a publicly traded company, an unmitigated HIGH SoD conflict on the general ledger is a strong <strong>Significant Deficiency</strong> candidate, potentially <strong>Material Weakness</strong> depending on the population of transactions affected. This requires immediate escalation and remediation — either remove one role or implement a compensating control such as independent GL review.</p>
+  </div>
+
+  <!-- EXHIBIT F -->
+  <h3>Exhibit F — SAP Role Classification Matrix</h3>
+  <table>
+    <tr><th>Role ID</th><th>Description</th><th>Function</th><th>Risk Level</th><th>Required Approver</th></tr>
+    <tr><td>Z_FI_GL_POST</td><td>Post journal entries to GL</td><td>General Ledger</td><td>High</td><td>Controller</td></tr>
+    <tr><td>Z_FI_GL_APPROVE</td><td>Approve journal entries</td><td>General Ledger</td><td>High</td><td>CFO</td></tr>
+    <tr><td>Z_FI_AP_PROC</td><td>Enter/process vendor invoices</td><td>Accounts Payable</td><td>High</td><td>AP Manager</td></tr>
+    <tr><td>Z_FI_AP_PAY</td><td>Execute payment runs &amp; release payments</td><td>Accounts Payable</td><td><strong>Critical</strong></td><td>Treasurer</td></tr>
+    <tr><td>Z_MM_PURCH</td><td>Create POs</td><td>Procurement</td><td>Medium</td><td>Dept Manager</td></tr>
+    <tr><td>Z_MM_PO_APP</td><td>Approve POs</td><td>Procurement</td><td>High</td><td>Proc Director</td></tr>
+    <tr><td>Z_MM_VENDOR</td><td>Create/modify vendor master records</td><td>Master Data</td><td><strong>Critical</strong></td><td>Controller</td></tr>
+    <tr><td>Z_SEC_ADM</td><td>Administer user accounts &amp; role assignments</td><td>IT Security</td><td><strong>Critical</strong></td><td>CISO</td></tr>
+    <tr><td>Z_PM_MAINT</td><td>Create/manage plant maintenance work orders</td><td>Operations</td><td>Low</td><td>Plant Mgr</td></tr>
+  </table>
+
+  <!-- EXHIBIT H -->
+  <h3>Exhibit H — Q2 2025 Quarterly Access Review (Entra ID, July 2025)</h3>
+  <table>
+    <tr><th>User ID</th><th>Name</th><th>Role</th><th>Reviewer Decision</th><th>Date</th></tr>
+    <tr><td>jsmith01</td><td>John Smith</td><td>Z_FI_GL_POST</td><td>✅ APPROVED — Access appropriate</td><td>07/10/2025</td></tr>
+    <tr><td>mwilson03</td><td>Maria Wilson</td><td>Z_FI_GL_APPROVE</td><td>✅ APPROVED — Access appropriate</td><td>07/10/2025</td></tr>
+    <tr><td>bjones22</td><td>Brian Jones</td><td>Z_FI_AP_PROC</td><td>✅ APPROVED — Access appropriate</td><td>07/11/2025</td></tr>
+    <tr><td>lperez29</td><td>Lisa Perez</td><td>Z_FI_AR_BILL</td><td>🔄 REVOKED — Transferred to HR</td><td>07/11/2025</td></tr>
+    <tr><td>pjohnson88</td><td>Paul Johnson</td><td>Z_FI_GL_POST</td><td><strong>⚠ NO RESPONSE</strong></td><td>—</td></tr>
+  </table>
+  <div class="card" style="border-left-color:#dc2626;margin-top:.5rem">
+    <div class="tag" style="background:#dc2626">⚠ pjohnson88 — The Compounding Problem</div>
+    <p>Paul Johnson was terminated 01/31/2025 (Exhibit C — SLA met, Entra ID disabled same day). But by Q2 access review in July 2025, he still appears in the SAP user population with an active role (Exhibit A) and shows NO RESPONSE on the review — because there's no active manager to respond. The Entra ID disable didn't trigger SAP account deprovisioning. This means <strong>his SAP role persists even though his Entra ID is disabled</strong>. If SSO breaks or is reconfigured, this is a reactivation risk.</p>
+    <p style="margin-top:.4rem">This illustrates a <strong>design gap in AC-03</strong>: the control disables Entra ID within SLA but has no corresponding procedure to clean up orphaned SAP roles. The access review (AC-04) should have caught this but failed because the no-response case wasn't escalated.</p>
+  </div>
+
+  <!-- KEY POLICY SLAs -->
+  <h3>Key Policy SLAs (Exhibit G — IT-SEC-004)</h3>
+  <div class="grid-2">
+    <div class="card">
+      <div class="tag">Provisioning (AC-02)</div>
+      <ul>
+        <li>Requires manager approval <strong>before</strong> access grant</li>
+        <li>Requires data owner approval <strong>before</strong> access grant</li>
+        <li>SLA: access granted within <strong>2 business days</strong> of approval</li>
+        <li>Critical roles (Z_SEC_ADM, Z_FI_AP_PAY, Z_MM_VENDOR) require CISO/Treasurer/Controller approval additionally</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="tag">Terminations (AC-03)</div>
+      <ul>
+        <li>Entra ID account disabled within <strong>4 hours</strong> of HR termination record</li>
+        <li>SAP roles to be reviewed and removed within <strong>24 hours</strong></li>
+        <li>Involuntary terminations: immediate disable required</li>
+        <li>Access review escalation: NO RESPONSE = <strong>auto-revoke</strong> per policy (not followed for pjohnson88)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DEFICIENCY SUMMARY -->
+  <h3>Deficiency Summary — What to Know for the Exam</h3>
+  <table>
+    <tr><th>Finding</th><th>Control</th><th>Exception</th><th>Classification</th><th>Rationale</th></tr>
+    <tr><td>REQ-2503 — no data owner approval</td><td>AC-02</td><td>1/6 (16.7%)</td><td>Control Deficiency</td><td>Single instance; access aligned to job; no apparent harm. But policy breach = deficiency.</td></tr>
+    <tr><td>REQ-2505 — SLA missed (4 days vs. 2)</td><td>AC-02</td><td>1/6 (16.7%)</td><td>Control Deficiency</td><td>Isolated timing issue; no unauthorized access risk. May be systemic if root cause is workflow.</td></tr>
+    <tr><td>jdavis55 — 16.75 hr termination gap</td><td>AC-03</td><td>1/5 (20%)</td><td><strong>Significant Deficiency</strong></td><td>Extended exposure window (16.75 hrs) on SOX system. Root cause systemic (Friday batch gap).</td></tr>
+    <tr><td>pjohnson88 — orphaned SAP role post-term</td><td>AC-03 / AC-04</td><td>Design + Operating</td><td><strong>Sig. Deficiency → MW candidate</strong></td><td>Terminated employee retains SAP role 5+ months later. Access review failed to catch. Reactivation risk.</td></tr>
+    <tr><td>jbrown61 — unmitigated JE post + approve SoD</td><td>AC-05</td><td>No MC documented</td><td><strong>Significant Deficiency → MW candidate</strong></td><td>Unmitigated HIGH SoD on GL in a SOX entity. No compensating control. Direct financial statement risk.</td></tr>
+    <tr><td>dkim77 — partial MC ($10K threshold)</td><td>AC-05</td><td>Partial mitigation</td><td>Control Deficiency</td><td>MC addresses large payments but leaves small-dollar fraud risk unmitigated.</td></tr>
+  </table>
+
+  <!-- CONNECTIONS TO READINGS + SLIDES -->
+  <h3>How the Case Study Connects to the Readings &amp; Slides</h3>
+  <div class="grid-2">
+    <div class="card">
+      <div class="tag">Milgram → jdavis55 &amp; jbrown61</div>
+      <p><strong>Diffusion of responsibility:</strong> "The IT team disables Entra ID — SAP cleanup is someone else's job." No one person owns the full termination workflow → pjohnson88's SAP role persists for 5 months.</p>
+      <p style="margin-top:.4rem"><strong>Agentic state:</strong> The analyst who processes the AC-03 checklist without flagging the 16.75-hour gap is acting as an instrument, not a moral agent.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Solzhenitsyn → SoD / Findings</div>
+      <p>The auditor who documents jbrown61's SoD conflict as "noted — management to address" without escalating is participating in a small daily lie. Non-participation = escalating to the audit committee per IIA standards.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Didion → Independence / Objectivity</div>
+      <p>The auditor who accepts management's assurance that the $10K MC for dkim77 is "sufficient" without testing it independently is seeking approval rather than applying the internal standard of self-respect / objectivity (P2).</p>
+    </div>
+    <div class="card">
+      <div class="tag">ITGC Slides → 8 Reporting Rules</div>
+      <p>The jdavis55 termination finding is the <strong>canonical before/after example</strong> from the 8 Reporting Rules: "1 of 5 (20%) terminations exceeded the 4-hr SLA. jdavis55 disabled 16.75 hrs after HR term (Fri 5pm → Sat 9:45am). Compensating: no post-term logins confirmed. Root cause: Friday batch sync gap. Rec: real-time Workday-to-Entra sync."</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== QUIZ ==================== -->
+<div id="quiz" class="page">
+  <h2>📝 70-Question Practice Exam</h2>
+  <div class="callout" style="margin-bottom:1rem">
+    <strong>Instructions:</strong> Q1–50 cover the slide decks; Q51–60 cover Solzhenitsyn &amp; Didion; Q61–70 cover Milgram; Q61–70 cover the Meridian Energy Holdings case study and applied ITGC concepts. Select your answer, then click "Submit Answers" at the bottom to see your score and explanations.
+  </div>
+
+  <div id="score-display" class="score-box">
+    <div class="big" id="score-text">0/70</div>
+    <p id="score-pct"></p>
+    <p id="score-msg"></p>
+  </div>
+
+  <div id="quiz-form">
+
+    <!-- Q1 -->
+    <div class="q-block">
+      <div class="q-num">Question 1 of 50 · IIA Standards</div>
+      <div class="q-text">The 2024 Global Internal Audit Standards consist of how many domains, principles, and standards?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q1" value="a"> 3 domains, 10 principles, 40 standards</label>
+        <label><input type="radio" name="q1" value="b"> 5 domains, 15 principles, 52 standards</label>
+        <label><input type="radio" name="q1" value="c"> 5 domains, 20 principles, 60 standards</label>
+        <label><input type="radio" name="q1" value="d"> 4 domains, 15 principles, 48 standards</label>
+      </div>
+      <div class="explanation" data-q="q1">✅ <strong>B is correct.</strong> The 2024 Standards have 5 Domains, 15 Principles, and 52 Standards. The old "Attribute" and "Performance" categories were eliminated.</div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-block">
+      <div class="q-num">Question 2 · IIA Standards</div>
+      <div class="q-text">Which of the following is a NEW addition to the stated purpose of internal auditing in the 2024 Standards?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q2" value="a"> Advice</label>
+        <label><input type="radio" name="q2" value="b"> Assurance</label>
+        <label><input type="radio" name="q2" value="c"> Foresight</label>
+        <label><input type="radio" name="q2" value="d"> Insight</label>
+      </div>
+      <div class="explanation" data-q="q2">✅ <strong>C is correct.</strong> "Foresight" — anticipating emerging risks and future challenges — is explicitly new in the 2024 Standards. The board now expects auditors to "see around corners."</div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-block">
+      <div class="q-num">Question 3 · IIA Standards</div>
+      <div class="q-text">Kant's categorical imperative is used to illustrate which IIA Principle?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q3" value="a"> Objectivity</label>
+        <label><input type="radio" name="q3" value="b"> Integrity</label>
+        <label><input type="radio" name="q3" value="c"> Competency</label>
+        <label><input type="radio" name="q3" value="d"> Due Professional Care</label>
+      </div>
+      <div class="explanation" data-q="q3">✅ <strong>B is correct.</strong> Kant's categorical imperative ("act only as you could will to become universal law") illustrates Integrity (Principle 1). If all auditors concealed findings to protect relationships, the profession would collapse.</div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-block">
+      <div class="q-num">Question 4 · IIA Standards</div>
+      <div class="q-text">Husserl's "epoché" — suspending assumptions to let evidence speak — is applied to illustrate which principle?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q4" value="a"> Integrity</label>
+        <label><input type="radio" name="q4" value="b"> Confidentiality</label>
+        <label><input type="radio" name="q4" value="c"> Objectivity</label>
+        <label><input type="radio" name="q4" value="d"> Competency</label>
+      </div>
+      <div class="explanation" data-q="q4">✅ <strong>C is correct.</strong> Husserl's epoché (bracketing assumptions) illustrates Objectivity (Principle 2). The most dangerous bias is confirmation bias — auditors must actively look for disconfirming evidence.</div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="q-block">
+      <div class="q-num">Question 5 · IIA Standards</div>
+      <div class="q-text">Aristotle's concept of "phronesis" (practical wisdom) is associated with which principle?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q5" value="a"> Competency</label>
+        <label><input type="radio" name="q5" value="b"> Integrity</label>
+        <label><input type="radio" name="q5" value="c"> Due Professional Care</label>
+        <label><input type="radio" name="q5" value="d"> Objectivity</label>
+      </div>
+      <div class="explanation" data-q="q5">✅ <strong>A is correct.</strong> Phronesis = practical wisdom through experience. Competency (P3) is not just certifications — it's the capacity to see what matters in a specific context and knowing when to use specialists.</div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="q-block">
+      <div class="q-num">Question 6 · IIA Standards</div>
+      <div class="q-text">Domain III of the 2024 Standards is considered the most significant change because it:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q6" value="a"> Eliminated all mandatory guidance</label>
+        <label><input type="radio" name="q6" value="b"> Explicitly assigns boards and senior management responsibilities for internal audit effectiveness</label>
+        <label><input type="radio" name="q6" value="c"> Introduced advisory services for the first time</label>
+        <label><input type="radio" name="q6" value="d"> Replaced the Three Lines Model with a new framework</label>
+      </div>
+      <div class="explanation" data-q="q6">✅ <strong>B is correct.</strong> Domain III defines "Essential Conditions" that boards and management must provide. It made explicit what was always implicit — boards have real accountability for internal audit effectiveness.</div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="q-block">
+      <div class="q-num">Question 7 · IIA Standards</div>
+      <div class="q-text">In the Three Lines Model, which line is responsible for independent assurance to the board?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q7" value="a"> First Line – Management</label>
+        <label><input type="radio" name="q7" value="b"> Second Line – Risk & Compliance</label>
+        <label><input type="radio" name="q7" value="c"> Third Line – Internal Audit</label>
+        <label><input type="radio" name="q7" value="d"> Governing Body – Board</label>
+      </div>
+      <div class="explanation" data-q="q7">✅ <strong>C is correct.</strong> Internal Audit is the Third Line and provides independent assurance on governance, risk management, and controls to the board. It tests both 1st and 2nd line effectiveness.</div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="q-block">
+      <div class="q-num">Question 8 · IIA Standards</div>
+      <div class="q-text">Which of the following correctly describes Assurance Services under the 2024 Standards?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q8" value="a"> Two parties; client sets scope; results in recommendations</label>
+        <label><input type="radio" name="q8" value="b"> Three parties; auditor sets scope; results in formal conclusions; skepticism default</label>
+        <label><input type="radio" name="q8" value="c"> Three parties; client sets scope; collaboration is posture</label>
+        <label><input type="radio" name="q8" value="d"> Two parties; auditor sets scope; results in formal opinions</label>
+      </div>
+      <div class="explanation" data-q="q8">✅ <strong>B is correct.</strong> Assurance: 3 parties (auditor, auditee, stakeholders); auditor determines scope; results in formal conclusions (not opinions); skepticism is default. Examples: SOX testing, compliance reviews.</div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="q-block">
+      <div class="q-num">Question 9 · IIA Standards</div>
+      <div class="q-text">Under Domain V, the 2024 Standards use which new term instead of "opinion"?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q9" value="a"> Finding</label>
+        <label><input type="radio" name="q9" value="b"> Assessment</label>
+        <label><input type="radio" name="q9" value="c"> Conclusion</label>
+        <label><input type="radio" name="q9" value="d"> Determination</label>
+      </div>
+      <div class="explanation" data-q="q9">✅ <strong>C is correct.</strong> The 2024 Standards use "conclusion" instead of "opinion" — a more accurate term for what audit work produces.</div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="q-block">
+      <div class="q-num">Question 10 · IIA Standards</div>
+      <div class="q-text">Topical Requirements are effective how long after issuance, and what must auditors document?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q10" value="a"> Immediately; no documentation required</label>
+        <label><input type="radio" name="q10" value="b"> 6 months after; only requirements that apply</label>
+        <label><input type="radio" name="q10" value="c"> 12 months after; which requirements apply and rationale for any exclusions</label>
+        <label><input type="radio" name="q10" value="d"> 24 months after; all requirements regardless of scope</label>
+      </div>
+      <div class="explanation" data-q="q10">✅ <strong>C is correct.</strong> Topical Requirements are effective 12 months after issuance. Auditors must document which requirements apply to each engagement and the rationale for any exclusions.</div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="q-block">
+      <div class="q-num">Question 11 · IIA Standards</div>
+      <div class="q-text">The External Quality Assessment (EQA) requirement under Standard 12.4 specifies:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q11" value="a"> Required annually; no specific personnel requirement</label>
+        <label><input type="radio" name="q11" value="b"> Required every 3 years; CAE must be a CIA</label>
+        <label><input type="radio" name="q11" value="c"> Required every 5 years; at least one team member must be an active CIA</label>
+        <label><input type="radio" name="q11" value="d"> Required every 5 years; no personnel requirement</label>
+      </div>
+      <div class="explanation" data-q="q11">✅ <strong>C is correct.</strong> EQA is required every 5 years, and at least one team member must be an active CIA. This is now explicitly stated in Standard 12.4.</div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="q-block">
+      <div class="q-num">Question 12 · IIA Standards</div>
+      <div class="q-text">Heidegger's concept of "aletheia" (unconcealment/truth) is applied to illustrate:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q12" value="a"> The role of the audit committee</label>
+        <label><input type="radio" name="q12" value="b"> The audit finding as an act of bringing hidden things to light</label>
+        <label><input type="radio" name="q12" value="c"> The importance of documentation</label>
+        <label><input type="radio" name="q12" value="d"> The need for independence</label>
+      </div>
+      <div class="explanation" data-q="q12">✅ <strong>B is correct.</strong> Aletheia (ἀλήθεια) means unconcealment — truth as bringing what is hidden into the open. An audit finding is an act of unconcealment: making visible what the organization could not see about itself.</div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="q-block">
+      <div class="q-num">Question 13 · IIA Standards</div>
+      <div class="q-text">Providing advisory services on a process may:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q13" value="a"> Enhance future assurance by building knowledge</label>
+        <label><input type="radio" name="q13" value="b"> Impair objectivity for future assurance engagements on the same process</label>
+        <label><input type="radio" name="q13" value="c"> Have no effect on future assurance work</label>
+        <label><input type="radio" name="q13" value="d"> Automatically disqualify the auditor permanently</label>
+      </div>
+      <div class="explanation" data-q="q13">✅ <strong>B is correct.</strong> Providing advisory services on a process may impair objectivity for future assurance engagements. Standard 7.2 requires safeguards in these situations.</div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="q-block">
+      <div class="q-num">Question 14 · IIA Standards</div>
+      <div class="q-text">The "Four C's of Findings" framework consists of:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q14" value="a"> Condition, Context, Concern, Conclusion</label>
+        <label><input type="radio" name="q14" value="b"> Condition, Criteria, Cause, Consequence</label>
+        <label><input type="radio" name="q14" value="c"> Criteria, Control, Concern, Conclusion</label>
+        <label><input type="radio" name="q14" value="d"> Condition, Control, Compliance, Consequence</label>
+      </div>
+      <div class="explanation" data-q="q14">✅ <strong>B is correct.</strong> The Four C's: Condition (what IS), Criteria (what SHOULD BE), Cause (WHY the gap exists), Consequence (WHY it matters / the risk or impact).</div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="q-block">
+      <div class="q-num">Question 15 · IIA Standards</div>
+      <div class="q-text">Internal audit can rely on second-line work, but before reporting conclusions must:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q15" value="a"> Get written permission from the CFO</label>
+        <label><input type="radio" name="q15" value="b"> Independently verify that work</label>
+        <label><input type="radio" name="q15" value="c"> Have the second line redo the work</label>
+        <label><input type="radio" name="q15" value="d"> Disclose the reliance in a footnote only</label>
+      </div>
+      <div class="explanation" data-q="q15">✅ <strong>B is correct.</strong> IA can coordinate with and rely on 2nd line work, but must independently verify before reporting conclusions. The lines should collaborate but maintain distinct roles.</div>
+    </div>
+
+    <!-- Q16 -->
+    <div class="q-block">
+      <div class="q-num">Question 16 · Cybersecurity</div>
+      <div class="q-text">What makes cyber risk fundamentally different from most other business risks?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q16" value="a"> It is exclusively a technology problem</label>
+        <label><input type="radio" name="q16" value="b"> It is adversarial — an intelligent actor actively probes for weaknesses and adapts to defenses</label>
+        <label><input type="radio" name="q16" value="c"> It only affects large organizations</label>
+        <label><input type="radio" name="q16" value="d"> It is entirely preventable with the right tools</label>
+      </div>
+      <div class="explanation" data-q="q16">✅ <strong>B is correct.</strong> Most risks are passive (market volatility doesn't try to defeat your hedging strategy). Cyber risk is adversarial — an intelligent actor actively probes and adapts. This changes everything about how you assess it.</div>
+    </div>
+
+    <!-- Q17 -->
+    <div class="q-block">
+      <div class="q-num">Question 17 · Cybersecurity</div>
+      <div class="q-text">The CIA Triad's "Integrity" objective protects against:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q17" value="a"> Unauthorized disclosure of data</label>
+        <label><input type="radio" name="q17" value="b"> Disruption to system availability</label>
+        <label><input type="radio" name="q17" value="c"> Unauthorized modification of data or systems</label>
+        <label><input type="radio" name="q17" value="d"> Identity theft</label>
+      </div>
+      <div class="explanation" data-q="q17">✅ <strong>C is correct.</strong> Integrity = information and systems are accurate, complete, and unaltered except by authorized actions. Threats include data tampering, malware, and man-in-the-middle attacks.</div>
+    </div>
+
+    <!-- Q18 -->
+    <div class="q-block">
+      <div class="q-num">Question 18 · Cybersecurity</div>
+      <div class="q-text">Which CIA Triad objective would a DDoS attack most directly threaten?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q18" value="a"> Confidentiality</label>
+        <label><input type="radio" name="q18" value="b"> Integrity</label>
+        <label><input type="radio" name="q18" value="c"> Availability</label>
+        <label><input type="radio" name="q18" value="d"> All three equally</label>
+      </div>
+      <div class="explanation" data-q="q18">✅ <strong>C is correct.</strong> DDoS (Distributed Denial of Service) attacks target Availability — making systems inaccessible to authorized users. Other availability threats include ransomware and system failures.</div>
+    </div>
+
+    <!-- Q19 -->
+    <div class="q-block">
+      <div class="q-num">Question 19 · Cybersecurity</div>
+      <div class="q-text">The "asymmetric" nature of cyber risk means:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q19" value="a"> Attackers need more resources than defenders</label>
+        <label><input type="radio" name="q19" value="b"> Attackers need one weakness; defenders must protect everything</label>
+        <label><input type="radio" name="q19" value="c"> Large companies face more risk than small companies</label>
+        <label><input type="radio" name="q19" value="d"> Insider threats are more dangerous than external threats</label>
+      </div>
+      <div class="explanation" data-q="q19">✅ <strong>B is correct.</strong> The fundamental asymmetry: defenders must protect everything, but attackers only need to find one weakness. This asymmetry is structural and permanent. Growth and security are in constant tension.</div>
+    </div>
+
+    <!-- Q20 -->
+    <div class="q-block">
+      <div class="q-num">Question 20 · Cybersecurity</div>
+      <div class="q-text">The 2013 Target data breach is cited as an example of which organizational pathology?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q20" value="a"> The Compliance Trap</label>
+        <label><input type="radio" name="q20" value="b"> Learned Helplessness</label>
+        <label><input type="radio" name="q20" value="c"> The Ownership Gap</label>
+        <label><input type="radio" name="q20" value="d"> Security vs. Business Tension</label>
+      </div>
+      <div class="explanation" data-q="q20">✅ <strong>C is correct.</strong> The Ownership Gap: Target's HVAC vendor had network access. Who owned that relationship? Who reviewed their security? The answer was effectively "no one." Unowned relationships become attack vectors.</div>
+    </div>
+
+    <!-- Q21 -->
+    <div class="q-block">
+      <div class="q-num">Question 21 · Cybersecurity</div>
+      <div class="q-text">Equifax being PCI compliant when it was breached illustrates which organizational pathology?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q21" value="a"> The Ownership Gap</label>
+        <label><input type="radio" name="q21" value="b"> Learned Helplessness</label>
+        <label><input type="radio" name="q21" value="c"> Security vs. Business Tension</label>
+        <label><input type="radio" name="q21" value="d"> The Compliance Trap</label>
+      </div>
+      <div class="explanation" data-q="q21">✅ <strong>D is correct.</strong> The Compliance Trap: Compliance ≠ Security. Equifax, Target, and Capital One all passed audits but were breached. Attackers don't check compliance status. Organizations optimize for passing audits, not actual security.</div>
+    </div>
+
+    <!-- Q22 -->
+    <div class="q-block">
+      <div class="q-num">Question 22 · Cybersecurity</div>
+      <div class="q-text">In a defense-in-depth model, a SIEM (Security Information and Event Management) system is an example of which control type?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q22" value="a"> Preventive control</label>
+        <label><input type="radio" name="q22" value="b"> Detective control</label>
+        <label><input type="radio" name="q22" value="c"> Corrective control</label>
+        <label><input type="radio" name="q22" value="d"> Deterrent control</label>
+      </div>
+      <div class="explanation" data-q="q22">✅ <strong>B is correct.</strong> SIEM is a detective control — it identifies attacks in progress or after the fact through log monitoring and anomaly detection. Preventive controls stop attacks; corrective controls respond/recover.</div>
+    </div>
+
+    <!-- Q23 -->
+    <div class="q-block">
+      <div class="q-num">Question 23 · Cybersecurity</div>
+      <div class="q-text">The IIA Cybersecurity Topical Requirement was released on:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q23" value="a"> January 1, 2024 with immediate effect</label>
+        <label><input type="radio" name="q23" value="b"> February 5, 2025 with effective date of February 5, 2026</label>
+        <label><input type="radio" name="q23" value="c"> January 1, 2025 with effective date of January 1, 2026</label>
+        <label><input type="radio" name="q23" value="d"> February 5, 2024 with effective date of February 5, 2025</label>
+      </div>
+      <div class="explanation" data-q="q23">✅ <strong>B is correct.</strong> Released February 5, 2025. Effective February 5, 2026. One year to prepare. It was the first Topical Requirement under the 2024 IPPF.</div>
+    </div>
+
+    <!-- Q24 -->
+    <div class="q-block">
+      <div class="q-num">Question 24 · Cybersecurity</div>
+      <div class="q-text">According to the Verizon DBIR, most breaches are caused by:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q24" value="a"> Advanced AI-powered attacks and zero-days</label>
+        <label><input type="radio" name="q24" value="b"> Nation-state sophisticated attacks</label>
+        <label><input type="radio" name="q24" value="c"> Stolen credentials, phishing, and unpatched vulnerabilities</label>
+        <label><input type="radio" name="q24" value="d"> Insider threats and disgruntled employees</label>
+      </div>
+      <div class="explanation" data-q="q24">✅ <strong>C is correct.</strong> Year after year, the Verizon DBIR shows: stolen credentials, phishing, and unpatched vulnerabilities cause most breaches. Not zero-days or AI-powered attacks — basic hygiene failures. Fundamentals beat sophistication.</div>
+    </div>
+
+    <!-- Q25 -->
+    <div class="q-block">
+      <div class="q-num">Question 25 · Cybersecurity</div>
+      <div class="q-text">Which of the following best describes the "learned helplessness" organizational pathology in cybersecurity?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q25" value="a"> Security teams that over-invest in preventive controls</label>
+        <label><input type="radio" name="q25" value="b"> A fatalism that excuses inaction ("if they want to get in, they'll get in")</label>
+        <label><input type="radio" name="q25" value="c"> Organizations that rely solely on compliance frameworks</label>
+        <label><input type="radio" name="q25" value="d"> Security teams that refuse to share information with auditors</label>
+      </div>
+      <div class="explanation" data-q="q25">✅ <strong>B is correct.</strong> Learned helplessness is the fatalistic attitude that sophisticated attackers are unstoppable. The reality: most breaches exploit basic failures. Stoic wisdom — focus on what you can control. Fundamentals prevent 95% of attacks.</div>
+    </div>
+
+    <!-- Q26 -->
+    <div class="q-block">
+      <div class="q-num">Question 26 · Cybersecurity</div>
+      <div class="q-text">The IIA Cybersecurity Topical Requirement's three domains are:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q26" value="a"> Prevention, Detection, Response</label>
+        <label><input type="radio" name="q26" value="b"> Governance, Risk Management, Controls</label>
+        <label><input type="radio" name="q26" value="c"> People, Process, Technology</label>
+        <label><input type="radio" name="q26" value="d"> Identify, Protect, Detect</label>
+      </div>
+      <div class="explanation" data-q="q26">✅ <strong>B is correct.</strong> The three domains are: Governance (does leadership own cybersecurity?), Risk Management (do they know what they're protecting?), and Controls (are the controls actually working?). Maps to NIST and COBIT frameworks.</div>
+    </div>
+
+    <!-- Q27 -->
+    <div class="q-block">
+      <div class="q-num">Question 27 · Cybersecurity</div>
+      <div class="q-text">Encryption at rest and in transit is primarily a control at which defense-in-depth layer?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q27" value="a"> Network Layer</label>
+        <label><input type="radio" name="q27" value="b"> Endpoint Layer</label>
+        <label><input type="radio" name="q27" value="c"> Data Layer</label>
+        <label><input type="radio" name="q27" value="d"> Application Layer</label>
+      </div>
+      <div class="explanation" data-q="q27">✅ <strong>C is correct.</strong> The Data Layer includes encryption at rest/transit, DLP (Data Loss Prevention), classification, access controls, and backups. These protect the data itself regardless of what layer it's accessed from.</div>
+    </div>
+
+    <!-- Q28 -->
+    <div class="q-block">
+      <div class="q-num">Question 28 · Cybersecurity</div>
+      <div class="q-text">An internal auditor's role in cybersecurity is best described as:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q28" value="a"> Performing penetration testing and acting as the security operations team</label>
+        <label><input type="radio" name="q28" value="b"> Providing independent assessment, bridging technical teams and the board, and identifying blind spots</label>
+        <label><input type="radio" name="q28" value="c"> Guaranteeing the organization will not be breached</label>
+        <label><input type="radio" name="q28" value="d"> Replacing the CISO function during high-risk periods</label>
+      </div>
+      <div class="explanation" data-q="q28">✅ <strong>B is correct.</strong> Internal audit provides independent assessment of security posture, validates controls, bridges technical teams and the board, identifies blind spots, and holds management accountable for remediation. IA is NOT a pen testing team or a guarantee against breach.</div>
+    </div>
+
+    <!-- Q29 -->
+    <div class="q-block">
+      <div class="q-num">Question 29 · ITGC Testing</div>
+      <div class="q-text">Positive testing of an access control verifies:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q29" value="a"> That terminated users cannot log in after their accounts are disabled</label>
+        <label><input type="radio" name="q29" value="b"> That legitimate requests were properly approved within defined timeframes by authorized individuals</label>
+        <label><input type="radio" name="q29" value="c"> That the system rejects self-approval attempts</label>
+        <label><input type="radio" name="q29" value="d"> That SoD conflicts trigger system alerts</label>
+      </div>
+      <div class="explanation" data-q="q29">✅ <strong>B is correct.</strong> Positive testing = "Did the control work when it should have?" — testing the happy path. Select legitimate transactions and verify approvals obtained, within timeframes, by authorized individuals, with proper documentation.</div>
+    </div>
+
+    <!-- Q30 -->
+    <div class="q-block">
+      <div class="q-num">Question 30 · ITGC Testing</div>
+      <div class="q-text">A control requires manager approval for access requests, but the policy is vague about timelines and doesn't specify what "manager" means (direct, skip-level, department head). This is primarily a:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q30" value="a"> Operating Effectiveness (OE) failure</label>
+        <label><input type="radio" name="q30" value="b"> Sampling methodology failure</label>
+        <label><input type="radio" name="q30" value="c"> Test of Design (TOD) failure — precision gap</label>
+        <label><input type="radio" name="q30" value="d"> Documentation failure</label>
+      </div>
+      <div class="explanation" data-q="q30">✅ <strong>C is correct.</strong> TOD evaluates if the control can work. Precision asks: Is the control specific enough? "Manager approval" vs. "Direct manager via ServiceNow within 24 hours with documented justification" — the former lacks precision and is a design gap.</div>
+    </div>
+
+    <!-- Q31 -->
+    <div class="q-block">
+      <div class="q-num">Question 31 · ITGC Testing</div>
+      <div class="q-text">Based on AICPA/PCAOB guidance, how many samples should an auditor test for a HIGH RISK control that occurs DAILY?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q31" value="a"> 10-15</label>
+        <label><input type="radio" name="q31" value="b"> 20-30</label>
+        <label><input type="radio" name="q31" value="c"> 40-60</label>
+        <label><input type="radio" name="q31" value="d"> 4-6</label>
+      </div>
+      <div class="explanation" data-q="q31">✅ <strong>C is correct.</strong> For a daily control at high risk: 40-60 samples. Low risk daily = 10-15. Moderate risk daily = 20-30. Higher risk, higher frequency, prior exceptions, and higher desired confidence all increase sample size.</div>
+    </div>
+
+    <!-- Q32 -->
+    <div class="q-block">
+      <div class="q-num">Question 32 · ITGC Testing</div>
+      <div class="q-text">For privileged users and SoD (Segregation of Duties) conflicts, the recommended sampling method is:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q32" value="a"> Random sampling</label>
+        <label><input type="radio" name="q32" value="b"> Haphazard sampling</label>
+        <label><input type="radio" name="q32" value="c"> Stratified sampling at 25%</label>
+        <label><input type="radio" name="q32" value="d"> Census (100% testing)</label>
+      </div>
+      <div class="explanation" data-q="q32">✅ <strong>D is correct.</strong> For high-risk populations like privileged users and SoD conflicts, auditors should consider 100% testing (census) regardless of population size. Missing one can have material consequences.</div>
+    </div>
+
+    <!-- Q33 -->
+    <div class="q-block">
+      <div class="q-num">Question 33 · ITGC Testing</div>
+      <div class="q-text">Haphazard sampling is described as:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q33" value="a"> Statistically valid and preferred for high-risk populations</label>
+        <label><input type="radio" name="q33" value="b"> Selection without specific pattern using auditor judgment; not statistically valid</label>
+        <label><input type="radio" name="q33" value="c"> Division of population into subgroups for proportional testing</label>
+        <label><input type="radio" name="q33" value="d"> Testing the entire population regardless of size</label>
+      </div>
+      <div class="explanation" data-q="q33">✅ <strong>B is correct.</strong> Haphazard = auditor selects without a specific pattern. Used for small populations or preliminary testing. Limitations: unconscious bias and not statistically valid. Not appropriate for high-risk populations.</div>
+    </div>
+
+    <!-- Q34 -->
+    <div class="q-block">
+      <div class="q-num">Question 34 · ITGC Testing</div>
+      <div class="q-text">When classifying an exception where a good policy exists (SLA defined, approval workflow documented) but a required approval was simply skipped by an employee, this is a:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q34" value="a"> Design failure requiring process redesign</label>
+        <label><input type="radio" name="q34" value="b"> Operating effectiveness failure requiring training/monitoring</label>
+        <label><input type="radio" name="q34" value="c"> Topical requirement non-conformance</label>
+        <label><input type="radio" name="q34" value="d"> Material weakness automatically</label>
+      </div>
+      <div class="explanation" data-q="q34">✅ <strong>B is correct.</strong> Good design, bad execution = Operating Effectiveness (OE) failure. Remedy: training, monitoring, automation. Critical distinction: don't prescribe training for a design problem. Classification drives the right recommendation.</div>
+    </div>
+
+    <!-- Q35 -->
+    <div class="q-block">
+      <div class="q-num">Question 35 · ITGC Testing</div>
+      <div class="q-text">Under the external audit risk rating framework, what is a "Material Weakness"?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q35" value="a"> Any control deficiency that requires remediation</label>
+        <label><input type="radio" name="q35" value="b"> A deficiency that merits attention from the audit committee but is less severe than a material weakness</label>
+        <label><input type="radio" name="q35" value="c"> A reasonable possibility that a material misstatement will not be prevented or detected, resulting in an adverse ICFR opinion</label>
+        <label><input type="radio" name="q35" value="d"> Any control that fails positive testing</label>
+      </div>
+      <div class="explanation" data-q="q35">✅ <strong>C is correct.</strong> Material Weakness = reasonable possibility that material misstatement will not be prevented or detected by the company's ICFR. Result: adverse ICFR opinion. Significant Deficiency is less severe but still requires reporting to audit committee.</div>
+    </div>
+
+    <!-- Q36 -->
+    <div class="q-block">
+      <div class="q-num">Question 36 · ITGC Testing</div>
+      <div class="q-text">The "R" tick mark in audit documentation means:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q36" value="a"> Reviewed by manager</label>
+        <label><input type="radio" name="q36" value="b"> Recalculated — calculation independently verified</label>
+        <label><input type="radio" name="q36" value="c"> Referenced to prior year workpapers</label>
+        <label><input type="radio" name="q36" value="d"> Rejected — exception identified</label>
+      </div>
+      <div class="explanation" data-q="q36">✅ <strong>B is correct.</strong> "R" = Recalculated — the auditor independently verified the calculation. Every tick mark must be defined in a legend on the work paper. "T" = Traced/Tied, "I" = Inquiry, "✓" = Tested no exception, "✗" = Exception identified.</div>
+    </div>
+
+    <!-- Q37 -->
+    <div class="q-block">
+      <div class="q-num">Question 37 · ITGC Testing</div>
+      <div class="q-text">The "Golden Rule" of audit documentation states:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q37" value="a"> Document everything you observe, whether or not it's material</label>
+        <label><input type="radio" name="q37" value="b"> If you can't point to a specific exhibit, row, or document for every fact in your finding, you haven't documented it properly</label>
+        <label><input type="radio" name="q37" value="c"> All workpapers must be reviewed by two senior auditors</label>
+        <label><input type="radio" name="q37" value="d"> Tick marks must be approved by the CAE</label>
+      </div>
+      <div class="explanation" data-q="q37">✅ <strong>B is correct.</strong> The Golden Rule: If you can't point to a specific exhibit, row, or document for every fact in your finding, you haven't documented it properly. Every assertion must trace to specific evidence.</div>
+    </div>
+
+    <!-- Q38 -->
+    <div class="q-block">
+      <div class="q-num">Question 38 · ITGC Testing</div>
+      <div class="q-text">In internal audit findings (versus external), what additional elements are included that are NOT typically in external management letter findings?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q38" value="a"> The Four C's of findings</label>
+        <label><input type="radio" name="q38" value="b"> Named individuals, specific data, owner/due date, and management response</label>
+        <label><input type="radio" name="q38" value="c"> Only the condition and criteria</label>
+        <label><input type="radio" name="q38" value="d"> Regulatory citations and legal opinions</label>
+      </div>
+      <div class="explanation" data-q="q38">✅ <strong>B is correct.</strong> Internal audit findings include accountability: named individuals, specific data, owner + due date, and space for management's response/action plan. External audit uses generalized language ("certain users") and high-level recommendations.</div>
+    </div>
+
+    <!-- Q39 -->
+    <div class="q-block">
+      <div class="q-num">Question 39 · ITGC Testing</div>
+      <div class="q-text">Required documentation elements for sampling methodology include all of the following EXCEPT:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q39" value="a"> Population source (where did data come from)</label>
+        <label><input type="radio" name="q39" value="b"> Selection method (how items were chosen)</label>
+        <label><input type="radio" name="q39" value="c"> CAE's written approval of sample size</label>
+        <label><input type="radio" name="q39" value="d"> Sample size rationale (why this number)</label>
+      </div>
+      <div class="explanation" data-q="q39">✅ <strong>C is correct.</strong> Required documentation includes: population source, population completeness verification, selection criteria, sample size rationale, selection method, and sample listing. CAE written approval is NOT a listed required element. The test: could another auditor recreate your exact sample?</div>
+    </div>
+
+    <!-- Q40 -->
+    <div class="q-block">
+      <div class="q-num">Question 40 · ITGC Testing</div>
+      <div class="q-text">The "Best Practice" for sample selection when a population has both general and high-risk items is:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q40" value="a"> Random sampling for everything to eliminate bias</label>
+        <label><input type="radio" name="q40" value="b"> Haphazard selection using auditor judgment</label>
+        <label><input type="radio" name="q40" value="c"> Combine methods: stratified sampling + census for high-risk strata</label>
+        <label><input type="radio" name="q40" value="d"> Census testing of the entire population regardless of size</label>
+      </div>
+      <div class="explanation" data-q="q40">✅ <strong>C is correct.</strong> Best practice: combine methods. Random/stratified for general population + 100% census for privileged users and SoD conflicts. This balances efficiency with appropriate risk coverage.</div>
+    </div>
+
+    <!-- Q41 -->
+    <div class="q-block">
+      <div class="q-num">Question 41 · Mixed</div>
+      <div class="q-text">Which of the following is a Topical Requirement released under the 2024 IPPF?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q41" value="a"> Enterprise Risk Management</label>
+        <label><input type="radio" name="q41" value="b"> Sustainability & ESG</label>
+        <label><input type="radio" name="q41" value="c"> Internal Controls Over Financial Reporting</label>
+        <label><input type="radio" name="q41" value="d"> Operational Audit Standards</label>
+      </div>
+      <div class="explanation" data-q="q41">✅ <strong>B is correct.</strong> Topical Requirements include: Cybersecurity, IT Governance, Privacy Risk Management, Third-Party Management, and Sustainability & ESG. ERM and ICFR are not listed Topical Requirements.</div>
+    </div>
+
+    <!-- Q42 -->
+    <div class="q-block">
+      <div class="q-num">Question 42 · Mixed</div>
+      <div class="q-text">According to the engagement lifecycle, what percentage of effort should fieldwork typically represent?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q42" value="a"> 20-30%</label>
+        <label><input type="radio" name="q42" value="b"> 40-50%</label>
+        <label><input type="radio" name="q42" value="c"> 60-70%</label>
+        <label><input type="radio" name="q42" value="d"> 15-20%</label>
+      </div>
+      <div class="explanation" data-q="q42">✅ <strong>B is correct.</strong> Fieldwork = 40-50% of effort (the largest portion). Planning = 20-30%. Reporting = 15-20%. Follow-up = ongoing. Most audit failures are planning failures despite planning being a smaller portion.</div>
+    </div>
+
+    <!-- Q43 -->
+    <div class="q-block">
+      <div class="q-num">Question 43 · Mixed</div>
+      <div class="q-text">If an auditor discovers that a terminated user's account was not disabled until 16.75 hours after termination (SLA = 4 hours), but sign-in logs confirm no post-termination logins occurred, the finding should:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q43" value="a"> Be omitted entirely because no harm occurred</label>
+        <label><input type="radio" name="q43" value="b"> Be rated as a Material Weakness automatically</label>
+        <label><input type="radio" name="q43" value="c"> Be documented noting the SLA breach and acknowledging the compensating factor (no unauthorized access)</label>
+        <label><input type="radio" name="q43" value="d"> Be escalated to law enforcement</label>
+      </div>
+      <div class="explanation" data-q="q43">✅ <strong>C is correct.</strong> Document the control gap (16.75 hrs vs. 4-hr SLA = OE failure) AND acknowledge the compensating factor (no unauthorized access occurred). Rule #6 of reporting: acknowledge compensating factors. The risk didn't materialize, but the control gap still exists.</div>
+    </div>
+
+    <!-- Q44 -->
+    <div class="q-block">
+      <div class="q-num">Question 44 · Mixed</div>
+      <div class="q-text">An auditor is reviewing a cybersecurity control that prevents users from self-approving their own access requests. Attempting to self-approve in the test environment to verify the block is which type of test?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q44" value="a"> Positive test</label>
+        <label><input type="radio" name="q44" value="b"> Test of Design</label>
+        <label><input type="radio" name="q44" value="c"> Negative test</label>
+        <label><input type="radio" name="q44" value="d"> Concurrent test</label>
+      </div>
+      <div class="explanation" data-q="q44">✅ <strong>C is correct.</strong> Negative testing = "Did the control prevent what it should have?" Attempting to self-approve tests the guardrail. Does the system reject it? This tests the negative scenario.</div>
+    </div>
+
+    <!-- Q45 -->
+    <div class="q-block">
+      <div class="q-num">Question 45 · Mixed</div>
+      <div class="q-text">The "Reviewer's Test" for sampling documentation asks:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q45" value="a"> Did the CAE approve the sample size before testing?</label>
+        <label><input type="radio" name="q45" value="b"> Could another auditor recreate your exact sample from your documentation?</label>
+        <label><input type="radio" name="q45" value="c"> Does the sample match last year's sample for comparability?</label>
+        <label><input type="radio" name="q45" value="d"> Was the sample reviewed by an external auditor?</label>
+      </div>
+      <div class="explanation" data-q="q45">✅ <strong>B is correct.</strong> The Reviewer's Test: Could another auditor recreate your exact sample from your documentation? If not, your methodology isn't sufficiently documented. This ensures reproducibility and defensibility.</div>
+    </div>
+
+    <!-- Q46 -->
+    <div class="q-block">
+      <div class="q-num">Question 46 · Mixed</div>
+      <div class="q-text">Plato's "Forms" (ideal essences) as referenced in the IIA Standards lecture represent:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q46" value="a"> The regulatory penalties for non-compliance</label>
+        <label><input type="radio" name="q46" value="b"> Standards themselves — the ideal of what excellent auditing looks like, against which practice is measured</label>
+        <label><input type="radio" name="q46" value="c"> The audit committee's expectations</label>
+        <label><input type="radio" name="q46" value="d"> The COSO framework</label>
+      </div>
+      <div class="explanation" data-q="q46">✅ <strong>B is correct.</strong> Standards represent Platonic ideals — articulating what excellent internal auditing looks like, a reference point against which we measure ourselves. "Practice without form is mere improvisation."</div>
+    </div>
+
+    <!-- Q47 -->
+    <div class="q-block">
+      <div class="q-num">Question 47 · Mixed</div>
+      <div class="q-text">Which of the following best describes why audit findings should help security teams rather than punish them?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q47" value="a"> To avoid legal liability for the audit team</label>
+        <label><input type="radio" name="q47" value="b"> Security teams are often overwhelmed and underappreciated; findings should help them secure resources, and audit's goal is also protecting the organization</label>
+        <label><input type="radio" name="q47" value="c"> Punitive findings violate the IIA Code of Ethics</label>
+        <label><input type="radio" name="q47" value="d"> Regulatory requirements mandate a collaborative approach</label>
+      </div>
+      <div class="explanation" data-q="q47">✅ <strong>B is correct.</strong> Security teams are often overwhelmed and underappreciated. Approach as a partner, not an adversary. Audit's goal is the same — protecting the organization. Findings should help security teams get resources, not punish them.</div>
+    </div>
+
+    <!-- Q48 -->
+    <div class="q-block">
+      <div class="q-num">Question 48 · Mixed</div>
+      <div class="q-text">Which statement about the "No Surprises" principle in audit reporting is correct?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q48" value="a"> Findings should be revealed only in the final report to preserve independence</label>
+        <label><input type="radio" name="q48" value="b"> If you haven't discussed a finding with management before issuing the report, you've failed at communication</label>
+        <label><input type="radio" name="q48" value="c"> Management should only see findings after the audit committee reviews them</label>
+        <label><input type="radio" name="q48" value="d"> Surprise findings are more credible because they're uninfluenced</label>
+      </div>
+      <div class="explanation" data-q="q48">✅ <strong>B is correct.</strong> "No surprises in the final report." If you haven't discussed a finding with management before issuing, you've failed at communication. Management responses are their words — but auditors can comment on them.</div>
+    </div>
+
+    <!-- Q49 -->
+    <div class="q-block">
+      <div class="q-num">Question 49 · Mixed</div>
+      <div class="q-text">A report states: "Several users had issues with their access during the period." According to the 8 Rules for Audit Reporting Excellence, this violates which rule?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q49" value="a"> Lead with the headline</label>
+        <label><input type="radio" name="q49" value="b"> Quantify everything</label>
+        <label><input type="radio" name="q49" value="c"> Make recommendations actionable</label>
+        <label><input type="radio" name="q49" value="d"> Write for the skeptic</label>
+      </div>
+      <div class="explanation" data-q="q49">✅ <strong>B is correct.</strong> "Quantify everything" — not "several users" but "3 of 127 (2.4%)." Vague language undermines credibility and doesn't communicate the magnitude of the issue. Always use numbers.</div>
+    </div>
+
+    <!-- Q50 -->
+    <div class="q-block">
+      <div class="q-num">Question 50 · Mixed</div>
+      <div class="q-text">Which statement BEST captures the philosophical core of internal auditing as described in the course materials?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q50" value="a"> Internal auditors exist to ensure 100% compliance with all regulations</label>
+        <label><input type="radio" name="q50" value="b"> Internal auditors make the invisible visible — bringing to light what organizations cannot or will not see about themselves</label>
+        <label><input type="radio" name="q50" value="c"> Internal auditors serve primarily as a deterrent to fraud</label>
+        <label><input type="radio" name="q50" value="d"> Internal auditors ensure management follows the board's directives</label>
+      </div>
+      <div class="explanation" data-q="q50">✅ <strong>B is correct.</strong> The philosophical core: internal auditors make the invisible visible. This is Heideggerian aletheia (unconcealment), Socratic questioning, trained attention — the auditor's essential task is illuminating what organizations cannot see about themselves. Everything else is technique.</div>
+    </div>
+
+
+  <!-- READINGS QUESTIONS Q51-Q60 -->
+
+  <div class="card" style="background:#f5f3ff;border:2px solid #4a1d96;margin:1.5rem 0 .5rem;text-align:center;padding:.75rem">
+    <strong style="color:#4a1d96">📖 Questions 51–60: The Reading</strong><br>
+    <span style="font-size:.9rem">Joan Didion's "On Self-Respect" — and its connections to the IIA standards</span>
+  </div>
+
+    <!-- Q51 -->
+    <div class="q-block">
+      <div class="q-num">Question 51 · Didion</div>
+      <div class="q-text">According to Didion, what is the source from which self-respect springs?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q51" value="a"> The approval and recognition of others</label>
+        <label><input type="radio" name="q51" value="b"> One's reputation and professional accomplishments</label>
+        <label><input type="radio" name="q51" value="c"> Character — the willingness to accept responsibility for one's own life</label>
+        <label><input type="radio" name="q51" value="d"> A record of virtuous decisions made publicly</label>
+      </div>
+      <div class="explanation" data-q="q51">✅ <strong>C is correct.</strong> Didion is explicit: "character — the willingness to accept responsibility for one's own life — is the source from which self-respect springs." It is an internal standard entirely independent of others' approval or one's reputation.</div>
+    </div>
+
+    <!-- Q52 -->
+    <div class="q-block">
+      <div class="q-num">Question 52 · Didion</div>
+      <div class="q-text">Didion argues that self-deception is:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q52" value="a"> Relatively harmless if it preserves one's peace of mind</label>
+        <label><input type="radio" name="q52" value="b"> The most difficult deception — no tricks that work on others function in the back alley where one keeps assignations with oneself</label>
+        <label><input type="radio" name="q52" value="c"> Easily overcome once one commits to being more mindful</label>
+        <label><input type="radio" name="q52" value="d"> Less dangerous than deceiving others because no external harm results</label>
+      </div>
+      <div class="explanation" data-q="q52">✅ <strong>B is correct.</strong> Didion: "self-deception remains the most difficult deception." No winning smiles, no prettily drawn lists of good intentions will work in that well-lit back alley. This connects directly to the IIA's confirmation bias warning under Objectivity (Principle 2).</div>
+    </div>
+
+    <!-- Q53 -->
+    <div class="q-block">
+      <div class="q-num">Question 53 · Didion</div>
+      <div class="q-text">The "interminable documentary" metaphor in Didion's essay describes:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q53" value="a"> The process of reviewing one's accomplishments at the end of a career</label>
+        <label><input type="radio" name="q53" value="b"> The internal experience of living without self-respect — endlessly replaying one's failures, broken promises, and wasted gifts</label>
+        <label><input type="radio" name="q53" value="c"> The external process of professional performance review</label>
+        <label><input type="radio" name="q53" value="d"> The benefit of keeping a detailed personal journal</label>
+      </div>
+      <div class="explanation" data-q="q53">✅ <strong>B is correct.</strong> To live without self-respect is to be an unwilling audience to an interminable documentary detailing one's failings — fresh footage spliced in for every screening. Counting sins of commission and omission, trusts betrayed, promises broken, gifts wasted through sloth or cowardice.</div>
+    </div>
+
+    <!-- Q54 -->
+    <div class="q-block">
+      <div class="q-num">Question 54 · Didion → IIA Connection</div>
+      <div class="q-text">Didion's concept of discipline as "a habit of mind that can be developed, trained, coaxed forth" most closely parallels which IIA principle?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q54" value="a"> Integrity (P1) — Kant's categorical imperative about universal law</label>
+        <label><input type="radio" name="q54" value="b"> Confidentiality (P5) — protecting information for legitimate purposes only</label>
+        <label><input type="radio" name="q54" value="c"> Due Professional Care (P4) — skepticism applied systematically, not instinctively; and Objectivity (P2) — trained attention cultivated through practice</label>
+        <label><input type="radio" name="q54" value="d"> Competency (P3) — Aristotle's phronesis as innate practical wisdom</label>
+      </div>
+      <div class="explanation" data-q="q54">✅ <strong>C is correct.</strong> Didion's "discipline as habit of mind, developed and trained" echoes both Due Professional Care (P4) — applying skepticism proportionately and systematically — and Objectivity (P2) — the trained attention that must be cultivated through practice. P3/phronesis is wisdom cultivated through experience, which is related but distinct from Didion's disciplinary practice.</div>
+    </div>
+
+    <!-- Q55 -->
+    <div class="q-block">
+      <div class="q-num">Question 55 · Didion → IIA Connection</div>
+      <div class="q-text">An auditor who softens a finding because the engagement manager seems displeased, and who tells themselves "I'm sure the control is fine, I just can't find the evidence" — which two Didion concepts does this simultaneously illustrate?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q55" value="a"> The Phi Beta Kappa anecdote and Jordan Baker's self-respect</label>
+        <label><input type="radio" name="q55" value="b"> Self-respect calibrated to others' approval (not character) and self-deception as the most difficult deception — both failures at once</label>
+        <label><input type="radio" name="q55" value="c"> Discipline as habit of mind and the intrinsic worth thesis</label>
+        <label><input type="radio" name="q55" value="d"> Alienation from self and the courage of one's mistakes</label>
+      </div>
+      <div class="explanation" data-q="q55">✅ <strong>B is correct.</strong> The auditor fails on both counts: (1) their "standard" is the manager's approval rather than character — Didion's central critique of false self-respect; and (2) they are deceiving themselves with "I'm sure the control is fine" — exactly the self-deception that no winning smile can paper over in the well-lit back alley. This is the integrated exam question: can you see both Didion concepts operating simultaneously in a single audit scenario?</div>
+    </div>
+
+    <!-- Q56 -->
+    <div class="q-block">
+      <div class="q-num">Question 56 · Didion</div>
+      <div class="q-text">What is the significance of Jordan Baker vs. Julian English in Didion's argument?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q56" value="a"> Both characters demonstrate the consequences of excessive self-respect</label>
+        <label><input type="radio" name="q56" value="b"> Jordan Baker (outwardly dishonest) had self-respect; Julian English (outwardly respectable) did not — proving self-respect is not correlated with conventional virtue or reputation</label>
+        <label><input type="radio" name="q56" value="c"> Both characters illustrate what it looks like to live with full self-respect</label>
+        <label><input type="radio" name="q56" value="d"> Julian English demonstrates that self-respect can be rebuilt after failure</label>
+      </div>
+      <div class="explanation" data-q="q56">✅ <strong>B is correct.</strong> This is Didion's paradox: Jordan Baker is careless and dishonest, yet she has self-respect — she made her own peace and avoided threats to it. Julian English is seemingly respectable but hollow inside, and ultimately destroys himself. The lesson: self-respect is an internal condition, not an external reputation. An auditor can look compliant and professional while being completely hollow inside.</div>
+    </div>
+
+    <!-- Q57 -->
+    <div class="q-block">
+      <div class="q-num">Question 57 · Didion</div>
+      <div class="q-text">Didion describes "alienation from self" in its advanced stages as:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q57" value="a"> A state of productive detachment that enables objective decision-making</label>
+        <label><input type="radio" name="q57" value="b"> No longer answering the telephone; inability to say no without drowning in self-reproach; running away to find oneself and finding no one home</label>
+        <label><input type="radio" name="q57" value="c"> The healthy skepticism that good auditors develop over time</label>
+        <label><input type="radio" name="q57" value="d"> A temporary condition caused by professional burnout</label>
+      </div>
+      <div class="explanation" data-q="q57">✅ <strong>B is correct.</strong> Advanced alienation from self means every encounter demands too much. You can't say no without drowning in self-reproach. Eventually you run from yourself and find no one at home. Applied to audit: the senior who has compromised on every engagement eventually loses the professional self entirely — they can no longer even identify what their actual judgment is, separate from what the partner wants to hear.</div>
+    </div>
+
+    <!-- Q58 -->
+    <div class="q-block">
+      <div class="q-num">Question 58 · Didion</div>
+      <div class="q-text">Didion argues that people with genuine self-respect have "the courage of their mistakes." In an audit context, this most directly means:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q58" value="a"> Auditors should be aggressive and take risks in their testing approach</label>
+        <label><input type="radio" name="q58" value="b"> Auditors who identify errors in their own prior work acknowledge and correct them rather than burying or rationalizing them — they do not seek absolution or complain of unfairness</label>
+        <label><input type="radio" name="q58" value="c"> Auditors should admit mistakes to management immediately to preserve the relationship</label>
+        <label><input type="radio" name="q58" value="d"> Having self-respect means never making mistakes in the first place</label>
+      </div>
+      <div class="explanation" data-q="q58">✅ <strong>B is correct.</strong> The courage of one's mistakes means owning them cleanly — no excuses, no blame-shifting, no rationalization. In audit practice: if you find that prior-year workpapers misclassified a control, you flag it. If your sample missed a key population, you expand it. You don't rationalize. This is integrity (P1) expressed as Didion's self-respect.</div>
+    </div>
+
+    <!-- Q59 -->
+    <div class="q-block">
+      <div class="q-num">Question 59 · Didion → IIA Connection</div>
+      <div class="q-text">Didion writes that self-respect involves "small disciplines" that "represent larger ones — not for the ritual itself but as a way of remembering who and what we are." The IIA audit practice most directly parallel to this is:</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q59" value="a"> Presenting findings to the audit committee without prior management review</label>
+        <label><input type="radio" name="q59" value="b"> Documentation rigor — proper tick marks, source references, cross-references to exhibits — small habits of mind that hold when under pressure from management or time constraints</label>
+        <label><input type="radio" name="q59" value="c"> Performing 100% testing on all populations regardless of risk level</label>
+        <label><input type="radio" name="q59" value="d"> Using only quantitative methods to eliminate subjective judgment</label>
+      </div>
+      <div class="explanation" data-q="q59">✅ <strong>B is correct.</strong> Didion's small disciplines are the audit equivalent of proper documentation habits: every tick mark sourced, every exhibit cross-referenced, every conclusion supported. These seem like rituals, but they are the structural expression of integrity — when the pressure comes to soften a finding or skip a step, it's the auditor who maintained small disciplines who holds. The one who cut corners in good times has no muscle to flex in hard ones.</div>
+    </div>
+
+    <!-- Q60 -->
+    <div class="q-block">
+      <div class="q-num">Question 60 · Didion — Applied Synthesis</div>
+      <div class="q-text">Which statement BEST captures Didion's "On Self-Respect" as applied to the practice of internal auditing?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q60" value="a"> Auditors should prioritize efficiency over completeness to avoid unnecessary conflict with management</label>
+        <label><input type="radio" name="q60" value="b"> Integrity in auditing is an internal standard rooted in character — not calibrated to management approval, peer opinion, or professional reputation; the auditor who seeks approval has already lost the only thing that matters</label>
+        <label><input type="radio" name="q60" value="c"> Auditors are most effective when they collaborate with management to craft balanced findings</label>
+        <label><input type="radio" name="q60" value="d"> Self-respect in auditing means never accepting criticism of your work</label>
+      </div>
+      <div class="explanation" data-q="q60">✅ <strong>B is correct.</strong> Didion's entire argument is that self-respect — and therefore integrity — is an internal standard that has nothing to do with others' approval. The auditor who softens findings to keep the partner happy, who self-deceives about control effectiveness, who lacks the courage of their mistakes — that auditor will eventually run from themselves and find no professional self at home. The IIA's five ethics principles are not bureaucratic rules; they describe what a person with Didion's self-respect looks like in an audit context.</div>
+    </div>
+
+
+    <!-- CASE STUDY QUESTIONS Q71-Q80 -->
+    <div class="q-section" style="margin-top:1.5rem;padding:1rem;background:#ecfdf5;border-radius:8px;border-left:4px solid #059669">
+      <strong style="color:#065f46">🏢 Questions 61–80: Meridian Energy Holdings Case Study</strong><br>
+      <span style="font-size:.9rem">Applied ITGC testing, SoD analysis, deficiency classification, and connections to readings</span>
+    </div>
+
+    <!-- Q71 -->
+    <div class="q-block">
+      <div class="q-num">Question 61 · Case Study — Termination Testing</div>
+      <div class="q-text">In Exhibit C, James Davis (jdavis55) was terminated Friday 03/07 at 5:00pm. His Entra ID account was disabled Saturday 03/08 at 9:45am. What is the elapsed time, and what is the root cause of this exception?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q61" value="a"> 4.75 hours; root cause was an error by the HR team in entering the termination record</label>
+        <label><input type="radio" name="q61" value="b"> 16.75 hours; root cause was the Workday-to-Entra ID sync batch process runs on weekday mornings only, leaving Friday evening terminations in an exposure gap until the following business day</label>
+        <label><input type="radio" name="q61" value="c"> 16.75 hours; root cause was jdavis55 appealing his termination and delaying the disable</label>
+        <label><input type="radio" name="q61" value="d"> 8.75 hours; the SLA was technically met because weekends don’t count</label>
+      </div>
+      <div class="explanation" data-q="q61">✅ <strong>B is correct.</strong> 5:00pm Friday to 9:45am Saturday = 16.75 hours — far exceeding the 4-hour SLA. The root cause is systemic: the automated sync that pushes HR terminations to Entra ID only runs on weekday mornings. Any employee terminated on a Friday afternoon falls into a gap until Monday. This is a process design flaw, not a one-time human error, which elevates the classification toward Significant Deficiency.</div>
+    </div>
+
+    <!-- Q72 -->
+    <div class="q-block">
+      <div class="q-num">Question 62 · Case Study — User Population Analysis</div>
+      <div class="q-text">Paul Johnson (pjohnson88) appears in Exhibit A (active SAP user population) with role Z_FI_GL_POST. Cross-referencing Exhibits C and H, what is the full scope of the problem?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q62" value="a"> Johnson was terminated but Entra ID was disabled on time — the only issue is he wasn’t removed from the SAP user report, which is a documentation error only</label>
+        <label><input type="radio" name="q62" value="b"> Johnson was terminated 01/31 with Entra ID disabled on time, but his SAP role was never removed; by July’s access review he shows NO RESPONSE (no active manager), meaning the access review failed to trigger revocation — leaving an orphaned SAP role 5+ months post-termination</label>
+        <label><input type="radio" name="q62" value="c"> Johnson was never actually terminated; the HR record was entered in error</label>
+        <label><input type="radio" name="q62" value="d"> The quarterly access review caught the issue and revoked his access in July</label>
+      </div>
+      <div class="explanation" data-q="q62">✅ <strong>B is correct.</strong> This is a compounding failure across two controls. AC-03 met the 4-hour Entra ID SLA but had no corresponding procedure to clean up SAP roles. AC-04 (access review) should have caught this as a compensating control, but the NO RESPONSE case wasn’t escalated to auto-revoke as policy requires. The result: a terminated employee’s SAP role persists for 5+ months. If SSO is reconfigured or a local SAP account exists, reactivation risk is real. This is a strong Significant Deficiency or Material Weakness candidate.</div>
+    </div>
+
+    <!-- Q73 -->
+    <div class="q-block">
+      <div class="q-num">Question 63 · Case Study — SoD Analysis</div>
+      <div class="q-text">Jennifer Brown (jbrown61) has both Z_FI_GL_POST (post journal entries) and Z_FI_GL_APPROVE (approve journal entries). Exhibit E shows no mitigating control is documented. How should this be classified on a SOX engagement, and why?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q63" value="a"> Control Deficiency — SoD conflicts are common and management is aware, so no further action is needed</label>
+        <label><input type="radio" name="q63" value="b"> Not a deficiency — the quarterly access review compensates for the SoD risk</label>
+        <label><input type="radio" name="q63" value="c"> Significant Deficiency to Material Weakness — an unmitigated HIGH SoD conflict on the general ledger of a SOX-regulated entity creates a reasonable possibility of material misstatement that cannot be prevented or detected without additional controls</label>
+        <label><input type="radio" name="q63" value="d"> Significant Deficiency only if Brown has actually posted fraudulent journal entries</label>
+      </div>
+      <div class="explanation" data-q="q63">✅ <strong>C is correct.</strong> A Material Weakness requires a “reasonable possibility” that a material misstatement would not be prevented or detected — not proof that one occurred. An unmitigated ability for one person to both post and approve journal entries on a public company’s GL meets this threshold. No fraud needs to have happened. The absence of any documented mitigating control means the auditor cannot conclude the risk is mitigated. Immediate escalation and remediation (remove one role OR implement independent GL review) is required.</div>
+    </div>
+
+    <!-- Q74 -->
+    <div class="q-block">
+      <div class="q-num">Question 64 · Case Study — Provisioning Testing</div>
+      <div class="q-text">REQ-2503 (rthomas15, role Z_MM_PURCH) shows manager approval obtained but data owner approval field is blank (“—”). Access was granted the next day. How should you treat this exception?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q64" value="a"> No exception — manager approval is sufficient and the access was granted timely</label>
+        <label><input type="radio" name="q64" value="b"> Document as an exception: the AC-02 control requires both manager AND data owner approval before access is granted; one of the two required approvals is missing regardless of timeliness or role alignment</label>
+        <label><input type="radio" name="q64" value="c"> Waive the exception because Z_MM_PURCH is only a Medium-risk role per Exhibit F</label>
+        <label><input type="radio" name="q64" value="d"> Ask management if they forgot to document it and accept their verbal confirmation</label>
+      </div>
+      <div class="explanation" data-q="q64">✅ <strong>B is correct.</strong> The control objective AC-02 explicitly requires both manager and data owner approval before access is granted. The absence of data owner approval is an exception to the control — period. Risk level of the role doesn’t change whether the control operated as designed; it affects the severity of the exception (classification), not its existence. Accepting verbal confirmation post-hoc is not valid audit evidence for a control that requires contemporaneous documented approval.</div>
+    </div>
+
+    <!-- Q75 -->
+    <div class="q-block">
+      <div class="q-num">Question 65 · Case Study — Mitigating Controls</div>
+      <div class="q-text">The mitigating control for dkim77’s SoD conflict (Z_FI_AP_PROC + Z_FI_AP_PAY) is: “Controller reviews all payment batches exceeding 0,000 before release.” What risk does this leave unaddressed?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q65" value="a"> The control adequately addresses all risks because most fraudulent payments would exceed 0,000</label>
+        <label><input type="radio" name="q65" value="b"> The control doesn’t cover payments below 0,000, meaning dkim77 could enter a fraudulent invoice and release the payment without any independent review — as long as each payment is kept under the threshold (structuring)</label>
+        <label><input type="radio" name="q65" value="c"> The risk is that the Controller might be too busy to review all payments</label>
+        <label><input type="radio" name="q65" value="d"> There is no gap — Z_FI_AP_PROC only allows entry of invoices, so dkim77 still needs a second person to release the payment</label>
+      </div>
+      <div class="explanation" data-q="q65">✅ <strong>B is correct.</strong> A sophisticated fraudster (or one who understands the control threshold) would structure payments to stay under 0,000. This is a real-world fraud technique called “structuring.” The MC covers large payments but leaves a gap for small-dollar fraud. Additionally, the MC doesn’t address the invoice entry side — dkim77 can enter fictitious vendor invoices regardless of amount. A stronger control would be either removing one role or requiring review of all payments (or all invoices) regardless of dollar amount.</div>
+    </div>
+
+    <!-- Q76 -->
+    <div class="q-block">
+      <div class="q-num">Question 66 · Case Study — TOD vs. TOE</div>
+      <div class="q-text">For AC-01 (MFA enforcement via Entra ID), an auditor inspects the Entra ID configuration and confirms the MFA policy is enabled for all users. What type of test is this, and what does it NOT tell you?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q66" value="a"> Test of Operating Effectiveness — it doesn’t tell you whether the policy is configured correctly</label>
+        <label><input type="radio" name="q66" value="b"> Test of Design — it confirms the control could work, but does NOT tell you whether MFA was actually required and completed by real users throughout the year</label>
+        <label><input type="radio" name="q66" value="c"> Both TOD and TOE — reviewing configuration is sufficient to conclude the control operated effectively</label>
+        <label><input type="radio" name="q66" value="d"> Neither — MFA cannot be tested through configuration review</label>
+      </div>
+      <div class="explanation" data-q="q66">✅ <strong>B is correct.</strong> Inspecting the configuration is a Test of Design (TOD) — it answers “could this control work?” To conclude operating effectiveness, you need evidence that the control actually operated throughout the year: MFA authentication logs, sign-in reports showing MFA challenges, or exception reports for any MFA bypasses. A well-configured policy that was bypassed for all legacy app users all year would pass TOD and fail TOE.</div>
+    </div>
+
+    <!-- Q77 -->
+    <div class="q-block">
+      <div class="q-num">Question 67 · Case Study — Sampling</div>
+      <div class="q-text">MEH had approximately 47 terminations in the first half of 2025. Exhibit C tests only 5. What is the appropriate sample size for a daily/high-risk control, and is 5 sufficient for a SOX engagement?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q67" value="a"> 5 is sufficient for any control because the key is the quality of analysis, not sample size</label>
+        <label><input type="radio" name="q67" value="b"> For a high-risk control operating daily or near-daily, AICPA/PCAOB guidance suggests 40–60 samples; 5 is not sufficient for a SOX conclusion without documented rationale for the reduced sample</label>
+        <label><input type="radio" name="q67" value="c"> 25 samples are always required for SOX regardless of frequency or risk level</label>
+        <label><input type="radio" name="q67" value="d"> For terminations, a census (100%) is always required regardless of population size</label>
+      </div>
+      <div class="explanation" data-q="q67">✅ <strong>B is correct.</strong> Per ITGC slide guidance and AICPA/PCAOB standards: for a high-risk control with daily/frequent operation, the recommended sample is 40–60. For moderate risk: 20–30. For low risk: 10–15. Termination access is high risk (SOX, financial system access). Testing only 5 would need documented justification — e.g., this is a preliminary sample, the population is small, or this is a lower-assurance engagement. For a public SOX engagement, 5 would typically be insufficient to draw a conclusion about operating effectiveness over a full year.</div>
+    </div>
+
+    <!-- Q78 -->
+    <div class="q-block">
+      <div class="q-num">Question 68 · Case Study — SSO &amp; Technology</div>
+      <div class="q-text">MEH uses Single Sign-On (SSO) between Entra ID and SAP. An auditor asks: “If Entra ID goes down, can users still access SAP?” What is the correct answer and its audit implication?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q68" value="a"> Yes — SAP has its own authentication layer that operates independently, so users can log in with SAP credentials if Entra ID is down</label>
+        <label><input type="radio" name="q68" value="b"> It depends on whether SAP has local accounts enabled; if SAP has emergency/backdoor local accounts (e.g., SAP* or DDIC), users could bypass Entra ID — the auditor should test whether these are disabled or password-protected, as they represent a control bypass risk</label>
+        <label><input type="radio" name="q68" value="c"> No — SSO means SAP has no authentication capability without Entra ID; there is no bypass risk</label>
+        <label><input type="radio" name="q68" value="d"> SSO doesn’t affect SAP authentication; it only affects email and non-financial systems</label>
+      </div>
+      <div class="explanation" data-q="q68">✅ <strong>B is correct.</strong> SSO creates a single control point — Entra ID — which is both a strength and a risk. If SAP has local super-user accounts (SAP* is the default SAP emergency account), those can bypass SSO entirely. A thorough ITGC auditor asks: are SAP local accounts disabled? Is the SAP* account locked or password-randomized? Is the DDIC account locked? These are privileged access risks that exist even in an SSO environment. This is a TOD question — the design has a gap if local accounts aren’t addressed.</div>
+    </div>
+
+    <!-- Q79 -->
+    <div class="q-block">
+      <div class="q-num">Question 69 · Case Study — Readings Connection</div>
+      <div class="q-text">An audit senior reviews pjohnson88’s orphaned SAP role, notes it in the workpaper as “management is aware,” and closes the item without escalating or classifying it as a deficiency. Which reading and which concept most directly applies?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q69" value="a"> Milgram — the senior is in the agentic state, acting as an instrument of the engagement manager’s preference rather than exercising independent judgment; this also parallels Solzhenitsyn’s daily participation in lies</label>
+        <label><input type="radio" name="q69" value="b"> Didion — the senior has self-respect and is correctly deferring to management’s superior business knowledge</label>
+        <label><input type="radio" name="q69" value="c"> Milgram only — the Solzhenitsyn and Didion frameworks don’t apply to audit workpaper decisions</label>
+        <label><input type="radio" name="q69" value="d"> None — closing an item with management awareness is standard audit practice and ethically neutral</label>
+      </div>
+      <div class="explanation" data-q="q69">✅ <strong>A is correct.</strong> This scenario illustrates Milgram’s agentic state — the senior has transferred responsibility upward (“management is aware”) and ceased to function as an independent moral agent. It also parallels Solzhenitsyn: noting “management is aware” instead of “Significant Deficiency” is a small daily participation in a professional lie. Didion would add: the senior who does this repeatedly will eventually find no professional self at home. All three readings converge on the same audit failure: small acts of compliance that accumulate into systemic integrity failure.</div>
+    </div>
+
+    <!-- Q80 -->
+    <div class="q-block">
+      <div class="q-num">Question 70 · Case Study — Management Letter</div>
+      <div class="q-text">Using the jdavis55 termination exception, which of the following is the best-drafted management letter comment applying the 8 Reporting Rules?</div>
+      <div class="q-opts">
+        <label><input type="radio" name="q70" value="a"> “Condition: Some terminations were not disabled timely. Criteria: Policy requires timely disable. Cause: Process gap. Effect: Risk of unauthorized access. Recommendation: Management should improve the termination process.”</label>
+        <label><input type="radio" name="q70" value="b"> “Condition: 1 of 5 (20%) terminations tested exceeded the 4-hour Entra ID disable SLA. jdavis55 was disabled 16.75 hours after HR termination (03/07 5:00pm → 03/08 9:45am). Criteria: IT-SEC-004 §4.3 requires Entra ID disable within 4 hours of HR termination. Cause: Workday-to-Entra batch sync runs weekday mornings only; Friday terminations are not processed until the following business day. Effect: 16.75-hour window during which jdavis55 could have accessed SAP financial systems (compensating: no post-termination logins confirmed via Entra sign-in logs). Recommendation: Implement real-time or near-real-time Workday-to-Entra ID sync trigger for all termination events regardless of day/time.”</label>
+        <label><input type="radio" name="q70" value="c"> “Condition: jdavis55’s account was not disabled for 16.75 hours. Criteria: Policy says 4 hours. Cause: IT team error. Effect: Potential unauthorized access. Recommendation: Retrain the IT team.”</label>
+        <label><input type="radio" name="q70" value="d"> “Condition: Multiple termination SLA exceptions were noted. Criteria: 4-hour SLA per policy. Cause: Various. Effect: Access risk. Recommendation: Management should address.”</label>
+      </div>
+      <div class="explanation" data-q="q70">✅ <strong>B is correct.</strong> This is the 8 Reporting Rules applied perfectly: (1) lead with headline — “1 of 5 (20%)”; (2) quantify — specific names and timestamps; (3) fact vs. judgment — “16.75 hours” is fact, “SLA exceeded” is the judgment; (4) define population — 5 terminations tested; (5) show your math — 03/07 5pm → 03/08 9:45am; (6) acknowledge compensating controls — no post-term logins confirmed; (7) actionable rec — specific technical fix (real-time sync trigger), not “improve the process”; (8) writes for the skeptic — every assertion is supported. Option A is a textbook example of the weak, vague report the 8 Rules are designed to replace.</div>
+    </div>
+
+  </div><!-- end quiz-form -->
+
+  <div class="quiz-controls">
+    <button class="btn gold" onclick="submitQuiz()">Submit Answers & See Score</button>
+    <button class="btn" onclick="resetQuiz()">Reset Quiz</button>
+  </div>
+
+  <div id="score-display2" class="score-box" style="display:none">
+    <div class="big" id="score-text2">0/70</div>
+    <p id="score-pct2"></p>
+    <p id="score-msg2"></p>
+  </div>
+</div>
+
+<script>
+  const ANSWERS = {
+    q1:'b',q2:'c',q3:'b',q4:'c',q5:'a',
+    q6:'b',q7:'c',q8:'b',q9:'c',q10:'c',
+    q11:'c',q12:'b',q13:'b',q14:'b',q15:'b',
+    q16:'b',q17:'c',q18:'c',q19:'b',q20:'c',
+    q21:'d',q22:'b',q23:'b',q24:'c',q25:'b',
+    q26:'b',q27:'c',q28:'b',q29:'b',q30:'c',
+    q31:'c',q32:'d',q33:'b',q34:'b',q35:'c',
+    q36:'b',q37:'b',q38:'b',q39:'c',q40:'c',
+    q41:'b',q42:'b',q43:'c',q44:'c',q45:'b',
+    q46:'b',q47:'b',q48:'b',q49:'b',q50:'b',
+    q51:'c',q52:'b',q53:'b',q54:'c',q55:'b',
+    q56:'b',q57:'b',q58:'b',q59:'b',q60:'b',
+    q61:'b',q62:'b',q63:'c',q64:'b',q65:'b',
+    q66:'b',q67:'b',q68:'b',q69:'a',q70:'b'
+  };
+
+  function show(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function submitQuiz() {
+    let correct = 0;
+    for (let q in ANSWERS) {
+      const selected = document.querySelector(`input[name=${q}]:checked`);
+      const opts = document.querySelectorAll(`input[name=${q}]`);
+      const exp = document.querySelector(`.explanation[data-q=${q}]`);
+      opts.forEach(opt => {
+        const label = opt.parentElement;
+        if (opt.value === ANSWERS[q]) label.classList.add('correct');
+        if (selected && opt.value === selected.value && opt.value !== ANSWERS[q]) label.classList.add('wrong');
+      });
+      if (selected && selected.value === ANSWERS[q]) correct++;
+      if (exp) exp.classList.add('show');
+    }
+    const pct = Math.round((correct/70)*100);
+    let msg = pct >= 90 ? '🎉 Excellent! You\'re well prepared!' :
+              pct >= 80 ? '👍 Great job! Review the ones you missed.' :
+              pct >= 70 ? '📖 Good effort — focus on weak areas.' :
+              '💪 Keep studying! Review the study guides above.';
+
+    ['', '2'].forEach(s => {
+      const el = document.getElementById('score-display'+s);
+      if (el) {
+        el.style.display = 'block';
+        document.getElementById('score-text'+s).textContent = `${correct}/70`;
+        document.getElementById('score-pct'+s).textContent = `${pct}% — ${msg}`;
+      }
+    });
+    window.scrollTo(0, 0);
+  }
+
+  function resetQuiz() {
+    document.querySelectorAll('input[type=radio]').forEach(r => r.checked = false);
+    document.querySelectorAll('.q-opts label').forEach(l => { l.classList.remove('correct','wrong'); });
+    document.querySelectorAll('.explanation').forEach(e => e.classList.remove('show'));
+    ['', '2'].forEach(s => {
+      const el = document.getElementById('score-display'+s);
+      if (el) el.style.display = 'none';
+    });
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>
