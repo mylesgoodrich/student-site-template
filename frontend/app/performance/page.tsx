@@ -12,7 +12,7 @@ export default function PerformancePage() {
   return (
     <section id="record" className="space-y-14 scroll-mt-24">
       <header>
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+        <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
           Performance Record
         </h1>
         <p className="mt-2 text-sm text-muted">
@@ -33,7 +33,7 @@ export default function PerformancePage() {
         >
           Executive Summary
         </h2>
-        <p className="border-l-2 border-brand-gold/40 pl-3 text-xs font-medium uppercase tracking-wide text-white/55">
+        <p className="border-l-2 border-brand-gold/40 pl-3 text-xs font-medium uppercase tracking-wide text-white/65">
           Rebuild Metrics
         </p>
         <ExecutiveSummaryCards />

@@ -9,6 +9,10 @@
   --background: #0b0713;
   --foreground: #f5f2fb;
 
+  /* Accessible purple for text on dark backgrounds (7.2:1 on --background) */
+  --brand-purple-light: #8b5cf6;
+  --brand-purple-muted: #a78bfa;
+
   /* Surfaces + text */
   --surface: rgba(255, 255, 255, 0.06);
   --surface-2: rgba(255, 255, 255, 0.04);
@@ -27,6 +31,8 @@
   --color-border: var(--border);
   --color-muted: var(--muted);
   --color-muted-2: var(--muted-2);
+  --color-brand-purple-light: var(--brand-purple-light);
+  --color-brand-purple-muted: var(--brand-purple-muted);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -61,7 +67,7 @@ body {
   }
 
   .lsu-container {
-    @apply mx-auto w-full max-w-4xl px-4 sm:px-6;
+    @apply mx-auto w-full max-w-5xl px-5 sm:px-6;
   }
 
   .lsu-surface {
@@ -77,24 +83,24 @@ body {
   }
 
   .lsu-btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-brand-purple px-5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#3a1766] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/70;
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-full bg-brand-purple px-5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#3a1766] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/70;
   }
 
   .lsu-btn-gold {
-    @apply inline-flex items-center justify-center rounded-full bg-brand-gold px-5 py-2 text-sm font-semibold text-brand-purple shadow-sm transition-colors hover:bg-[#f2c400] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70;
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-full bg-brand-gold px-5 py-2 text-sm font-semibold text-brand-purple shadow-sm transition-colors hover:bg-[#f2c400] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70;
   }
 
   .lsu-btn-outline {
-    @apply inline-flex items-center justify-center rounded-full border border-brand-gold/60 px-5 py-2 text-sm font-semibold text-white/95 transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/70;
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-full border border-brand-gold/60 px-5 py-2 text-sm font-semibold text-white/95 transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/70;
   }
 
   .lsu-link {
-    @apply font-medium text-brand-purple underline decoration-brand-gold/70 underline-offset-4 hover:decoration-brand-gold;
+    @apply font-medium text-brand-purple-light underline decoration-brand-gold/70 underline-offset-4 hover:decoration-brand-gold;
   }
 
   /* Journey inline highlight: purple text + animated gold underline (no layout shift) */
   .lsu-highlight-link {
-    @apply font-medium text-brand-purple;
+    @apply font-medium text-brand-purple-light;
     background-image: linear-gradient(
       to top,
       color-mix(in srgb, var(--brand-gold) 50%, transparent),

@@ -230,7 +230,7 @@ export default function JourneyPage() {
             </div>
           </div>
 
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-5xl">
+          <h1 className="text-3xl font-bold tracking-tight sm:text-5xl">
             The story behind the systems
           </h1>
 

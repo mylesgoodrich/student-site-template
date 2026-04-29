@@ -81,7 +81,7 @@ export default async function BlogPostPage({ params }: Props) {
         <div className="pointer-events-none absolute -left-20 bottom-1/4 h-64 w-64 rounded-full bg-brand-gold/[0.06] blur-2xl" />
         <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-1/2 h-96 w-96 rounded-full bg-brand-purple/[0.05] blur-2xl" />
 
-        <article className="lsu-card prose prose-zinc max-w-none prose-a:text-brand-purple prose-a:decoration-brand-gold/70 prose-a:underline-offset-4 prose-blockquote:border-l-4 prose-blockquote:border-brand-gold prose-blockquote:bg-brand-gold/10 prose-blockquote:rounded-xl prose-blockquote:px-6 prose-blockquote:py-4">
+        <article className="lsu-card prose prose-zinc max-w-none prose-a:text-brand-purple-light prose-a:decoration-brand-gold/70 prose-a:underline-offset-4 prose-blockquote:border-l-4 prose-blockquote:border-brand-gold prose-blockquote:bg-brand-gold/10 prose-blockquote:rounded-xl prose-blockquote:px-6 prose-blockquote:py-4">
           <ReactMarkdown>{post.content}</ReactMarkdown>
           <div className="mt-12 rounded-xl border border-brand-gold/30 bg-brand-gold/10 px-6 py-6 text-sm">
             <p className="font-semibold text-brand-gold">— Myles</p>

@@ -8,65 +8,51 @@ Parameters:
 
   HostedZoneId:
     Type: String
-    Default: ''
     Description: Route53 Hosted Zone ID
 
   FrontendDomain:
     Type: String
     Description: Subdomain for frontend
 
+  BackendDomain:
+    Type: String
+    Description: Subdomain for backend API
+
   BaseDomain:
     Type: String
-    Default: ''
     Description: Base domain name
-
-  BackendApiUrl:
-    Type: String
-    Description: Backend API URL exposed to Next.js as NEXT_PUBLIC_API_URL
-
-  RepositoryUrl:
-    Type: String
-    Description: GitHub repository URL (for example, https://github.com/org/repo)
-
-  AmplifyAccessToken:
-    Type: String
-    NoEcho: true
-    Description: GitHub personal access token used by Amplify to connect the repository
-
-Conditions:
-  IsApexDomain: !Equals [!Ref FrontendDomain, '@']
-  HasCustomDomain: !Not [!Equals [!Ref BaseDomain, '']]
 
 Resources:
   AmplifyApp:
     Type: AWS::Amplify::App
     Properties:
       Name: !Sub '${ProjectName}-frontend'
-      Platform: WEB_COMPUTE
-      Repository: !Ref RepositoryUrl
-      AccessToken: !Ref AmplifyAccessToken
+      # Note: Repository and OAuth token should be configured manually in AWS Amplify Console
+      # or via AWS CLI after initial deployment
       BuildSpec: |
         version: 1
-        applications:
-          - appRoot: frontend
-            frontend:
-              phases:
-                preBuild:
-                  commands:
-                    - npm ci
-                build:
-                  commands:
-                    - npm run build
-              artifacts:
-                baseDirectory: .next
-                files:
-                  - '**/*'
-              cache:
-                paths:
-                  - node_modules/**/*
+        frontend:
+          phases:
+            preBuild:
+              commands:
+                - npm ci
+            build:
+              commands:
+                - npm run build
+          artifacts:
+            baseDirectory: .next
+            files:
+              - '**/*'
+          cache:
+            paths:
+              - node_modules/**/*
+      CustomRules:
+        - Source: '/<*>'
+          Target: '/index.html'
+          Status: '200'
       EnvironmentVariables:
         - Name: NEXT_PUBLIC_API_URL
-          Value: !Ref BackendApiUrl
+          Value: !Sub 'https://${BackendDomain}.${BaseDomain}'
 
   AmplifyBranch:
     Type: AWS::Amplify::Branch
@@ -77,23 +63,54 @@ Resources:
 
   AmplifyDomain:
     Type: AWS::Amplify::Domain
-    Condition: HasCustomDomain
     Properties:
       AppId: !GetAtt AmplifyApp.AppId
       DomainName: !Ref BaseDomain
       SubDomainSettings:
-        - Branch: !Ref AmplifyBranch
-          Prefix: !If [IsApexDomain, '', !Ref FrontendDomain]
+        # Root domain (mylesgoodrich.com)
+        - BranchName: !GetAtt AmplifyBranch.BranchName
+          Prefix: ''
+        # www subdomain (www.mylesgoodrich.com)
+        - BranchName: !GetAtt AmplifyBranch.BranchName
+          Prefix: !Ref FrontendDomain
+      AutoSubDomainCreationPatterns: []
+      EnableAutoSubDomain: false
+
+  # www subdomain record — CNAME to Amplify
+  Route53RecordWWW:
+    Type: AWS::Route53::RecordSet
+    DependsOn: AmplifyDomain
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Sub '${FrontendDomain}.${BaseDomain}'
+      Type: CNAME
+      TTL: 300
+      ResourceRecords:
+        - !Sub 'd${AmplifyApp.AppId}.cloudfront.net'
+
+  # Root domain record — ALIAS (apex domains cannot use CNAME)
+  Route53RecordRoot:
+    Type: AWS::Route53::RecordSet
+    DependsOn: AmplifyDomain
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Ref BaseDomain
+      Type: A
+      AliasTarget:
+        DNSName: !Sub 'd${AmplifyApp.AppId}.cloudfront.net'
+        HostedZoneId: Z2FDTNDATAQYW2  # CloudFront global hosted zone ID
+        EvaluateTargetHealth: false
 
 Outputs:
   FrontendURL:
-    Description: Frontend application URL
-    Value: !If
-      - HasCustomDomain
-      - !Sub 'https://${FrontendDomain}.${BaseDomain}'
-      - !Sub 'https://${AmplifyBranch.BranchName}.${AmplifyApp.DefaultDomain}'
+    Description: Frontend application URL (root domain)
+    Value: !Sub 'https://${BaseDomain}'
     Export:
       Name: !Sub '${ProjectName}-FrontendURL'
+
+  FrontendWWWURL:
+    Description: Frontend application URL (www)
+    Value: !Sub 'https://${FrontendDomain}.${BaseDomain}'
 
   AmplifyAppId:
     Description: Amplify App ID

@@ -120,7 +120,7 @@ export default function BlogIndexPage() {
               <span className="font-semibold text-foreground">{student.name}</span>
             </p>
           </div>
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-5xl">
+          <h1 className="text-3xl font-bold tracking-tight sm:text-5xl">
             Notes in Purple &amp; Gold
           </h1>
           <p className="max-w-2xl text-base leading-7 text-muted">
@@ -150,8 +150,16 @@ export default function BlogIndexPage() {
               <div className="flex items-center gap-2">
                 <button
                   type="button"
+                  onClick={() => setHeroPaused((p) => !p)}
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-border bg-surface text-sm text-foreground transition hover:bg-surface-2"
+                  aria-label={heroPaused ? "Play carousel" : "Pause carousel"}
+                >
+                  {heroPaused ? "▶" : "⏸"}
+                </button>
+                <button
+                  type="button"
                   onClick={() => setHeroIndex((i) => (i - 1 + heroPosts.length) % heroPosts.length)}
-                  className="rounded-xl border border-border bg-surface px-3 py-1.5 text-sm text-foreground transition hover:bg-surface-2"
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-border bg-surface text-sm text-foreground transition hover:bg-surface-2"
                   aria-label="Previous featured post"
                 >
                   ←
@@ -159,7 +167,7 @@ export default function BlogIndexPage() {
                 <button
                   type="button"
                   onClick={() => setHeroIndex((i) => (i + 1) % heroPosts.length)}
-                  className="rounded-xl border border-border bg-surface px-3 py-1.5 text-sm text-foreground transition hover:bg-surface-2"
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-border bg-surface text-sm text-foreground transition hover:bg-surface-2"
                   aria-label="Next featured post"
                 >
                   →
@@ -188,7 +196,7 @@ export default function BlogIndexPage() {
                     <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
                       <Link
                         href={getPostHref(post.slug)}
-                        className="underline decoration-brand-gold/40 underline-offset-4 transition hover:text-brand-purple hover:decoration-brand-gold"
+                        className="underline decoration-brand-gold/40 underline-offset-4 transition hover:text-brand-purple-light hover:decoration-brand-gold"
                       >
                         {post.title}
                       </Link>
@@ -349,7 +357,7 @@ export default function BlogIndexPage() {
                   <h2 className="text-base font-semibold leading-7">
                     <Link
                       href={getPostHref(post.slug)}
-                      className="underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-purple hover:decoration-brand-gold"
+                      className="underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-purple-light hover:decoration-brand-gold"
                     >
                       {post.title}
                     </Link>

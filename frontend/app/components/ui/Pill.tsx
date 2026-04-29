@@ -14,8 +14,8 @@ type PillProps = {
   Omit<ComponentPropsWithoutRef<"span">, "children">;
 
 const sizeClasses = {
-  sm: "px-2.5 py-1 text-xs",
-  md: "px-3 py-1.5 text-xs",
+  sm: "px-3 py-2 text-xs min-h-[44px]",
+  md: "px-3 py-2 text-xs min-h-[44px]",
 };
 
 const baseClasses =

@@ -56,24 +56,17 @@ const courses: Course[] = [
         description: "Flashcard set for Exam 2 — overhead allocation, process costing, and variance.",
       },
       {
+        title: "Exam 2 Notecards (ACCT 3122)",
+        href: "/tools/acct3122-exam2-notecards.html",
+        type: "Notecards",
+        description: "Flashcard deck for the second-semester cost accounting Exam 2 topics.",
+      },
+      {
         title: "Final Exam Study Tool",
         href: "/tools/acct3121-final.html",
         type: "Full App",
         description:
           "Full interactive study app for the final — study guide, practice exam, and flashcards in one.",
-      },
-    ],
-  },
-  {
-    code: "ACCT 3122",
-    name: "Cost Accounting II",
-    color: "purple",
-    tools: [
-      {
-        title: "Exam 2 Notecards",
-        href: "/tools/acct3122-exam2-notecards.html",
-        type: "Notecards",
-        description: "Flashcard deck for ACCT 3122 Exam 2 topics.",
       },
     ],
   },
@@ -84,13 +77,13 @@ const courses: Course[] = [
     tools: [
       {
         title: "Full Study App",
-        href: "/tools/acct3221-full.html",
+        href: "/tools/acct3221-full/index.html",
         type: "Full App",
         description: "Complete interactive study app for Tax Accounting — all topics and practice questions.",
       },
       {
         title: "Notecards",
-        href: "/tools/acct3221-notecards.html",
+        href: "/tools/acct3221-notecards/index.html",
         type: "Notecards",
         description: "Flashcard set covering key tax concepts, rules, and computations.",
       },

@@ -5,7 +5,7 @@ export default function AboutPage() {
   const { name, tagline, highlights } = siteContent;
 
   return (
-    <main className="lsu-container py-12 space-y-10">
+    <div className="space-y-10">
       {/* Hero */}
       <section className="lsu-card relative overflow-hidden">
         <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-purple/[0.08] blur-2xl" />
@@ -13,7 +13,7 @@ export default function AboutPage() {
 
         <div className="relative space-y-3">
           <span className="lsu-badge">About</span>
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Built, not given.
           </h1>
           <p className="text-sm text-muted">
@@ -285,7 +285,7 @@ export default function AboutPage() {
           </Link>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
 

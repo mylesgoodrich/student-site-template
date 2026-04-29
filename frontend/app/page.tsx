@@ -269,7 +269,7 @@ export default function Home() {
       : null;
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-10">
       {/* Gradient divider */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent" />
 
@@ -281,7 +281,7 @@ export default function Home() {
         animate="animate"
       >
         <div className="space-y-5">
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Built on structure. Tested by pressure.
             <span className="mt-2 block text-base font-normal text-muted-2 sm:text-lg">
               Accounting, risk, and control systems at LSU • Louisiana National Guard
@@ -301,13 +301,13 @@ export default function Home() {
                   ↗
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-white/70 whitespace-normal leading-tight">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-white/70 whitespace-normal leading-tight">
                     Momentum
                   </p>
                   <p className="mt-0.5 text-sm font-semibold text-foreground leading-snug sm:text-base">
                     GPA 3.9
                   </p>
-                  <p className="mt-0.5 text-xs leading-snug text-white/55">
+                  <p className="mt-0.5 text-xs leading-snug text-white/65">
                     Dean’s List trend
                   </p>
                 </div>
@@ -323,13 +323,13 @@ export default function Home() {
                   📄
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-white/70 whitespace-normal leading-tight">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-white/70 whitespace-normal leading-tight">
                     Evidence
                   </p>
                   <p className="mt-0.5 text-sm font-semibold text-foreground leading-snug sm:text-base">
                     31 Controls
                   </p>
-                  <p className="mt-0.5 text-xs leading-snug text-white/55">
+                  <p className="mt-0.5 text-xs leading-snug text-white/65">
                     COSO-mapped exhibit
                   </p>
                 </div>
@@ -345,13 +345,13 @@ export default function Home() {
                   🛡️
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-white/70 whitespace-normal leading-tight">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-white/70 whitespace-normal leading-tight">
                     Standards
                   </p>
                   <p className="mt-0.5 text-sm font-semibold text-foreground leading-snug sm:text-base">
                     PFC
                   </p>
-                  <p className="mt-0.5 text-xs leading-snug text-white/55">
+                  <p className="mt-0.5 text-xs leading-snug text-white/65">
                     Louisiana National Guard
                   </p>
                 </div>
@@ -375,25 +375,25 @@ export default function Home() {
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
               href="/projects#fin-bomb-internal-controls-exhibit-coso-framework"
-              className="text-sm font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+              className="inline-flex min-h-[44px] items-center text-sm font-semibold text-brand-purple-light underline underline-offset-4 hover:decoration-brand-gold"
             >
               View controls exhibit &rarr;
             </Link>
             <Link
               href="/projects#amazon-10-k-accounting-analysis"
-              className="text-sm font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+              className="inline-flex min-h-[44px] items-center text-sm font-semibold text-brand-purple-light underline underline-offset-4 hover:decoration-brand-gold"
             >
               See the 10-K outline &rarr;
             </Link>
             <Link
               href="/performance#record"
-              className="text-sm font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+              className="inline-flex min-h-[44px] items-center text-sm font-semibold text-brand-purple-light underline underline-offset-4 hover:decoration-brand-gold"
             >
               See performance record &rarr;
             </Link>
             <Link
               href="/journey#reset"
-              className="text-sm font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+              className="inline-flex min-h-[44px] items-center text-sm font-semibold text-brand-purple-light underline underline-offset-4 hover:decoration-brand-gold"
             >
               Read the reset &rarr;
             </Link>
@@ -450,11 +450,14 @@ export default function Home() {
               </div>
               <div className="mt-3 h-px w-full bg-border/60" />
             </div>
-          <div className="flex gap-1 border-b border-border pb-3">
+          <div className="flex gap-1 border-b border-border pb-3" role="tablist" aria-label="Identity">
             <button
               type="button"
+              role="tab"
+              aria-selected={identityTab === "guard"}
+              aria-controls="panel-guard"
               onClick={() => setIdentityTab("guard")}
-              className={`rounded-xl border px-4 py-2 text-sm font-medium transition ${
+              className={`min-h-[44px] rounded-xl border px-4 py-2 text-sm font-medium transition ${
                 identityTab === "guard"
                   ? "bg-brand-gold text-black border-brand-gold/60 shadow-[0_0_0_1px_rgba(253,208,35,0.4)]"
                   : "bg-surface text-foreground/85 border-border hover:bg-surface-2"
@@ -464,8 +467,11 @@ export default function Home() {
             </button>
             <button
               type="button"
+              role="tab"
+              aria-selected={identityTab === "comeback"}
+              aria-controls="panel-comeback"
               onClick={() => setIdentityTab("comeback")}
-              className={`rounded-xl border px-4 py-2 text-sm font-medium transition ${
+              className={`min-h-[44px] rounded-xl border px-4 py-2 text-sm font-medium transition ${
                 identityTab === "comeback"
                   ? "bg-brand-gold text-black border-brand-gold/60 shadow-[0_0_0_1px_rgba(253,208,35,0.4)]"
                   : "bg-surface text-foreground/85 border-border hover:bg-surface-2"
@@ -474,7 +480,7 @@ export default function Home() {
               Academic Comeback
             </button>
           </div>
-          <div className="mt-4 min-h-[120px]">
+          <div className="mt-4 min-h-[120px]" id={identityTab === "guard" ? "panel-guard" : "panel-comeback"} role="tabpanel">
             {identityTab === "guard" ? (
               <>
                 <p className="text-sm leading-7 text-muted">
@@ -513,7 +519,7 @@ export default function Home() {
 
       <OperatingSystemDashboard />
 
-      <div className="my-12 h-px w-full bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent" />
+      <div className="my-6 h-px w-full bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent" />
 
       {/* Performance Over Time */}
       <motion.section
@@ -557,7 +563,8 @@ export default function Home() {
                 viewBox={`0 0 ${PLOT.viewWidth} ${PLOT.viewHeight}`}
                 className="absolute inset-0 h-full w-full"
                 preserveAspectRatio="xMidYMid meet"
-                aria-hidden
+                role="img"
+                aria-label="GPA trend chart showing improvement from 2.5 to 3.9 over five semesters"
               >
                 <defs>
                   <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
@@ -700,7 +707,7 @@ export default function Home() {
         </div>
       </motion.section>
 
-      <div className="my-12 h-px w-full bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent" />
+      <div className="my-6 h-px w-full bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent" />
 
       {/* Evidence Trail */}
       <motion.section
@@ -723,7 +730,7 @@ export default function Home() {
           <div className="lsu-card relative group">
             <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 rounded-full bg-brand-gold/0 transition-colors group-hover:bg-brand-gold" />
             <div className="flex items-start justify-between gap-4">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted sm:text-xs">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted">
                 Controls
               </p>
               <ShieldCheck className="h-5 w-5 text-brand-gold/70" aria-hidden />
@@ -741,7 +748,7 @@ export default function Home() {
             </p>
             <Link
               href="/projects"
-              className="mt-3 inline-flex text-xs font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+              className="mt-3 inline-flex min-h-[44px] items-center text-xs font-semibold text-brand-purple-light underline underline-offset-4 hover:decoration-brand-gold"
             >
               See controls
             </Link>
@@ -750,7 +757,7 @@ export default function Home() {
           <div className="lsu-card relative group">
             <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 rounded-full bg-brand-gold/0 transition-colors group-hover:bg-brand-gold" />
             <div className="flex items-start justify-between gap-4">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted sm:text-xs">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted">
                 Analytics
               </p>
               <BarChart3 className="h-5 w-5 text-brand-purple/70" aria-hidden />
@@ -768,7 +775,7 @@ export default function Home() {
             </p>
             <Link
               href="/projects"
-              className="mt-3 inline-flex text-xs font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+              className="mt-3 inline-flex min-h-[44px] items-center text-xs font-semibold text-brand-purple-light underline underline-offset-4 hover:decoration-brand-gold"
             >
               See dashboards
             </Link>
@@ -777,7 +784,7 @@ export default function Home() {
           <div className="lsu-card relative group">
             <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 rounded-full bg-brand-gold/0 transition-colors group-hover:bg-brand-gold" />
             <div className="flex items-start justify-between gap-4">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted sm:text-xs">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted">
                 Execution
               </p>
               <Target className="h-5 w-5 text-brand-gold/70" aria-hidden />
@@ -795,7 +802,7 @@ export default function Home() {
             </p>
             <Link
               href="/performance"
-              className="mt-3 inline-flex text-xs font-semibold text-brand-purple underline underline-offset-4 hover:decoration-brand-gold"
+              className="mt-3 inline-flex min-h-[44px] items-center text-xs font-semibold text-brand-purple-light underline underline-offset-4 hover:decoration-brand-gold"
             >
               See record
             </Link>
@@ -882,7 +889,7 @@ export default function Home() {
           </div>
           <Link
             href="/projects"
-            className="text-sm font-medium text-brand-gold underline underline-offset-4 decoration-brand-gold/70 hover:decoration-brand-gold hover:[&>span]:translate-x-0.5 transition-all duration-200 inline-flex items-center gap-1"
+            className="text-sm font-medium text-brand-gold underline underline-offset-4 decoration-brand-gold/70 hover:decoration-brand-gold hover:[&>span]:translate-x-0.5 transition-all duration-200 inline-flex min-h-[44px] items-center gap-1"
           >
             View all <span aria-hidden>→</span>
           </Link>

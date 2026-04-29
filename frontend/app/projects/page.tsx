@@ -10,7 +10,7 @@ import Pill from "../components/ui/Pill";
 
 function Tag({ children }: { children: ReactNode }) {
   return (
-    <span className="rounded-full border border-brand-purple/35 bg-brand-purple/12 px-2 py-0.5 text-xs font-medium text-brand-purple">
+    <span className="rounded-full border border-brand-purple-light/35 bg-brand-purple/12 px-2 py-0.5 text-xs font-medium text-brand-purple-light">
       {children}
     </span>
   );
@@ -56,7 +56,7 @@ function deriveSignals(project: Project) {
 
 function SignalChip({ children }: { children: ReactNode }) {
   return (
-    <span className="rounded-full border border-brand-gold/25 bg-brand-gold/10 px-2 py-0.5 text-[11px] font-semibold text-brand-gold/90">
+    <span className="rounded-full border border-brand-gold/25 bg-brand-gold/10 px-2 py-0.5 text-xs font-semibold text-brand-gold/90">
       {children}
     </span>
   );
@@ -88,7 +88,7 @@ function ProjectCard({
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             {project.title === FEATURED_EXHIBIT_TITLE && (
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-brand-gold/80">
+              <p className="text-xs font-semibold uppercase tracking-wider text-brand-gold/80">
                 Featured Exhibit
               </p>
             )}
@@ -314,7 +314,7 @@ export default function ProjectsPage() {
   return (
     <div className="lsu-container py-12">
       <header className="mb-10">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
           Systems I&apos;ve Built
         </h1>
         <p className="mt-3 max-w-2xl text-base leading-7 text-muted">

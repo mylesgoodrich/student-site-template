@@ -69,7 +69,7 @@ export default function Header() {
 
       <div
         className={`lsu-container transition-all duration-300 ease-out ${
-          isScrolled ? "py-4 sm:py-5" : "py-8 sm:py-12 lg:py-14"
+          isScrolled ? "py-4 sm:py-5" : "py-6 sm:py-8 lg:py-10"
         }`}
       >
         <div className="flex items-center justify-between gap-4 md:gap-6 lg:items-center">
@@ -108,7 +108,7 @@ export default function Header() {
             isScrolled ? "mt-0 overflow-hidden opacity-0" : "mt-6"
           }`}
         >
-          <p className="max-w-2xl text-sm leading-6 text-white/65">
+          <p className="max-w-2xl text-sm leading-6 text-white/80">
             Purple and Gold — projects, writing, and what I&apos;m learning at LSU.
           </p>
         </div>
