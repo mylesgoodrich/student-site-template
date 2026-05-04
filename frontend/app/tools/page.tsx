@@ -68,6 +68,12 @@ const courses: Course[] = [
         description:
           "Full interactive study app for the final — study guide, practice exam, and flashcards in one.",
       },
+      {
+        title: "Final Exam Printable Flashcards",
+        href: "/tools/acct3121-flashcards-printable.html",
+        type: "Notecards",
+        description: "Print-ready flashcard set for the Cost Accounting final exam.",
+      },
     ],
   },
   {

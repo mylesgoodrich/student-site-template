@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ACCT 3121 — Printable Flashcards (Comprehensive)</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #fff; color: #000; }
+
+.card {
+  width: 6in; height: 4in;
+  border: 2px solid #000;
+  padding: 8px 11px 6px 11px;
+  overflow: hidden;
+  page-break-after: always;
+  display: flex; flex-direction: column;
+  background: #fff;
+}
+.card-header {
+  border-bottom: 2px solid #000;
+  padding-bottom: 3px; margin-bottom: 5px;
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.card-title { font-size: 14pt; font-weight: bold; line-height: 1.1; }
+.card-tag {
+  font-size: 7.5pt; font-weight: bold;
+  border: 1px solid #000; padding: 1px 5px;
+  white-space: nowrap; margin-left: 8px; flex-shrink: 0;
+}
+.card-body { flex: 1; overflow: hidden; font-size: 7.5pt; line-height: 1.3; }
+
+table { width: 100%; border-collapse: collapse; font-size: 7pt; margin: 2px 0; }
+th { background: #000; color: #fff; padding: 2px 4px; text-align: left; font-weight: bold; }
+td { border: 1px solid #999; padding: 2px 4px; vertical-align: top; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 3px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-top: 3px; }
+
+.box { border: 1px solid #000; padding: 3px 5px; background: #f8f8f8; font-size: 7pt; line-height: 1.3; }
+.formula { background: #efefef; font-family: 'Courier New', monospace; font-size: 6.8pt; white-space: pre-wrap; border: 1px solid #000; padding: 3px 5px; }
+.warn { border-left: 3px solid #000; padding-left: 4px; margin: 2px 0; font-size: 7pt; background: #f0f0f0; }
+.tip  { border-left: 3px solid #555; padding-left: 4px; margin: 2px 0; font-size: 7pt; }
+.lbl { font-size: 6.5pt; font-weight: bold; text-transform: uppercase; letter-spacing: 0.4px; margin: 3px 0 1px 0; border-bottom: 1px solid #ccc; }
+ul { padding-left: 11px; margin: 1px 0; }
+li { margin: 1px 0; }
+b { font-weight: bold; }
+i { font-style: italic; }
+p { margin: 2px 0; }
+
+@media print {
+  body { margin: 0; }
+  .card { page-break-after: always; margin: 0; }
+  @page { size: 6in 4in; margin: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════ CH 2 COST TERMS ══════════════════════════ -->
+
+<!-- CARD 1 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 2 — Core Cost Definitions (Part 1)</div>
+    <span class="card-tag">CH 2 · TERMS</span>
+  </div>
+  <div class="card-body">
+    <div class="two-col">
+      <div>
+        <p><b>Direct Cost:</b> Obvious components that can be easily traced to the product or service.</p>
+        <p style="margin-top:4px;"><b>Indirect Cost:</b> Product costs incurred in the factory that are less obvious and not easily traced to the final product. Allocated via overhead rates.</p>
+        <p style="margin-top:4px;"><b>Product Cost (Inventoriable):</b> The costs incurred to make a product and ready it for sale, including direct materials (DM), direct labor (DL), and manufacturing overhead (MOH). Flows through: <i>WIP → Finished Goods → COGS</i> when sold.</p>
+        <p style="margin-top:4px;"><b>Period Cost:</b> Costs that are not product costs and that are expensed on the income statement in the period they are incurred. Includes selling, general, and administrative (SG&amp;A) expenses.</p>
+      </div>
+      <div>
+        <p><b>Variable Cost:</b> Costs that are constant on a per-unit basis but change in total with the volume of activity.</p>
+        <p style="margin-top:4px;"><b>Fixed Cost:</b> A constant cost that does not change as more units are made within the available capacity. Per-unit fixed cost changes inversely with volume.</p>
+        <p style="margin-top:4px;"><b>Relevant Range:</b> A band of activity that identifies a specific relationship between activity level and the cost being measured, where fixed costs remain fixed and unit variable costs are constant.</p>
+        <div class="warn" style="margin-top:4px;">Outside the relevant range: fixed costs may step up and variable cost per unit may change. Behavior assumptions break down.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 2 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 2 — Relevant Costs &amp; Cost Behavior Traps</div>
+    <span class="card-tag">CH 2 · RELEVANT</span>
+  </div>
+  <div class="card-body">
+    <div class="two-col">
+      <div>
+        <p><b>Relevant Costs:</b> Costs that relate to the specific decision being made. They <b>differ between options</b>, <b>occur in the future</b>, and are <b>avoidable</b>.</p>
+        <div class="warn" style="margin-top:3px;">Sunk Costs: Already incurred and irrecoverable — <b>NEVER relevant</b> to any future decision. Cannot be changed by current or future actions.</div>
+        <div class="warn" style="margin-top:3px;">Fixed costs are relevant <b>only if they differ between alternatives</b>. A fixed cost that is the same across all options is irrelevant.</div>
+        <div class="tip" style="margin-top:4px;">Test: Ask (1) Is it future? (2) Does it differ between options? If both yes → relevant.</div>
+      </div>
+      <div>
+        <div class="lbl">Cost Behavior Summary</div>
+        <table>
+          <tr><th>Cost Type</th><th>Per Unit</th><th>In Total</th></tr>
+          <tr><td>Variable</td><td>Constant</td><td>Changes with activity</td></tr>
+          <tr><td>Fixed</td><td>Changes with activity</td><td>Constant (within rel. range)</td></tr>
+          <tr><td>Mixed</td><td>Changes</td><td>Has both FC and VC components</td></tr>
+        </table>
+        <div class="lbl" style="margin-top:5px;">Product vs. Period — Key Difference</div>
+        <table>
+          <tr><th></th><th>Product Cost</th><th>Period Cost</th></tr>
+          <tr><td>Goes to</td><td>Balance Sheet (inventory) until sold</td><td>Income Statement immediately</td></tr>
+          <tr><td>Examples</td><td>DM, DL, MOH</td><td>SG&amp;A, selling, R&amp;D</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ CH 3 COST ESTIMATION ══════════════════════════ -->
+
+<!-- CARD 3 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 3 — Cost Estimation Methods</div>
+    <span class="card-tag">CH 3 · ESTIMATION</span>
+  </div>
+  <div class="card-body">
+    <p><b>Account Analysis Method:</b> An estimation method that uses actual costs within a general ledger account to predict future costs. It requires insight and experience to identify whether a cost is fixed, variable, or mixed. <i>Subjective — relies on manager judgment.</i></p>
+    <p style="margin-top:4px;"><b>High-Low Method:</b> A cost estimation method that uses actual cost relationships to make predictions of future mixed costs; this method uses two actual data points (the highest and lowest activity levels).</p>
+    <div class="formula" style="margin-top:2px;">VC per Unit = (Cost at High Activity − Cost at Low Activity) ÷ (High Units − Low Units)
+FC = Total Cost at High Point − (VC per Unit × High Activity Units)</div>
+    <div class="warn" style="margin-top:2px;">Weakness of High-Low: uses only 2 data points — ignores all other observations. Susceptible to outliers at extreme activity levels.</div>
+    <p style="margin-top:4px;"><b>Regression Analysis (Least Squares):</b> A cost estimation method, also known as least squares regression or linear regression, that uses every point in a data set in a mathematical computation designed to minimize the vertical distance among the given data points to generate a line of best fit. <i>Most objective and accurate method.</i></p>
+    <div class="tip">Accuracy ranking: Regression &gt; Account Analysis &gt; High-Low. Regression uses ALL data; High-Low uses only 2 points.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ CH 4 CVP ══════════════════════════ -->
+
+<!-- CARD 4 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 4 — Cost-Volume-Profit (CVP) Analysis</div>
+    <span class="card-tag">CH 4 · CVP</span>
+  </div>
+  <div class="card-body">
+    <p><b>CVP Analysis:</b> The analysis of the relationship between a company's revenues, costs, volume of sales, and, consequently, profit.</p>
+    <div class="two-col" style="margin-top:3px;">
+      <div>
+        <div class="lbl">Core Formulas</div>
+        <div class="formula">CM per Unit = SP − VC per Unit
+CM Ratio = CM per Unit ÷ SP
+
+Break-Even Units = FC ÷ CM per Unit
+Break-Even Sales $ = FC ÷ CM Ratio
+
+Target Profit Units = (FC + Target Profit) ÷ CM per Unit</div>
+      </div>
+      <div>
+        <div class="lbl">Underlying Assumptions</div>
+        <ul>
+          <li>Selling price is constant per unit</li>
+          <li>Variable cost per unit is constant</li>
+          <li>Fixed costs are constant in total</li>
+          <li>All units produced are sold (no inventory change)</li>
+          <li>Single product or constant sales mix</li>
+        </ul>
+        <div class="lbl" style="margin-top:4px;">Impact on Break-Even Point</div>
+        <table>
+          <tr><th>Change</th><th>Effect on BE</th></tr>
+          <tr><td>↑ Fixed Costs</td><td>↑ BE (more to cover)</td></tr>
+          <tr><td>↑ Variable Cost</td><td>↑ BE (lower CM)</td></tr>
+          <tr><td>↑ Selling Price</td><td>↓ BE (higher CM)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ CH 8, 9, 10, 11 REVIEW ══════════════════════════ -->
+
+<!-- CARD 5 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 8 &amp; 9 — Job Costing vs. ABC</div>
+    <span class="card-tag">CH 8–9 · REVIEW</span>
+  </div>
+  <div class="card-body">
+    <div class="two-col">
+      <div>
+        <div class="lbl">CH 8 — Job Costing</div>
+        <ul>
+          <li>Used for <b>distinct, customizable products</b> (hospitals, law firms, custom manufacturing)</li>
+          <li>Costs tracked per job on a <b>job cost sheet</b></li>
+          <li><b>Normal costing:</b> actual DM + actual DL + applied MOH (budgeted rate × actual driver)</li>
+        </ul>
+        <div class="lbl" style="margin-top:4px;">Journal Entry Flow</div>
+        <div class="formula">DM purchased     → Raw Materials
+DM issued        → WIP
+DL incurred      → WIP
+MOH applied      → WIP
+Job complete     → Finished Goods
+Units sold       → COGS</div>
+      </div>
+      <div>
+        <div class="lbl">CH 9 — Traditional vs. ABC</div>
+        <p><b>Traditional Costing:</b> Accumulates all MOH into a single plant-wide cost pool (or few departmental pools) and allocates it using a single volume-based cost driver (e.g., DL hours or machine hours). Can inaccurately smooth out costs — overcosting high-volume, undercosting low-volume customized products.</p>
+        <p style="margin-top:3px;"><b>Activity-Based Costing (ABC):</b> Divides large overhead cost pools into smaller, highly specific activity cost pools. Uses relevant, activity-specific cost drivers → much more precise and accurate unit cost for management decision-making.</p>
+        <div class="warn" style="margin-top:2px;">ABC limitation: costly to implement and maintain; subjective driver selection.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 6 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 10 — Variance Analysis Definitions</div>
+    <span class="card-tag">CH 10 · REVIEW</span>
+  </div>
+  <div class="card-body">
+    <p><b>Variance / Variance Analysis:</b> A process that identifies and calculates the difference between actual and budgeted outcomes to help organizations evaluate performance, troubleshoot issues, and take corrective action.</p>
+    <p style="margin-top:3px;"><b>Flexible Budget:</b> A "right-sized" master budget that flexes to use actual sales volumes when actual sales volumes differ from master budget sales volumes. It holds the budgeted selling prices and input costs constant to evaluate actual performance. Isolates price/efficiency variances from volume effects.</p>
+    <div class="two-col" style="margin-top:4px;">
+      <div>
+        <div class="lbl">Price &amp; Efficiency Variances</div>
+        <div class="formula">Price Variance = (AP − SP) × Actual Qty
+Efficiency Var = (AQ − SQ) × Std Price
+
+F = favorable (actual &lt; standard → ↑ OI)
+U = unfavorable (actual &gt; standard → ↓ OI)</div>
+        <p style="margin-top:2px;"><b>Favorable (F):</b> Indicates an outcome that causes an increase in operating income compared to the budget.</p>
+        <p style="margin-top:1px;"><b>Unfavorable (U):</b> Indicates an outcome that causes a decrease in operating income compared to the budget.</p>
+      </div>
+      <div>
+        <div class="lbl">Fixed-MOH Variances (Absorption Only)</div>
+        <div class="formula">Spending Var = Actual FMOH − Budgeted FMOH
+Volume Var = (Actual Prod − Budgeted Prod)
+             × Budgeted FMOH Rate
+F = Actual &gt; Budgeted Production
+U = Actual &lt; Budgeted Production</div>
+        <div class="warn" style="margin-top:3px;">Variable OH Efficiency Var uses actual vs. standard driver hours × VOH rate.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 7 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 11 — Process Costing: FIFO vs. Weighted-Average</div>
+    <span class="card-tag">CH 11 · REVIEW</span>
+  </div>
+  <div class="card-body">
+    <p><b>Equivalent Units of Production (EUP):</b> When identical units are mass-produced in a continuous flow, incomplete units in WIP at period-end are converted into EUP — the number of physical units that could have been fully completed with the resources used.</p>
+    <div class="two-col" style="margin-top:4px;">
+      <div>
+        <div class="lbl">FIFO Method</div>
+        <p><b>Definition:</b> Assumes the first units started in a process are the first to finish. Strictly keeps last period's work and costs <b>separate</b> from this period's work and costs. EUP based only on work added in the current period.</p>
+        <p style="margin-top:3px;"><b>Goods Completed:</b> Sums three distinct layers — costs already in beginning WIP + new costs to finish that beginning WIP + costs for new units started and fully completed.</p>
+        <p style="margin-top:3px;"><b>Ending Inventory:</b> Valued using strictly the current period's cost per EU → more accurate for tracking cost fluctuations.</p>
+      </div>
+      <div>
+        <div class="lbl">Weighted-Average Method</div>
+        <p><b>Definition:</b> Blends and averages the actual work and costs incurred last period with the work and costs incurred this period. Ignores the degree of completion of beginning inventory and treats all units completed as if they were 100% produced in the current period.</p>
+        <p style="margin-top:3px;"><b>Goods Completed:</b> Assigns the blended, average cost per EU universally to all completed units regardless of when they were actually started.</p>
+        <p style="margin-top:3px;"><b>Ending Inventory:</b> Valued at the smoothed, blended average — can mask effects of input cost changes (inflation/deflation).</p>
+      </div>
+    </div>
+    <div class="warn" style="margin-top:3px;"><b>Key difference:</b> FIFO isolates current-period costs (better for cost control); WA blends prior and current (simpler but less precise).</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ CH 12 ══════════════════════════ -->
+
+<!-- CARD 8 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 12 — Absorption &amp; Variable Costing: Definitions</div>
+    <span class="card-tag">CH 12 · DEFINITIONS</span>
+  </div>
+  <div class="card-body">
+    <p><b>Absorption Costing:</b> A costing method in which fixed manufacturing overhead (fixed-MOH) costs are included ("absorbed") in a unit's inventoriable cost, along with DM, DL, and variable-MOH costs, whether the unit is in inventory or Cost of Goods Sold. <i>Required by GAAP for external reporting. Product costs are deferred on the balance sheet until the units are sold.</i></p>
+    <p style="margin-top:4px;"><b>Variable Costing:</b> A costing method wherein DM, DL, and variable-MOH comprise inventoriable unit costs. <i>Used for internal decision-making purposes and is not permitted by GAAP for external reporting.</i></p>
+    <div class="lbl" style="margin-top:4px;">The Key Difference: Treatment of Fixed-MOH</div>
+    <table>
+      <tr><th>Method</th><th>Fixed-MOH Treatment</th><th>Inventory Includes</th><th>GAAP?</th></tr>
+      <tr><td><b>Absorption</b></td><td>Product cost → capitalized in inventory → expensed as COGS when sold</td><td>DM + DL + VMOH + <b>FMOH</b></td><td>Yes — required</td></tr>
+      <tr><td><b>Variable</b></td><td>Period cost → expensed on income statement in the period incurred, regardless of sales</td><td>DM + DL + VMOH <i>only</i></td><td>No — internal only</td></tr>
+    </table>
+    <div class="tip" style="margin-top:3px;">Why Variable Costing is better internally: clearly separates fixed/variable costs; OI only changes with <b>sales</b> (not production); prevents inventory manipulation; supports CVP analysis.</div>
+  </div>
+</div>
+
+<!-- CARD 9 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 12 — OI Relationship, Reconciliation &amp; Volume Variance</div>
+    <span class="card-tag">CH 12 · FORMULAS</span>
+  </div>
+  <div class="card-body">
+    <div class="lbl">Operating Income Relationship</div>
+    <table>
+      <tr><th>Condition</th><th>Result</th><th>Reason</th></tr>
+      <tr><td>Produced <b>&gt;</b> Sold</td><td><b>Abs OI &gt; Var OI</b></td><td>FMOH deferred into ending inventory (held on balance sheet)</td></tr>
+      <tr><td>Produced <b>&lt;</b> Sold</td><td><b>Abs OI &lt; Var OI</b></td><td>Prior-period FMOH released from beginning inventory onto income statement</td></tr>
+      <tr><td>Produced <b>=</b> Sold</td><td><b>Abs OI = Var OI</b></td><td>No inventory change — all FMOH flows through as COGS</td></tr>
+    </table>
+    <div class="lbl" style="margin-top:4px;">Reconciliation Formula</div>
+    <div class="formula">Variable Costing OI
++ FMOH in Ending Inventory     (deferred — not yet expensed)
+− FMOH in Beginning Inventory  (released from prior period)
+= Absorption Costing OI
+
+Shortcut: Abs OI = Var OI + FMOH Rate × (Units Produced − Units Sold)
+Difference = (Change in Inventory Units) × FMOH Cost Per Unit</div>
+    <div class="lbl" style="margin-top:3px;">Fixed-MOH Volume Variance (Absorption Only)</div>
+    <div class="formula">Vol Variance = (Actual Production − Budgeted Production) × Budgeted FMOH Rate
+Favorable if Actual &gt; Budgeted  |  Unfavorable if Actual &lt; Budgeted  |  Zero if Actual = Budgeted</div>
+    <div class="warn" style="margin-top:2px;">⚠ Trap: A manager can boost Absorption OI by overproducing — FMOH sits in ending inventory instead of hitting COGS. Variable costing eliminates this incentive.</div>
+  </div>
+</div>
+
+<!-- CARD 10 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 12 — Capacity Levels: Theoretical &amp; Practical</div>
+    <span class="card-tag">CH 12 · CAPACITY</span>
+  </div>
+  <div class="card-body">
+    <div class="two-col">
+      <div>
+        <div class="lbl">Theoretical Capacity</div>
+        <p><b>Definition:</b> Production capacity calling for a facility's highest and best use, which assumes no downtime. It is <b>unrealistic</b> and results in the <b>lowest fixed-MOH rate</b> (highest denominator), but usually causes a large unfavorable volume variance because actual output almost never reaches theoretical max.</p>
+        <div class="formula" style="margin-top:3px;">FMOH Rate = Budgeted FMOH
+           ÷ Theoretical Capacity
+→ Lowest rate (÷ biggest number)
+→ Usually large UNFAVORABLE Vol. Var.</div>
+      </div>
+      <div>
+        <div class="lbl">Practical Capacity ← RECOMMENDED</div>
+        <p><b>Definition:</b> Production capacity that allows for unavoidable interruptions for things like maintenance, holiday shutdowns, and employee training. It is <b>challenging but plausible</b>, resulting in a moderate, stable fixed-MOH rate.</p>
+        <p style="margin-top:3px;"><b>Why recommended:</b> Sets the cost of capacity at the cost of supplying it regardless of demand. Unused capacity is explicitly identified as a separate cost — helping managers manage and reduce it, rather than hiding it in product costs.</p>
+        <div class="formula" style="margin-top:3px;">FMOH Rate = Budgeted FMOH
+           ÷ Practical Capacity
+→ Moderate rate → Moderate Vol. Var.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 11 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 12 — Normal Capacity &amp; the Death Spiral</div>
+    <span class="card-tag">CH 12 · NORMAL CAP</span>
+  </div>
+  <div class="card-body">
+    <div class="two-col">
+      <div>
+        <div class="lbl">Normal Capacity</div>
+        <p><b>Definition:</b> The production capacity needed to satisfy average customer demand over a period of time. Because it aligns with demand (which is often lower than what the factory can actually produce), it results in the <b>highest fixed-MOH rate</b> and unit product costs.</p>
+        <div class="formula" style="margin-top:3px;">FMOH Rate = Budgeted FMOH
+           ÷ Normal (Average Demand) Capacity
+→ Highest rate (÷ smallest number)</div>
+        <div class="warn" style="margin-top:3px;">⚠ Normal capacity hides the cost of unused capacity inside the product cost — making products appear more expensive than they really should be.</div>
+      </div>
+      <div>
+        <div class="lbl">Death Spiral (Demand Spiral)</div>
+        <p>A self-reinforcing loop triggered by using Normal Capacity when demand falls:</p>
+        <div class="box" style="margin-top:3px; font-size:7pt;">
+          1. Demand falls → Normal capacity decreases<br>
+          2. Normal capacity ↓ → FMOH rate ↑ (same FMOH ÷ fewer units)<br>
+          3. Higher FMOH rate → higher product costs<br>
+          4. Higher product costs → management raises prices<br>
+          5. Higher prices → demand falls further<br>
+          6. → Cycle repeats and accelerates
+        </div>
+        <div class="tip" style="margin-top:3px;"><b>Solution:</b> Use Practical Capacity instead — the spiral cannot start because the denominator is fixed at realistic capacity, not demand.</div>
+      </div>
+    </div>
+    <div class="warn" style="margin-top:3px;"><b>Mnemonic:</b> T → P → N = Highest denominator → Lowest denominator = Lowest FMOH rate → Highest FMOH rate</div>
+  </div>
+</div>
+
+<!-- CARD 12 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 12 — Capacity Levels: Full Comparison</div>
+    <span class="card-tag">CH 12 · CAP COMPARE</span>
+  </div>
+  <div class="card-body">
+    <table>
+      <tr>
+        <th>Capacity Level</th>
+        <th>Textbook Definition</th>
+        <th>FMOH Rate</th>
+        <th>Volume Variance</th>
+        <th>Best Used For</th>
+      </tr>
+      <tr>
+        <td><b>Theoretical</b></td>
+        <td>Facility's highest &amp; best use, assumes NO downtime — unrealistic ideal</td>
+        <td>Lowest (÷ biggest denominator)</td>
+        <td>Usually large Unfavorable</td>
+        <td>Theoretical benchmarking only</td>
+      </tr>
+      <tr>
+        <td><b>Practical</b> ✓</td>
+        <td>Theoretical minus unavoidable interruptions (maintenance, holidays, training) — challenging but plausible</td>
+        <td>Moderate, stable</td>
+        <td>Moderate Unfavorable</td>
+        <td><b>Product costing; reveals cost of unused capacity</b></td>
+      </tr>
+      <tr>
+        <td><b>Normal</b></td>
+        <td>Production capacity needed to satisfy average customer demand over time — demand-based, often well below physical capacity</td>
+        <td>Highest (÷ smallest denominator)</td>
+        <td>Fluctuates with demand</td>
+        <td>Can trigger Death Spiral — use with caution</td>
+      </tr>
+    </table>
+    <div class="formula" style="margin-top:4px;">For all three: Budgeted FMOH Rate = Total Budgeted Fixed-MOH ÷ Budgeted Capacity Denominator Level</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ CH 14 ══════════════════════════ -->
+
+<!-- CARD 13 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 14 — Operating Units vs. Support Departments</div>
+    <span class="card-tag">CH 14 · DEPT TYPES</span>
+  </div>
+  <div class="card-body">
+    <table>
+      <tr>
+        <th>Feature</th>
+        <th>Operating Unit (Production Dept)</th>
+        <th>Support Department (Service Dept)</th>
+      </tr>
+      <tr>
+        <td><b>Definition</b></td>
+        <td>The part of a business that makes products and services available for sale to external customers; it generates revenues and incurs expenses.</td>
+        <td>Departments that exist to support operating units. They are cost centers that do not earn any revenues on their own.</td>
+      </tr>
+      <tr>
+        <td><b>Revenue?</b></td>
+        <td>Yes — sells to external customers</td>
+        <td>No — cost center only</td>
+      </tr>
+      <tr>
+        <td><b>Examples</b></td>
+        <td>Mixing, Assembly, Canning, Juices, Teas, Sports Drink departments</td>
+        <td>HR, IT, Maintenance, Accounting, Legal, Janitorial, Security</td>
+      </tr>
+      <tr>
+        <td><b>Cost Treatment</b></td>
+        <td>Costs directly form product cost</td>
+        <td>Costs allocated to operating depts, then to products</td>
+      </tr>
+    </table>
+    <div class="lbl" style="margin-top:4px;">Why Allocate Support Dept Costs? (FDMC)</div>
+    <div class="box"><b>F</b>inancial Reporting (GAAP / inventory valuation) &nbsp;|&nbsp; <b>D</b>ecision-Making (see true full cost) &nbsp;|&nbsp; <b>M</b>otivate Managers (accountability for support costs consumed) &nbsp;|&nbsp; <b>C</b>ost Reimbursement (government contracts require full cost allocation)</div>
+    <div class="lbl" style="margin-top:3px;">Selecting Allocation Bases</div>
+    <div class="box"><b>HR / Cafeteria:</b> # of employees &nbsp;|&nbsp; <b>Maintenance / Security / Custodial:</b> Square footage &nbsp;|&nbsp; <b>IT:</b> # of support tickets or IT labor hours &nbsp;|&nbsp; <b>Accounting / Billing:</b> Revenue/expenses or hours worked</div>
+  </div>
+</div>
+
+<!-- CARD 14 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 14 — Three Allocation Methods Overview</div>
+    <span class="card-tag">CH 14 · 3 METHODS</span>
+  </div>
+  <div class="card-body">
+    <div class="warn" style="margin-bottom:4px;"><b>DSR Mnemonic:</b> Direct → Step-Down → Reciprocal = Least Accurate → Most Accurate. Total SD costs distributed to operating depts = <b>IDENTICAL</b> across all three methods. Only the split between operating depts differs.</div>
+    <table>
+      <tr>
+        <th>Method</th>
+        <th>Textbook Definition</th>
+        <th>SD-to-SD Services?</th>
+        <th>Accuracy</th>
+        <th>Tool</th>
+      </tr>
+      <tr>
+        <td><b>Direct</b></td>
+        <td>The simplest method. Costs of support departments are allocated straight to operating units based on proportional usage. Costs are <i>not</i> allocated to other support departments.</td>
+        <td>Ignored completely</td>
+        <td>Least accurate</td>
+        <td>Simple ratios (operating depts only)</td>
+      </tr>
+      <tr>
+        <td><b>Step-Down</b></td>
+        <td>Allocates some support costs to other support departments, as well as to operating units. Rank first. Allocate forward. Never backwards.</td>
+        <td>One direction only (sequential)</td>
+        <td>More accurate</td>
+        <td>Sequential allocation</td>
+      </tr>
+      <tr>
+        <td><b>Reciprocal</b></td>
+        <td>The most detailed method. Captures the full exchange of services between all support departments and operating units simultaneously, requiring simultaneous equations to solve.</td>
+        <td>Full mutual exchange — both directions</td>
+        <td>Most accurate</td>
+        <td>Simultaneous equations</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- CARD 15 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 14 — Direct Method (Detail + Example)</div>
+    <span class="card-tag">CH 14 · DIRECT</span>
+  </div>
+  <div class="card-body">
+    <p><b>Direct Method:</b> The simplest method. Costs of support departments are allocated straight to operating units based on proportional usage. Costs are <b>not</b> allocated to other support departments.</p>
+    <div class="lbl" style="margin-top:3px;">Formula</div>
+    <div class="formula">Denominator  = Sum of OPERATING DEPT driver units ONLY
+                 (NEVER include other support departments)
+Budgeted Rate = SD Cost ÷ Denominator
+Allocation    = Rate × Each operating dept's driver units</div>
+    <div class="warn" style="margin-top:3px;">⚠ #1 Trap: Including other support departments in the denominator. Direct Method → operating departments ONLY.</div>
+    <div class="lbl" style="margin-top:3px;">Example</div>
+    <p>Janitorial cost = $80,000. Driver = sq ft. Dept A = 4,000 sq ft, Dept B = 6,000 sq ft, Support Dept = 2,000 sq ft.</p>
+    <div class="formula">Denominator = 4,000 + 6,000 = 10,000 (operating depts ONLY — exclude 2,000 SD sq ft)
+Rate = $80,000 ÷ 10,000 = $8 per sq ft
+Dept A = $8 × 4,000 = $32,000  |  Dept B = $8 × 6,000 = $48,000</div>
+  </div>
+</div>
+
+<!-- CARD 16 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 14 — Step-Down Method (Detail + Example)</div>
+    <span class="card-tag">CH 14 · STEP-DOWN</span>
+  </div>
+  <div class="card-body">
+    <p><b>Step Method (Step-Down):</b> Allocates some support costs to other support departments, as well as to operating units. You must first rank the support departments (usually by highest cost or most services provided to other SDs). You allocate the highest-ranked department's costs forward to all remaining support and operating departments. You then "step down" to the next. <b>You never allocate backwards to a higher-ranked department.</b></p>
+    <div class="lbl" style="margin-top:3px;">Steps</div>
+    <div class="formula">1. Rank SDs: highest % (or $) of services to other SDs goes FIRST
+2. Allocate #1 to ALL remaining open depts (other SDs + operating depts)
+   Denominator = ALL remaining open depts' driver units
+3. CLOSE that SD permanently — receives NO further allocations
+4. Next SD's total cost = original cost + allocations RECEIVED from prior steps
+5. Repeat until all SDs are closed and fully allocated to operating depts</div>
+    <div class="warn" style="margin-top:2px;">⚠ Trap 1: Once closed, a SD NEVER receives further allocations. &nbsp; ⚠ Trap 2: New cost for next step = original + received amounts (don't forget the add-on).</div>
+    <div class="lbl" style="margin-top:2px;">Example: IT ($60,000) goes first. Hours: Maintenance 2,000 | Assembly 8,000 | Finishing 4,000</div>
+    <div class="formula">IT Denominator = 2,000+8,000+4,000 = 14,000  (Maintenance is still open — included!)
+IT→Maintenance = $60,000 × 2,000/14,000 = $8,571  (NOT $0 — that's Direct Method)</div>
+  </div>
+</div>
+
+<!-- CARD 17 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 14 — Reciprocal Method &amp; Common Costs</div>
+    <span class="card-tag">CH 14 · RECIPROCAL</span>
+  </div>
+  <div class="card-body">
+    <div class="two-col">
+      <div>
+        <div class="lbl">Reciprocal Method</div>
+        <p><b>Definition:</b> The most detailed method. Captures the full exchange of services between all support departments and operating units simultaneously, requiring simultaneous equations to solve.</p>
+        <div class="formula" style="margin-top:2px;">Set up simultaneous equations:
+  J = Direct_J + (J's share of P) × P
+  P = Direct_P + (P's share of J) × J
+
+Solve for J and P (total costs incl. received).
+Then allocate each SD's total to ALL depts
+(incl. other SDs) using proportional driver units.
+
+Denominator for each SD = ALL other depts
+  (other SDs + operating) — NOT itself.</div>
+      </div>
+      <div>
+        <div class="lbl">Common Costs Definition</div>
+        <p><b>Common Costs:</b> Costs that are shared among two or more parties (e.g., two roommates sharing rent, or two product lines sharing factory insurance).</p>
+        <div class="lbl" style="margin-top:4px;">Stand-Alone Method</div>
+        <p>Identifies the cost each entity would have to pay if it bore the cost alone. The total common cost is allocated based on the percentage each party would have paid (proportional sharing).</p>
+        <div class="formula" style="margin-top:2px;">User % = User's stand-alone cost ÷ Total of ALL users' stand-alone costs
+Allocation = User % × Total Common Cost
+Most equitable — no ranking needed.</div>
+        <div class="lbl" style="margin-top:3px;">Incremental Cost Method</div>
+        <p>Ranks the users. The primary (first-ranked, highest stand-alone) user is assigned the cost up to their stand-alone amount. Any additional (incremental) cost is assigned to secondary user(s).</p>
+        <div class="formula" style="margin-top:2px;">Primary = pays full stand-alone amount
+Secondary = Common Cost − Primary's share</div>
+        <div class="tip" style="margin-top:2px;">FASB ASC 606 governs external reporting of bundled revenue from contracts with customers.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ CH 17 ══════════════════════════ -->
+
+<!-- CARD 18 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 17 — MCS, Centralization &amp; Decentralization</div>
+    <span class="card-tag">CH 17 · MCS</span>
+  </div>
+  <div class="card-body">
+    <p><b>Management Control System (MCS):</b> A convergence of systems to gather and use information to aid and coordinate planning and control decisions. Can be formal or informal.</p>
+    <div class="box" style="margin-top:2px;font-size:7pt;"><b>3 Key Properties (MGE):</b> <b>M</b>otivation (incentivizes desired behavior) | <b>G</b>oal Congruence (aligns all levels with firm goals) | <b>E</b>ffort (managers exert appropriate effort) &nbsp;&nbsp; <b>4 Pillars:</b> Budgeting | Responsibility Centers | Transfer Pricing | Performance Measurement</div>
+    <div class="lbl" style="margin-top:4px;">Centralization vs. Decentralization</div>
+    <table>
+      <tr><th>Feature</th><th>Centralization</th><th>Decentralization</th></tr>
+      <tr><td><b>Definition</b></td><td>A structure where decision-making authority resides within a narrow scope, at the highest levels of the firm.</td><td>The freedom for managers at all levels to make binding decisions without continuous interference by top management.</td></tr>
+      <tr><td><b>Pros</b></td><td>Stronger goal congruence; top-down company-wide perspective; uniformity and control.</td><td>Better local responsiveness; faster decisions; increased manager motivation; more specialization; frees executives for strategy.</td></tr>
+      <tr><td><b>Cons</b></td><td>Slower decisions; risk of bottleneck; less responsive to local needs.</td><td>Suboptimal decisions (unit over firm); duplication of activities/effort.</td></tr>
+      <tr><td><b>How to achieve decentralization</b></td><td>N/A</td><td><b>Delegation</b> — moving decision-making authority to business unit managers (purchasing, accounting, shipping, customer service, sales).</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- CARD 19 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 17 — Responsibility Centers (All 4 Types)</div>
+    <span class="card-tag">CH 17 · RESP CENTERS</span>
+  </div>
+  <div class="card-body">
+    <p><b>Responsibility Center:</b> A business unit (division, department, office) organized according to its focus or area of control. Must have <b>A</b>uthority (power to decide) + <b>R</b>esponsibility (owns the task) + <b>A</b>ccountability (answers for results) = <b>ARA</b>.</p>
+    <div class="warn" style="margin-bottom:3px;"><b>CRPI</b> (ascending scope): Cost Center → Revenue Center → Profit Center → Investment Center</div>
+    <table>
+      <tr><th>Type</th><th>Controls</th><th>Textbook Definition</th><th>Example</th></tr>
+      <tr><td><b>Cost Center</b></td><td>Costs only</td><td>Charged solely with managing costs. Managers are evaluated on their ability to operate within the budget.</td><td>A factory for a sporting goods company; university payroll processing dept.</td></tr>
+      <tr><td><b>Revenue Center</b></td><td>Revenue only</td><td>Charged strictly with generating revenues for the company. Evaluated on their ability to meet sales forecasts.</td><td>Marketing &amp; fan engagement group for a sports team; global sales team.</td></tr>
+      <tr><td><b>Profit Center</b></td><td>Costs + Revenue</td><td>Charged with simultaneously generating revenues and maintaining expenses. Evaluated on their ability to meet a target profit.</td><td>The pharmacy inside a Walgreens; the garden center at Lowe's.</td></tr>
+      <tr><td><b>Investment Center</b></td><td>Costs + Revenue + Assets</td><td>Charged with selecting which assets to use to generate a target return and then wisely reinvesting subsequent returns. Evaluated on ROI or RI.</td><td>The CEO running an entire corporation (Amazon); a highly autonomous division where the manager controls asset acquisition.</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- CARD 20 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 17 — ROI: Formula, Interpretation &amp; Goal-Congruence Problem</div>
+    <span class="card-tag">CH 17 · ROI</span>
+  </div>
+  <div class="card-body">
+    <div class="two-col">
+      <div>
+        <div class="lbl">ROI Formula</div>
+        <div class="formula">ROI = Operating Income ÷ Average Operating Assets
+
+DuPont Breakdown:
+  ROI = Return on Sales × Investment Turnover
+  ROI = (OI ÷ Sales) × (Sales ÷ Avg Assets)
+
+Improve ROI by: ↑ OI, ↑ Sales, or ↓ Assets</div>
+        <div class="lbl" style="margin-top:4px;">Interpretation</div>
+        <p>ROI yields the <b>percentage of return for each dollar invested</b>. It shows how efficiently a division uses its assets to generate profit. Popular for comparisons across divisions and firms.</p>
+        <div class="warn" style="margin-top:3px;">Net Book Value problem: as assets depreciate, denominator ↓ → ROI mechanically ↑ even with unchanged performance — gives false sense of improvement for older divisions.</div>
+      </div>
+      <div>
+        <div class="lbl">Goal-Congruence Problem with ROI</div>
+        <div class="box" style="font-size:7pt;">
+          <b>Scenario:</b> Division's current ROI = 20%. New project's ROI = 15%. Firm's WACC = 10%.<br><br>
+          <b>What happens:</b> The manager <b>REJECTS</b> the project (15% &lt; 20% average) — it would dilute their ROI score — even though 15% &gt; 10% WACC means the project is profitable for the firm.<br><br>
+          <b>Result:</b> Goal incongruence — the manager's incentive (protect ROI) conflicts with the firm's goal (maximize firm value).
+        </div>
+        <div class="lbl" style="margin-top:4px;">Advantage of ROI</div>
+        <p>Best for <b>comparing performance across divisions or firms</b> of different sizes because it is a percentage ratio.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 21 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 17 — Residual Income &amp; EVA: Formulas &amp; Interpretations</div>
+    <span class="card-tag">CH 17 · RI + EVA</span>
+  </div>
+  <div class="card-body">
+    <div class="two-col">
+      <div>
+        <div class="lbl">Residual Income (RI)</div>
+        <div class="formula">RI = Operating Income
+   − (Required Rate of Return × Avg Operating Assets)
+Accept project if RI > $0</div>
+        <p style="margin-top:3px;"><b>Interpretation:</b> RI calculates the excess of actual income earned above a firm's required rate of return. It is expressed as a <b>dollar amount</b> rather than a percentage. Any positive RI means the investment is generating more than the company's minimum hurdle rate.</p>
+        <p style="margin-top:3px;"><b>Solves ROI goal-congruence problem:</b> Managers accept any project with RI &gt; $0 — aligning division goals with firm goals. The same 15% project above would show positive RI if WACC = 10%, so it gets accepted.</p>
+      </div>
+      <div>
+        <div class="lbl">Economic Value Added (EVA)</div>
+        <div class="formula">EVA = After-Tax Operating Income
+    − (After-Tax WACC × Invested Capital)
+
+Invested Capital = Total Assets − Current Liabilities
+(For a specific project: use purchase price of asset)
+Accept if EVA > $0</div>
+        <div class="warn" style="margin-top:3px;">⚠ Trap: Invested Capital = Total Assets <b>MINUS</b> Current Liabilities — NOT total assets alone.</div>
+        <p style="margin-top:3px;"><b>Advantage:</b> Accounts for taxes and both debt and equity financing (via WACC). Goal-congruent like RI.</p>
+        <div class="lbl" style="margin-top:3px;">Use All Three Together</div>
+        <div class="box" style="font-size:7pt;"><b>ROI</b>: cross-division comparisons &nbsp;|&nbsp; <b>RI</b>: overcomes ROI goal-congruence failure &nbsp;|&nbsp; <b>EVA</b>: incorporates taxes &amp; full capital structure</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 22 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 17 — Transfer Pricing: Definition &amp; General Guideline</div>
+    <span class="card-tag">CH 17 · TRANSFER TP</span>
+  </div>
+  <div class="card-body">
+    <p><b>Transfer Pricing:</b> The internal transaction price at which two business units within the same company exchange a good or service. Typically arises due to vertical integration. A well-designed transfer pricing system ensures <b>goal congruence</b> — when managers maximize their own unit's profit, those decisions naturally align with and maximize overall firm profit. Poor transfer pricing creates <b>goal incongruence</b>.</p>
+    <div class="lbl" style="margin-top:3px;">General Guideline — Min &amp; Max Transfer Prices</div>
+    <div class="formula">Min Transfer Price (SELLER's Floor) = Variable Cost per unit + Opportunity Cost per unit
+
+  Seller has IDLE capacity:  Opportunity Cost = $0
+                              → Min TP = Variable Cost only
+  Seller at FULL capacity:   Opportunity Cost = CM lost on foregone external sales
+                              → Min TP = VC + (External Price − VC) = External Market Price
+
+Max Transfer Price (BUYER's Ceiling) = External market price (what buyer pays outside)</div>
+    <div class="warn" style="margin-top:3px;">⚠ Full capacity example: VC = $30, External price = $65. Min TP = $30 + ($65−$30) = <b>$65</b>. Seller will NOT accept below market price.</div>
+    <div class="warn" style="margin-top:2px;">⚠ If Min TP &gt; Max TP → no mutually beneficial internal price exists. Firm must intervene or allow external purchase.</div>
+  </div>
+</div>
+
+<!-- CARD 23 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 17 — Transfer Pricing Methods &amp; Vertical Integration</div>
+    <span class="card-tag">CH 17 · TP METHODS</span>
+  </div>
+  <div class="card-body">
+    <div class="lbl">Three Transfer Pricing Methods</div>
+    <table>
+      <tr><th>Method</th><th>How Set</th><th>Pros</th><th>Cons</th></tr>
+      <tr><td><b>Cost-Based</b></td><td>Variable cost, full absorption cost, or cost-plus markup</td><td>Simple; easy to calculate; no market data needed</td><td>May not motivate seller; can mask inefficiencies</td></tr>
+      <tr><td><b>Market-Based</b></td><td>External market price for the same or similar product</td><td>Objective; best when a competitive external market exists; mimics arm's-length transaction</td><td>Requires an existing market; may still create distortions if capacity differs</td></tr>
+      <tr><td><b>Negotiated</b></td><td>Agreed upon between seller (above Min TP) and buyer (below Max TP)</td><td>Most flexible; promotes goal congruence when range exists; reflects bargaining power</td><td>Time-consuming; may lead to conflict; depends on relative power</td></tr>
+    </table>
+    <div class="lbl" style="margin-top:4px;">Vertical Integration</div>
+    <p><b>Definition:</b> A growth strategy where a company expands to include activities that either precede or follow the existing firm in its value chain.</p>
+    <div class="two-col" style="margin-top:2px;">
+      <div class="box"><b>Upstream (Backward) Integration:</b> Buying a company further from the final consumer — e.g., a supplier. <i>IKEA buying forests for lumber; Starbucks buying a coffee farm in Costa Rica.</i></div>
+      <div class="box"><b>Downstream (Forward) Integration:</b> Buying a company one step closer to the final consumer — e.g., distribution or retail. <i>Apple (a manufacturer) opening its own Apple Stores to sell directly to consumers.</i></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ CH 18 ══════════════════════════ -->
+
+<!-- CARD 24 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 18 — Key Strategy Definitions</div>
+    <span class="card-tag">CH 18 · DEFINITIONS</span>
+  </div>
+  <div class="card-body">
+    <ul>
+      <li><b>Mission:</b> An organization's purpose — its reason for existing and what drives it forward.</li>
+      <li style="margin-top:3px;"><b>Strategy:</b> The means by which an organization intends to achieve its mission and vision. It specifies how an organization <b>matches its own capabilities with the opportunities in the marketplace</b> to accomplish its objectives, create value for customers, and differentiate itself from competitors.</li>
+      <li style="margin-top:3px;"><b>Strategic Plan:</b> A comprehensive, potentially multi-year plan for an organization; helps an organization turn its purpose into action by establishing its direction, including specification of its mission and vision, goals and objectives, strategies and initiatives, and measures and targets.</li>
+      <li style="margin-top:3px;"><b>Operating Plan:</b> A plan, found within a strategic plan, that is more attuned to <b>this year's expected outcomes and approaches</b> for achieving them. Short-run tactics and budgets.</li>
+      <li style="margin-top:3px;"><b>Strategy Map:</b> A graphic showing a company's chosen objectives for the balanced scorecard perspectives, further specifying how the objectives affect other objectives (showing <b>causal links</b>). Flows bottom-up: Learning &amp; Growth → Internal Process → Customer → Financial.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- CARD 25 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 18 — Porter's Five Forces (All Five + Definitions)</div>
+    <span class="card-tag">CH 18 · PORTER'S</span>
+  </div>
+  <div class="card-body">
+    <p style="margin-bottom:4px;font-size:7.5pt;"><i>These external forces dictate how an industry and companies within it make a profit.</i> Mnemonic: <b>Can't Survive Neglecting Suppliers</b> (Competition, Customers, Substitutes, New Entrants, Suppliers)</p>
+    <table>
+      <tr><th>#</th><th>Force</th><th>Textbook Definition</th></tr>
+      <tr><td>1</td><td><b>Competitive Rivalry</b></td><td>The existing companies within an industry and the intensity of the competition among them — intense competition lowers profitability.</td></tr>
+      <tr><td>2</td><td><b>Power of Customers (Buyers)</b></td><td>Customers create demand and have the power to influence prices and quality expectations.</td></tr>
+      <tr><td>3</td><td><b>Bargaining Power of Suppliers</b></td><td>If suppliers "hold the cards," they can influence an industry's profits by altering the amount/quality of goods supplied or by setting trade terms favorable to them.</td></tr>
+      <tr><td>4</td><td><b>Threat of Substitutes</b></td><td>The threat of customers going elsewhere to satisfy their needs and wants (e.g., meal kits vs. restaurants) — limits pricing power.</td></tr>
+      <tr><td>5</td><td><b>Threat of New Entrants</b></td><td>New companies can enter the industry, potentially diluting existing profits by adding capacity and reducing market share.</td></tr>
+    </table>
+    <div class="tip" style="margin-top:3px;">Porter's Five Forces is used alongside SWOT Analysis to understand the full competitive environment (external) before forming strategy.</div>
+  </div>
+</div>
+
+<!-- CARD 26 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 18 — SWOT Analysis</div>
+    <span class="card-tag">CH 18 · SWOT</span>
+  </div>
+  <div class="card-body">
+    <p><b>SWOT Analysis:</b> A strategic planning framework used to evaluate the internal capabilities and external environment of an organization.</p>
+    <table style="margin-top:4px;">
+      <tr><th>Internal (Within Company's Control)</th><th>External (Environmental — Cannot Control)</th></tr>
+      <tr>
+        <td><b>S</b>trengths — advantages the company already has; areas where it outperforms competitors or has unique capabilities.</td>
+        <td><b>O</b>pportunities — favorable external conditions in the market or environment that the company can exploit to its advantage.</td>
+      </tr>
+      <tr>
+        <td><b>W</b>eaknesses — internal areas where the company falls short; vulnerabilities relative to competitors.</td>
+        <td><b>T</b>hreats — external conditions that could harm the company's performance, market share, or profitability.</td>
+      </tr>
+    </table>
+    <div class="tip" style="margin-top:5px;"><b>How SWOT and Porter's Five Forces work together:</b> Porter's Five Forces analyzes the external competitive environment (feeds into O and T of SWOT). SWOT then matches internal capabilities (S/W) with external conditions (O/T) to form a strategy.</div>
+    <div class="warn" style="margin-top:3px;">⚠ Exam Trap: Strengths and Weaknesses = INTERNAL. Opportunities and Threats = EXTERNAL. Don't mix them up.</div>
+  </div>
+</div>
+
+<!-- CARD 27 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 18 — Two Basic Strategies: Cost Leadership &amp; Differentiation</div>
+    <span class="card-tag">CH 18 · STRATEGIES</span>
+  </div>
+  <div class="card-body">
+    <table>
+      <tr>
+        <th>Feature</th>
+        <th>Cost Leadership</th>
+        <th>Product Differentiation</th>
+      </tr>
+      <tr>
+        <td><b>Textbook Def.</b></td>
+        <td>A business strategy where a company focuses on achieving economies of scale, incorporating learning curve effects, disposing of redundant assets, eliminating non-value-added activities, and/or implementing other cost efficiencies to reduce the costs of offering its products and services.</td>
+        <td>A business strategy wherein the uniqueness, customization, and/or quality of a company's products and/or services sets it apart.</td>
+      </tr>
+      <tr>
+        <td><b>Competitive Advantage</b></td>
+        <td>Lower selling prices</td>
+        <td>Brand loyalty and the ability to command a price premium</td>
+      </tr>
+      <tr>
+        <td><b>Focus</b></td>
+        <td>Eliminating waste, improving productivity, just-in-time inventory</td>
+        <td>Research &amp; development, patents, new product ideas, superior perceived value</td>
+      </tr>
+      <tr>
+        <td><b>BSC Metrics</b></td>
+        <td>DM/DL cost variances, cycle time, defect rate, cost per unit</td>
+        <td># new products/patents, customer satisfaction, R&amp;D spending, brand perception</td>
+      </tr>
+      <tr>
+        <td><b>Examples</b></td>
+        <td>Walmart, Ryanair, McDonald's, IKEA</td>
+        <td>Apple, BMW, Starbucks, Rolex</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- CARD 28 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 18 — Customer Value Proposition &amp; Compensation Types</div>
+    <span class="card-tag">CH 18 · CVP + COMP</span>
+  </div>
+  <div class="card-body">
+    <div class="two-col">
+      <div>
+        <div class="lbl">Customer Value Proposition — 3 Types</div>
+        <table>
+          <tr><th>Type</th><th>Description</th><th>Strategy</th></tr>
+          <tr><td><b>Operational Excellence</b></td><td>Best total cost; reliable, convenient, no-hassle</td><td>Cost Leadership</td></tr>
+          <tr><td><b>Product Leadership</b></td><td>Best product; continuous innovation and superior quality</td><td>Differentiation</td></tr>
+          <tr><td><b>Customer Solutions (Intimacy)</b></td><td>Best total solution; deep relationships, customization to individual needs</td><td>Niche / Relationship</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="lbl">Compensation Types (Textbook Definitions)</div>
+        <table>
+          <tr><th>Type</th><th>Definition</th></tr>
+          <tr><td><b>Hourly wages</b></td><td>Best for fewer skills, temporary, part-time, or contract positions. Overtime after threshold.</td></tr>
+          <tr><td><b>Salary</b></td><td>Larger skillset, long-term positions; paid for outcomes, not hours.</td></tr>
+          <tr><td><b>Commission</b></td><td>Motivate sales to increase revenues; based on total revenues or % of sales.</td></tr>
+          <tr><td><b>Piece rate</b></td><td>Rate paid per unit of outcome (e.g., # cars serviced or components assembled).</td></tr>
+          <tr><td><b>Bonuses</b></td><td>Year-end awards; % or sum based on overall business performance for year just ended.</td></tr>
+          <tr><td><b>Stock options</b></td><td>Long-term equity incentive; canceled if not vested before employee leaves.</td></tr>
+          <tr><td><b>Incentive pay</b></td><td>Short-term forward-looking target achievement (more forward-looking than bonuses).</td></tr>
+        </table>
+        <div class="warn" style="margin-top:2px;">Short-term incentives → managers cut R&amp;D/training/maintenance. Stock options align with long-run shareholder value.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 29 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 18 — BSC Definition &amp; Financial/Nonfinancial Measures</div>
+    <span class="card-tag">CH 18 · BSC DEF</span>
+  </div>
+  <div class="card-body">
+    <p><b>Balanced Scorecard (BSC):</b> A framework for measuring organizational performance using both financial and nonfinancial performance measures. Created by <b>Robert Kaplan and David Norton</b>, it balances these measures while considering performance from multiple perspectives to ensure goal congruence.</p>
+    <div class="two-col" style="margin-top:4px;">
+      <div>
+        <div class="lbl">Financial Measures (Lagging Indicators)</div>
+        <p><b>Definition:</b> Financial performance measures that measure the results from decisions that happened in the past.</p>
+        <p><b>Objective:</b> Evaluate profitability and past actions.</p>
+        <p><b>Examples:</b> Gross margin, operating income, ROI, RI, standard cost variances, operating cash flows, EPS.</p>
+      </div>
+      <div>
+        <div class="lbl">Nonfinancial Measures (Leading Indicators)</div>
+        <p><b>Definition:</b> Nonfinancial performance measures that measure the actions the company is taking right now to drive future financial results.</p>
+        <p><b>Objective:</b> Provide context to financial motives; observe metrics daily to make timely adjustments.</p>
+        <p><b>Examples:</b> Average time to hire, employee turnover, product quality (defect rate), customer retention rate, net promoter score (customer referrals).</p>
+      </div>
+    </div>
+    <div class="tip" style="margin-top:4px;">BSC "balances" lagging (financial) measures of past results with leading (nonfinancial) measures of future performance drivers.</div>
+  </div>
+</div>
+
+<!-- CARD 30 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 18 — BSC: Four Perspectives (FCIL) — Full Detail</div>
+    <span class="card-tag">CH 18 · 4 PERSPECTIVES</span>
+  </div>
+  <div class="card-body">
+    <div class="warn" style="margin-bottom:3px;"><b>FCIL Mnemonic:</b> "Firms Can Improve Learning" | Strategy Map flows <b>BOTTOM-UP</b>: Learning &amp; Growth → Internal Process → Customer → Financial</div>
+    <table>
+      <tr><th>Perspective</th><th>Question</th><th>Textbook Objectives</th><th>Example Metrics</th></tr>
+      <tr>
+        <td><b>Financial</b></td>
+        <td>How do we look to shareholders?</td>
+        <td>Increase revenues; increase operating margins; increase cash flow.</td>
+        <td>OI growth, revenue growth, cost reduction %, ROI, RI, EPS</td>
+      </tr>
+      <tr>
+        <td><b>Customer</b></td>
+        <td>How do customers see us?</td>
+        <td>Increase customer satisfaction; increase market share; increase number of new customers.</td>
+        <td>Market share, customer satisfaction scores, retention rate, on-time delivery, brand perception</td>
+      </tr>
+      <tr>
+        <td><b>Internal Business Process</b></td>
+        <td>What must we excel at internally?</td>
+        <td>Decrease time from order placed to delivery; reduce rework/defects; improve efficiency.</td>
+        <td>Cycle time, defect rate (% defect-free), process efficiency, throughput, # of patents</td>
+      </tr>
+      <tr>
+        <td><b>Learning &amp; Growth</b> ← Foundation</td>
+        <td>Can we innovate and improve?</td>
+        <td>Increase employee training; increase employee satisfaction; cross-train employees; empower employees to make decisions. <i>This is the foundational perspective.</i></td>
+        <td>Training hours, employee satisfaction, turnover rate, R&amp;D spending, # new skills developed</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- CARD 31 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 18 — BSC: Features of a Good BSC &amp; Pitfalls to Avoid</div>
+    <span class="card-tag">CH 18 · BSC FEATURES</span>
+  </div>
+  <div class="card-body">
+    <div class="two-col">
+      <div>
+        <div class="lbl">✓ 5 Features of a Good Balanced Scorecard</div>
+        <ol style="padding-left:13px;font-size:7.5pt;line-height:1.5;">
+          <li>Tells the <b>story of the company's strategy</b> through cause-and-effect relationships</li>
+          <li><b>Communicates strategy</b> to all members of the organization</li>
+          <li><b>Motivates managers</b> to take actions that result in financial performance improvements</li>
+          <li><b>Limits the number of measures</b> — focuses on the most critical ones; prevents information overload</li>
+          <li><b>Highlights less-than-optimal trade-offs</b> so managers can weigh competing objectives</li>
+        </ol>
+      </div>
+      <div>
+        <div class="lbl">⚠ 4 Pitfalls to Avoid with the BSC</div>
+        <ol style="padding-left:13px;font-size:7.5pt;line-height:1.5;">
+          <li>Don't assume <b>cause-and-effect linkages are precise</b> — they are <i>hypotheses</i>, not certainties</li>
+          <li>Don't seek improvements in <b>ALL measures simultaneously</b> — some trade-offs are necessary and unavoidable</li>
+          <li>Don't use <b>ONLY objective (financial) measures</b> — nonfinancial measures are essential leading indicators</li>
+          <li>Don't <b>ignore nonfinancial measures when evaluating managers and employees</b> — they are leading indicators of future financial performance</li>
+        </ol>
+        <div class="tip" style="margin-top:4px;">Trade-off example: ↑ R&amp;D spending (Learning &amp; Growth) may ↓ short-term profitability (Financial). The BSC should highlight this trade-off, not hide it.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 32 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 18 — BSC Metrics by Strategy Type</div>
+    <span class="card-tag">CH 18 · BSC METRICS</span>
+  </div>
+  <div class="card-body">
+    <table>
+      <tr>
+        <th>Perspective</th>
+        <th>Cost Leader Metrics</th>
+        <th>Product Differentiator Metrics</th>
+      </tr>
+      <tr>
+        <td><b>Financial</b></td>
+        <td>Operating income growth, revenue growth, cost reduction %, operating cash flow</td>
+        <td>Revenue from new products, gross margin %, premium price achieved vs. competitors</td>
+      </tr>
+      <tr>
+        <td><b>Customer</b></td>
+        <td>Market share, price vs. competition, on-time delivery rate, customer retention rate</td>
+        <td>Customer satisfaction scores, brand perception/NPS, retention rate, customer referrals</td>
+      </tr>
+      <tr>
+        <td><b>Internal Business Process</b></td>
+        <td>Cycle time (order to delivery), defect rate (% defect-free), process efficiency, throughput</td>
+        <td>Product development cycle time, # of patents filed, innovation rate, # new product ideas</td>
+      </tr>
+      <tr>
+        <td><b>Learning &amp; Growth</b></td>
+        <td>Employee training hours, employee satisfaction score, turnover rate</td>
+        <td>R&amp;D spending %, # new technical skills developed, employee satisfaction, cross-training rate</td>
+      </tr>
+    </table>
+    <div class="warn" style="margin-top:3px;">⚠ Exam: DM/DL cost variances → Cost Leader. # patents/R&amp;D → Differentiator. ROI → Financial (both). Employee training → Learning &amp; Growth (both). Defect rate → Internal Process (both).</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ FORMULA QUICK-REF CARDS ══════════════════════════ -->
+
+<!-- CARD 33 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Formula Quick Reference — CH 12 Complete</div>
+    <span class="card-tag">CH 12 · ALL FORMULAS</span>
+  </div>
+  <div class="card-body">
+    <div class="two-col">
+      <div>
+        <div class="lbl">Core OI Formulas</div>
+        <div class="formula">Abs OI = Var OI
+       + FMOH Rate × (Prod − Sold)
+(or)
+Abs OI = Var OI
+       + FMOH in EI − FMOH in BI
+
+Difference = ΔInventory Units × FMOH Rate
+
+FMOH Rate = Total Budgeted FMOH
+           ÷ Denominator Capacity Level</div>
+        <div class="lbl" style="margin-top:4px;">Volume Variance</div>
+        <div class="formula">Vol Var = (Actual Prod − Budget Prod)
+         × Budgeted FMOH Rate
+F if Actual > Budget  (used more capacity)
+U if Actual < Budget  (unused capacity)
+Zero if Actual = Budget</div>
+      </div>
+      <div>
+        <div class="lbl">Inventory Cost by Method</div>
+        <table>
+          <tr><th></th><th>Absorption</th><th>Variable</th></tr>
+          <tr><td>DM</td><td>✓</td><td>✓</td></tr>
+          <tr><td>DL</td><td>✓</td><td>✓</td></tr>
+          <tr><td>VMOH</td><td>✓</td><td>✓</td></tr>
+          <tr><td>FMOH</td><td>✓</td><td>✗ (Period cost)</td></tr>
+        </table>
+        <div class="lbl" style="margin-top:4px;">Capacity Level Rate Ranking</div>
+        <div class="formula">Theoretical  → Lowest FMOH rate
+                  (÷ highest denominator)
+Practical    → Middle rate  ← RECOMMENDED
+Normal       → Highest FMOH rate
+                  (÷ lowest denominator = demand)</div>
+        <div class="warn" style="margin-top:2px;">Higher FMOH rate = Normal capacity. Causes Death Spiral if demand falls.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 34 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Formula Quick Reference — CH 14 Complete</div>
+    <span class="card-tag">CH 14 · ALL FORMULAS</span>
+  </div>
+  <div class="card-body">
+    <div class="three-col">
+      <div>
+        <div class="lbl">Direct Method</div>
+        <div class="formula">Denom = Σ(oper. dept
+  driver units) ONLY
+
+Rate = SD Cost ÷ Denom
+
+Alloc = Rate × Dept units
+
+⚠ NEVER include other
+SDs in denominator.</div>
+      </div>
+      <div>
+        <div class="lbl">Step-Down Method</div>
+        <div class="formula">Rank by highest %
+to other SDs → goes 1st
+
+Denom = ALL remaining
+  OPEN depts
+  (SDs + operating)
+
+New cost for step =
+  Original + received
+
+⚠ Closed SD gets
+  NOTHING more.</div>
+      </div>
+      <div>
+        <div class="lbl">Reciprocal Method</div>
+        <div class="formula">J = Direct_J
+  + (J's share of P)×P
+P = Direct_P
+  + (P's share of J)×J
+
+Solve simultaneously.
+Alloc each total to
+ALL other depts.
+
+Denom = all depts
+  EXCEPT itself.</div>
+      </div>
+    </div>
+    <div class="lbl" style="margin-top:4px;">Common Cost Methods</div>
+    <div class="two-col">
+      <div class="formula">Stand-Alone:
+User % = User SA ÷ Total SA
+Alloc = % × Common Cost</div>
+      <div class="formula">Incremental:
+Primary = full SA amount
+Secondary = Common − Primary</div>
+    </div>
+    <div class="tip" style="margin-top:2px;">Total SD costs to operating depts = <b>IDENTICAL</b> across Direct, Step-Down, and Reciprocal. Only distribution between depts differs.</div>
+  </div>
+</div>
+
+<!-- CARD 35 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Formula Quick Reference — CH 17 Complete</div>
+    <span class="card-tag">CH 17 · ALL FORMULAS</span>
+  </div>
+  <div class="card-body">
+    <div class="three-col">
+      <div>
+        <div class="lbl">ROI</div>
+        <div class="formula">ROI = OI ÷ Avg Assets
+
+DuPont:
+ROI = (OI ÷ Sales)
+    × (Sales ÷ Assets)
+= ROS × Inv. Turnover
+
+Goal-congruence
+PROBLEM: rejects
+profitable projects
+that dilute ROI avg.</div>
+      </div>
+      <div>
+        <div class="lbl">Residual Income (RI)</div>
+        <div class="formula">RI = OI
+  − (RRR × Avg Assets)
+
+Accept if RI > $0
+
+SOLVES ROI problem.
+Dollar amount (not %).
+Any RI > 0 = earns
+above required rate.</div>
+      </div>
+      <div>
+        <div class="lbl">EVA</div>
+        <div class="formula">EVA = After-Tax OI
+  − (WACC × Inv.Cap.)
+
+Inv. Capital =
+  Total Assets
+  − Current Liab.
+
+Accept if EVA > 0
+Accounts for taxes
+and equity financing.</div>
+      </div>
+    </div>
+    <div class="lbl" style="margin-top:3px;">Transfer Pricing</div>
+    <div class="two-col">
+      <div class="formula">Min TP (Seller) = VC + OC
+  Idle: OC = $0  → Min TP = VC
+  Full: OC = CM lost
+       → Min TP = Ext. Market Price</div>
+      <div class="formula">Max TP (Buyer) = External Market Price
+Negotiated TP: anywhere between Min and Max
+Goal: both divisions better off</div>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 36 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Formula Quick Reference — CH 1–11 Review</div>
+    <span class="card-tag">REVIEW · ALL FORMULAS</span>
+  </div>
+  <div class="card-body">
+    <div class="three-col">
+      <div>
+        <div class="lbl">CVP (CH 4)</div>
+        <div class="formula">CM per Unit = SP − VC
+CM Ratio = CM ÷ SP
+
+BE Units = FC ÷ CM/unit
+BE $ = FC ÷ CM Ratio
+
+Target Units =
+ (FC + Target Profit)
+ ÷ CM per Unit</div>
+      </div>
+      <div>
+        <div class="lbl">Variances (CH 10)</div>
+        <div class="formula">Price Var:
+ (AP−SP) × Actual Qty
+
+Efficiency Var:
+ (AQ−SQ) × Std Price
+
+FMOH Vol Var:
+ (Act−Bud Prod)
+ × FMOH Rate
+
+F = actual < standard
+U = actual > standard</div>
+      </div>
+      <div>
+        <div class="lbl">High-Low (CH 3)</div>
+        <div class="formula">VC/Unit =
+ (Hi Cost − Lo Cost)
+ ÷ (Hi Units − Lo Units)
+
+FC = Hi Cost
+   − (VC/Unit × Hi Units)
+
+Relevant Costs:
+ Must be FUTURE
+ Must DIFFER between
+ alternatives</div>
+      </div>
+    </div>
+    <div class="lbl" style="margin-top:3px;">Process Costing &amp; ABC Summary</div>
+    <div class="box" style="font-size:7pt;"><b>FIFO:</b> Keeps prior-period costs separate. EUP = current-period work only. More accurate for cost control. &nbsp;|&nbsp; <b>WA:</b> Blends prior + current. Simpler. Masks cost changes. &nbsp;|&nbsp; <b>ABC:</b> Multiple cost pools + drivers → more accurate than traditional single-rate → better for diverse product mixes.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ MNEMONICS + TRAPS MASTER CARD ══════════════════════════ -->
+
+<!-- CARD 37 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Master Mnemonics &amp; Key Traps</div>
+    <span class="card-tag">ALL CH · MNEMONICS</span>
+  </div>
+  <div class="card-body">
+    <div class="two-col">
+      <div>
+        <div class="lbl">Mnemonics</div>
+        <div class="box" style="font-size:7pt;">
+          <b>DSR</b> = Direct → Step-Down → Reciprocal (least → most accurate)<br>
+          <b>CRPI</b> = Cost → Revenue → Profit → Investment centers<br>
+          <b>MGE</b> = Motivation, Goal Congruence, Effort (MCS properties)<br>
+          <b>FDMC</b> = Financial, Decision, Motivate, Cost Reimb. (why allocate)<br>
+          <b>FCIL</b> = Financial, Customer, Internal, Learning (BSC perspectives)<br>
+          <b>ARA</b> = Authority, Responsibility, Accountability (responsibility centers)<br>
+          <b>T→P→N</b> = Theoretical→Practical→Normal = lowest→highest FMOH rate<br>
+          <b>CCSNS</b> = Can't Survive Neglecting Suppliers (Porter's Five Forces)
+        </div>
+      </div>
+      <div>
+        <div class="lbl">Key Exam Traps to Avoid</div>
+        <div class="box" style="font-size:7pt;">
+          ⚠ Direct Method: operating depts ONLY in denominator (never other SDs)<br>
+          ⚠ Step-Down: closed SD never receives further allocations<br>
+          ⚠ EVA Invested Capital = Total Assets <b>MINUS</b> Current Liabilities<br>
+          ⚠ Absorption OI &gt; Variable OI only when Produced &gt; Sold<br>
+          ⚠ Normal capacity causes Death Spiral; Practical is recommended<br>
+          ⚠ Full capacity Min TP = External Market Price (not just VC)<br>
+          ⚠ ROI goal-congruence problem: manager rejects profitable projects to protect average ROI<br>
+          ⚠ SWOT: S &amp; W = internal; O &amp; T = external<br>
+          ⚠ Sunk costs are NEVER relevant to decisions<br>
+          ⚠ Variable costing is NOT GAAP — internal use only
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 38 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">ROI vs. RI vs. EVA — Side-by-Side Comparison</div>
+    <span class="card-tag">CH 17 · COMPARE</span>
+  </div>
+  <div class="card-body">
+    <table>
+      <tr>
+        <th>Feature</th>
+        <th>ROI</th>
+        <th>Residual Income (RI)</th>
+        <th>EVA</th>
+      </tr>
+      <tr>
+        <td><b>Formula</b></td>
+        <td>OI ÷ Avg Operating Assets</td>
+        <td>OI − (RRR × Avg Assets)</td>
+        <td>After-Tax OI − (WACC × Invested Capital)</td>
+      </tr>
+      <tr>
+        <td><b>Output</b></td>
+        <td>Percentage (%)</td>
+        <td>Dollar amount ($)</td>
+        <td>Dollar amount ($)</td>
+      </tr>
+      <tr>
+        <td><b>Goal-Congruent?</b></td>
+        <td><b>No</b> — managers reject profitable projects that dilute their average ROI</td>
+        <td><b>Yes</b> — accept any project where RI &gt; $0 (earns above required rate)</td>
+        <td><b>Yes</b> — accept any project where EVA &gt; $0</td>
+      </tr>
+      <tr>
+        <td><b>Accounts for taxes?</b></td>
+        <td>No</td>
+        <td>No</td>
+        <td><b>Yes</b> — uses after-tax OI and WACC</td>
+      </tr>
+      <tr>
+        <td><b>Invested Capital</b></td>
+        <td>Average operating assets</td>
+        <td>Average operating assets</td>
+        <td><b>Total Assets − Current Liabilities</b></td>
+      </tr>
+      <tr>
+        <td><b>Best use</b></td>
+        <td>Comparing divisions/firms of different sizes; benchmarking</td>
+        <td>Internal performance evaluation; overcomes ROI problem</td>
+        <td>Accounts for full capital structure; shareholder value focus</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- CARD 39 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">CH 17 — Transfer Pricing: Full Decision Framework</div>
+    <span class="card-tag">CH 17 · TP DECISION</span>
+  </div>
+  <div class="card-body">
+    <div class="lbl">Step-by-Step: What is the minimum transfer price?</div>
+    <table>
+      <tr>
+        <th>Seller's Situation</th>
+        <th>Opportunity Cost</th>
+        <th>Min TP (Seller's Floor)</th>
+        <th>Implication</th>
+      </tr>
+      <tr>
+        <td>Has <b>idle capacity</b> — no external sales foregone</td>
+        <td>$0 — no CM is sacrificed</td>
+        <td><b>Variable Cost per unit</b></td>
+        <td>Any price above VC is acceptable to seller; easy to find mutual price.</td>
+      </tr>
+      <tr>
+        <td>At <b>full capacity</b> — every internal unit displaces an external sale</td>
+        <td>CM per unit = (External Price − VC)</td>
+        <td><b>VC + CM lost = External Market Price</b></td>
+        <td>Seller will not accept less than market price; transfer only makes sense if buyer's max TP ≥ market price.</td>
+      </tr>
+    </table>
+    <div class="lbl" style="margin-top:4px;">The Negotiated TP Continuum</div>
+    <div class="formula">|---VC (idle) ---|---- Negotiated Zone ---|--- External Market Price ---|
+↑                                                               ↑
+Seller minimum                                        Buyer maximum
+(floor)                                               (ceiling)
+
+If Min TP > Max TP → no mutually beneficial internal transfer price exists
+→ Firm must intervene or allow buyer to purchase externally</div>
+  </div>
+</div>
+
+<!-- CARD 40 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Exam Day Quick-Reference: Most Tested Concepts</div>
+    <span class="card-tag">EXAM DAY · KEY FACTS</span>
+  </div>
+  <div class="card-body">
+    <div class="two-col">
+      <div>
+        <div class="lbl">CH 12</div>
+        <ul style="font-size:7pt;line-height:1.4;">
+          <li>Prod &gt; Sold → Abs OI &gt; Var OI</li>
+          <li>FMOH Rate × (Prod−Sold) = OI difference</li>
+          <li>Practical capacity = recommended for product costing</li>
+          <li>Normal capacity → death spiral risk</li>
+          <li>Variable costing NOT GAAP — internal only</li>
+        </ul>
+        <div class="lbl" style="margin-top:4px;">CH 14</div>
+        <ul style="font-size:7pt;line-height:1.4;">
+          <li>Direct Method denominator = operating depts ONLY</li>
+          <li>Step-Down: closed SD never receives allocation again</li>
+          <li>Reciprocal = most accurate (simultaneous equations)</li>
+          <li>Total allocated to operating depts = same across all 3 methods</li>
+          <li>Stand-alone: each % = user's SA ÷ total SA</li>
+        </ul>
+      </div>
+      <div>
+        <div class="lbl">CH 17</div>
+        <ul style="font-size:7pt;line-height:1.4;">
+          <li>Investment Center = controls costs + revenue + assets</li>
+          <li>ROI = % (not goal congruent); RI &amp; EVA = $ (goal congruent)</li>
+          <li>EVA: Invested Capital = Assets − Current Liabilities</li>
+          <li>Idle capacity: Min TP = VC. Full capacity: Min TP = market price</li>
+          <li>Vertical integration: backward = supplier; forward = distributor/retailer</li>
+        </ul>
+        <div class="lbl" style="margin-top:4px;">CH 18</div>
+        <ul style="font-size:7pt;line-height:1.4;">
+          <li>Porter's Five Forces: all external competitive forces</li>
+          <li>SWOT: S &amp; W = internal; O &amp; T = external</li>
+          <li>BSC: Kaplan &amp; Norton; Financial/Nonfinancial (lagging/leading)</li>
+          <li>Strategy Map: bottom-up (L&amp;G → Internal → Customer → Financial)</li>
+          <li>BSC pitfall #1: cause-and-effect links are hypotheses, not certainties</li>
+          <li>Cost Leadership = Operational Excellence CVP; Differentiation = Product Leadership CVP</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

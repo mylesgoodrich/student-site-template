@@ -165,7 +165,8 @@
     </div>
     <div class="chapter-body">
       <h3>Core Distinction</h3>
-      <p>The only difference between the two methods is the treatment of <strong>Fixed Manufacturing Overhead (FMOH)</strong>.</p>
+      <p><strong>Absorption Costing:</strong> A costing method in which fixed manufacturing overhead (fixed-MOH) costs are included ("absorbed") in a unit's inventoriable cost, along with DM, DL, and variable-MOH costs, whether the unit is in inventory or Cost of Goods Sold. <em>Required by GAAP for external reporting.</em></p>
+      <p><strong>Variable Costing:</strong> A costing method wherein DM, DL, and variable-MOH comprise inventoriable unit costs. Fixed-MOH is treated as a period cost, excluded from inventory entirely. <em>Used for internal decision-making; not permitted by GAAP for external reporting.</em></p>
       <div class="table-wrap"><table>
         <tr><th>Feature</th><th>Absorption Costing</th><th>Variable Costing</th></tr>
         <tr><td>FMOH treatment</td><td>Product cost (capitalized in inventory)</td><td>Period cost (expensed immediately)</td></tr>
@@ -197,9 +198,9 @@ Shortcut: Absorption OI = Variable OI + FMOH Rate × (Units Produced − Units S
       <h3>Denominator Volume Choices (Capacity Levels)</h3>
       <div class="table-wrap"><table>
         <tr><th>Capacity Level</th><th>Definition</th><th>FMOH Rate</th><th>Fixed-MOH Volume Variance</th></tr>
-        <tr><td>Theoretical</td><td>100% efficiency, no downtime — theoretical ideal, unrealistic</td><td>Lowest (highest denominator)</td><td>Usually large unfavorable</td></tr>
-        <tr><td>Practical</td><td>Theoretical minus unavoidable interruptions (maintenance, holidays)</td><td>Medium</td><td>Moderate unfavorable</td></tr>
-        <tr><td>Normal</td><td>Average demand over a multi-year period (includes seasonal/cyclical patterns)</td><td>Highest (lowest denominator)</td><td>Fluctuates with demand</td></tr>
+        <tr><td>Theoretical</td><td>Production capacity calling for a facility's highest and best use, which assumes no downtime. It is unrealistic.</td><td>Lowest (highest denominator)</td><td>Usually large unfavorable</td></tr>
+        <tr><td>Practical</td><td>Production capacity that allows for unavoidable interruptions for things like maintenance, holiday shutdowns, and employee training. Challenging but plausible.</td><td>Medium — moderate, stable</td><td>Moderate unfavorable</td></tr>
+        <tr><td>Normal</td><td>The production capacity needed to satisfy average customer demand over a period of time. Because it aligns with demand (often lower than factory capacity), it results in the highest fixed-MOH rate and unit product costs.</td><td>Highest (lowest denominator)</td><td>Fluctuates with demand</td></tr>
       </table></div>
       <div class="mnemonic-box">Mnemonic: "The Practical Norm" — Theoretical (top/lowest rate) → Practical (middle) → Normal (lowest/highest rate)</div>
       <div class="trap-box">Death Spiral: Normal capacity → highest FMOH rate → higher product costs → higher prices → demand drops → lower normal capacity → even higher FMOH rate → cycle repeats.</div>
@@ -221,9 +222,9 @@ Unfavorable = Actual &lt; Budgeted (unused capacity)</div>
       <h3>Types of Departments</h3>
       <div class="table-wrap"><table>
         <tr><th>Feature</th><th>Operating/Production Dept</th><th>Support/Service Dept</th></tr>
-        <tr><td>Revenue?</td><td>Yes — sells to external customers</td><td>No — cost center</td></tr>
-        <tr><td>Primary function</td><td>Produce goods/services for sale</td><td>Support operating units</td></tr>
-        <tr><td>Examples</td><td>Mixing, Assembly, Canning</td><td>Janitorial, HR, IT, Maintenance</td></tr>
+        <tr><td>Definition</td><td><strong>Operating Unit (Production Dept):</strong> The part of a business that makes products and services available for sale to external customers; it generates revenues and incurs expenses.</td><td><strong>Support Dept (Service Dept):</strong> Departments that exist to support operating units. They are cost centers that do not earn any revenues on their own.</td></tr>
+        <tr><td>Revenue?</td><td>Yes — sells to external customers</td><td>No — cost center only</td></tr>
+        <tr><td>Examples</td><td>Mixing, Assembly, Canning, Juices, Teas</td><td>HR, IT, Maintenance, Accounting, Legal, Janitorial</td></tr>
         <tr><td>Cost treatment</td><td>Forms product cost directly</td><td>Allocated to operating depts, then to products</td></tr>
       </table></div>
 
@@ -240,12 +241,14 @@ Unfavorable = Actual &lt; Budgeted (unused capacity)</div>
       </table></div>
 
       <h4>Direct Method</h4>
+      <p><strong>Direct Method:</strong> The simplest method. Costs of support departments are allocated straight to operating units based on proportional usage. Costs are not allocated to other support departments.</p>
       <div class="formula-box">Denominator = Operating depts ONLY (never include other SDs)
 Budgeted Rate = SD Cost ÷ Sum of operating dept driver units
 Allocation to each operating dept = Rate × that dept's driver units</div>
       <div class="trap-box">Trap: NEVER include other support departments in the denominator for the Direct Method.</div>
 
       <h4>Step-Down Method</h4>
+      <p><strong>Step Method (Step-Down):</strong> Allocates some support costs to other support departments, as well as to operating units. You must first rank the support departments (usually by highest cost or most services provided). You allocate the highest-ranked department's costs forward to the remaining support and operating departments. You then "step down" to the next support department and allocate its original costs plus the costs it just received. You never allocate backwards to a higher-ranked department.</p>
       <div class="formula-box">1. Rank SDs: highest % (or $) of services provided to other SDs goes first
 2. Allocate ranked SD to ALL remaining departments (other SDs + operating depts)
 3. Close that SD — it receives NO further allocations
@@ -254,6 +257,7 @@ Allocation to each operating dept = Rate × that dept's driver units</div>
       <div class="trap-box">Trap: Once a SD is stepped down (closed), it NEVER receives further allocations.<br>Trap: The newly allocated SD's cost for its step = original cost + amounts received from higher-ranked SDs.</div>
 
       <h4>Reciprocal Method</h4>
+      <p><strong>Reciprocal Method:</strong> The most detailed method. It captures the full exchange of services between all support departments and operating units simultaneously, requiring simultaneous equations to solve.</p>
       <div class="formula-box">Set up simultaneous equations:
   J = Direct_J + (J's % of P) × P
   P = Direct_P + (P's % of J) × J
@@ -268,11 +272,11 @@ Key: Denominator for each SD INCLUDES all other departments (both SDs and operat
       <div class="tip-box">The total dollar amount of SD costs allocated to operating departments is IDENTICAL across all three methods. The distribution between operating departments differs.</div>
 
       <h3>Common Costs</h3>
-      <p>A cost shared by two or more users that cannot be traced solely to one user.</p>
+      <p><strong>Common Costs:</strong> Costs that are shared among two or more parties (e.g., two roommates sharing rent, or two product lines sharing factory insurance). Cannot be traced solely to one user.</p>
       <div class="table-wrap"><table>
         <tr><th>Method</th><th>How It Works</th><th>Notes</th></tr>
-        <tr><td>Stand-Alone</td><td>Each user's % = their stand-alone cost ÷ total stand-alone costs. Apply % to common cost.</td><td>Most equitable. No ranking needed.</td></tr>
-        <tr><td>Incremental</td><td>Primary user (highest stand-alone cost) pays their full stand-alone amount. Secondary pays the increment (common cost − primary's share).</td><td>Primary bears heavier burden. FASB ASC 606 residual approach is similar.</td></tr>
+        <tr><td><strong>Stand-Alone Method</strong></td><td>Identifies the cost each entity would have to pay if it bore the cost alone. The total common cost is allocated based on the percentage each party would have paid had the costs not been shared (proportional sharing). Each user's % = their stand-alone cost ÷ total of all stand-alone costs.</td><td>Most equitable. No ranking needed.</td></tr>
+        <tr><td><strong>Incremental Cost Method</strong></td><td>Ranks the users of the cost. The primary (first-ranked) user is assigned the cost up to their stand-alone amount. Any additional (incremental) cost generated by sharing is assigned to the secondary user.</td><td>Primary bears heavier burden. FASB ASC 606 residual approach is similar.</td></tr>
       </table></div>
       <div class="tip-box">FASB ASC 606 governs external reporting of bundled revenue (stand-alone selling price method or residual approach). Internal management can use any method.</div>
     </div>
@@ -285,27 +289,27 @@ Key: Denominator for each SD INCLUDES all other departments (both SDs and operat
     </div>
     <div class="chapter-body">
       <h3>Management Control System (MCS)</h3>
-      <p>Convergence of systems to gather and use information to aid and coordinate planning and control decisions. Can be formal or informal.</p>
+      <p>A convergence of systems to gather and use information to aid and coordinate planning and control decisions. Can be formal or informal. Designed to ensure decisions throughout the organization support overall company objectives.</p>
       <div class="mnemonic-box">Three key properties: MGE — Motivation, Goal Congruence, Effort</div>
       <div class="mnemonic-box">Four Pillars: Budgeting | Responsibility Centers | Transfer Pricing | Performance Measurement</div>
 
       <h3>Centralized vs. Decentralized</h3>
       <div class="table-wrap"><table>
         <tr><th>Feature</th><th>Centralized</th><th>Decentralized</th></tr>
-        <tr><td>Decision authority</td><td>Narrow — top management only</td><td>Broad — lower-level managers empowered</td></tr>
-        <tr><td>Speed</td><td>Slower</td><td>Faster (decisions closer to action)</td></tr>
-        <tr><td>Key risk</td><td>Slow response, bottleneck</td><td>Suboptimal decisions, lack of goal congruence</td></tr>
-        <tr><td>Benefits</td><td>Uniformity, control</td><td>Motivation, expertise, responsiveness</td></tr>
+        <tr><td>Definition</td><td><strong>Centralization:</strong> A structure where decision-making authority resides within a narrow scope, at the highest levels of the firm.</td><td><strong>Decentralization:</strong> The freedom for managers at all levels to make binding decisions without continuous interference by top management.</td></tr>
+        <tr><td>Pros</td><td>Stronger goal congruence; decisions made from a top-down, company-wide perspective; uniformity and control.</td><td>Better responsiveness to local needs; faster decision-making; increased motivation for lower-level managers; more specialization; frees up top executives to think strategically.</td></tr>
+        <tr><td>Cons</td><td>Slower decision-making; high risk of becoming overwhelmed; less responsiveness to local needs.</td><td>Suboptimal decision-making (managers benefit their unit at the expense of the company); duplication of activities or effort.</td></tr>
+        <tr><td>Ways to achieve</td><td>N/A</td><td>Delegation — moving decision-making authority from the top of the organization out to business unit managers (purchasing, accounting, shipping, customer service, sales).</td></tr>
       </table></div>
 
       <h3>Responsibility Centers</h3>
       <div class="mnemonic-box">CRPI (ascending scope): Cost Center → Revenue Center → Profit Center → Investment Center</div>
       <div class="table-wrap"><table>
         <tr><th>Type</th><th>Controls</th><th>Examples</th></tr>
-        <tr><td>Cost Center</td><td>Costs only</td><td>Maintenance dept, HR dept</td></tr>
-        <tr><td>Revenue Center</td><td>Revenue only</td><td>Sales territory, regional sales office</td></tr>
-        <tr><td>Profit Center</td><td>Costs + Revenue</td><td>Product line, business unit</td></tr>
-        <tr><td>Investment Center</td><td>Costs + Revenue + Assets</td><td>Division, subsidiary</td></tr>
+        <tr><td><strong>Cost Center</strong></td><td>Charged solely with managing costs. Managers are evaluated on their ability to operate within the budget.</td><td>A factory for a sporting goods company; a university payroll processing department.</td></tr>
+        <tr><td><strong>Revenue Center</strong></td><td>Charged strictly with generating revenues for the company. Evaluated on their ability to meet sales forecasts.</td><td>The marketing and fan engagement group for a sports team; a global sales team.</td></tr>
+        <tr><td><strong>Profit Center</strong></td><td>Charged with simultaneously generating revenues and maintaining expenses. Evaluated on their ability to meet a target profit.</td><td>The pharmacy inside a Walgreens; the garden center at Lowe's.</td></tr>
+        <tr><td><strong>Investment Center</strong></td><td>Charged with selecting which assets to use to generate a target return and then wisely reinvesting subsequent returns. Evaluated on ROI or RI.</td><td>The CEO running an entire corporation (like Amazon); a highly autonomous division where the manager controls asset acquisition.</td></tr>
       </table></div>
       <p>Each responsibility center must have: <strong>Authority</strong> (power to decide), <strong>Responsibility</strong> (owning the task), <strong>Accountability</strong> (answering for results). Mnemonic: ARA</p>
 
@@ -316,11 +320,13 @@ Key: Denominator for each SD INCLUDES all other departments (both SDs and operat
 DuPont breakdown:
   ROI = Return on Sales × Investment Turnover
   ROI = (OI ÷ Sales) × (Sales ÷ Avg Assets)</div>
+      <p><em>Interpretation: ROI yields the percentage of return for each dollar invested. It shows how efficiently a division uses its assets to generate profit. While popular, evaluating managers strictly on ROI can lead to suboptimal decisions (e.g., a manager might reject a good project if it slightly lowers their currently high ROI average).</em></p>
       <div class="trap-box">Goal-Congruence Problem: If a division's ROI = 20% and a new project returns 15% (still above WACC), the manager REJECTS it to protect their ROI — bad for the firm. ROI discourages profitable new investment.</div>
 
       <h4>Residual Income (RI)</h4>
       <div class="formula-box">RI = Operating Income − (Required Rate of Return × Average Operating Assets)
 Accept if RI > $0 (earns above the required rate)</div>
+      <p><em>Interpretation: RI calculates the excess of actual income earned above a firm's required rate of return. It is expressed as a dollar amount rather than a percentage. Any positive residual income means the investment is generating more than the company's minimum hurdle rate. Using RI helps achieve better goal congruence, as managers are motivated to accept any project that provides a positive RI.</em></p>
       <div class="tip-box">RI solves ROI's goal-congruence problem: managers accept any project with RI > $0, aligning division goals with firm goals.</div>
 
       <h4>Economic Value Added (EVA)</h4>
@@ -339,7 +345,7 @@ Accept if EVA > $0</div>
       <div class="tip-box">Firms use all three together: ROI for comparisons; RI/EVA to overcome ROI's goal-congruence failures.</div>
 
       <h3>Transfer Pricing</h3>
-      <p>Internal transaction price at which two business units within the same company exchange a good or service.</p>
+      <p><strong>Transfer Pricing:</strong> The internal transaction price at which two business units within the same company exchange a good or service. This situation typically arises due to vertical integration. A well-designed transfer pricing system ensures goal congruence — when managers make decisions that maximize their individual unit's profit, those decisions naturally align with and maximize the profit of the organization as a whole.</p>
       <div class="formula-box">General Guideline (Minimum Transfer Price for Seller):
   TP_min = Variable Cost per unit + Opportunity Cost per unit
 
@@ -355,7 +361,7 @@ Maximum Transfer Price for Buyer = External market price (what buyer would pay o
         <tr><td>Market-Based</td><td>External market price</td><td>Objective; best when competitive market exists</td></tr>
         <tr><td>Negotiated</td><td>Between TP_min (seller floor) and TP_max (buyer ceiling)</td><td>Most flexible; promotes goal congruence</td></tr>
       </table></div>
-      <p><strong>Vertical Integration:</strong> Expanding the firm to include upstream (backward) or downstream (forward) activities in its value chain.</p>
+      <p><strong>Vertical Integration:</strong> A growth strategy where a company expands to include activities that either precede or follow the existing firm in its value chain. <strong>Upstream (Backward) Integration:</strong> Buying a company further from the final consumer (e.g., a supplier — IKEA buying forests for lumber). <strong>Downstream (Forward) Integration:</strong> Buying a company one step closer to the final consumer (e.g., Apple opening its own retail stores).</p>
     </div>
   </div>
 
@@ -367,21 +373,21 @@ Maximum Transfer Price for Buyer = External market price (what buyer would pay o
     <div class="chapter-body">
       <h3>Key Definitions</h3>
       <ul>
-        <li><strong>Mission:</strong> Organization's fundamental purpose — why it exists.</li>
-        <li><strong>Strategy:</strong> How the organization intends to achieve its mission; long-run plan of action.</li>
-        <li><strong>Strategic Plan:</strong> Specific long-run goals and initiatives derived from the strategy.</li>
-        <li><strong>Operational Plan:</strong> Short-run (annual) tactics to execute the strategic plan.</li>
-        <li><strong>Strategy Map:</strong> Diagram showing cause-and-effect relationships linking strategy to the BSC perspectives.</li>
+        <li><strong>Mission:</strong> An organization's purpose — its reason for existing and what drives it forward.</li>
+        <li><strong>Strategy:</strong> The means by which an organization intends to achieve its mission and vision. It specifies how an organization matches its own capabilities with the opportunities in the marketplace to accomplish its objectives, create value for customers, and differentiate itself from competitors.</li>
+        <li><strong>Strategic Plan:</strong> A comprehensive, potentially multi-year plan for an organization; helps an organization turn its purpose into action by establishing its direction, including specification of its mission and vision, goals and objectives, strategies and initiatives, and measures and targets.</li>
+        <li><strong>Operating Plan:</strong> A plan, found within a strategic plan, that is more attuned to this year's expected outcomes and approaches for achieving them.</li>
+        <li><strong>Strategy Map:</strong> A graphic showing a company's chosen objectives for the balanced scorecard perspectives, further specifying how the objectives affect other objectives (showing causal links).</li>
       </ul>
 
       <h3>Porter's Five Forces ⚠️ ON EXAM — Know All Five</h3>
       <div class="table-wrap"><table>
         <tr><th>Force</th><th>What It Means</th></tr>
-        <tr><td>Competitive Rivalry</td><td>Other companies already exist in your industry — intense competition lowers profitability</td></tr>
-        <tr><td>Power of Customers (Buyers)</td><td>Customers create demand; if they have power they can demand lower prices or better quality</td></tr>
-        <tr><td>Threat of Substitutes</td><td>Other products could replace yours — limits pricing power</td></tr>
-        <tr><td>New Entrants</td><td>New companies can enter the industry at any time and dilute market share/profits</td></tr>
-        <tr><td>Bargaining Power of Suppliers</td><td>If suppliers "hold the cards," they can charge higher prices and squeeze industry profits</td></tr>
+        <tr><td>Competitive Rivalry</td><td>The existing companies within an industry and the intensity of the competition among them — intense competition lowers profitability.</td></tr>
+        <tr><td>Power of Customers (Buyers)</td><td>Customers create demand and have the power to influence prices and quality expectations.</td></tr>
+        <tr><td>Threat of Substitutes</td><td>The threat of customers going elsewhere to satisfy their needs and wants (e.g., meal kits vs. restaurants) — limits pricing power.</td></tr>
+        <tr><td>Threat of New Entrants</td><td>New companies can enter the industry, potentially diluting existing profits by adding capacity and reducing market share.</td></tr>
+        <tr><td>Bargaining Power of Suppliers</td><td>If suppliers "hold the cards," they can influence an industry's profits by altering the amount/quality of goods supplied or by setting trade terms favorable to them.</td></tr>
       </table></div>
       <div class="mnemonic-box">Mnemonic: "Can't Survive Neglecting Suppliers" — Competition, Customers, Substitutes, New Entrants, Suppliers</div>
 
@@ -396,8 +402,8 @@ Maximum Transfer Price for Buyer = External market price (what buyer would pay o
       <h3>Two Basic Strategies ⚠️ ON EXAM</h3>
       <div class="table-wrap"><table>
         <tr><th>Strategy</th><th>Focus</th><th>Performance Measures Used</th><th>Example</th></tr>
-        <tr><td>Cost Leadership</td><td>Be the lowest-cost producer; compete on price</td><td>DM variances, DL variances, cost efficiency metrics</td><td>Walmart, Ryanair</td></tr>
-        <tr><td>Product Differentiation</td><td>Offer unique/superior products; charge a premium</td><td>Number of new products/patents, customer satisfaction, R&amp;D spending</td><td>Apple, BMW</td></tr>
+        <tr><td><strong>Cost Leadership</strong></td><td>A business strategy where a company focuses on achieving economies of scale, incorporating learning curve effects, disposing of redundant assets, eliminating non-value-added activities, and/or implementing other cost efficiencies to reduce the costs of offering its products and services. Competitive advantage: lower selling prices. Focus: eliminating waste, improving productivity, just-in-time inventory.</td><td>DM variances, DL variances, cost efficiency metrics, cycle time</td><td>Walmart, Ryanair</td></tr>
+        <tr><td><strong>Product Differentiation</strong></td><td>A business strategy wherein the uniqueness, customization, and/or quality of a company's products and/or services sets it apart. Competitive advantage: brand loyalty and the ability to command a price premium. Focus: research and development, patents, new product ideas, and superior perceived value.</td><td>Number of new products/patents, customer satisfaction, R&amp;D spending</td><td>Apple, BMW</td></tr>
       </table></div>
       <p><strong>Customer Value Proposition</strong> — the company's unique mix of products, prices, services, relationships, and image. Three types:</p>
       <ul>
@@ -409,24 +415,26 @@ Maximum Transfer Price for Buyer = External market price (what buyer would pay o
       <h3>Compensation Types</h3>
       <div class="table-wrap"><table>
         <tr><th>Type</th><th>Who / When</th></tr>
-        <tr><td>Hourly Wage</td><td>Fewer skills, part-time, contract</td></tr>
-        <tr><td>Salary</td><td>Long-term employees; paid for outcomes</td></tr>
-        <tr><td>Commission</td><td>Sales roles — motivates revenue growth</td></tr>
-        <tr><td>Piece Rate</td><td>Rate per unit produced (e.g., per car serviced)</td></tr>
-        <tr><td>Bonus</td><td>Year-end, % of performance; can be tied to individual or company outcome</td></tr>
-        <tr><td>Stock Options</td><td>Long-term; align employees with shareholder value; common in start-ups</td></tr>
-        <tr><td>Incentive Pay</td><td>Forward-looking; motivates short-term target achievement</td></tr>
+        <tr><td>Hourly wages</td><td>Best for positions requiring fewer skills, or for temporary, part-time, or contract positions. Overtime pay kicks in after a threshold.</td></tr>
+        <tr><td>Salary</td><td>Best for positions requiring a larger skillset and longer-term positions, where an employee is paid for outcomes, rather than hours.</td></tr>
+        <tr><td>Commission</td><td>Used to motivate those in sales to increase company revenues; compensation is based on total revenues or a percentage of sales.</td></tr>
+        <tr><td>Piece rate</td><td>A rate paid per unit of outcome (e.g., number of cars serviced or components assembled).</td></tr>
+        <tr><td>Bonuses</td><td>Often given as year-end awards; a percentage or sum based on the overall performance of the business for the year just ended.</td></tr>
+        <tr><td>Stock options</td><td>Equity compensation plans offered to incentivize employees over the long term. Often used by start-ups seeking to reward employees for taking a risk; options are canceled if not vested before the employee leaves.</td></tr>
+        <tr><td>Incentive pay</td><td>Used to encourage employees to work harder to meet a short-term target (more forward-looking than bonuses).</td></tr>
       </table></div>
       <div class="trap-box">Short-term incentives (annual bonuses) can cause managers to cut R&amp;D, training, or maintenance to boost this year's numbers — harming long-run value. Long-term incentives (stock options) combat this.</div>
 
       <h3>Balanced Scorecard (BSC) ⚠️ ON EXAM — Know Each Perspective</h3>
-      <p>Translates strategy into measurable objectives across four perspectives, balancing financial and nonfinancial metrics.</p>
+      <p><strong>Balanced Scorecard:</strong> A framework for measuring organizational performance using both financial and nonfinancial performance measures. Created by Robert Kaplan and David Norton, it balances these measures while considering performance from multiple perspectives to ensure goal congruence.</p>
+      <p><strong>Financial Measures (Lagging Indicators):</strong> Measure the results from decisions that happened in the past. Objective: evaluate profitability and past actions. Examples: gross margin, operating income, ROI, RI, standard cost variances, operating cash flows.</p>
+      <p><strong>Nonfinancial Measures (Leading Indicators):</strong> Measure the actions the company is taking right now to drive future financial results. Objective: provide context to financial motives and observe metrics daily to make timely adjustments. Examples: average time to hire, employee turnover, defect rate, customer retention rate, net promoter score.</p>
       <div class="table-wrap"><table>
-        <tr><th>Perspective</th><th>Question Asked</th><th>Cost Leader Metrics</th><th>Differentiator Metrics</th></tr>
-        <tr><td><strong>Financial</strong></td><td>How do we look to shareholders?</td><td>Operating income growth, revenue growth, cost reduction %</td><td>Revenue from new products, gross margin</td></tr>
-        <tr><td><strong>Customer</strong></td><td>How do customers see us?</td><td>Market share, price vs. competition, customer retention, on-time delivery</td><td>Customer satisfaction scores, brand perception, retention rate</td></tr>
-        <tr><td><strong>Internal Business Process</strong></td><td>What must we excel at internally?</td><td>Cycle time, defect rate (% defect-free), process efficiency, throughput</td><td>Product development cycle time, # of patents, innovation rate</td></tr>
-        <tr><td><strong>Learning &amp; Growth</strong></td><td>Can we innovate and improve?</td><td>Employee training hours, employee satisfaction, turnover rate</td><td>R&amp;D spending, new skills developed, employee satisfaction</td></tr>
+        <tr><th>Perspective</th><th>Question Asked</th><th>Objectives (from textbook)</th><th>Example Metrics</th></tr>
+        <tr><td><strong>Financial</strong></td><td>How do we look to shareholders?</td><td>Increase revenues, increase operating margins, increase cash flow.</td><td>Operating income growth, revenue growth, cost reduction %, ROI, EPS</td></tr>
+        <tr><td><strong>Customer</strong></td><td>How do customers see us?</td><td>Increase customer satisfaction, increase market share, increase number of new customers.</td><td>Market share, customer satisfaction scores, retention rate, on-time delivery</td></tr>
+        <tr><td><strong>Internal Business Process</strong></td><td>What must we excel at internally?</td><td>Decrease time from order placed to delivery, reduce rework/defects, improve efficiency.</td><td>Cycle time, defect rate (% defect-free), process efficiency, throughput, # of patents</td></tr>
+        <tr><td><strong>Learning &amp; Growth</strong></td><td>Can we innovate and improve?</td><td>Increase employee training, increase employee satisfaction, cross-train employees, empower employees to make decisions. <em>(This is the foundational perspective.)</em></td><td>Training hours, employee satisfaction, turnover rate, R&amp;D spending</td></tr>
       </table></div>
       <div class="mnemonic-box">FCIL: Financial → Customer → Internal Process → Learning &amp; Growth<br>"Firms Can Improve Learning"<br>Strategy Map flows BOTTOM-UP: Learning &amp; Growth → Internal Process → Customer → Financial</div>
 
@@ -458,19 +466,19 @@ Maximum Transfer Price for Buyer = External market price (what buyer would pay o
     <div class="chapter-body">
       <h3>CH 2 — Cost Terms</h3>
       <ul>
-        <li><strong>Direct Cost:</strong> Directly traceable to a cost object (DM, DL)</li>
-        <li><strong>Indirect Cost:</strong> Cannot be directly traced — allocated (MOH)</li>
-        <li><strong>Variable Cost:</strong> Constant per unit; total changes with activity</li>
-        <li><strong>Fixed Cost:</strong> Constant in total; per-unit changes with activity</li>
-        <li><strong>Product Cost:</strong> Inventoriable — DM, DL, MOH; flows through WIP → FG → COGS</li>
-        <li><strong>Period Cost:</strong> Expensed immediately — SG&A, selling expenses</li>
-        <li><strong>Relevant Range:</strong> Activity range over which cost behavior assumptions hold. Variable costs stay constant per unit; fixed costs stay constant in total within this range.</li>
+        <li><strong>Direct Cost:</strong> Obvious components that can be easily traced to the product or service.</li>
+        <li><strong>Indirect Cost:</strong> Product costs incurred in the factory that are less obvious and not easily traced to the final product.</li>
+        <li><strong>Variable Cost:</strong> Costs that are constant on a per-unit basis but change in total with the volume of activity.</li>
+        <li><strong>Fixed Cost:</strong> A constant cost that does not change as more units are made within the available capacity.</li>
+        <li><strong>Product Cost:</strong> The costs incurred to make a product and ready it for sale, including direct materials (DM), direct labor (DL), and manufacturing overhead (MOH). Flows through WIP → FG → COGS.</li>
+        <li><strong>Period Cost:</strong> Costs that are not product costs and that are expensed on the income statement in the period they are incurred; includes selling, general, and administrative expenses.</li>
+        <li><strong>Relevant Range:</strong> A band of activity that identifies a specific relationship between activity level and the cost being measured, where fixed costs remain fixed and unit variable costs are constant.</li>
       </ul>
       <h3>CH 3 — Cost Estimation Methods</h3>
       <ul>
-        <li><strong>Account Analysis:</strong> Manager classifies each cost as fixed or variable based on judgment</li>
-        <li><strong>High-Low Method:</strong> Uses highest and lowest activity points to estimate variable cost per unit and fixed cost. Simple but ignores other data points.</li>
-        <li><strong>Regression Analysis:</strong> Statistical method using all data points; most objective and accurate</li>
+        <li><strong>Account Analysis:</strong> An estimation method that uses actual costs within a general ledger account to predict future costs. It requires insight and experience to identify whether a cost is fixed, variable, or mixed.</li>
+        <li><strong>High-Low Method:</strong> A cost estimation method that uses actual cost relationships to make predictions of future mixed costs; this method uses two actual data points (the highest and lowest activity levels).</li>
+        <li><strong>Regression Analysis:</strong> A cost estimation method, also known as least squares regression or linear regression, that uses every point in a data set in a mathematical computation designed to minimize the vertical distance among the given data points to generate a line of best fit.</li>
       </ul>
       <h3>CH 4 — CVP Analysis</h3>
       <div class="formula-box">Break-Even Units = Fixed Costs ÷ Contribution Margin per Unit
@@ -479,7 +487,7 @@ CM per Unit = Selling Price − Variable Cost per Unit
 CM Ratio = CM per Unit ÷ Selling Price</div>
       <p>Underlying assumptions: Selling price, variable cost, and fixed cost are constant; all units produced are sold; single product or constant sales mix.</p>
       <h3>CH 5 — Relevant Costs</h3>
-      <p>Relevant costs are <strong>future costs</strong> that <strong>differ between alternatives</strong>. Sunk costs are never relevant. Fixed costs are relevant only if they differ between alternatives.</p>
+      <p><strong>Relevant Costs:</strong> Costs that relate to the specific decision being made. They differ between options, occur in the future, and are avoidable. Sunk costs are never relevant. Fixed costs are relevant only if they differ between alternatives.</p>
     </div>
   </div>
 
@@ -498,24 +506,23 @@ CM Ratio = CM per Unit ÷ Selling Price</div>
       </ul>
       <h3>CH 9 — Activity-Based Costing (ABC)</h3>
       <ul>
-        <li>Assigns overhead using multiple cost drivers that reflect actual resource consumption</li>
-        <li>Traditional: single plantwide or departmental overhead rate → can distort product costs</li>
-        <li>ABC: multiple activity cost pools → more accurate product costing, especially for diverse product mixes</li>
+        <li><strong>Traditional Costing:</strong> Accumulates all manufacturing overhead (MOH) into a single, plant-wide cost pool (or a few departmental pools) and allocates it using a single volume-based cost driver (like direct labor hours or machine hours). This can inaccurately smooth out costs, often overcosting high-volume products and undercosting low-volume, customized products.</li>
+        <li><strong>Activity-Based Costing (ABC):</strong> Divides large overhead cost pools into smaller, highly specific activity cost pools (e.g., machine setup, quality inspections, materials handling). It then uses relevant, activity-specific cost drivers to allocate those costs to products, resulting in a much more precise and accurate unit cost for management decision-making.</li>
         <li>Benefits: better pricing, product mix, and process improvement decisions</li>
         <li>Limitations: costly to implement and maintain; subjective driver selection</li>
       </ul>
       <h3>CH 10 — Variance Analysis</h3>
-      <p><strong>Variance:</strong> Difference between actual and standard/budgeted cost. Favorable = actual < budget; Unfavorable = actual > budget.</p>
-      <p><strong>Flexible Budget:</strong> Adjusts budgeted costs to actual output level; isolates price from efficiency variances.</p>
+      <p><strong>Variance / Variance Analysis:</strong> A process that identifies and calculates the difference between actual and budgeted outcomes to help organizations evaluate performance, troubleshoot issues, and take corrective action.</p>
+      <p><strong>Flexible Budget:</strong> A "right-sized" master budget that flexes to use actual sales volumes when actual sales volumes differ from master budget sales volumes. It holds the budgeted selling prices and input costs constant to evaluate actual performance.</p>
       <ul>
-        <li>DM/DL Price Variance = (Actual Price − Standard Price) × Actual Quantity</li>
-        <li>DM/DL Efficiency Variance = (Actual Qty − Standard Qty) × Standard Price</li>
-        <li>VOH Price (Spending) Variance and Efficiency Variance</li>
-        <li>FOH Price (Spending) Variance and Volume Variance</li>
+        <li><strong>Price Variance:</strong> A variance that compares the actual cost incurred for a specific input (DM, DL, or variable-MOH) to the standard cost allowed for the actual input quantity used. Formula: (Actual Price − Standard Price) × Actual Quantity.</li>
+        <li><strong>Efficiency Variance:</strong> A variance that compares the actual quantity used of each input to the standard quantity allowed for actual production, valued at its standard cost. Formula: (Actual Qty − Standard Qty) × Standard Price.</li>
+        <li><strong>Favorable (F) Variance:</strong> Indicates an outcome that causes an increase in operating income compared to the budget (e.g., paying less for materials than planned, or using less labor time than expected).</li>
+        <li><strong>Unfavorable (U) Variance:</strong> Indicates an outcome that causes a decrease in operating income compared to the budget (e.g., spending more on overhead than budgeted).</li>
       </ul>
       <h3>CH 11 — Process Costing</h3>
-      <p><strong>Weighted-Average Method:</strong> Combines beginning WIP units with current period work; mixes costs from prior and current period. Simpler.</p>
-      <p><strong>FIFO Method:</strong> Keeps beginning WIP separate; only current period costs included in EUP. More accurate for cost control.</p>
+      <p><strong>Weighted-Average Method:</strong> Blends and averages the actual work and costs incurred last period with the work and costs incurred this period. It ignores the degree of completion of beginning inventory and treats all units completed as if they were 100% produced in the current period. Can mask the immediate effects of input cost changes from one period to the next.</p>
+      <p><strong>FIFO Method:</strong> Assumes the first units started in a process are the first to finish. It strictly keeps last period's work and costs separate from this period's work and costs. Equivalent units are calculated based only on the percentage of work added in the current period — more accurate for cost control.</p>
       <p>Key difference: FIFO keeps prior-period costs separate; WA blends them together.</p>
     </div>
   </div>
