@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ACCT 3221 — Exam III Note Cards (Print)</title>
+<style>
+/* ── SCREEN INSTRUCTIONS ── */
+body { font-family: Arial, sans-serif; background: #f0f0f0; margin: 0; padding: 0; }
+#instructions {
+  background: #461D7C; color: #fff; padding: 18px 28px; text-align: center;
+  font-size: 14px; line-height: 1.6;
+}
+#instructions strong { color: #FDD023; }
+#instructions code { background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+#card-count { background: #FDD023; color: #1a1200; display: inline-block; padding: 4px 14px; border-radius: 12px; font-weight: 700; margin-top: 8px; font-size: 13px; }
+
+/* ── CARD WRAPPER (screen) ── */
+.card-wrapper { display: flex; flex-wrap: wrap; gap: 16px; padding: 24px; justify-content: center; }
+
+/* ── CARD BASE ── */
+.card {
+  width: 6in; height: 4in;
+  background: #fff;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* ── CARD HEADER ── */
+.card-header {
+  padding: 7px 12px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.card-header .ch-tag {
+  font-size: 8.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(255,255,255,0.85); background: rgba(0,0,0,0.2);
+  padding: 2px 7px; border-radius: 10px;
+}
+.card-header .card-num {
+  font-size: 8px; color: rgba(255,255,255,0.6); font-weight: 700;
+}
+.card-title {
+  background: rgba(0,0,0,0.12);
+  padding: 5px 12px 7px;
+  font-size: 11.5px; font-weight: 700; color: #fff;
+  letter-spacing: 0.01em; line-height: 1.2;
+  flex-shrink: 0;
+}
+
+/* ── CARD BODY ── */
+.card-body {
+  flex: 1; padding: 8px 12px; overflow: hidden;
+  font-size: 8.8px; line-height: 1.45; color: #1a1a1a;
+}
+.card-body p { margin: 0 0 4px; }
+.card-body strong { color: #000; }
+.card-body em { color: #555; font-style: normal; font-weight: 600; }
+
+/* ── TABLES ── */
+.card-body table { width: 100%; border-collapse: collapse; font-size: 8px; margin: 3px 0; }
+.card-body th {
+  padding: 3px 5px; text-align: left; font-size: 7.5px;
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.card-body td { padding: 2.5px 5px; border-bottom: 1px solid #e8e8e8; vertical-align: top; line-height: 1.35; }
+.card-body tr:last-child td { border-bottom: none; }
+
+/* ── FORMULA BOX ── */
+.fbox {
+  background: #f7f7f7; border-left: 3px solid; border-radius: 0 4px 4px 0;
+  padding: 4px 8px; margin: 3px 0; font-size: 8.5px;
+  font-family: 'Courier New', monospace; line-height: 1.55;
+}
+.fbox .row { display: flex; justify-content: space-between; }
+.fbox .sep { border-top: 1px solid #ccc; margin: 3px 0; }
+.fbox .total { font-weight: 700; }
+
+/* ── CALLOUT ── */
+.note {
+  border-radius: 4px; padding: 4px 7px; margin: 3px 0;
+  font-size: 8px; line-height: 1.45;
+}
+.note.warn { background: #fff3cd; border-left: 3px solid #e0a800; }
+.note.key  { background: #ede7f6; border-left: 3px solid #461D7C; }
+.note.tip  { background: #e8f5e9; border-left: 3px solid #2e7d32; }
+.note.trap { background: #fde8e8; border-left: 3px solid #c62828; }
+
+/* ── COLUMNS ── */
+.cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 3px 0; }
+.cols3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin: 3px 0; }
+.col-box { background: #f5f5f5; border-radius: 3px; padding: 4px 6px; }
+.col-box .col-title { font-weight: 700; font-size: 8px; margin-bottom: 3px; }
+.col-box ul { margin: 0; padding-left: 10px; }
+.col-box li { font-size: 7.8px; margin-bottom: 1px; line-height: 1.3; }
+
+/* ── LIST ── */
+.card-body ul { margin: 2px 0; padding-left: 13px; }
+.card-body li { margin-bottom: 1.5px; }
+
+/* ── DIVIDER ── */
+.divider { border: none; border-top: 1px solid #e0e0e0; margin: 4px 0; }
+
+/* ── CHAPTER COLORS ── */
+.ch15 .card-header, .ch15 .card-title { background-color: #461D7C; }
+.ch15 .fbox { border-color: #461D7C; }
+.ch15 th { background: #461D7C; color: #FDD023; }
+
+.ch16 .card-header, .ch16 .card-title { background-color: #1a5276; }
+.ch16 .fbox { border-color: #1a5276; }
+.ch16 th { background: #1a5276; color: #fff; }
+
+.ch18 .card-header, .ch18 .card-title { background-color: #117a65; }
+.ch18 .fbox { border-color: #117a65; }
+.ch18 th { background: #117a65; color: #fff; }
+
+.ch19 .card-header, .ch19 .card-title { background-color: #922B21; }
+.ch19 .fbox { border-color: #922B21; }
+.ch19 th { background: #922B21; color: #fff; }
+
+.ch20 .card-header, .ch20 .card-title { background-color: #784212; }
+.ch20 .fbox { border-color: #784212; }
+.ch20 th { background: #784212; color: #fff; }
+
+.ch22 .card-header, .ch22 .card-title { background-color: #1a472a; }
+.ch22 .fbox { border-color: #1a472a; }
+.ch22 th { background: #1a472a; color: #fff; }
+
+.ch24 .card-header, .ch24 .card-title { background-color: #154360; }
+.ch24 .fbox { border-color: #154360; }
+.ch24 th { background: #154360; color: #fff; }
+
+.qr .card-header, .qr .card-title { background-color: #212121; }
+.qr .fbox { border-color: #212121; }
+.qr th { background: #212121; color: #FDD023; }
+
+/* ── PRINT ── */
+@media print {
+  body { background: #fff; }
+  #instructions { display: none; }
+  .card-wrapper { display: block; padding: 0; gap: 0; }
+  @page { size: 6in 4in; margin: 0.18in; }
+  .card {
+    width: 100%; height: 100vh;
+    border: none; border-radius: 0; box-shadow: none;
+    page-break-after: always; break-after: page;
+    margin: 0;
+  }
+  .card:last-child { page-break-after: avoid; }
+}
+</style>
+</head>
+<body>
+
+<div id="instructions">
+  <strong>ACCT 3221 — Exam III Note Cards &nbsp;|&nbsp; 72 Cards Total</strong><br>
+  To print: Open in Chrome or Edge → <code>Ctrl+P</code> → Set paper size to <strong>4×6 inches</strong> (landscape) → Scale: 100% → Print<br>
+  <span id="card-count">63 Note Cards</span>
+</div>
+
+<div class="card-wrapper">
+
+<div class="card ch15">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 15 — Entities</span>
+    <span class="card-num">#1</span>
+  </div>
+  <div class="card-title">Entity Types — Big Picture Overview</div>
+  <div class="card-body">
+<table>
+  <tr><th>Feature</th><th>Sole Prop</th><th>Partnership</th><th>C Corp</th><th>S Corp</th></tr>
+  <tr><td>Return</td><td>Sch C</td><td>Form 1065</td><td>Form 1120</td><td>Form 1120-S</td></tr>
+  <tr><td>Tax level</td><td>Owner</td><td>Partners</td><td>Entity + owner</td><td>Owners only</td></tr>
+  <tr><td>Liability protection</td><td>None</td><td>Varies</td><td>Full</td><td>Full</td></tr>
+  <tr><td>IPO eligible</td><td>No</td><td>No</td><td><strong>Yes</strong></td><td>No</td></tr>
+  <tr><td>SE tax on profits</td><td>Yes</td><td>GP: Yes</td><td>No (wages only)</td><td>No (wages only)</td></tr>
+  <tr><td>Max shareholders</td><td>1</td><td>Unlimited</td><td>Unlimited</td><td><strong>100</strong></td></tr>
+</table>
+<div class="note key"><strong>Flow-through entities</strong>: Sole Prop, Partnership, LLC, S Corp — income passes to owners; no entity-level federal tax.</div>
+<div class="note warn"><strong>C Corp only</strong> = double taxation (entity pays 21%, then shareholders pay on dividends).</div></div>
+</div>
+<div class="card ch15">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 15 — Entities</span>
+    <span class="card-num">#2</span>
+  </div>
+  <div class="card-title">Double Taxation — C Corporations</div>
+  <div class="card-body">
+<div class="fbox">
+  <div class="row"><span>Layer 1:</span><span>Corp pays 21% flat tax on taxable income</span></div>
+  <div class="sep"></div>
+  <div class="row"><span>Layer 2:</span><span>Shareholders pay on dividends received (0/15/20% + 3.8% NIIT)</span></div>
+  <div class="sep"></div>
+  <div class="row total"><span>Result:</span><span>Same earnings taxed TWICE</span></div>
+</div>
+<p><strong>Mitigation Strategies (reduces but does NOT eliminate):</strong></p>
+<ul>
+  <li><strong>Pay reasonable salaries</strong> to shareholder-employees → deductible by corp</li>
+  <li><strong>Lease property back</strong> from shareholders → rent is deductible</li>
+  <li><strong>Charge interest</strong> on shareholder loans → deductible interest</li>
+  <li><strong>Dividends Received Deduction (DRD)</strong> → corporate shareholders get 50/65/100%</li>
+</ul>
+<div class="note key"><strong>ONLY complete elimination:</strong> Elect S corporation status → removes entity-level tax entirely.</div>
+<div class="note trap"><strong>Trap:</strong> TCJA reduced rate to 21% but did NOT eliminate double taxation.</div></div>
+</div>
+<div class="card ch15">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 15 — Entities</span>
+    <span class="card-num">#3</span>
+  </div>
+  <div class="card-title">Check-the-Box (CTB) Regulations</div>
+  <div class="card-body">
+<p><strong>Default Classifications:</strong></p>
+<table>
+  <tr><th>Entity</th><th>Default Tax Treatment</th><th>Can Elect</th></tr>
+  <tr><td>Single-member LLC</td><td><strong>Disregarded entity</strong> (Sch C)</td><td>C corp (Form 8832)</td></tr>
+  <tr><td>Multi-member LLC</td><td><strong>Partnership</strong> (Form 1065)</td><td>C corp (Form 8832)</td></tr>
+  <tr><td>General partnership</td><td><strong>Partnership</strong></td><td>C corp (Form 8832)</td></tr>
+  <tr><td>Limited partnership</td><td><strong>Partnership</strong></td><td>C corp (Form 8832)</td></tr>
+  <tr><td>Corporation (formed by filing)</td><td>C corp (cannot opt out)</td><td>S corp (Form 2553)</td></tr>
+</table>
+<div class="note key">Any unincorporated entity can elect C corp treatment via <strong>Form 8832</strong>. Then can further elect S corp via <strong>Form 2553</strong>.</div>
+<div class="note trap"><strong>SMLLC ≠ partnership.</strong> Single-member LLC = disregarded entity (sole proprietor). Multi-member LLC = partnership by default.</div></div>
+</div>
+<div class="card ch15">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 15 — Entities</span>
+    <span class="card-num">#4</span>
+  </div>
+  <div class="card-title">Sole Proprietorship — Key Rules</div>
+  <div class="card-body">
+<ul>
+  <li><strong>NOT a separate legal entity</strong> from its owner → unlimited personal liability</li>
+  <li>Income on <strong>Schedule C</strong> of Form 1040</li>
+  <li><strong>Must use same tax year</strong> as the proprietor</li>
+  <li>Minimal cost and time to organize (greatest nontax benefit)</li>
+  <li>All net profit is <strong>self-employment income</strong> → subject to SE tax</li>
+  <li>Cannot issue stock → cannot go public</li>
+  <li><strong>Ceases to exist</strong> if owner dies or stops operating</li>
+</ul>
+<hr class="divider">
+<p><strong>Self-Employment Tax:</strong></p>
+<div class="fbox">
+  <div class="row"><span>SE income × 0.9235</span><span>= Net SE earnings</span></div>
+  <div class="row"><span>Net SE × 15.3%</span><span>= SE tax (up to $176,100 wage base)</span></div>
+  <div class="row"><span>Net SE × 2.9%</span><span>= Additional Medicare above $176,100</span></div>
+  <div class="row total"><span>Deduct 50% of SE tax</span><span>→ above-the-line deduction (AGI)</span></div>
+</div></div>
+</div>
+<div class="card ch15">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 15 — Entities</span>
+    <span class="card-num">#5</span>
+  </div>
+  <div class="card-title">Entity Selection — Tax & Nontax Factors</div>
+  <div class="card-body">
+<div class="cols2">
+  <div class="col-box">
+    <div class="col-title">Tax Factors</div>
+    <ul>
+      <li>Level of taxation (single vs. double)</li>
+      <li>SE tax exposure</li>
+      <li>QBI deduction eligibility (flow-through only)</li>
+      <li>Ability to deduct early losses</li>
+      <li>Preferred tax rates on distributions</li>
+      <li>Tax year flexibility</li>
+    </ul>
+  </div>
+  <div class="col-box">
+    <div class="col-title">Nontax Factors</div>
+    <ul>
+      <li>Liability protection</li>
+      <li>Cost and time to organize</li>
+      <li>Capital raising ability (IPO)</li>
+      <li>Management flexibility</li>
+      <li>Ability to transfer ownership</li>
+      <li>Number of owners allowed</li>
+    </ul>
+  </div>
+</div>
+<div class="note key"><strong>Best for early losses:</strong> Flow-through (S corp/partnership) — losses pass to owners immediately to offset other income. C corp losses are trapped as NOL carryforwards at the entity level.</div>
+<div class="note tip"><strong>Best for IPO / going public:</strong> C corporation always.</div></div>
+</div>
+<div class="card ch15">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 15 — Entities</span>
+    <span class="card-num">#6</span>
+  </div>
+  <div class="card-title">QBI Deduction & NIIT</div>
+  <div class="card-body">
+<p><strong>Qualified Business Income (QBI) Deduction — §199A:</strong></p>
+<ul>
+  <li>Deduct up to <strong>20% of QBI</strong> from flow-through entities</li>
+  <li><strong>Below-the-line deduction</strong> (from AGI, not for AGI)</li>
+  <li>NOT available for C corporations</li>
+  <li><strong>NOT available for SSTBs</strong> (Specified Service Trades or Businesses) above income thresholds: law, accounting, health, consulting, financial services, etc.</li>
+</ul>
+<hr class="divider">
+<p><strong>Net Investment Income Tax (NIIT) — 3.8%:</strong></p>
+<ul>
+  <li>Applies when MAGI exceeds <strong>$250,000 (MFJ) / $200,000 (Single)</strong></li>
+  <li>Passive income from S corps and partnerships = investment income for NIIT</li>
+  <li>Active S corp wages = <strong>NOT</strong> investment income</li>
+  <li>C corp dividends = investment income subject to NIIT</li>
+</ul></div>
+</div>
+<div class="card ch15">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 15 — Entities</span>
+    <span class="card-num">#7</span>
+  </div>
+  <div class="card-title">Tax Year Rules by Entity</div>
+  <div class="card-body">
+<table>
+  <tr><th>Entity</th><th>Required Tax Year</th><th>Exception</th></tr>
+  <tr><td>Sole proprietorship</td><td>Same as individual (calendar)</td><td>None</td></tr>
+  <tr><td>C corporation</td><td>Any fiscal year</td><td>Personal service corps → calendar year required</td></tr>
+  <tr><td>S corporation</td><td>Calendar year required</td><td>Business purpose or §444 election with deposit</td></tr>
+  <tr><td>Partnership</td><td>Same as majority partners</td><td>Business purpose or §444 election with deposit</td></tr>
+</table>
+<div class="note trap"><strong>FALSE: All taxpayers must use a calendar year.</strong> C corps can freely use fiscal years. Sole props must match their owner. Partnerships/S corps must match majority partners/shareholders or have business purpose.</div>
+<div class="note key">§444 election allows a different year but requires interest payment (like a deposit to IRS) to compensate for tax deferral.</div></div>
+</div>
+<div class="card ch15">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 15 — Entities</span>
+    <span class="card-num">#8</span>
+  </div>
+  <div class="card-title">S Corporation — Eligibility Requirements</div>
+  <div class="card-body">
+<div class="cols2">
+  <div class="col-box">
+    <div class="col-title">Shareholder Rules</div>
+    <ul>
+      <li>≤ <strong>100 shareholders</strong> max</li>
+      <li>Family members count as <strong>ONE</strong> shareholder</li>
+      <li>Must be <strong>individuals</strong>, estates, or certain trusts</li>
+      <li><strong>NO corporations or partnerships</strong> as shareholders</li>
+      <li>Must be <strong>US citizens or residents</strong></li>
+    </ul>
+  </div>
+  <div class="col-box">
+    <div class="col-title">Corporate Rules</div>
+    <ul>
+      <li>Must be a <strong>domestic corporation</strong></li>
+      <li>Only <strong>ONE class of stock</strong></li>
+      <li>Voting differences are OK (no different economic rights)</li>
+      <li>Cannot be an ineligible corp type (financial inst., insurance, etc.)</li>
+    </ul>
+  </div>
+</div>
+<div class="note trap"><strong>If ANY requirement is violated → S election terminates on the date of failure.</strong> Must re-elect after 5-year waiting period (unless IRS consents earlier).</div></div>
+</div>
+<div class="card ch16">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 16 — Corp Ops</span>
+    <span class="card-num">#9</span>
+  </div>
+  <div class="card-title">Corporate Tax Formula vs. Individuals</div>
+  <div class="card-body">
+<table>
+  <tr><th>Item</th><th>Individual</th><th>C Corporation</th></tr>
+  <tr><td>AGI concept</td><td>Yes — above-the-line deductions</td><td><strong>NO AGI</strong></td></tr>
+  <tr><td>Standard deduction</td><td>Yes ($13,850 single)</td><td><strong>None</strong></td></tr>
+  <tr><td>Personal exemption</td><td>None (suspended)</td><td><strong>None</strong></td></tr>
+  <tr><td>Tax rates</td><td>Graduated (10–37%)</td><td><strong>Flat 21%</strong></td></tr>
+  <tr><td>Capital loss deduction</td><td>Up to $3,000/yr vs ordinary</td><td><strong>Zero</strong> vs ordinary</td></tr>
+  <tr><td>QBI deduction</td><td>Yes (flow-through)</td><td><strong>None</strong></td></tr>
+  <tr><td>Start with</td><td>Gross income</td><td><strong>Book income → BTD adjustments</strong></td></tr>
+</table>
+<div class="note key"><strong>Deduction Sequencing (Corps):</strong> (1) All other deductions → (2) Charitable contributions (10% limit) → (3) DRD → (4) NOL deduction</div></div>
+</div>
+<div class="card ch16">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 16 — Corp Ops</span>
+    <span class="card-num">#10</span>
+  </div>
+  <div class="card-title">Book-Tax Differences (BTD) — Framework</div>
+  <div class="card-body">
+<table>
+  <tr><th>Type</th><th>Definition</th><th>Creates</th></tr>
+  <tr><td><strong>Permanent</strong></td><td>Never reverses (structural tax rule)</td><td>Permanent gap between book and taxable income</td></tr>
+  <tr><td><strong>Temporary</strong></td><td>Timing difference — will reverse in future years</td><td>Deferred tax asset or liability on balance sheet</td></tr>
+  <tr><td><strong>Favorable</strong></td><td>Tax income &lt; book income → lower tax now</td><td>Deferred tax liability (pay more later)</td></tr>
+  <tr><td><strong>Unfavorable</strong></td><td>Tax income &gt; book income → more tax now</td><td>Deferred tax asset (pay less later)</td></tr>
+</table>
+<div class="note key"><strong>Formula:</strong> Start with book income → subtract favorable BTDs → add back unfavorable BTDs = Taxable income</div>
+<div class="note warn">Included in book but excluded from tax = <strong>Favorable permanent BTD</strong> (e.g., muni bond interest). Deductible for tax but not book = Favorable temporary BTD (e.g., accelerated depreciation).</div></div>
+</div>
+<div class="card ch16">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 16 — Corp Ops</span>
+    <span class="card-num">#11</span>
+  </div>
+  <div class="card-title">Common BTD Examples</div>
+  <div class="card-body">
+<table>
+  <tr><th>Item</th><th>Book</th><th>Tax</th><th>Type</th></tr>
+  <tr><td>Municipal bond interest</td><td>Income</td><td>Excluded</td><td>Permanent Favorable</td></tr>
+  <tr><td>Life insurance premiums</td><td>Expense</td><td>Non-deductible</td><td>Permanent Unfavorable</td></tr>
+  <tr><td>Life insurance death benefit</td><td>Income</td><td>Excluded</td><td>Permanent Favorable</td></tr>
+  <tr><td>Meals &amp; entertainment</td><td>100% expense</td><td>50% deductible</td><td>Permanent Unfavorable</td></tr>
+  <tr><td>Fines &amp; penalties</td><td>Expense</td><td>Non-deductible</td><td>Permanent Unfavorable</td></tr>
+  <tr><td>MACRS vs straight-line depreciation</td><td>SL (less)</td><td>MACRS (more)</td><td>Temporary Favorable</td></tr>
+  <tr><td>Unearned rent received</td><td>Liability (deferred)</td><td>Taxed immediately</td><td>Temporary Unfavorable</td></tr>
+  <tr><td>Net capital loss (NCL)</td><td>Deducted now</td><td>Carried back/forward</td><td>Temporary Unfavorable</td></tr>
+  <tr><td>Goodwill (asset acquisition)</td><td>Impairment only</td><td>15-yr §197 amortization</td><td>Temporary Favorable</td></tr>
+  <tr><td>Goodwill (stock acquisition)</td><td>Impairment expense</td><td>Not deductible</td><td>Permanent Unfavorable</td></tr>
+</table></div>
+</div>
+<div class="card ch16">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 16 — Corp Ops</span>
+    <span class="card-num">#12</span>
+  </div>
+  <div class="card-title">Dividends Received Deduction (DRD)</div>
+  <div class="card-body">
+<table>
+  <tr><th>Corp Ownership % in Payer</th><th>DRD %</th><th>Taxable %</th><th>Effective Rate</th></tr>
+  <tr><td>&lt; 20%</td><td><strong>50%</strong></td><td>50%</td><td>10.5%</td></tr>
+  <tr><td>20% – 79%</td><td><strong>65%</strong></td><td>35%</td><td>7.35%</td></tr>
+  <tr><td>≥ 80%</td><td><strong>100%</strong></td><td>0%</td><td>0%</td></tr>
+</table>
+<p><strong>Purpose:</strong> Mitigate triple taxation when corporate earnings pass through multiple corporate layers.</p>
+<div class="note trap"><strong>DRD Taxable Income Limitation:</strong> DRD cannot exceed 50% (or 65%) of the corporation's taxable income computed WITHOUT the DRD. BUT — if allowing the full DRD would CREATE or INCREASE an NOL, the limitation does NOT apply (full DRD allowed).</div>
+<div class="note warn">DRD is available only to <strong>corporate shareholders</strong>, not individual shareholders.</div></div>
+</div>
+<div class="card ch16">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 16 — Corp Ops</span>
+    <span class="card-num">#13</span>
+  </div>
+  <div class="card-title">NCL and NOL — Corporate Rules</div>
+  <div class="card-body">
+<div class="cols2">
+  <div class="col-box">
+    <div class="col-title">Net Capital Loss (NCL)</div>
+    <ul>
+      <li>Corps CANNOT deduct NCL against ordinary income (individuals can deduct $3,000/yr)</li>
+      <li>Carry <strong>BACK 3 years</strong></li>
+      <li>Carry <strong>FORWARD 5 years</strong></li>
+      <li>Must be used as short-term capital loss when carried</li>
+      <li>Creates unfavorable temporary BTD in year of loss</li>
+      <li>Creates favorable temporary BTD when used</li>
+    </ul>
+  </div>
+  <div class="col-box">
+    <div class="col-title">Net Operating Loss (NOL)</div>
+    <ul>
+      <li>Carry forward <strong>indefinitely</strong> (post-TCJA)</li>
+      <li>Limited to <strong>80%</strong> of taxable income in carryforward year</li>
+      <li>No carryback (post-TCJA, general rule)</li>
+      <li>Creates unfavorable temporary BTD when incurred</li>
+      <li>Creates favorable BTD when used</li>
+      <li>C corp NOLs do NOT transfer to S corp years</li>
+    </ul>
+  </div>
+</div></div>
+</div>
+<div class="card ch16">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 16 — Corp Ops</span>
+    <span class="card-num">#14</span>
+  </div>
+  <div class="card-title">§197 Goodwill — Asset vs. Stock Acquisition</div>
+  <div class="card-body">
+<table>
+  <tr><th>Feature</th><th>Asset Acquisition</th><th>Stock Acquisition</th></tr>
+  <tr><td>Tax basis in assets</td><td><strong>FMV (stepped up)</strong></td><td>Carryover basis (no step-up)</td></tr>
+  <tr><td>Goodwill tax treatment</td><td><strong>§197: amortize over 15 yrs</strong></td><td>Not amortizable</td></tr>
+  <tr><td>Depreciation</td><td>Restart at FMV</td><td>Continue existing schedules</td></tr>
+  <tr><td>Liabilities assumed</td><td>Buyer chooses</td><td>Inherits ALL (known + unknown)</td></tr>
+  <tr><td>NOL carryovers</td><td>Not transferred</td><td>Transfer (§382 limit applies)</td></tr>
+  <tr><td>BTD: Goodwill</td><td>Favorable temporary (tax deduction &gt; book)</td><td>Permanent unfavorable (impairment not deductible)</td></tr>
+</table>
+<div class="note key"><strong>Buyer prefers asset deals</strong> (stepped-up basis, §197 amortization). <strong>Seller prefers stock deals</strong> (capital gains rates, no double tax on built-in gains).</div></div>
+</div>
+<div class="card ch16">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 16 — Corp Ops</span>
+    <span class="card-num">#15</span>
+  </div>
+  <div class="card-title">Charitable Contributions — Corporate Rules</div>
+  <div class="card-body">
+<ul>
+  <li><strong>Limit:</strong> 10% of taxable income computed before the charitable deduction, DRD, and NOL deduction</li>
+  <li>Excess contributions carry forward <strong>5 years</strong></li>
+  <li>Property donations: deduct FMV (long-term capital gain property) or adjusted basis (ordinary income property)</li>
+</ul>
+<hr class="divider">
+<p><strong>Deduction Sequencing Order (Corporations):</strong></p>
+<div class="fbox">
+  <div class="row"><span>Step 1</span><span>All other deductions (wages, depreciation, interest, etc.)</span></div>
+  <div class="row"><span>Step 2</span><span>Charitable contributions (10% of pre-charity taxable income)</span></div>
+  <div class="row"><span>Step 3</span><span>Dividends Received Deduction (50%, 65%, or 100%)</span></div>
+  <div class="row total"><span>Step 4</span><span>NOL deduction (80% of taxable income limit)</span></div>
+</div>
+<div class="note warn">The sequencing matters for limits — compute charitable limit before applying DRD and NOL.</div></div>
+</div>
+<div class="card ch18">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 18 — Distributions</span>
+    <span class="card-num">#16</span>
+  </div>
+  <div class="card-title">§301 Distribution Waterfall — 3 Buckets</div>
+  <div class="card-body">
+<div class="fbox">
+  <div class="row"><span><strong>Bucket 1: Dividend Income</strong></span><span>To extent of Current E&amp;P + Accumulated E&amp;P</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>Bucket 2: Return of Capital</strong></span><span>Excess over E&amp;P → reduces shareholder's stock basis (tax-free)</span></div>
+  <div class="sep"></div>
+  <div class="row total"><span><strong>Bucket 3: Capital Gain</strong></span><span>Excess over both E&amp;P AND stock basis → capital gain to shareholder</span></div>
+</div>
+<div class="note key"><strong>Current E&amp;P applies first</strong> to distributions during the year (pro rata). Accumulated E&amp;P applied in order of distributions. A deficit in accumulated E&amp;P does NOT offset current E&amp;P.</div>
+<div class="note trap"><strong>To be a dividend:</strong> Must have E&amp;P. If E&amp;P = $0, distribution is return of capital first, then capital gain. Cannot be a qualified dividend if no E&amp;P.</div></div>
+</div>
+<div class="card ch18">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 18 — Distributions</span>
+    <span class="card-num">#17</span>
+  </div>
+  <div class="card-title">E&P vs. Retained Earnings</div>
+  <div class="card-body">
+<table>
+  <tr><th>Item</th><th>E&amp;P Adjustment</th></tr>
+  <tr><td>Federal income tax paid</td><td>REDUCES E&amp;P (not deducted for book)</td></tr>
+  <tr><td>DRD</td><td>NOT allowed for E&amp;P (add back)</td></tr>
+  <tr><td>MACRS depreciation</td><td>Use straight-line for E&amp;P (slower)</td></tr>
+  <tr><td>§1245 recapture income</td><td>Increases E&amp;P</td></tr>
+  <tr><td>Net capital loss</td><td>Reduces E&amp;P when incurred (not when carried)</td></tr>
+  <tr><td>Noncash distribution</td><td>Reduced by FMV of property distributed</td></tr>
+  <tr><td>Stock distributions (tax-free)</td><td>No E&amp;P reduction</td></tr>
+</table>
+<div class="note trap"><strong>FALSE: E&amp;P = Retained Earnings.</strong> E&amp;P is a tax concept with different adjustments. Retained earnings is GAAP. They diverge significantly.</div></div>
+</div>
+<div class="card ch18">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 18 — Distributions</span>
+    <span class="card-num">#18</span>
+  </div>
+  <div class="card-title">Noncash Property Distributions — Rules</div>
+  <div class="card-body">
+<p><strong>Corporation Level:</strong></p>
+<ul>
+  <li>Corp recognizes <strong>GAIN</strong> as if it sold property at FMV on distribution date</li>
+  <li>Corp does <strong>NOT recognize losses</strong> on nonliquidating distributions</li>
+  <li>Gain increases E&amp;P BEFORE computing the dividend amount</li>
+  <li>E&amp;P then reduced by FMV of property distributed</li>
+</ul>
+<hr class="divider">
+<p><strong>Shareholder Level:</strong></p>
+<ul>
+  <li>Amount received = <strong>FMV of property</strong></li>
+  <li>Basis in received property = <strong>FMV</strong> (regardless of corp's basis)</li>
+  <li>Characterized as dividend/return of capital/capital gain per the waterfall</li>
+</ul>
+<div class="note trap"><strong>KEY ASYMMETRY:</strong> Corp recognizes gains BUT NOT losses on nonliquidating distributions. In liquidations, losses CAN be recognized (with anti-stuffing exceptions).</div></div>
+</div>
+<div class="card ch18">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 18 — Distributions</span>
+    <span class="card-num">#19</span>
+  </div>
+  <div class="card-title">Constructive Dividends</div>
+  <div class="card-body">
+<p>The IRS can recharacterize transactions as dividends when they economically benefit shareholders but are disguised as something else.</p>
+<p><strong>Common Constructive Dividend Situations:</strong></p>
+<ul>
+  <li>Excessive compensation to shareholder-employees (unreasonable salary)</li>
+  <li>Below-market loans from corp to shareholder</li>
+  <li>Corp pays shareholder's personal expenses</li>
+  <li>Corp pays rent on shareholder's personal property (above market)</li>
+  <li>Corp pays shareholder's personal liabilities</li>
+  <li>Bargain sales of corp property to shareholders</li>
+</ul>
+<div class="note trap"><strong>Result:</strong> Taxable to shareholder as ordinary income (or qualified dividend if criteria met) BUT <strong>NOT deductible to the corporation</strong>. Worst of both worlds. IRS targets closely-held C corps most aggressively.</div></div>
+</div>
+<div class="card ch18">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 18 — Distributions</span>
+    <span class="card-num">#20</span>
+  </div>
+  <div class="card-title">Stock Distributions & Liquidations</div>
+  <div class="card-body">
+<p><strong>Stock Distributions:</strong></p>
+<ul>
+  <li>Generally <strong>tax-free</strong> to shareholders (§305 general rule)</li>
+  <li>Exceptions (taxable): cash/stock option distributions, disproportionate distributions, certain convertible preferred distributions</li>
+  <li>Stock basis is allocated between old shares and new shares based on FMV</li>
+</ul>
+<hr class="divider">
+<p><strong>Corporate Liquidations — §331:</strong></p>
+<ul>
+  <li><strong>Shareholder:</strong> treated as sale of stock → gain/loss = FMV received − stock basis → usually capital gain</li>
+  <li><strong>Basis in property received:</strong> FMV on distribution date (§334(a))</li>
+  <li><strong>Corporation:</strong> recognizes gain/loss as if sold at FMV (losses may be disallowed — related party / anti-stuffing)</li>
+  <li><strong>§332 Exception:</strong> 80%+ corporate parent → NO gain/loss at either level; carryover basis</li>
+</ul></div>
+</div>
+<div class="card ch19">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 19 — §351 HIGH PRIORITY</span>
+    <span class="card-num">#21</span>
+  </div>
+  <div class="card-title">§351 — Three Requirements for Tax Deferral</div>
+  <div class="card-body">
+<div class="cols3">
+  <div class="col-box">
+    <div class="col-title" style="color:#922B21">1. PROPERTY</div>
+    <ul>
+      <li>Money, tangible, intangible assets qualify</li>
+      <li><strong>Services do NOT qualify</strong></li>
+      <li>Services + property OK if property ≥ 10% of services FMV</li>
+      <li>Investment companies excluded</li>
+    </ul>
+  </div>
+  <div class="col-box">
+    <div class="col-title" style="color:#922B21">2. STOCK ONLY</div>
+    <ul>
+      <li>Must receive ONLY stock in exchange</li>
+      <li>Boot (cash, notes, property) → triggers gain recognition</li>
+      <li>Losses are NEVER recognized</li>
+      <li>All stock classes OK (common, preferred, voting, non-voting)</li>
+    </ul>
+  </div>
+  <div class="col-box">
+    <div class="col-title" style="color:#922B21">3. CONTROL ≥80%</div>
+    <ul>
+      <li>≥80% voting power of ALL voting stock</li>
+      <li>≥80% of all other classes of non-voting stock</li>
+      <li>Measured IMMEDIATELY after exchange</li>
+      <li>Simultaneous transfers not required</li>
+    </ul>
+  </div>
+</div>
+<div class="note trap"><strong>Control test is TWO-PRONGED:</strong> 80% voting stock AND 80% all other classes. Failing either prong means the transaction is fully taxable!</div></div>
+</div>
+<div class="card ch19">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 19 — §351 HIGH PRIORITY</span>
+    <span class="card-num">#22</span>
+  </div>
+  <div class="card-title">§351 — 5-Step Framework</div>
+  <div class="card-body">
+<div class="fbox">
+  <div class="row"><span><strong>Step 1</strong></span><span>REALIZED GAIN: FMV(stock) + Boot + Liability relief − Adjusted basis</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>Step 2</strong></span><span>RECOGNIZED GAIN: LESSER of Realized gain OR FMV of boot received</span></div>
+  <div class="row" style="font-size:7.5px;color:#666"><span>&nbsp;&nbsp;&nbsp;Note:</span><span>Losses are NEVER recognized. Boot includes cash, notes, non-stock property.</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>Step 3</strong></span><span>UNRECOGNIZED GAIN = Step 1 − Step 2</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>Step 4</strong></span><span>CHARACTER of gain = follows type of property transferred (capital/ordinary/§1231)</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>Step 5A</strong></span><span>SH STOCK BASIS: Old basis + Gain recognized − Boot received − Liability relief</span></div>
+  <div class="row" style="font-size:7.5px;color:#666"><span>&nbsp;&nbsp;&nbsp;Shortcut:</span><span>FMV of stock − Unrecognized gain</span></div>
+  <div class="row total"><span><strong>Step 5B</strong></span><span>CORP ASSET BASIS: Shareholder's old basis + Gain recognized by SH</span></div>
+</div></div>
+</div>
+<div class="card ch19">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 19 — §351 HIGH PRIORITY</span>
+    <span class="card-num">#23</span>
+  </div>
+  <div class="card-title">§357 — Liability Assumption Rules</div>
+  <div class="card-body">
+<div class="fbox">
+  <div class="row"><span><strong>General Rule (§357(a))</strong></span><span>Liability relief is NOT boot → no gain triggered</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>Exception 1 — §357(b)</strong></span><span>Tax avoidance purpose OR personal liability → ALL liability relief = boot</span></div>
+  <div class="row" style="font-size:7.5px;color:#666"><span>&nbsp;</span><span>§357(b) supersedes §357(c) if both triggered</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>Exception 2 — §357(c)</strong></span><span>Liabilities EXCEED total basis of all property → EXCESS = boot</span></div>
+  <div class="row" style="font-size:7.5px;color:#666"><span>&nbsp;</span><span>Recognized gain = Liabilities − Total basis of ALL property</span></div>
+</div>
+<div class="note trap"><strong>§357(c) applies per transferor across ALL property contributed.</strong> Add up all liabilities and all bases. Only the net excess is boot.</div>
+<div class="note warn"><strong>Liability relief IS included in Amount Realized (Step 1)</strong> even when it is NOT boot. Don't confuse "not boot" with "not in amount realized."</div></div>
+</div>
+<div class="card ch19">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 19 — §351 HIGH PRIORITY</span>
+    <span class="card-num">#24</span>
+  </div>
+  <div class="card-title">§357(c) — Worked Problem</div>
+  <div class="card-body">
+<p><strong>Facts:</strong> SH contributes property (basis $30,000, FMV $100,000) with $40,000 mortgage. Receives only stock.</p>
+<div class="fbox">
+  <div class="row"><span>Stock FMV = $100,000 − $40,000</span><span>= $60,000</span></div>
+  <div class="row"><span>Amount realized = $60,000 + $40,000 liability</span><span>= $100,000</span></div>
+  <div class="row"><span>Realized gain = $100,000 − $30,000</span><span>= $70,000</span></div>
+  <div class="sep"></div>
+  <div class="row"><span>§357(c) applies: $40,000 &gt; $30,000</span></div>
+  <div class="row"><span>Excess = boot = $40,000 − $30,000</span><span>= $10,000</span></div>
+  <div class="row"><span>Recognized gain</span><span>= $10,000</span></div>
+  <div class="row"><span>Unrecognized gain = $70,000 − $10,000</span><span>= $60,000</span></div>
+  <div class="sep"></div>
+  <div class="row"><span>SH Stock Basis (shortcut): $60,000 − $60,000</span><span>= $0</span></div>
+  <div class="row"><span>Traditional: $30,000 + $10,000 − $0 − $40,000</span><span>= $0 ✓</span></div>
+  <div class="row total"><span>Corp asset basis: $30,000 + $10,000</span><span>= $40,000</span></div>
+</div></div>
+</div>
+<div class="card ch19">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 19 — §351 HIGH PRIORITY</span>
+    <span class="card-num">#25</span>
+  </div>
+  <div class="card-title">HANDOUT EXAMPLE — Step 1 & 2</div>
+  <div class="card-body">
+<p><strong>Facts:</strong> SH contributes land (FMV $140,000, basis $40,000), $10,000 liability attached. Receives stock (FMV $120,000) + promissory note (FMV $10,000).</p>
+<div class="fbox">
+  <div class="row"><span><strong>STEP 1 — Amount Realized:</strong></span></div>
+  <div class="row"><span>&nbsp;&nbsp;Stock FMV</span><span>$120,000</span></div>
+  <div class="row"><span>&nbsp;&nbsp;Boot (note)</span><span>$10,000</span></div>
+  <div class="row"><span>&nbsp;&nbsp;Liability relief</span><span>$10,000</span></div>
+  <div class="row"><span>&nbsp;&nbsp;Less: Adjusted basis</span><span>($40,000)</span></div>
+  <div class="row total"><span>&nbsp;&nbsp;Realized Gain</span><span>$100,000</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>STEP 2 — Recognized Gain:</strong></span></div>
+  <div class="row"><span>&nbsp;&nbsp;FMV of boot (note only*)</span><span>$10,000</span></div>
+  <div class="row"><span>&nbsp;&nbsp;Realized gain</span><span>$100,000</span></div>
+  <div class="row total"><span>&nbsp;&nbsp;LESSER = Recognized gain</span><span>$10,000</span></div>
+</div>
+<p style="font-size:7.5px">*Liability $10,000 is NOT boot — doesn't exceed basis ($40,000); no tax avoidance → §357 general rule applies.</p></div>
+</div>
+<div class="card ch19">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 19 — §351 HIGH PRIORITY</span>
+    <span class="card-num">#26</span>
+  </div>
+  <div class="card-title">HANDOUT EXAMPLE — Steps 3, 4, 5</div>
+  <div class="card-body">
+<p><strong>Continuing:</strong> Basis $40,000 | Realized gain $100,000 | Recognized $10,000 | Note $10,000 | Liability $10,000 | Stock FMV $120,000</p>
+<div class="fbox">
+  <div class="row"><span><strong>STEP 3 — Unrecognized Gain:</strong></span></div>
+  <div class="row total"><span>&nbsp;&nbsp;$100,000 − $10,000</span><span>= $90,000</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>STEP 4 — Character:</strong></span><span>Capital gain (land = capital asset)</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>STEP 5A — SH Stock Basis (Traditional):</strong></span></div>
+  <div class="row"><span>&nbsp;&nbsp;Old basis</span><span>$40,000</span></div>
+  <div class="row"><span>&nbsp;&nbsp;+ Gain recognized</span><span>+$10,000</span></div>
+  <div class="row"><span>&nbsp;&nbsp;− Boot received (note)</span><span>−$10,000</span></div>
+  <div class="row"><span>&nbsp;&nbsp;− Liability relief</span><span>−$10,000</span></div>
+  <div class="row total"><span>&nbsp;&nbsp;Stock basis</span><span>= $30,000</span></div>
+  <div class="row" style="font-size:7.5px"><span>&nbsp;&nbsp;Shortcut check: $120,000 − $90,000</span><span>= $30,000 ✓</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>STEP 5B — Corp Asset Basis:</strong></span><span>$40,000 + $10,000 = $50,000</span></div>
+</div></div>
+</div>
+<div class="card ch19">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 19 — §351 HIGH PRIORITY</span>
+    <span class="card-num">#27</span>
+  </div>
+  <div class="card-title">KAHOOT EXAMPLE — §351 with Boot</div>
+  <div class="card-body">
+<p><strong>Facts:</strong> Transfer property (basis $20,000, FMV $31,000) for 100% of corp. Receive: stock (FMV $16,000) + $10,000 cash + corp assumes $5,000 mortgage.</p>
+<div class="fbox">
+  <div class="row"><span>Amount realized: $16,000 + $10,000 + $5,000</span><span>= $31,000</span></div>
+  <div class="row total"><span>Realized gain: $31,000 − $20,000</span><span>= $11,000</span></div>
+  <div class="sep"></div>
+  <div class="row" style="font-size:7.5px"><span>§357 check: Liability $5,000 &lt; Basis $20,000 → NOT boot</span></div>
+  <div class="row"><span>Boot = cash only</span><span>= $10,000</span></div>
+  <div class="row total"><span>Recognized = lesser of $11,000 or $10,000</span><span>= $10,000</span></div>
+  <div class="sep"></div>
+  <div class="row"><span>Unrecognized gain: $11,000 − $10,000</span><span>= $1,000</span></div>
+  <div class="sep"></div>
+  <div class="row"><span>SH stock basis (shortcut): $16,000 − $1,000</span><span>= $15,000</span></div>
+  <div class="row" style="font-size:7.5px"><span>Traditional: $20,000 + $10,000 − $10,000 − $5,000</span><span>= $15,000 ✓</span></div>
+  <div class="row total"><span>Corp asset basis: $20,000 + $10,000</span><span>= $30,000</span></div>
+</div></div>
+</div>
+<div class="card ch19">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 19 — §351 HIGH PRIORITY</span>
+    <span class="card-num">#28</span>
+  </div>
+  <div class="card-title">Boot Rules — Key Principles</div>
+  <div class="card-body">
+<ul>
+  <li><strong>Boot = any consideration other than stock</strong> of the transferee corp (cash, notes, other property)</li>
+  <li><strong>Recognized gain = LESSER of realized gain OR FMV of boot</strong> (never more than realized gain)</li>
+  <li><strong>Losses are NEVER recognized</strong> in §351 transactions, even if boot is received</li>
+  <li><strong>Boot itself takes FMV as its basis</strong> in the hands of the recipient</li>
+  <li>Boot received by shareholder → reduces stock basis</li>
+</ul>
+<hr class="divider">
+<p><strong>What IS boot?</strong></p>
+<ul>
+  <li>Cash payments ✓</li>
+  <li>Promissory notes / debt instruments ✓</li>
+  <li>Other property received from corp ✓</li>
+  <li>Excess liabilities under §357(c) ✓</li>
+  <li>All liability relief under §357(b) (tax avoidance) ✓</li>
+</ul>
+<p><strong>What is NOT boot?</strong></p>
+<ul>
+  <li>Liability relief under §357 general rule (liabilities ≤ basis, no avoidance) ✗</li>
+</ul></div>
+</div>
+<div class="card ch19">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 19 — §351 HIGH PRIORITY</span>
+    <span class="card-num">#29</span>
+  </div>
+  <div class="card-title">§1244 Stock — Ordinary Loss Deduction</div>
+  <div class="card-body">
+<p><strong>Purpose:</strong> Encourages investment in small businesses by allowing ordinary loss (instead of capital loss) on worthless stock.</p>
+<p><strong>Qualification Requirements:</strong></p>
+<ul>
+  <li>Stock issued by a <strong>domestic small business corporation</strong></li>
+  <li>Stock issued for <strong>money or property</strong> (not services)</li>
+  <li>At time of issuance, corp's aggregate capital ≤ <strong>$1,000,000</strong></li>
+  <li>Stock must be held by the <strong>original issuer</strong> (cannot be purchased from another shareholder)</li>
+</ul>
+<p><strong>Ordinary Loss Limits:</strong></p>
+<ul>
+  <li><strong>$50,000</strong> per year for single filers</li>
+  <li><strong>$100,000</strong> per year for married filing jointly</li>
+  <li>Excess loss is treated as a capital loss</li>
+</ul>
+<div class="note key">Gain on §1244 stock is still capital gain — only the loss gets ordinary treatment.</div></div>
+</div>
+<div class="card ch19">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 19 — §351 HIGH PRIORITY</span>
+    <span class="card-num">#30</span>
+  </div>
+  <div class="card-title">§351 — Character of Gain & Property Types</div>
+  <div class="card-body">
+<table>
+  <tr><th>Property Transferred</th><th>Character of Recognized Gain</th></tr>
+  <tr><td>Capital asset (land, investment securities)</td><td>Capital gain (LTCG if held &gt;1 year)</td></tr>
+  <tr><td>Inventory / accounts receivable</td><td>Ordinary income</td></tr>
+  <tr><td>Depreciable §1231 property</td><td>Ordinary income (§1245 recapture first), then §1231</td></tr>
+  <tr><td>Personal use property</td><td>Capital gain</td></tr>
+</table>
+<div class="note key">The character "follows the property" — look at what was contributed, then apply the same character rules that would apply if the property had been SOLD outright.</div>
+<div class="note warn"><strong>Depreciation recapture:</strong> If depreciable personal property is transferred, §1245 recapture is recognized as ordinary income first, then any excess may be §1231 gain — even in a §351 exchange. §1250 recapture also applies to real property.</div></div>
+</div>
+<div class="card ch19">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 19 — §351 HIGH PRIORITY</span>
+    <span class="card-num">#31</span>
+  </div>
+  <div class="card-title">Taxable Acquisitions — Asset vs. Stock</div>
+  <div class="card-body">
+<table>
+  <tr><th>Feature</th><th>Asset Acquisition</th><th>Stock Acquisition</th></tr>
+  <tr><td>Buyer's asset basis</td><td><strong>FMV (stepped up)</strong></td><td>Carryover (no step-up)</td></tr>
+  <tr><td>Goodwill</td><td>§197: 15-yr amortization</td><td>No deduction (book impairment only)</td></tr>
+  <tr><td>Depreciation restart</td><td>Yes — at FMV</td><td>No — continue existing schedule</td></tr>
+  <tr><td>Hidden liabilities</td><td>Buyer can exclude</td><td>Buyer assumes ALL</td></tr>
+  <tr><td>NOL transfer</td><td>Not transferred to buyer</td><td>Transferred (§382 annual limit)</td></tr>
+  <tr><td>Seller preference</td><td>Usually no (double tax risk)</td><td>Yes (capital gains, single tax layer)</td></tr>
+  <tr><td>Buyer preference</td><td>Yes (step-up, §197)</td><td>Sometimes (§338 election, speed)</td></tr>
+</table></div>
+</div>
+<div class="card ch19">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 19 — §351 HIGH PRIORITY</span>
+    <span class="card-num">#32</span>
+  </div>
+  <div class="card-title">§351 — Services vs. Property</div>
+  <div class="card-body">
+<p><strong>Services are NOT property under §351.</strong></p>
+<table>
+  <tr><th>Scenario</th><th>Result</th></tr>
+  <tr><td>Contributes services only</td><td>Transaction EXCLUDED from §351 → ordinary income = FMV of stock received</td></tr>
+  <tr><td>Contributes property only</td><td>Qualifies if control test met; no gain/loss (unless boot)</td></tr>
+  <tr><td>Contributes services + property (property FMV ≥ 10% of services FMV)</td><td>QUALIFIES for §351 on property portion; still recognize ordinary income for services</td></tr>
+  <tr><td>Contributes services + property (property &lt;10% of services FMV)</td><td>Property deemed "relatively small value" → EXCLUDED; all ordinary income</td></tr>
+</table>
+<div class="note trap"><strong>Always recognize income for services</strong> — §351 defers only the property portion. Service income is always ordinary income regardless.</div></div>
+</div>
+<div class="card ch20">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 20 — Partnerships</span>
+    <span class="card-num">#33</span>
+  </div>
+  <div class="card-title">§721 — Partnership Formation Nonrecognition</div>
+  <div class="card-body">
+<ul>
+  <li>Under <strong>§721</strong>, no gain or loss is recognized when property is contributed to a partnership in exchange for a partnership interest</li>
+  <li><strong>No control requirement</strong> (unlike §351 for corporations)</li>
+  <li>Partnership takes a <strong>carryover basis</strong> in contributed property</li>
+  <li>Partner's outside basis = <strong>adjusted basis of property contributed</strong> (not FMV)</li>
+</ul>
+<hr class="divider">
+<p><strong>Exceptions — gain IS recognized:</strong></p>
+<ul>
+  <li><strong>Services</strong> contributed for a <strong>capital interest</strong> → ordinary income = FMV of interest received</li>
+  <li><strong>§752(b) deemed distribution:</strong> If partnership assumes partner's debt and deemed cash distribution exceeds partner's outside basis → gain recognized</li>
+  <li>Investment companies: special rules may trigger gain</li>
+</ul>
+<div class="note key">§721 allows both gains AND losses to be deferred (unlike §351 which only defers gains).</div></div>
+</div>
+<div class="card ch20">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 20 — Partnerships</span>
+    <span class="card-num">#34</span>
+  </div>
+  <div class="card-title">Capital Interest vs. Profits Interest</div>
+  <div class="card-body">
+<table>
+  <tr><th>Type</th><th>Definition</th><th>Tax Treatment to Recipient</th></tr>
+  <tr><td><strong>Capital Interest</strong></td><td>Right to share in liquidation proceeds if partnership immediately liquidated</td><td>Ordinary income = FMV of interest received; Outside basis = FMV recognized</td></tr>
+  <tr><td><strong>Profits Interest</strong></td><td>Only future profits — zero current liquidation value</td><td>NO income recognized (Rev. Proc. 93-27); Outside basis = $0</td></tr>
+</table>
+<div class="note key"><strong>Key test:</strong> If the partner left today and the partnership liquidated, would they receive anything? Yes → capital interest (taxable). No → profits interest (not taxable).</div>
+<div class="note trap"><strong>FALSE:</strong> Partners who receive profits interests must recognize ordinary income. → ONLY capital interests trigger income recognition.</div></div>
+</div>
+<div class="card ch20">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 20 — Partnerships</span>
+    <span class="card-num">#35</span>
+  </div>
+  <div class="card-title">Outside Basis — Calculation & Adjustments</div>
+  <div class="card-body">
+<div class="fbox">
+  <div class="row"><span><strong>Initial Outside Basis:</strong></span></div>
+  <div class="row"><span>&nbsp;&nbsp;+ Cash contributed</span></div>
+  <div class="row"><span>&nbsp;&nbsp;+ Adjusted basis of property contributed</span></div>
+  <div class="row"><span>&nbsp;&nbsp;+ Share of recourse debt (economic risk of loss)</span></div>
+  <div class="row"><span>&nbsp;&nbsp;+ Share of nonrecourse debt (profit-sharing ratio)</span></div>
+  <div class="row"><span>&nbsp;&nbsp;− Debt relief (liability assumed by partnership = deemed cash distribution)</span></div>
+</div>
+<div class="fbox" style="margin-top:4px">
+  <div class="row"><span><strong>Annual Basis Adjustments (in ORDER):</strong></span></div>
+  <div class="row"><span>&nbsp;&nbsp;1st: + Income / gain items</span></div>
+  <div class="row"><span>&nbsp;&nbsp;2nd: − Distributions</span></div>
+  <div class="row total"><span>&nbsp;&nbsp;3rd: − Losses / deductions (limited to basis; cannot go below zero)</span></div>
+</div>
+<div class="note trap"><strong>Order matters:</strong> Positive adjustments FIRST, then distributions, then losses. NOT the reverse.</div></div>
+</div>
+<div class="card ch20">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 20 — Partnerships</span>
+    <span class="card-num">#36</span>
+  </div>
+  <div class="card-title">Debt Allocation — Recourse vs. Nonrecourse</div>
+  <div class="card-body">
+<table>
+  <tr><th>Debt Type</th><th>Allocated To</th><th>Effect</th></tr>
+  <tr><td><strong>Recourse</strong></td><td>Partners who bear <em>economic risk of loss</em> (typically general partners)</td><td>Increases those partners' outside basis</td></tr>
+  <tr><td><strong>Nonrecourse</strong></td><td>All partners based on <em>profit-sharing ratios</em></td><td>Increases all partners' outside basis proportionally</td></tr>
+</table>
+<hr class="divider">
+<p><strong>Partnership Assumes Partner's Liability:</strong></p>
+<ul>
+  <li>Treated as a <strong>deemed cash distribution</strong> to the contributing partner (§752(b))</li>
+  <li>Reduces that partner's outside basis</li>
+  <li>If deemed distribution exceeds outside basis → <strong>gain recognized</strong></li>
+</ul>
+<div class="note key"><strong>S corp difference:</strong> S corp shareholders CANNOT include S corp debt in stock basis. Partners CAN include their share of ALL partnership debt in outside basis. This makes partnerships more useful for loss-generating ventures.</div></div>
+</div>
+<div class="card ch20">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 20 — Partnerships</span>
+    <span class="card-num">#37</span>
+  </div>
+  <div class="card-title">Separately Stated Items vs. Ordinary Income</div>
+  <div class="card-body">
+<p><strong>Separately stated items</strong> = items that could affect different partners' taxes differently based on their individual circumstances.</p>
+<table>
+  <tr><th>Separately Stated (K-1)</th><th>Ordinary Business Income</th></tr>
+  <tr><td>Net long-term capital gains/losses</td><td>Sales revenue</td></tr>
+  <tr><td>Net short-term capital gains/losses</td><td>Cost of goods sold</td></tr>
+  <tr><td>§1231 gains/losses</td><td>Business depreciation</td></tr>
+  <tr><td>Charitable contributions</td><td>Employee salaries/wages</td></tr>
+  <tr><td>Qualified dividends</td><td>Business interest expense</td></tr>
+  <tr><td>Foreign tax credits</td><td>Guaranteed payments (deducted here)</td></tr>
+  <tr><td>Investment interest expense</td><td>Rent from business property</td></tr>
+</table>
+<div class="note key"><strong>Character is determined at the partnership level</strong>, then retains that character when flowing through to partners.</div></div>
+</div>
+<div class="card ch20">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 20 — Partnerships</span>
+    <span class="card-num">#38</span>
+  </div>
+  <div class="card-title">Guaranteed Payments</div>
+  <div class="card-body">
+<p><strong>Guaranteed payments</strong> = fixed amounts paid to partners for services or capital use, regardless of partnership income.</p>
+<div class="cols2">
+  <div class="col-box">
+    <div class="col-title">To the Receiving Partner:</div>
+    <ul>
+      <li>Ordinary income</li>
+      <li>Self-employment income (always)</li>
+      <li>Shown on Schedule K-1 as separately stated item</li>
+      <li>Basis is increased by the guaranteed payment income</li>
+    </ul>
+  </div>
+  <div class="col-box">
+    <div class="col-title">To the Partnership:</div>
+    <ul>
+      <li>Deducted in computing ordinary business income</li>
+      <li>NOT the same as salary (no payroll taxes)</li>
+      <li>Always separately stated on K-1</li>
+    </ul>
+  </div>
+</div>
+<div class="note trap">Guaranteed payments are BOTH: included in ordinary income computation (as a deduction) AND separately stated on K-1. They occupy a unique dual position.</div></div>
+</div>
+<div class="card ch20">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 20 — Partnerships</span>
+    <span class="card-num">#39</span>
+  </div>
+  <div class="card-title">Partnership Holding Period & Reporting</div>
+  <div class="card-body">
+<p><strong>Holding Period of Partnership Interest:</strong></p>
+<table>
+  <tr><th>Property Contributed</th><th>Holding Period of Interest</th></tr>
+  <tr><td>Capital asset or §1231 asset</td><td><strong>TACKS</strong> — carries over from original acquisition date</td></tr>
+  <tr><td>Ordinary income property (inventory, A/R)</td><td><strong>Starts fresh</strong> on contribution date</td></tr>
+  <tr><td>Mixed (both types)</td><td>Tacking for capital/§1231 portion; fresh start for remainder</td></tr>
+  <tr><td>Purchased interest</td><td>Starts on <strong>date of purchase</strong></td></tr>
+</table>
+<hr class="divider">
+<p><strong>Reporting:</strong></p>
+<ul>
+  <li><strong>Form 1065</strong> = information return only; partnership pays NO entity-level tax</li>
+  <li><strong>Schedule K-1</strong> provided to each partner with their share of all items</li>
+  <li>Partners report K-1 items on their own individual returns</li>
+</ul></div>
+</div>
+<div class="card ch20">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 20 — Partnerships</span>
+    <span class="card-num">#40</span>
+  </div>
+  <div class="card-title">Partnership — Eng Basis Example (Kahoot)</div>
+  <div class="card-body">
+<p><strong>Facts:</strong> Eng contributes cash ($50,000) + equipment (FMV $35,000, adj. basis $25,000) to a partnership for a 50% interest. No liabilities.</p>
+<div class="fbox">
+  <div class="row"><span>Cash contribution at basis</span><span>$50,000</span></div>
+  <div class="row"><span>Equipment at ADJUSTED BASIS (not FMV)</span><span>$25,000</span></div>
+  <div class="row"><span>Share of partnership debt</span><span>$0</span></div>
+  <div class="total row"><span>Eng's Outside Basis</span><span>= $75,000</span></div>
+</div>
+<div class="note key">Outside basis uses <strong>ADJUSTED BASIS</strong> of contributed property, not FMV. This preserves the $10,000 built-in gain ($35,000 FMV − $25,000 basis). When the partnership sells the equipment, that $10,000 gain will be allocated to Eng under §704(c).</div>
+<div class="note tip">Partnership's inside basis in equipment = $25,000 (carryover). Partnership recognizes gain if sold above $25,000.</div></div>
+</div>
+<div class="card ch22">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 22 — S Corporations</span>
+    <span class="card-num">#41</span>
+  </div>
+  <div class="card-title">S Corp Election — Timing Rules</div>
+  <div class="card-body">
+<div class="fbox">
+  <div class="row"><span><strong>Effective CURRENT year IF filed:</strong></span></div>
+  <div class="row"><span>&nbsp;&nbsp;Calendar year corps:</span><span>On or before March 15</span></div>
+  <div class="row"><span>&nbsp;&nbsp;Fiscal year corps:</span><span>By 15th day of 3rd month of tax year</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>Effective NEXT year IF filed:</strong></span></div>
+  <div class="row total"><span>&nbsp;&nbsp;After March 15, OR during prior year for next year</span></div>
+</div>
+<div class="note trap"><strong>EXAM TRAP:</strong> Filed March 20 (after March 15) → effective January 1 of NEXT year. Filed February 20 → effective January 1 of CURRENT year.</div>
+<div class="note key"><strong>Form 2553</strong> must be signed by ALL shareholders who owned stock during the election year — not just current shareholders. Late elections may be granted reasonable cause relief.</div></div>
+</div>
+<div class="card ch22">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 22 — S Corporations</span>
+    <span class="card-num">#42</span>
+  </div>
+  <div class="card-title">S Corp Termination — Rules</div>
+  <div class="card-body">
+<table>
+  <tr><th>Type</th><th>Trigger</th><th>Effective Date</th><th>Re-election Wait</th></tr>
+  <tr><td>Voluntary revocation</td><td>&gt;50% shareholders consent</td><td>March 15 or earlier → Jan 1 current yr; After March 15 → Jan 1 next yr</td><td>5 years</td></tr>
+  <tr><td>Involuntary — eligibility failure</td><td>Violates any S corp requirement</td><td><strong>Date of failure</strong></td><td>5 years</td></tr>
+  <tr><td>Involuntary — passive income</td><td>Passive income &gt;25% of gross receipts for 3 consecutive years AND has accumulated C corp E&amp;P</td><td>Jan 1 of year AFTER the 3rd year</td><td>5 years</td></tr>
+</table>
+<div class="note tip">If corp was <strong>NEVER a C corp</strong> (no accumulated C corp E&amp;P) → passive income test CANNOT terminate the election, regardless of passive income levels.</div>
+<div class="note key">IRS can consent to earlier re-election if termination was inadvertent AND corp takes remedial steps within a reasonable time.</div></div>
+</div>
+<div class="card ch22">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 22 — S Corporations</span>
+    <span class="card-num">#43</span>
+  </div>
+  <div class="card-title">S Corp Operations — Income Allocation</div>
+  <div class="card-body">
+<p><strong>S Corp income MUST be allocated PRO RATA — strictly by share ownership each day.</strong></p>
+<ul>
+  <li>No special allocations (unlike partnerships)</li>
+  <li>If shareholder sells stock mid-year → income allocated by <strong>days of ownership</strong></li>
+  <li>All separately stated items retain their character (like partnerships)</li>
+  <li>No guaranteed payments (unlike partnerships)</li>
+  <li>S corp income flowing to shareholders is <strong>NOT self-employment income</strong></li>
+</ul>
+<hr class="divider">
+<p><strong>Reasonable Compensation Requirement:</strong></p>
+<ul>
+  <li>Shareholder-employees WHO WORK for the S corp must receive reasonable salary subject to FICA</li>
+  <li>IRS actively targets zero-salary S corp arrangements</li>
+  <li>Can reclassify K-1 distributions as wages → triggers employment taxes + penalties</li>
+</ul>
+<div class="note key">Planning opportunity: Pay reasonable salary (FICA on wages) and take rest as K-1 distribution (no SE tax).</div></div>
+</div>
+<div class="card ch22">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 22 — S Corporations</span>
+    <span class="card-num">#44</span>
+  </div>
+  <div class="card-title">S Corp Shareholder Basis</div>
+  <div class="card-body">
+<div class="fbox">
+  <div class="row"><span><strong>Stock Basis (most common):</strong></span></div>
+  <div class="row"><span>&nbsp;+ Separately stated income items</span></div>
+  <div class="row"><span>&nbsp;+ Ordinary business income</span></div>
+  <div class="row"><span>&nbsp;− Distributions (cash or FMV of property)</span></div>
+  <div class="row"><span>&nbsp;− Separately stated losses/deductions</span></div>
+  <div class="row total"><span>&nbsp;− Ordinary business losses (limited to remaining basis)</span></div>
+</div>
+<div class="note trap"><strong>KEY DIFFERENCE from partnerships:</strong> S corp shareholders CANNOT include S corp debt in stock basis. Partners CAN include their share of partnership debt in outside basis. S corp shareholders get basis ONLY from debt they personally lend directly to the S corp (creates "debt basis").</div>
+<div class="note warn">Losses suspended when basis reaches zero are restored (can deduct) when subsequent income increases basis in a later year.</div></div>
+</div>
+<div class="card ch22">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 22 — S Corporations</span>
+    <span class="card-num">#45</span>
+  </div>
+  <div class="card-title">S Corp vs. Partnership — Key Differences</div>
+  <div class="card-body">
+<table>
+  <tr><th>Feature</th><th>S Corporation</th><th>Partnership</th></tr>
+  <tr><td>Income allocation</td><td>Pro rata (rigid)</td><td>Special allocations allowed</td></tr>
+  <tr><td>Entity debt in basis</td><td><strong>NO</strong> (S corp debt)</td><td><strong>YES</strong> (recourse + nonrecourse)</td></tr>
+  <tr><td>Guaranteed payments</td><td>Not allowed</td><td>Yes — always ordinary + SE income</td></tr>
+  <tr><td>SE tax on income</td><td>NO (only on wages)</td><td>Yes (general partners)</td></tr>
+  <tr><td>Owner limit</td><td>100 shareholders max</td><td>Unlimited partners</td></tr>
+  <tr><td>Owner types</td><td>Individuals/estates/certain trusts only</td><td>Any entity (corps, partnerships, etc.)</td></tr>
+  <tr><td>Stock classes</td><td>ONE class only</td><td>Flexible interest structures</td></tr>
+  <tr><td>C corp NOLs</td><td>Cannot use in S corp years</td><td>N/A</td></tr>
+</table></div>
+</div>
+<div class="card ch22">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 22 — S Corporations</span>
+    <span class="card-num">#46</span>
+  </div>
+  <div class="card-title">C Corp → S Corp Conversion Issues</div>
+  <div class="card-body">
+<ul>
+  <li><strong>C corp NOL carryforwards:</strong> Cannot be used in S corp years — suspended; only usable if corp converts back to C status</li>
+  <li><strong>Built-in gains tax (BIG):</strong> If S corp sells appreciated property during the 5-year recognition period (within 5 years of S election), built-in gains are taxed at the 21% corporate rate at the S corp entity level</li>
+  <li><strong>Passive income tax:</strong> If S corp has accumulated C corp E&amp;P and passive income &gt; 25% of gross receipts → 21% tax on excess net passive income</li>
+  <li><strong>LIFO recapture:</strong> Must include LIFO inventory reserve in last C corp year income</li>
+</ul>
+<div class="note key">The BIG tax effectively extends double taxation for 5 years after S election for appreciated assets held at conversion. Plan asset dispositions accordingly.</div></div>
+</div>
+<div class="card ch24">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 24 — International</span>
+    <span class="card-num">#47</span>
+  </div>
+  <div class="card-title">Residence vs. Source Framework</div>
+  <div class="card-body">
+<table>
+  <tr><th>System</th><th>Tax Base</th><th>Who Uses It</th></tr>
+  <tr><td><strong>Residence-based (Worldwide)</strong></td><td>ALL income, wherever earned globally</td><td>US citizens, green card holders, substantial presence test aliens, US corporations</td></tr>
+  <tr><td><strong>Source-based (Territorial)</strong></td><td>Only income FROM that country's sources</td><td>Nonresident aliens, foreign corporations (for US income only)</td></tr>
+</table>
+<div class="note key"><strong>Mnemonic:</strong> "Residence → Worldwide" | "Source → Territory only"<br>US uses RESIDENCE framework for US persons, SOURCE framework for non-US persons.</div>
+<div class="note warn"><strong>Nexus:</strong> The criteria used to assert the right to tax a person or transaction. Without nexus, no jurisdiction to tax. Defined by residency, source, or physical presence (permanent establishment).</div></div>
+</div>
+<div class="card ch24">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 24 — International</span>
+    <span class="card-num">#48</span>
+  </div>
+  <div class="card-title">US Residency Tests</div>
+  <div class="card-body">
+<p><strong>Who is a US Person for Tax?</strong></p>
+<table>
+  <tr><th>Status</th><th>Basis for US Residency</th></tr>
+  <tr><td>US citizen</td><td>Citizenship (worldwide income always)</td></tr>
+  <tr><td>Green card holder</td><td>Possesses immigrant visa at ANY time during the calendar year</td></tr>
+  <tr><td>Substantial Presence Test (SPT)</td><td>≥31 days in current year AND weighted 3-year total ≥183 days</td></tr>
+  <tr><td>Nonresident alien</td><td>None of the above → taxed on US-source income only</td></tr>
+</table>
+<p><strong>SPT 3-Year Formula:</strong></p>
+<div class="fbox">
+  <div class="row"><span>Current year days × 1</span></div>
+  <div class="row"><span>Prior year days × 1/3</span></div>
+  <div class="row total"><span>Two years ago days × 1/6 &nbsp; → Total must ≥ 183</span></div>
+</div></div>
+</div>
+<div class="card ch24">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 24 — International</span>
+    <span class="card-num">#49</span>
+  </div>
+  <div class="card-title">Income Sourcing Rules</div>
+  <div class="card-body">
+<table>
+  <tr><th>Income Type</th><th>Source Rule</th><th>Key Word</th></tr>
+  <tr><td>Interest</td><td>Residence of the <strong>BORROWER</strong> (payer)</td><td>Borrower</td></tr>
+  <tr><td>Dividends</td><td>Residence of the <strong>CORPORATION paying</strong></td><td>Paying corp</td></tr>
+  <tr><td>Services / Compensation</td><td>Where <strong>SERVICES ARE PERFORMED</strong></td><td>Where performed</td></tr>
+  <tr><td>Rents &amp; Royalties</td><td>Where <strong>PROPERTY IS LOCATED or used</strong></td><td>Property location</td></tr>
+  <tr><td>Gain on real property</td><td>Where <strong>PROPERTY IS LOCATED</strong></td><td>Property location</td></tr>
+  <tr><td>Gain on personal property (non-inventory)</td><td><strong>SELLER'S residence</strong></td><td>Seller's home</td></tr>
+  <tr><td>Gain on manufactured inventory</td><td>Where <strong>MANUFACTURING ASSETS</strong> are located</td><td>Factory location</td></tr>
+</table>
+<div class="note key">For compensation: Maria (US citizen) works only in Germany → German-source income, but still taxable to US (with FTC relief).</div></div>
+</div>
+<div class="card ch24">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 24 — International</span>
+    <span class="card-num">#50</span>
+  </div>
+  <div class="card-title">Foreign Tax Credit (FTC)</div>
+  <div class="card-body">
+<p><strong>Purpose:</strong> Prevent double taxation on foreign income (foreign country AND US both want to tax it).</p>
+<div class="fbox">
+  <div class="row"><span><strong>FTC Limitation Formula:</strong></span></div>
+  <div class="row"><span>(Foreign source taxable income ÷ Total taxable income)</span></div>
+  <div class="row total"><span>× Pre-credit US tax = FTC Limitation</span></div>
+</div>
+<p><strong>Example:</strong> Total taxable income $500,000; Foreign income $100,000; Pre-credit US tax $105,000</p>
+<div class="fbox">
+  <div class="row"><span>($100,000 / $500,000) × $105,000</span><span>= $21,000</span></div>
+  <div class="row"><span>Foreign taxes paid = $35,000 → limited to</span><span>$21,000</span></div>
+  <div class="row total"><span>Excess $14,000 → carry back 1 yr, forward 10 yrs</span></div>
+</div>
+<div class="note key">FTC cannot reduce US tax on DOMESTIC income. It only offsets US tax attributable to the foreign income.</div></div>
+</div>
+<div class="card ch24">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 24 — International</span>
+    <span class="card-num">#51</span>
+  </div>
+  <div class="card-title">FTC Baskets & Tax Treaties</div>
+  <div class="card-body">
+<p><strong>4 Separate FTC Baskets (calculated independently):</strong></p>
+<ul>
+  <li><strong>GILTI</strong> — Global Intangible Low-Taxed Income (foreign intangible income)</li>
+  <li><strong>Foreign Branch Income</strong> — income from foreign branch operations</li>
+  <li><strong>Passive Category Income</strong> — dividends, rents, royalties, interest (passive)</li>
+  <li><strong>General Category Income</strong> — active business income not in other baskets</li>
+</ul>
+<p>Separation prevents high-tax basket income from cross-crediting against low-tax basket limitation.</p>
+<hr class="divider">
+<p><strong>Tax Treaties — 3 Main Functions:</strong></p>
+<ul>
+  <li>Define nexus / permanent establishment (when can a country tax?)</li>
+  <li>Reduce or eliminate withholding taxes on cross-border payments (dividends, interest, royalties)</li>
+  <li>Resolve dual-residency conflicts through tie-breaker rules</li>
+</ul>
+<div class="note trap">Treaties can only REDUCE or ELIMINATE tax — they can NEVER increase tax above statutory rates.</div></div>
+</div>
+<div class="card ch24">
+  <div class="card-header">
+    <span class="ch-tag">Ch. 24 — International</span>
+    <span class="card-num">#52</span>
+  </div>
+  <div class="card-title">Outbound vs. Inbound Transactions</div>
+  <div class="card-body">
+<div class="cols2">
+  <div class="col-box">
+    <div class="col-title">Outbound Transactions</div>
+    <ul>
+      <li>US person earning income <strong>outside the US</strong></li>
+      <li>US taxes worldwide income → potential double tax</li>
+      <li>Mitigation: FTC, Foreign Earned Income Exclusion (FEIE)</li>
+      <li>Example: US corp with foreign subsidiary</li>
+      <li>Rules: Subpart F, GILTI, FDII</li>
+    </ul>
+  </div>
+  <div class="col-box">
+    <div class="col-title">Inbound Transactions</div>
+    <ul>
+      <li>Foreign entity earning income <strong>inside the US</strong></li>
+      <li>Taxed only on US-source income</li>
+      <li>Withholding tax (30% statutory, often reduced by treaty)</li>
+      <li>Example: Foreign corp earns US interest income</li>
+      <li>ECI vs. FDAP rules distinguish income types</li>
+    </ul>
+  </div>
+</div>
+<div class="note key">"Outbound" = US going out. "Inbound" = foreign coming in.</div></div>
+</div>
+<div class="card qr">
+  <div class="card-header">
+    <span class="ch-tag">Quick Reference</span>
+    <span class="card-num">#53</span>
+  </div>
+  <div class="card-title">§351 Complete 5-Step Reference Card</div>
+  <div class="card-body">
+<p><strong>Memorize this framework — multiple exam questions!</strong></p>
+<div class="fbox">
+  <div class="row"><span><strong>Step 1: Realized Gain</strong></span></div>
+  <div class="row"><span>&nbsp; = FMV(stock) + FMV(boot) + Liability relief − Adjusted basis</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>Step 2: Recognized Gain</strong></span></div>
+  <div class="row"><span>&nbsp; = LESSER of Realized gain OR FMV of boot (LOSSES = NEVER recognized)</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>Step 3: Unrecognized Gain</strong> = Step 1 − Step 2</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>Step 4: Character</strong> = follows type of property contributed</span></div>
+  <div class="sep"></div>
+  <div class="row"><span><strong>Step 5A: SH Stock Basis (Traditional)</strong></span></div>
+  <div class="row"><span>&nbsp; Old basis + Recognized gain − Boot received − Liability relief</span></div>
+  <div class="row" style="font-size:7.5px"><span>&nbsp; Shortcut: FMV of stock − Unrecognized gain</span></div>
+  <div class="sep"></div>
+  <div class="row total"><span><strong>Step 5B: Corp Asset Basis</strong> = SH old basis + SH recognized gain</span></div>
+</div></div>
+</div>
+<div class="card qr">
+  <div class="card-header">
+    <span class="ch-tag">Quick Reference</span>
+    <span class="card-num">#54</span>
+  </div>
+  <div class="card-title">Key Numbers & Thresholds</div>
+  <div class="card-body">
+<table>
+  <tr><th>Rule</th><th>Number</th></tr>
+  <tr><td>§351 Control test</td><td><strong>80%</strong> voting + <strong>80%</strong> all other classes</td></tr>
+  <tr><td>§351 Services + property threshold</td><td>Property ≥ <strong>10%</strong> of services FMV</td></tr>
+  <tr><td>C corp flat tax rate</td><td><strong>21%</strong></td></tr>
+  <tr><td>DRD — &lt;20% ownership</td><td><strong>50%</strong></td></tr>
+  <tr><td>DRD — 20–79% ownership</td><td><strong>65%</strong></td></tr>
+  <tr><td>DRD — ≥80% ownership</td><td><strong>100%</strong></td></tr>
+  <tr><td>Charitable contribution limit (corps)</td><td><strong>10%</strong> of pre-contribution TI</td></tr>
+  <tr><td>S corp max shareholders</td><td><strong>100</strong></td></tr>
+  <tr><td>S corp election deadline</td><td><strong>March 15</strong> (calendar year)</td></tr>
+  <tr><td>§1244 ordinary loss limit (single)</td><td><strong>$50,000</strong>/yr</td></tr>
+  <tr><td>§1244 ordinary loss limit (MFJ)</td><td><strong>$100,000</strong>/yr</td></tr>
+  <tr><td>NOL carryforward limit</td><td><strong>80%</strong> of taxable income</td></tr>
+  <tr><td>NCL carryback / carryforward</td><td><strong>3 back / 5 forward</strong></td></tr>
+  <tr><td>S corp re-election waiting period</td><td><strong>5 years</strong></td></tr>
+  <tr><td>FTC excess credit carryback/forward</td><td><strong>1 back / 10 forward</strong></td></tr>
+  <tr><td>NIIT threshold (MFJ)</td><td><strong>$250,000</strong></td></tr>
+</table></div>
+</div>
+<div class="card qr">
+  <div class="card-header">
+    <span class="ch-tag">Quick Reference</span>
+    <span class="card-num">#55</span>
+  </div>
+  <div class="card-title">Exam Traps — Common Wrong Answers</div>
+  <div class="card-body">
+<table>
+  <tr><th>Statement</th><th>TRUE or FALSE?</th></tr>
+  <tr><td>E&amp;P = Retained earnings</td><td><strong>FALSE</strong> — different adjustments</td></tr>
+  <tr><td>Corps have a standard deduction</td><td><strong>FALSE</strong> — none</td></tr>
+  <tr><td>Corps calculate AGI like individuals</td><td><strong>FALSE</strong> — no AGI concept</td></tr>
+  <tr><td>§351 control = 80% voting power only</td><td><strong>FALSE</strong> — also 80% all other classes</td></tr>
+  <tr><td>C corps no longer double taxed (TCJA)</td><td><strong>FALSE</strong> — still double taxed</td></tr>
+  <tr><td>C &amp; S corps both pay entity-level tax</td><td><strong>FALSE</strong> — S corps are flow-through</td></tr>
+  <tr><td>SMLLC = taxed as partnership</td><td><strong>FALSE</strong> — disregarded entity</td></tr>
+  <tr><td>§351 losses recognized if boot received</td><td><strong>FALSE</strong> — losses never recognized</td></tr>
+  <tr><td>S corp shareholders include entity debt in basis</td><td><strong>FALSE</strong> — only direct loans to S corp</td></tr>
+  <tr><td>Partnership character determined at partner level</td><td><strong>FALSE</strong> — partnership level</td></tr>
+  <tr><td>Profits interests trigger ordinary income</td><td><strong>FALSE</strong> — capital interests do; profits interests do not</td></tr>
+  <tr><td>Liquidation is always taxable to shareholders</td><td><strong>FALSE</strong> — §332 parent-subsidiary is tax-free</td></tr>
+</table></div>
+</div>
+<div class="card qr">
+  <div class="card-header">
+    <span class="ch-tag">Quick Reference</span>
+    <span class="card-num">#56</span>
+  </div>
+  <div class="card-title">DRD — Taxable Income Limitation Example</div>
+  <div class="card-body">
+<p><strong>The DRD is limited to 50% (or 65%) of taxable income computed WITHOUT the DRD</strong> — UNLESS the DRD would create or increase an NOL.</p>
+<p><strong>Example:</strong> Corp receives $100,000 dividend (owns 15%). Taxable income before DRD = $40,000.</p>
+<div class="fbox">
+  <div class="row"><span>Full DRD = $100,000 × 50%</span><span>= $50,000</span></div>
+  <div class="row"><span>TI limitation = $40,000 × 50%</span><span>= $20,000</span></div>
+  <div class="row total"><span>Apply limitation → DRD = $20,000</span></div>
+  <div class="sep"></div>
+  <div class="row"><span>BUT: Would full $50,000 DRD create an NOL?</span></div>
+  <div class="row"><span>$40,000 TI − $50,000 DRD</span><span>= ($10,000) NOL</span></div>
+  <div class="row total"><span>YES → limitation does NOT apply → use full $50,000 DRD!</span></div>
+</div>
+<div class="note key">Always test: Does the full DRD create/increase an NOL? If yes, use the full DRD (no limitation).</div></div>
+</div>
+<div class="card qr">
+  <div class="card-header">
+    <span class="ch-tag">Quick Reference</span>
+    <span class="card-num">#57</span>
+  </div>
+  <div class="card-title">S Corp Election Scenarios — Quick Reference</div>
+  <div class="card-body">
+<table>
+  <tr><th>Scenario</th><th>Result</th></tr>
+  <tr><td>Form 2553 filed Feb 20 (calendar year corp)</td><td>Effective Jan 1 <strong>current year</strong> ✓</td></tr>
+  <tr><td>Form 2553 filed March 15 (calendar year corp)</td><td>Effective Jan 1 <strong>current year</strong> ✓</td></tr>
+  <tr><td>Form 2553 filed March 20 (calendar year corp)</td><td>Effective Jan 1 <strong>NEXT year</strong> ✗</td></tr>
+  <tr><td>Corp sells stock to a partnership</td><td>S election <strong>terminated on date of sale</strong></td></tr>
+  <tr><td>Corp sells stock to another eligible individual</td><td>S election <strong>continues</strong> (no termination)</td></tr>
+  <tr><td>S corp with NO accumulated C corp E&amp;P; passive income &gt;25%</td><td><strong>No termination</strong> — passive income test requires C corp E&amp;P</td></tr>
+  <tr><td>S corp passive income &gt;25% for 3 yrs AND has C corp E&amp;P</td><td>Termination effective <strong>Jan 1 of year 4</strong></td></tr>
+  <tr><td>Voluntary revocation filed June 1</td><td>Effective <strong>Jan 1 next year</strong> (filed after March 15)</td></tr>
+</table></div>
+</div>
+<div class="card qr">
+  <div class="card-header">
+    <span class="ch-tag">Quick Reference</span>
+    <span class="card-num">#58</span>
+  </div>
+  <div class="card-title">Flow-Through Entity Comparison — Loss Deductibility</div>
+  <div class="card-body">
+<table>
+  <tr><th>Entity</th><th>Can Owners Deduct Losses?</th><th>Limitations</th></tr>
+  <tr><td>C corporation</td><td><strong>NO</strong> — losses stay at corp as NOL</td><td>NOL used at entity level only (80% limit); no benefit to shareholders</td></tr>
+  <tr><td>S corporation</td><td><strong>YES</strong> — flows through to shareholders</td><td>(1) Basis limit, (2) At-risk rules, (3) Passive activity rules</td></tr>
+  <tr><td>Partnership</td><td><strong>YES</strong> — flows through to partners</td><td>(1) Outside basis limit, (2) At-risk rules, (3) Passive activity rules</td></tr>
+  <tr><td>Sole proprietorship</td><td><strong>YES</strong> — on Schedule C</td><td>(1) At-risk rules, (2) Passive activity rules (if not active)</td></tr>
+</table>
+<div class="note key">Flow-through entities are preferred for start-ups expecting early losses — owners can immediately use losses against other income. C corp losses are "trapped."</div></div>
+</div>
+<div class="card qr">
+  <div class="card-header">
+    <span class="ch-tag">Quick Reference</span>
+    <span class="card-num">#59</span>
+  </div>
+  <div class="card-title">Partnership vs. §351 — Formation Comparison</div>
+  <div class="card-body">
+<table>
+  <tr><th>Feature</th><th>§721 Partnership</th><th>§351 Corporation</th></tr>
+  <tr><td>Control requirement</td><td><strong>NONE</strong></td><td><strong>≥80%</strong> (voting + all other classes)</td></tr>
+  <tr><td>Services = property?</td><td>No → ordinary income</td><td>No → ordinary income</td></tr>
+  <tr><td>Gain recognized at formation?</td><td>No (unless §752(b) excess)</td><td>Only if boot received</td></tr>
+  <tr><td>Loss recognized?</td><td>Never</td><td>Never</td></tr>
+  <tr><td>Basis of interest/stock</td><td>Carryover basis</td><td>Carryover basis ± adjustments</td></tr>
+  <tr><td>Basis of contributed asset</td><td>Carryover to entity</td><td>Carryover + SH recognized gain</td></tr>
+  <tr><td>Liability assumption effect</td><td>Reduces outside basis (§752 deemed dist.)</td><td>Generally not boot (§357 general rule)</td></tr>
+</table></div>
+</div>
+<div class="card qr">
+  <div class="card-header">
+    <span class="ch-tag">Quick Reference</span>
+    <span class="card-num">#60</span>
+  </div>
+  <div class="card-title">Passive Activity & At-Risk Rules — Overview</div>
+  <div class="card-body">
+<p><strong>Passive Activity Loss (PAL) Rules:</strong></p>
+<ul>
+  <li>Passive losses can ONLY offset passive income (not active income, not portfolio income)</li>
+  <li>Suspended losses carried forward until passive income available OR passive activity sold</li>
+  <li><strong>Material participation</strong> = activity is NOT passive (7 tests; most common: &gt;500 hrs/yr)</li>
+  <li>Rental activities are ALWAYS passive (with exception for real estate professionals)</li>
+  <li>S corp / partnership income IS passive if shareholder/partner does not materially participate</li>
+</ul>
+<hr class="divider">
+<p><strong>At-Risk Rules (§465):</strong></p>
+<ul>
+  <li>Can deduct losses only to the extent "at risk" in the activity</li>
+  <li>At-risk amount includes: cash contributed, FMV of property contributed, recourse debt, qualified nonrecourse financing</li>
+  <li>Nonrecourse debt (generally) does NOT increase at-risk amount (exception: qualified nonrecourse)</li>
+</ul></div>
+</div>
+<div class="card qr">
+  <div class="card-header">
+    <span class="ch-tag">Quick Reference</span>
+    <span class="card-num">#61</span>
+  </div>
+  <div class="card-title">Realization vs. Recognition</div>
+  <div class="card-body">
+<p><strong>These are different — know both:</strong></p>
+<div class="cols2">
+  <div class="col-box">
+    <div class="col-title">REALIZATION</div>
+    <ul>
+      <li>The result of an exchange of property rights in a transaction</li>
+      <li>Requires an arm's-length exchange, disposition, or identifiable event</li>
+      <li>Gain/loss is "realized" = computed, but not necessarily taxable yet</li>
+      <li>Formula: Amount Realized − Adjusted Basis</li>
+      <li>Occurs before recognition</li>
+    </ul>
+  </div>
+  <div class="col-box">
+    <div class="col-title">RECOGNITION</div>
+    <ul>
+      <li>The reporting of realized gain/loss on a tax return</li>
+      <li>Gain/loss is "recognized" = included in taxable income currently</li>
+      <li>Some transactions defer recognition: §351, §721, like-kind exchanges, installment sales</li>
+      <li>Recognition can be full, partial (boot), or deferred</li>
+    </ul>
+  </div>
+</div>
+<div class="note key"><strong>Amount Realized</strong> = Cash + FMV of property received + Debt assumed by buyer + Liability relief</div>
+<div class="note trap">Adjusted basis of property transferred is NOT included in amount realized.</div></div>
+</div>
+<div class="card qr">
+  <div class="card-header">
+    <span class="ch-tag">Quick Reference</span>
+    <span class="card-num">#62</span>
+  </div>
+  <div class="card-title">Corporate Distribution — Full Example</div>
+  <div class="card-body">
+<p><strong>Facts:</strong> Corp distributes $50,000 when Current E&amp;P = $0; Accumulated E&amp;P = $30,000. Shareholder has $15,000 stock basis, receives $10,000 pro rata.</p>
+<div class="fbox">
+  <div class="row"><span>Dividend portion (to extent of C E&amp;P $0 + A E&amp;P $30,000)</span></div>
+  <div class="row"><span>Distribution is $10,000 ≤ $30,000 accumulated E&amp;P</span></div>
+  <div class="row total"><span>Full $10,000 = DIVIDEND income to shareholder</span></div>
+  <div class="sep"></div>
+  <div class="row"><span>Accumulated E&amp;P reduced to $20,000</span></div>
+  <div class="row"><span>Shareholder's stock basis unchanged at $15,000</span></div>
+</div>
+<div class="note key">Return of capital and capital gain only apply when distribution EXCEEDS all available E&amp;P. With $30,000 accumulated E&amp;P absorbing the $10,000 distribution, it's all dividend.</div></div>
+</div>
+<div class="card qr">
+  <div class="card-header">
+    <span class="ch-tag">Quick Reference</span>
+    <span class="card-num">#63</span>
+  </div>
+  <div class="card-title">§351 — Boot vs. No Boot Scenarios</div>
+  <div class="card-body">
+<table>
+  <tr><th>What Received</th><th>Boot?</th><th>Gain Recognized?</th></tr>
+  <tr><td>Only stock of transferee corp</td><td>No</td><td>No (full deferral)</td></tr>
+  <tr><td>Stock + cash</td><td>Yes (cash)</td><td>Yes — lesser of gain or cash</td></tr>
+  <tr><td>Stock + promissory note</td><td>Yes (note)</td><td>Yes — lesser of gain or FMV of note</td></tr>
+  <tr><td>Stock + liability assumed by corp (§357 general rule)</td><td>No</td><td>No</td></tr>
+  <tr><td>Stock + liability (§357(b) — tax avoidance)</td><td>Yes (all liability)</td><td>Yes — all liability relief is boot</td></tr>
+  <tr><td>Stock only, but liabilities &gt; basis (§357(c))</td><td>Yes (excess)</td><td>Yes — liabilities minus basis</td></tr>
+  <tr><td>Realized LOSS + boot received</td><td>Yes</td><td><strong>NO — losses never recognized</strong></td></tr>
+</table></div>
+</div>
+</div><!-- /card-wrapper -->
+</body>
+</html>

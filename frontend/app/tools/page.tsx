@@ -99,6 +99,18 @@ const courses: Course[] = [
         type: "Full App",
         description: "Focused interactive study app for Exam 3 material.",
       },
+      {
+        title: "Final Exam Study App v2",
+        href: "/tools/acct3221-exam3-studyapp-v2.html",
+        type: "Full App",
+        description: "Updated study app with Kahoot Review and §351 Deep Dive practice tests.",
+      },
+      {
+        title: "Final Exam Printable Notecards",
+        href: "/tools/acct3221-notecards-printable.html",
+        type: "Notecards",
+        description: "63 printable notecards covering key Tax Accounting concepts for the final.",
+      },
     ],
   },
   {
