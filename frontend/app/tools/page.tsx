@@ -106,6 +106,12 @@ const courses: Course[] = [
         description: "Updated study app with Kahoot Review and §351 Deep Dive practice tests.",
       },
       {
+        title: "Final Exam Study App v5",
+        href: "/tools/acct3221-studyapp-v5.html",
+        type: "Full App",
+        description: "Latest version of the Tax Accounting final exam study app.",
+      },
+      {
         title: "Final Exam Printable Notecards",
         href: "/tools/acct3221-notecards-printable.html",
         type: "Notecards",
