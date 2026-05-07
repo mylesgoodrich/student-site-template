@@ -82,12 +82,6 @@ const courses: Course[] = [
     color: "gold",
     tools: [
       {
-        title: "Full Study App",
-        href: "/tools/acct3221-full/index.html",
-        type: "Full App",
-        description: "Complete interactive study app for Tax Accounting — all topics and practice questions.",
-      },
-      {
         title: "Notecards",
         href: "/tools/acct3221-notecards/index.html",
         type: "Notecards",
@@ -98,12 +92,6 @@ const courses: Course[] = [
         href: "/tools/acct3221-exam3-study-app.html",
         type: "Full App",
         description: "Focused interactive study app for Exam 3 material.",
-      },
-      {
-        title: "Final Exam Study App v2",
-        href: "/tools/acct3221-exam3-studyapp-v2.html",
-        type: "Full App",
-        description: "Updated study app with Kahoot Review and §351 Deep Dive practice tests.",
       },
       {
         title: "Final Exam Study App v5",
