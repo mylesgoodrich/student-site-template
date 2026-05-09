@@ -312,7 +312,7 @@ export default function ProjectsPage() {
   }, [quickViewProject]);
 
   return (
-    <div className="lsu-container py-12">
+    <div>
       <header className="mb-10">
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
           Systems I&apos;ve Built

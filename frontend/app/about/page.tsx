@@ -277,10 +277,7 @@ export default function AboutPage() {
           <Link href="/projects" className="lsu-btn-gold">
             View Projects
           </Link>
-          <Link
-            href="/journey"
-            className="inline-flex items-center justify-center rounded-full border border-border bg-surface px-5 py-2 text-sm font-semibold text-foreground transition hover:bg-surface-2"
-          >
+          <Link href="/journey" className="lsu-btn-outline">
             Read Journey
           </Link>
         </div>

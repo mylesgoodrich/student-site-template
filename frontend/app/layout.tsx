@@ -93,6 +93,12 @@ export default function RootLayout({
                   >
                     Blog
                   </Link>
+                  <Link
+                    className="lsu-footer-link font-medium text-foreground/80 underline decoration-brand-gold/40 underline-offset-4 hover:text-brand-gold hover:decoration-brand-gold transition"
+                    href="/tools"
+                  >
+                    Tools
+                  </Link>
                 </div>
               </div>
             </div>

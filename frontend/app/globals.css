@@ -63,7 +63,8 @@ body {
 
   /* Footer & inline text links: ~44px touch + visible focus */
   .lsu-footer-link {
-    @apply inline-flex min-h-[44px] items-center rounded-md px-2 py-1.5 outline-none transition focus-visible:ring-2 focus-visible:ring-brand-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    @apply inline-flex items-center rounded-md px-2 py-3 outline-none transition focus-visible:ring-2 focus-visible:ring-brand-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    min-height: 2.75rem;
   }
 
   .lsu-container {
@@ -83,15 +84,18 @@ body {
   }
 
   .lsu-btn-primary {
-    @apply inline-flex min-h-[44px] items-center justify-center rounded-full bg-brand-purple px-5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#3a1766] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/70;
+    @apply inline-flex items-center justify-center rounded-full bg-brand-purple px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#3a1766] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/70;
+    min-height: 2.75rem;
   }
 
   .lsu-btn-gold {
-    @apply inline-flex min-h-[44px] items-center justify-center rounded-full bg-brand-gold px-5 py-2 text-sm font-semibold text-brand-purple shadow-sm transition-colors hover:bg-[#f2c400] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70;
+    @apply inline-flex items-center justify-center rounded-full bg-brand-gold px-5 py-3 text-sm font-semibold text-brand-purple shadow-sm transition-colors hover:bg-[#f2c400] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70;
+    min-height: 2.75rem;
   }
 
   .lsu-btn-outline {
-    @apply inline-flex min-h-[44px] items-center justify-center rounded-full border border-brand-gold/60 px-5 py-2 text-sm font-semibold text-white/95 transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/70;
+    @apply inline-flex items-center justify-center rounded-full border border-brand-gold/60 px-5 py-3 text-sm font-semibold text-white/95 transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/70;
+    min-height: 2.75rem;
   }
 
   .lsu-link {
