@@ -119,7 +119,7 @@ export default function SiteNav({ compact = false }: SiteNavProps) {
           <nav
             id={panelId}
             aria-label="Primary"
-            className="absolute right-0 top-0 flex h-full w-full max-w-[min(100vw,24rem)] flex-col border-l border-border bg-background/95 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))] shadow-2xl backdrop-blur-md"
+            className="absolute right-0 top-0 flex h-full w-full max-w-[min(100vw,24rem)] flex-col border-l border-border bg-[#0b0713] p-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))] shadow-2xl"
           >
             <div className="flex items-center justify-between border-b border-border pb-3">
               <span className="text-sm font-semibold text-foreground">Menu</span>
